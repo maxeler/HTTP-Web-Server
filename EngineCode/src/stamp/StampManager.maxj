@@ -1,0 +1,222 @@
+package stamp;
+
+import com.maxeler.maxcompiler.v2.managers.BuildConfig;
+import com.maxeler.maxcompiler.v2.managers.custom.DFELink;
+import com.maxeler.maxcompiler.v2.managers.custom.blocks.KernelBlock;
+import com.maxeler.maxcompiler.v2.managers.custom.blocks.StateMachineBlock;
+import com.maxeler.maxcompiler.v2.managers.custom.stdlib.DebugLevel;
+import com.maxeler.maxcompiler.v2.managers.custom.stdlib.MemoryControlGroup;
+import com.maxeler.maxcompiler.v2.managers.engine_interfaces.CPUTypes;
+import com.maxeler.networking.v1.kernel_types.TCPType;
+import com.maxeler.networking.v1.managers.NetworkManager;
+import com.maxeler.networking.v1.managers.netlib.Max4NetworkConnection;
+import com.maxeler.networking.v1.managers.netlib.TCPStream;
+
+public class StampManager extends NetworkManager {
+
+	private static final String KERNEL_NAME = "LMemExampleKernel";
+	private static final String KERNEL_NAME_write = "KernelLMem_Write_CommandAndDataStream";
+	private static final String KERNEL_NAME_read = "KernelLMem_Read_CommandAndDataStream";
+	private static final CPUTypes TYPE = CPUTypes.INT32;
+
+
+	public StampManager(String[] args) {
+		super(new StampEngineParameters(args));
+
+		//version for VECTIS card, MAX3 generation
+//		TCPStream tcp_stream = addTCPStream(
+//				"tcp_ch2_sfp1",
+//				Max3NetworkConnection.CH2_SFP1);
+
+		//version for ISCA card, MAX4 generation
+		TCPStream tcp_stream = addTCPStream(
+				"tcp_ISCA_QSFP_BOT_10G_PORT1",
+				Max4NetworkConnection.QSFP_BOT_10G_PORT1);
+
+
+		//Demux split=demux("split");
+		//split.getInput() <== tcp_stream.getReceiveStream();
+		//DFELink tcpReceiveStream1 = split.addOutput("x1");
+		//DFELink tcpReceiveStream2 = split.addOutput("x2");
+
+		StateMachineBlock wire = addStateMachine("cmdWire", new SimpleWire(this, 64));
+		getManagerConfiguration().dram.setEnableFlagCommands(true);
+
+		MemoryControlGroup ctrlGroup = addMemoryControlGroup("ctrlGroup", wire.getOutput(SimpleWire.OUTPUT));
+
+		//DFELink writeMemStream = addStreamToOnCardMemory("writeMemStream", ctrlGroup);
+		DFELink readMemStream = addStreamFromOnCardMemory("readMemStream", ctrlGroup);
+		ctrlGroup.finalise();
+
+		//STATE MACHINE
+		StateMachineBlock stateMachine = addStateMachine("stamp_state_machine",
+														 new StampStateMachine(this,
+																               ctrlGroup.getStreamIndexIdWithinGroup("readMemStream")
+																               )
+														);
+
+		//komande se salju iz state masine preko wire state masine u LMem
+		wire.getInput(SimpleWire.INPUT) <== stateMachine.getOutput(StampStateMachine.OUTPUT_MEM_COMMAND);
+		stateMachine.getInput(StampStateMachine.INPUT_MEM_DATA) <== readMemStream;
+
+
+
+		//KernelBlock preprocessor = addKernel(new PreprocessorKernel(makeKernelParameters("Preprocessor")));
+
+		//adder.getInput("valIn") <== preprocessor.getOutput("valOut");
+
+		//preprocessor.getInput("keyValIn") <==  eth_stream.getReceiveStream();
+
+		stateMachine.getInput("tcp_to_sm") <== tcp_stream.getReceiveStream(); //preprocessor.getOutput("output_test");
+		//stateMachine.getInput("tcp_to_sm") <== addStreamFromCPU("inputCPU"); //preprocessor.getOutput("output_test");
+			//addStreamToCPU("data_out") <== stateMachine.getOutput("stamped_udp_frm_sm");
+
+
+					//tcp_stream.getTransmitStream() <== stateMachine.getOutput("stamped_tcp_frm_sm");//
+
+
+		//LMem
+		debug.setDebugLevel(new DebugLevel(){{setHasStreamStatus(true);}});
+
+		KernelBlock kWrite = addKernel(new KernelLMem_Write_CommandAndDataStream(makeKernelParameters(KERNEL_NAME_write)));
+
+		DFELink toCpu = addStreamToCPU("toCpu");
+		DFELink fromCpu = addStreamFromCPU("fromCpu");
+
+		DFELink toLmem = addStreamToOnCardMemory("toLmem",kWrite.getOutput("OcmdStream"));
+
+		kWrite.getInput("inA")<==fromCpu;
+		toLmem<==kWrite.getOutput("outA");
+
+		KernelBlock kRead = addKernel(new KernelLMem_Read_CommandAndDataStream(makeKernelParameters(KERNEL_NAME_read)));
+		DFELink fromLmem = addStreamFromOnCardMemory("fromLmem",kRead.getOutput("OcmdStream"));
+
+		kRead.getInput("inA")<==fromLmem;
+		toCpu <== kRead.getOutput("outA");
+
+
+//		//sm--->cpu
+//		DFELink toCpuDataSentFlag = addStreamToCPU("toCpuDataSentFlag");
+//		toCpuDataSentFlag <== stateMachine.getOutput("fromStateMachineDataSentFlag");
+
+
+
+		//socket disconnect
+		KernelBlock TxManagerKernelV1kernel = addKernel(new TxManagerKernelV1(makeKernelParameters("TxManagerKernelV1_kernel"), new TCPType()));
+
+		DFELink toCpuOutputTxEvent = addStreamToCPU("toCpuOutputTxEvent");
+		toCpuOutputTxEvent <== TxManagerKernelV1kernel.getOutput(TxManagerKernelV1.OUTPUT_TX_EVENTS);
+
+		TxManagerKernelV1kernel.getInput(TxManagerKernelV1.INPUT_TX_DATA) <==	stateMachine.getOutput("stamped_tcp_frm_sm");//
+		tcp_stream.getTransmitStream() <== TxManagerKernelV1kernel.getOutput(TxManagerKernelV1.OUTPUT_TX_DATA);
+
+		//ByteNumber --> CPU
+		StateMachineBlock wireByteNumber = addStateMachine("byteNumber", new SimpleWire(this, 64));
+	    wireByteNumber.getInput(SimpleWire.INPUT) <== stateMachine.getOutput("fromStateMachineByteNumber");
+
+		DFELink toCpuByteNumber = addStreamToCPU("toCpuByteNumber");
+		toCpuByteNumber <== wireByteNumber.getOutput(SimpleWire.OUTPUT);
+
+
+		//KernelBlock k = addKernel(new LMemExampleKernel(makeKernelParameters(KERNEL_NAME)));
+
+//			//LMem
+//			DFELink cpu2lmem = addStreamToOnCardMemory("cpu2lmem", MemoryControlGroup.MemoryAccessPattern.LINEAR_1D);
+//			DFELink lmem2cpu = addStreamFromOnCardMemory("lmem2cpu", MemoryControlGroup.MemoryAccessPattern.LINEAR_1D);
+//
+//			DFELink fromcpu = addStreamFromCPU("fromcpu");
+//			DFELink tocpu = addStreamToCPU("tocpu");
+//
+//			cpu2lmem<==fromcpu;
+//			tocpu<== lmem2cpu;
+
+		//DFELink inA = addStreamFromOnCardMemory("inA", MemoryControlGroup.MemoryAccessPattern.LINEAR_1D);
+		//DFELink inB = addStreamFromOnCardMemory("inB", MemoryControlGroup.MemoryAccessPattern.LINEAR_1D);
+
+		//k.getInput("inA")<==inA;
+		//k.getInput("inB")<==inB;
+
+		//DFELink oData = addStreamToOnCardMemory("oData",MemoryControlGroup.MemoryAccessPattern.LINEAR_1D);
+		//oData <== k.getOutput("oData");
+
+		//KERNEL
+			//KernelBlock simpleKernel = addKernel(new SimpleKernel(makeKernelParameters("simpleKernel")));
+
+			//simpleKernel.getInput("inputTCPStream") <== tcp_stream.getReceiveStream();
+
+		//simpleKernel.getInput("cpuValIn") <== addStreamFromCPU("cpuValue");
+
+			//tcp_stream.getTransmitStream() <== simpleKernel.getOutput("outputTCPStream");
+
+		//addStreamFromCPU(")
+
+		//DFELink ethRx = udp_stream.getReceiveStream();
+		//DFELink ethTx = udp_stream.getTransmitStream();
+
+
+		//tcpStream.getTransmitStream() <== adder.getOutput("valOut");
+
+		//new UDPOneToOneTXType().getData();
+
+		///////////////////////////////
+
+
+
+	}
+
+//	private static EngineInterface interfaceWrite(String name) {
+//		EngineInterface ei = new EngineInterface(name);
+//
+//		InterfaceParam size  = ei.addParam("size", TYPE);
+//		InterfaceParam start = ei.addParam("start", TYPE);
+//		InterfaceParam sizeInBytes = size * TYPE.sizeInBytes();
+//
+//		ei.setStream("fromcpu", TYPE, sizeInBytes );
+//		ei.setLMemLinear("cpu2lmem", start * TYPE.sizeInBytes(), sizeInBytes);
+//		ei.ignoreAll(Direction.IN_OUT);
+//		return ei;
+//	}
+//
+//	private static EngineInterface interfaceRead(String name) {
+//		EngineInterface ei = new EngineInterface(name);
+//
+//		InterfaceParam size  = ei.addParam("size", TYPE);
+//		InterfaceParam start = ei.addParam("start", TYPE);
+//		InterfaceParam sizeInBytes = size * TYPE.sizeInBytes();
+//
+//		ei.setLMemLinear("lmem2cpu", start * TYPE.sizeInBytes(), sizeInBytes);
+//		ei.setStream("tocpu", TYPE, sizeInBytes);
+//		ei.ignoreAll(Direction.IN_OUT);
+//		return ei;
+//	}
+//
+//	private static EngineInterface interfaceDefault() {
+//		EngineInterface ei = new EngineInterface();
+//
+//		InterfaceParam N    = ei.addParam("N", TYPE);
+//		ei.setTicks(KERNEL_NAME, N);
+//		InterfaceParam sizeInBytes = N * TYPE.sizeInBytes();
+//
+//		InterfaceParam zero = ei.addConstant(0l);
+//		ei.setLMemLinear("inA", zero, sizeInBytes);
+//		ei.setLMemLinear("inB", sizeInBytes, sizeInBytes);
+//		ei.setLMemLinear("oData", 2 * sizeInBytes, sizeInBytes);
+//		ei.ignoreAll(Direction.IN_OUT);
+//		return ei;
+//	}
+
+
+	public static void main(String[] args) {
+		StampManager m = new StampManager(args);
+		//m.createSLiCinterface(interfaceWrite("writeLMem"));
+		//m.createSLiCinterface(interfaceRead("readLMem"));
+		//m.createSLiCinterface(interfaceDefault());
+
+		BuildConfig bConfig = m.getBuildConfig();
+		bConfig.setMPPRCostTableSearchRange(1, 10);
+
+		bConfig.setMPPRParallelism(10);
+
+		m.build();
+	}
+}

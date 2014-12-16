@@ -1,0 +1,201 @@
+//
+//Blok koji radi na svaki takt, portovi mu nisu blokirajuceg tipa
+//omogucava da se formiraju TCP segmenti MSS duzine
+//na ulaz se dovode podaci, a na izlazu se dobijaju TCP segmenti
+//ovaj blok podatke sa ulaza pakuje u segmente odredjene duzine
+//definisane parametrima
+
+//parametri: uvek se prenosi na izlaz 8 bajtova korisnih podataka
+//dataLengthBytes - ukupna duzina ulaznih podataka u bajtovima, mora biti umnozak broja 8
+//tcpMaximumSegmentSize - duzina MSS segmenta u bajtovima, u ovom slucaju mora biti umnozak broja 8
+
+package stamp;
+
+import com.maxeler.maxcompiler.v2.managers.DFEManager;
+import com.maxeler.maxcompiler.v2.statemachine.DFEsmAssignableValue;
+import com.maxeler.maxcompiler.v2.statemachine.DFEsmStateValue;
+import com.maxeler.maxcompiler.v2.statemachine.DFEsmValue;
+import com.maxeler.maxcompiler.v2.statemachine.manager.DFEsmPushInput;
+import com.maxeler.maxcompiler.v2.statemachine.manager.DFEsmPushOutput;
+import com.maxeler.maxcompiler.v2.statemachine.manager.ManagerStateMachine;
+
+public class SMBlokZaSlanje extends ManagerStateMachine {
+
+	private final DFEsmPushInput src;
+	private final DFEsmPushOutput dst;
+
+	//private final DFEsmPushInput socket;
+	//private final DFEsmPushInput mod;
+
+	private final DFEsmPushInput dataLengthBytes;
+
+	public static final String INPUT = "src";
+	public static final String OUTPUT = "dst";
+
+	private final DFEsmStateValue sCounter = state.value(dfeUInt(64), 0);
+	private final DFEsmStateValue sByteCounter = state.value(dfeUInt(11), 8); //kod TCP ogranicenje 1460 bajtova
+	private final DFEsmStateValue sByteCounterTotal = state.value(dfeUInt(32), 8); //
+
+	private final int tcpMaximumSegmentSize=1456; //uumnozak 8 bajta, inace je max vrednost MSS 1460 bajta
+
+
+	public SMBlokZaSlanje(DFEManager owner, int width) {
+		this(owner, width, 5);
+	}
+
+	public SMBlokZaSlanje(DFEManager owner, int width, int stallLatency) {
+		super(owner);
+
+		src = io.pushInput(INPUT, dfeUInt(75), stallLatency);
+		dst = io.pushOutput(OUTPUT, dfeUInt(width), stallLatency);
+
+		//socket = io.pushInput("socket", dfeUInt(8), stallLatency);
+		//mod    = io.pushInput("mod44", dfeUInt(3), stallLatency);
+
+		dataLengthBytes = io.pushInput("dataLengthBytes", dfeUInt(32),stallLatency);
+
+		if (tcpMaximumSegmentSize<2)
+		{
+			int x=9/0;
+		}
+	}
+
+	@Override
+	protected void nextState() {
+		// TODO Auto-generated method stub
+
+		sCounter.next<==sCounter+1;
+
+		//DFEsmAssignableValue upperLimit = assignable.value(dfeUInt(32));
+		//upperLimit<==tcpMaximumSegmentSize;
+
+		IF((src.valid===true)) // & (~dst.stall))
+		{
+//			IF (dataLengthBytes<=tcpMaximumSegmentSize) //ako se svi podaci mogu poslati pomocu samo 1 tcp segmenta
+//			{
+//				//upperLimit<==dataLengthBytes;
+//
+//				IF(sByteCounterTotal===dataLengthBytes)
+//				{
+//					sByteCounterTotal.next<==1;
+//					sByteCounter.next<==1;
+//				}
+//				ELSE
+//				{
+//					sByteCounter.next<==sByteCounter+1;
+//				}
+//
+//				sByteCounterTotal.next<==sByteCounterTotal+1;
+//			}
+
+			//ELSE IF (dataLengthBytes>tcpMaximumSegmentSize)
+			{
+				IF (sByteCounterTotal===dataLengthBytes) //ako su poslati svi podaci onda resetuj sve brojace, pa cekaj na nove ulazne podatke
+				{
+					sByteCounterTotal.next<==8;
+					sByteCounter.next<==8;
+				}
+				ELSE
+				{
+					IF(sByteCounter===tcpMaximumSegmentSize)
+					{
+						sByteCounter.next<==8;
+					}
+					ELSE
+					{
+						sByteCounter.next<==sByteCounter+8;
+					}
+
+					sByteCounterTotal.next<==sByteCounterTotal+8;
+				}
+			}
+		}
+	}
+
+
+	@Override
+	protected void outputFunction() {
+
+		//dva slucaja
+		//1) ako je doslo manje podataka od tcpMaximumSegmentSize, nema sta da se pakuje u manje frejmove, u jednom frejmu se sve moze poslati
+		//2) doslo je vise podataka => ima sta da se pakuje u manje frejmove, a ostatak se posalje poslednjim frejmom <=tcpMSS
+
+		DFEsmAssignableValue sof = assignable.value(dfeBool());
+		DFEsmAssignableValue eof = assignable.value(dfeBool());
+
+		//default values, will be used if 2<=sByteCounter<=upperLimit-1
+		sof<==0;
+		eof<==0;
+		dst <== 0;
+
+		IF((src.valid===true)) // & (~dst.stall))
+		{
+			//DFEsmValue data,mod,eof,sof;
+
+			//DFEsmAssignableValue upperLimit = assignable.value(dfeUInt(32));
+			//upperLimit<==tcpMaximumSegmentSize;
+
+//			IF (dataLengthBytes<=tcpMaximumSegmentSize)
+//			{
+//				//upperLimit<==dataLengthBytes;
+//
+//				IF(sByteCounter===1)
+//				{
+//					sof <== 1; //set start-of-frame
+//					eof <== 0;
+//
+////					IF(dataLengthBytes===1)
+////					{
+////						sof <== 1; //set start-of-frame
+////						eof <== 1; //set start-of-frame
+////					}
+//				}
+//				ELSE IF(sByteCounter===dataLengthBytes.cast(dfeUInt(11)))
+//				{
+//					sof <== 0;
+//					eof <== 1; //set end-of-frame
+//				}
+//			}
+			//ELSE
+			{
+				//IF (dataLengthBytes>=tcpMaximumSegmentSize)
+				{
+					IF(sByteCounter===8)
+					{
+						sof <== 1; //set start-of-frame
+						eof <== 0;
+
+					}
+					ELSE IF((sByteCounter===tcpMaximumSegmentSize) | (sByteCounterTotal===dataLengthBytes))
+					{
+						sof <== 0;
+						eof <== 1; //set end-of-frame
+					}
+				}
+			}
+
+			DFEsmValue mod = constant.value(dfeUInt(3),0);
+			dst <== sof # eof # src;
+			//dst <== src;
+
+			//			debug.simPrintf("tick=%u, Petlja 1 - Adresa: %d, eof=%x,sof=%x, data=%x\n", counter, sCurrentROMAddress,eof,sof,data);
+			//			debug.simPrintf("SimpleWire state machine, dataOut=%x\n", dst);
+
+		}
+
+		dst.valid <== src.valid;// & (~dst.stall);
+		src.stall <== dst.stall;
+		//socket.stall <== dst.stall;
+		//mod.stall <== dst.stall;
+
+		IF(src.valid)
+		{
+			debug.simPrintf("BlokZaSlanje: tick=%u, sByteCounter=%u, sByteCounterTotal=%u, src==%x, src.valid=%u, dst.valid=%u, dst.stall=%u, sof=%u, eof=%u, dataLength=%u\n", sCounter,sByteCounter,sByteCounterTotal, src,src.valid, dst.valid, dst.stall, sof, eof, dataLengthBytes);
+		}
+
+
+
+
+	}
+
+}
