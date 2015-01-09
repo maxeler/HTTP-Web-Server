@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<maxCompilerManager version="2">
-<enginePart internalEngineSubproject="Copy_Of_network-chap08-TCP_LMem_correctBytesSend_temp2_disconn3_EngineCode" isSrcBin="false" isUseDefaultSelected="false" outputLocation="/Copy_Of_network-chap08-TCP_LMem_correctBytesSend_temp2_disconn3_EngineCode/bin" projectName="Copy_Of_network-chap08-TCP_LMem_correctBytesSend_temp2_disconn3"/>
-<cpuPart internalCpuSubproject="Copy_Of_network-chap08-TCP_LMem_correctBytesSend_temp2_disconn3_CPUCode"/>
-<watchedFiles/>
-</maxCompilerManager>
