@@ -1,0 +1,3 @@
+#This text will be included verbatim in the build process.Put here
+#anything you like - that said, it has be valid Make syntax
+USE_SLIC=1
