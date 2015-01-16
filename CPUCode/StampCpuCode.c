@@ -173,7 +173,41 @@ void writeDataToLMem(uint64_t *dataIn, int size, int sizeBytes, int burstLengthI
 
 }
 
+void fillRomHashIndex(FILE *fpHash, uint64_t **pHash, long Lhash) {
 
+	size_t resultHash;
+	char *tr;
+	double diffHash = ceil(Lhash / 8.0) - Lhash / 8.0; //padding with NULL character - integer multiple of bytes (1B=8 bits)
+
+	if (diffHash != 0) {
+		Lhash = (int) ceil(Lhash / 8.0) * 8;
+	}
+
+	//allocate memory to contain the whole file
+	size_t NelemHash = sizeof(uint64_t) * (Lhash / 8);
+	uint64_t* nizHash = (uint64_t*) malloc(NelemHash);
+
+	//for(int i=0;i<L/8;i++)
+	{
+		resultHash = fread(nizHash, 1, Lhash, fpHash); //read 8 bytes (64 bits) ie. 8 elements of 1 byte in size
+	}
+
+	for (int i = 0; i < Lhash / 8; i++) {
+		tr = (char*) (nizHash + i);
+
+		//byte, not bit!!! reverse
+		for (int j = 0; j < 4; j++) {
+			char wt = tr[j];
+			tr[j] = tr[7 - j];
+			tr[7 - j] = wt;
+		}
+
+		printf("Element niz[%d]=%016llx\n", i, nizHash[i]);
+	}
+
+	*pHash = nizHash;
+
+}
 
 
 int main(int argc, char *argv[]) {
@@ -198,76 +232,32 @@ int main(int argc, char *argv[]) {
 					//char fileHashIndex[]="/home/nemanja/Desktop/hashIndexFinalLongLMem.html";
 					//char fileHashIndex[]="/home/nemanja/Desktop/hashIndexFinalLongLMemTest.html";
 					//char fileHashIndex[]="/home/nemanja/Desktop/hashIndexFinalLongLMemExactBytes.html";
-					//char fileHashIndex[]="/home/nemanja/Desktop/hashIndexFinalLongLMemExactBytes17.html";
+						//char fileHashIndex[]="/home/nemanja/Desktop/hashIndexFinalLongLMemExactBytes17.html";
 					//char fileHashIndex[]="/home/nemanja/Desktop/hashIndexFinalLongLMemExactBytes380.html";
 					//char fileHashIndex[]="/home/nemanja/Desktop/hashIndexFinalLongLMemExactBytes1920.html";
 					//char fileHashIndex[]="/home/nemanja/Desktop/hashIndexFinalLongLMemExactBytes10560.html";
 					//char fileHashIndex[]="/home/nemanja/Desktop/hashIndexFinalLongLMemExactBytes19200.html";
-					char fileHashIndex[]="/home/nemanja/Desktop/hashIndexFinalLongLMemExactBytesVeliko.html";
+					//char fileHashIndex[]="/home/nemanja/Desktop/hashIndexFinalLongLMemExactBytesVeliko.html";
 
+					char fileHashIndex1[]="/home/nemanja/Desktop/romHashIndex1_init.html";
+					char fileHashIndex2[]="/home/nemanja/Desktop/romHashIndex2_init.html";
 
-
-					//fillBRam(fileLocation);
-
+					uint64_t *nizHash1;
+					uint64_t *nizHash2;
 					long Lhash;
-					size_t resultHash;
-					uint64_t* nizHash;
-					char *tr;
 
-					FILE *fpHash = fopen (fileHashIndex,"rb");
+					FILE *fpHash1 = fopen (fileHashIndex1,"rb");
+					FILE *fpHash2 = fopen (fileHashIndex2,"rb");
 
 					// obtain file size:
-					fseek (fpHash , 0 , SEEK_END);
-					Lhash = ftell (fpHash);
-					rewind(fpHash);
+					fseek (fpHash1 , 0 , SEEK_END);
+					Lhash = ftell (fpHash1);
+					rewind(fpHash1);
 
-					double diffHash = ceil(Lhash/8.0) - Lhash/8.0; //dopunjavanje NULL characterom do celobrojonog umnoska bajtova (1B=8 bita)
-
-					if (diffHash!=0)
-					{
-						Lhash=(int) ceil(Lhash/8.0)*8;
-					}
-
-					//allocate memory to contain the whole file
-					size_t NelemHash = sizeof(uint64_t)*(Lhash/8);
-					nizHash = (uint64_t*) malloc (NelemHash);
-
-					//for(int i=0;i<L/8;i++)
-					{
-						resultHash = fread(nizHash,1,Lhash,fpHash); //read 8 bytes (64 bits) ie. 8 elemnts of 1 byte in size
-
-				//		char *temp =(char*) (niz+i);
-				//		for(int j=0;j<4;j++) //reversing bytes;
-				//		{
-				//			char t=(*temp);
-				//			*(temp+j)=*(temp+7-j);
-				//			*(temp+7-j)=*t;
-				//		}
-					}
-
-					for(int i=0;i<Lhash/8;i++)
-					{
-						tr=(char*) (nizHash+i);
-						//convert ascii number to integer number: '0'>0, '1'->1...
-//						for(int j=0;j<8;j++)
-//						{
-//							tr[j]=tr[j]-'0';
-//						}
-
-
-						//byte, not bit!!! reverse
-						for(int j=0;j<4;j++)
-						{
-							char wt=tr[j];
-							tr[j]=tr[7-j];
-							tr[7-j]=wt;
-						}
-
-						printf("Element niz[%d]=%016llx\n",i,nizHash[i]);
-					}
+					fillRomHashIndex(fpHash1, &nizHash1, Lhash);
+					fillRomHashIndex(fpHash2, &nizHash2, Lhash);
 
 					//getchar();
-
 
 					max_file_t *maxfile = Stamp_init();
 					max_engine_t * engine = max_load(maxfile, "*");
@@ -277,10 +267,17 @@ int main(int argc, char *argv[]) {
 					for(uint32_t i=0;i<romDepthHash;i++)
 					{
 						//max_set_mem_uint64t(actions, "stamp_state_machine", "romMapped", i, niz[i]);
-						max_set_mem_uint64t(actions, "stamp_state_machine", "romHashIndex", i, nizHash[i]);
+						//printf("FFFFFFF 1&2 %d: %016llx, %016llx\n", i, nizHash1[i], nizHash2[i]);
+
+						max_set_mem_uint64t(actions, "stamp_state_machine", "romHashIndex1", i, nizHash1[i]);
+						max_set_mem_uint64t(actions, "stamp_state_machine", "romHashIndex2", i, nizHash2[i]);
 					}
 
 					//max_set_mem_uint64t(actions, "stamp_state_machine", "romMapped", 0, niz[0]);
+
+
+					//exit(0);
+
 
 					max_run(engine, actions);
 					max_actions_free(actions);
@@ -292,9 +289,9 @@ int main(int argc, char *argv[]) {
 				//char file[]="/home/nemanja/Desktop/htmlTest5LongManja.html";
 				//char file[]="/home/nemanja/Desktop/htmlTest5LongManjaNew.html";
 				//char file[]="/home/nemanja/Desktop/Test.html";
-			    char file[]="/home/nemanja/Desktop/htmlTest5LongLMem.html";
+			    //char file[]="/home/nemanja/Desktop/htmlTest5LongLMem.html";
 
-
+				char file[]="/home/nemanja/Desktop/lmem_generated_file.html";
 
 				long L;
 				size_t result;
@@ -320,15 +317,7 @@ int main(int argc, char *argv[]) {
 
 				//for(int i=0;i<L/8;i++)
 				{
-					result = fread(niz,1,L,fp); //read 8 bytes (64 bits) ie. 8 elemnts of 1 byte in size
-
-			//		char *temp =(char*) (niz+i);
-			//		for(int j=0;j<4;j++) //reversing bytes;
-			//		{
-			//			char t=(*temp);
-			//			*(temp+j)=*(temp+7-j);
-			//			*(temp+7-j)=*t;
-			//		}
+					result = fread(niz,1,L,fp); //read 8 bytes (64 bits) ie. 8 elements of 1 byte in size
 				}
 
 				for(int i=0;i<L/8;i++)

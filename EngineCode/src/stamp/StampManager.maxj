@@ -100,7 +100,7 @@ public class StampManager extends NetworkManager {
 //		toCpuDataSentFlag <== stateMachine.getOutput("fromStateMachineDataSentFlag");
 
 
-
+		//
 		//socket disconnect
 		KernelBlock TxManagerKernelV1kernel = addKernel(new TxManagerKernelV1(makeKernelParameters("TxManagerKernelV1_kernel"), new TCPType()));
 
@@ -116,6 +116,20 @@ public class StampManager extends NetworkManager {
 
 		DFELink toCpuByteNumber = addStreamToCPU("toCpuByteNumber");
 		toCpuByteNumber <== wireByteNumber.getOutput(SimpleWire.OUTPUT);
+
+//		//FIFO buffer for storing URL of incoming TCP frames
+//		StateMachineBlock fifo_instanca = addStateMachine("fifo_instanca", new LimitedDepthFIFOcopy(this, 64+3+3,1,1));
+//		fifo_instanca.getInput("input") <== stateMachine.getOutput("storeUrlFifo");
+//
+//		StateMachineBlock fifo_instanca1Bajt = addStateMachine("fifo_instanca1Bajt", new LimitedDepthFIFOcopy1byte(this,64+3+3,1,1));
+//		fifo_instanca1Bajt.getInput("input") <== fifo_instanca.getOutput("output");
+//		fifo_instanca.getInput("m_read") <== fifo_instanca1Bajt.getOutput("m_read");
+
+		//parallel CRC
+		StateMachineBlock parallelCRC = addStateMachine("parallelCRC", new ParallelCRC(this));
+		parallelCRC.getInput(ParallelCRC.dataIn) <== stateMachine.getOutput("checksumOutput"); //addStreamFromCPU("toParallelCRC");
+		//addStreamToCPU("fromParallelCRC")<== parallelCRC.getOutput(ParallelCRC.crcOut);
+		stateMachine.getInput("checksumResult") <== parallelCRC.getOutput(ParallelCRC.crcOut);
 
 
 		//KernelBlock k = addKernel(new LMemExampleKernel(makeKernelParameters(KERNEL_NAME)));

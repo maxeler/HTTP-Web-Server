@@ -103,6 +103,10 @@ public class StampStateMachine extends ManagerStateMachine {
 	private final DFEsmStateValue sCloseSocketCycleCounter= state.value(dfeUInt(5),1);
 	private final DFEsmStateValue sCloseSocketCycleFlag= state.value(dfeBool(),false);
 	private final DFEsmStateValue sByteNumberFlag= state.value(dfeBool(),false);
+	private final DFEsmStateValue sStoreURL = state.value(dfeUInt(512),0); //192
+	private final DFEsmStateValue sBitNumber = state.value(dfeUInt(9),0);
+	private final DFEsmStateValue sUseHashIndex = state.value(dfeUInt(1),0);
+
 
 
 	// State - varijable stanja
@@ -136,6 +140,10 @@ public class StampStateMachine extends ManagerStateMachine {
 	private final DFEsmPushInput input = io.pushInput("tcp_to_sm", dfeUInt(77), 1); //UDP RX stream format: 748 bits
 	private final DFEsmPushOutput output = io.pushOutput("stamped_tcp_frm_sm", dfeUInt(77), 1); // UDP TX stream format: 77 bits
 	private final DFEsmPushOutput fromStateMachineByteNumber = io.pushOutput("fromStateMachineByteNumber", dfeUInt(128), 5);
+	private final DFEsmPushOutput checksumOutput = io.pushOutput("checksumOutput", dfeUInt(512), 4);
+	private final DFEsmPushInput checksumResult = io.pushInput("checksumResult", dfeUInt(16), 1);
+
+	//private final DFEsmPushOutput storeUrlFifo = io.pushOutput("storeUrlFifo", dfeUInt(64 + 3 + 3), 1); // UDP TX stream format: 77 bits
 
 	//private final DFEsmPullOutput output1 = io.pullOutput("stamped_udp_frm_sm", dfeUInt(77), 15);
 	//private final DFEsmPushOutput output1 = io.pushOutput("stamped1", dfeUInt(77), 1);
@@ -178,6 +186,7 @@ public class StampStateMachine extends ManagerStateMachine {
 	private final  DFEsmSinglePortMappedROM romMemorija;
 
 	private final  DFEsmSinglePortMappedROM romHashIndex;
+	private final  DFEsmSinglePortMappedROM romHashIndex2;
 	//ALTERA ne podrzava READ_FIRST mode, mora da se stavi WRITE_FIRST
 	//ISCA je sa Alterinim cipom
 	private final  DFEsmSinglePortRAM uriMemorija=mem.ram(dfeUInt(64), 128, SinglePortRAMMode.WRITE_FIRST, Latency.ONE_CYCLE);
@@ -185,7 +194,7 @@ public class StampStateMachine extends ManagerStateMachine {
 	private final DFEsmValue numSP = constant.value(dfeUInt(16),0); //number of SP characters (space)
 	private final DFEsmValue blank[]=new DFEsmValue[8];
 
-	private final  DFEsmValue data;
+	private final  DFEsmValue data; //
 	private final  DFEsmValue mod;
 	private final  DFEsmValue eof;
 	private final  DFEsmValue sof;
@@ -310,7 +319,7 @@ public class StampStateMachine extends ManagerStateMachine {
 
 		System.out.println("duzina hashIndex[]=" + hashIndex.length);
 
-		p=0;
+		p=0;//
 		for(long y: hashIndex)
 		{
 		  //System.out.printf("adresa hashIndex=%d, %x\n", p,y);
@@ -321,8 +330,8 @@ public class StampStateMachine extends ManagerStateMachine {
 
 		//HashIndex =
 		//romHashIndex = mem.rom(dfeUInt(64),Latency.ONE_CYCLE, hashIndex);
-		romHashIndex = mem.romMapped("romHashIndex",dfeUInt(64), 32768, Latency.ONE_CYCLE);
-		//romHashIndex = mem.romMapped("romHashIndex",dfeUInt(64), 32768, Latency.ONE_CYCLE);
+		romHashIndex = mem.romMapped("romHashIndex1",dfeUInt(64), 32768, Latency.ONE_CYCLE);
+		romHashIndex2 = mem.romMapped("romHashIndex2",dfeUInt(64), 32768, Latency.ONE_CYCLE);
 
 //		ramMemorija.write(constant.var(0).cast(dfeUInt(10)), constant.var(124).cast(dfeUInt(64)) , constant.var(true));
 //		DFEVar outputData = ramMemorija.read(constant.var(0).cast(dfeUInt(10)));
@@ -432,7 +441,6 @@ public class StampStateMachine extends ManagerStateMachine {
 		{
 			sCloseSocketCycleFlag.next<==false;
 		}
-
 
 		IF((sMemoryRead===true))
 		{
@@ -574,65 +582,149 @@ public class StampStateMachine extends ManagerStateMachine {
 //					debug.simPrintf("Iscitana poslednja adresa, adresa=%u\n", sCurrentROMAddress);
 			}
 
+
+			IF(checksumResult.valid)
+			{
+				debug.simPrintf("checksumResult.valid=1\n");
+
+//				DFEsmAssignableValue romHashIndex1or2Valid=assignable.value(dfeUInt(1));
+//				romHashIndex1or2Valid <== 0;
+
+				romHashIndex.address <== checksumResult.slice(0, 15);     //sRomHashIndexAddress.slice(0, 15);
+				romHashIndex2.address <== checksumResult.slice(0, 15);    //sRomHashIndexAddress.slice(0, 15);
+				sUseHashIndex.next <== checksumResult[15];
+
+				debug.simPrintf("checksumResult.slice(0, 15)=%u, sUseHashIndex.next=%u\n",checksumResult.slice(0, 15),checksumResult[15]);
+
+//				IF(checksumResult[15]===0)
+//				{
+//					//case 1: first bit is 0 -> use romHashIndex
+//					//case 2: first bit is 1 -> use romHashIndex2
+//					// <== ;
+//					//romHashIndex1or2Valid <== 0;
+//					sUseHashIndex.next <== 0;
+//				}
+//				ELSE //if checksumResult[15]===1
+//				{
+//					//case 1: first bit is 0 -> use romHashIndex
+//					//case 2: first bit is 1 -> use romHashIndex2
+//					//romHashIndex1or2Valid <== 1;
+//					sUseHashIndex.next <== 1;
+//				}
+
+				sHashIndexDataOutValid.next<==true;
+
+			}
+
+
 			IF(sHashIndexValid===true)
 			{
-				DFEsmAssignableValue ttt=assignable.value(dfeUInt(64));
-				//sRomHashIndexAddress.next<==sRomHashIndexAddress+1;
-				romHashIndex.address<==sRomHashIndexAddress;
-				debug.simPrintf("Postavljam romHashIndex.address na=%u, current=%u\n", sRomHashIndexAddress,counter);
-				sHashIndexValid.next<==false;
-				ttt<==romHashIndex.dataOut;
-				sHashIndexDataOutValid.next<==true;
-				debug.simPrintf("Vrednost romHashIndex.dataOut=%x, current=%u\n", romHashIndex.dataOut,counter);
-
-				// romHashIndex.dataOut;
-
-				//          sMemoryRead.next<==false;
-				//          sCurrentState.next<==Stanje.start; //after memory was read, change current state;
-				//          sCurrentROMAddress.next<==0;
-				//          debug.simPrintf("Iscitana poslednja adresa, adresa=%u", sCurrentROMAddress);
+				sHashIndexValid.next <== false;
 			}
+
+
+//			IF(sHashIndexValid===true)
+//			{
+//				//DFEsmAssignableValue ttt=assignable.value(dfeUInt(64));
+//				//sRomHashIndexAddress.next<==sRomHashIndexAddress+1;
+//
+//				romHashIndex.address <== ;     //sRomHashIndexAddress.slice(0, 15);
+//				romHashIndex2.address <== ;    //sRomHashIndexAddress.slice(0, 15);
+//
+//
+//				IF(sRomHashIndexAddress[14]===0)
+//				{
+//					//case 1: first bit is 0 -> use romHashIndex
+//					//case 2: first bit is 1 -> use romHashIndex2
+//					// <== ;
+//
+//					 <== romHashIndex.dataOut;
+//				}
+//				ELSE //if sRomHashIndexAddress[15]===1
+//				{
+//
+//
+//					 <== romHashIndex2.dataOut;
+//				}
+//
+//				//romHashIndex.address<==sRomHashIndexAddress;
+//				//debug.simPrintf("Postavljam romHashIndex.address na=%u, current=%u\n", sRomHashIndexAddress,counter);
+//				//sHashIndexValid.next<==false;
+//				//ttt<==romHashIndex.dataOut;
+//				//sHashIndexDataOutValid.next<==true;
+//				debug.simPrintf("Vrednost romHashIndex.dataOut=%x, romHashIndex.dataOut=%x, current=%u\n", romHashIndex.dataOut, romHashIndex2.dataOut, counter);
+//
+//				romHashIndex.address<==12;//sRomHashIndexAddress;
+//				debug.simPrintf("Postavljam romHashIndex.address na=%u, current=%u\n", sRomHashIndexAddress,counter);
+//				sHashIndexValid.next<==false;
+//				//ttt<==romHashIndex.dataOut;
+//				sHashIndexDataOutValid.next<==true;
+//				debug.simPrintf("Vrednost romHashIndex.dataOut=%x, current=%u\n", romHashIndex.dataOut,counter);
+//
+//				// romHashIndex.dataOut;
+//
+//				//          sMemoryRead.next<==false;
+//				//          sCurrentState.next<==Stanje.start; //after memory was read, change current state;
+//				//          sCurrentROMAddress.next<==0;
+//				//          debug.simPrintf("Iscitana poslednja adresa, adresa=%u", sCurrentROMAddress);
+//			}
+
 
 			IF(sHashIndexDataOutValid===true) //
 			{
+
+				DFEsmAssignableValue hashIndexData = assignable.value(dfeUInt(64));
+				hashIndexData <== 0;
+
+				IF(sUseHashIndex===0)
+				{
+					hashIndexData <== romHashIndex.dataOut;
+				}
+				ELSE
+				{
+					hashIndexData <== romHashIndex2.dataOut;
+				}
+//
+				debug.simPrintf("Vrednost romHashIndex.dataOut=%x, romHashIndex.dataOut=%x, sUseHashIndex=%x, current=%u\n", romHashIndex.dataOut, romHashIndex2.dataOut, sUseHashIndex, counter);
+
 				DFEsmAssignableValue startAddressBurst=assignable.value(dfeUInt(19)); //startAddressBurst in LMem
 				DFEsmAssignableValue fileLengthBursts=assignable.value(dfeUInt(19)); //length of a file as number of Bursts
 				DFEsmAssignableValue fileLengthBytes=assignable.value(dfeUInt(26));  // 2^26 / 1024 /1024 = 64 MB, ali ovo ipak nije celobrojan broj Burstova, poslednji burst nece biti zauzet do kraja
 
-				fileLengthBytes<==romHashIndex.dataOut.slice(0, 26); //file length + ResponseHeaderlength(56 bytes)
-				fileLengthBursts<==romHashIndex.dataOut.slice(26, 19);
-				startAddressBurst<==romHashIndex.dataOut.slice(44, 19);
+				fileLengthBytes<==hashIndexData.slice(0, 26); //romHashIndex.dataOut.slice(0, 26); //file length + ResponseHeaderlength(56 bytes)
+				fileLengthBursts<==hashIndexData.slice(26, 19); //romHashIndex.dataOut.slice(26, 19);
+				startAddressBurst<==hashIndexData.slice(45, 19); //romHashIndex.dataOut.slice(44, 19);
 
 				debug.simPrintf("startAddressBurst=%u, fileLengthBursts=%u, fileLengthBytes=%u\n",startAddressBurst,fileLengthBursts,fileLengthBytes);
 
-				//sHashIndexDataOutValid.next<==false;
-				DFEsmAssignableValue startAddress=assignable.value(dfeUInt(32));
-				DFEsmAssignableValue addressNumber=assignable.value(dfeUInt(32));
-
-				addressNumber<==romHashIndex.dataOut.slice(0, 32);
-
-				DFEsmValue addressByte1=addressNumber.slice(0, 8);
-				DFEsmValue addressByte2=addressNumber.slice(8, 8);
-				DFEsmValue addressByte3=addressNumber.slice(16, 8);
-				DFEsmValue addressByte4=addressNumber.slice(24, 8);
-
-				//addressNumber<==(addressByte1+addressByte2*10).cast(dfeUInt(32));
-				addressNumber<==((addressByte1.cast(dfeUInt(32))+addressByte2.cast(dfeUInt(32))*10+addressByte3.cast(dfeUInt(32))*100+addressByte4.cast(dfeUInt(32))*1000)*4).cast(dfeUInt(32));
-				//addressNumber<==271360;//12800;
-
-				startAddress<==romHashIndex.dataOut.slice(32, 32);
-				DFEsmValue startByte1=startAddress.slice(0, 8);
-				DFEsmValue startByte2=startAddress.slice(8, 8);
-				DFEsmValue startByte3=startAddress.slice(16, 8);
-				DFEsmValue startByte4=startAddress.slice(24, 8);
-
-				//startAddress<==(startByte1+startByte2*10).cast(dfeUInt(32));
-				startAddress<==((startByte1.cast(dfeUInt(32))+startByte2.cast(dfeUInt(32))*10+startByte3.cast(dfeUInt(32))*100+startByte4.cast(dfeUInt(32))*1000)*4).cast(dfeUInt(32));
+////				//sHashIndexDataOutValid.next<==false;
+////				DFEsmAssignableValue startAddress=assignable.value(dfeUInt(32));
+////				DFEsmAssignableValue addressNumber=assignable.value(dfeUInt(32));
 ////
-				//memorija na koju upucuje hashIndex
-				sCurrentROMAddress.next<==startAddress;
-				sCurrentRomAddressInitialized.next<==true;
-				sEndROMAddress.next<==startAddress+addressNumber;
+////				addressNumber<==hashIndexData.slice(0, 32);
+////
+////				DFEsmValue addressByte1=addressNumber.slice(0, 8);
+////				DFEsmValue addressByte2=addressNumber.slice(8, 8);
+////				DFEsmValue addressByte3=addressNumber.slice(16, 8);
+////				DFEsmValue addressByte4=addressNumber.slice(24, 8);
+////
+////				//addressNumber<==(addressByte1+addressByte2*10).cast(dfeUInt(32));
+////				addressNumber<==((addressByte1.cast(dfeUInt(32))+addressByte2.cast(dfeUInt(32))*10+addressByte3.cast(dfeUInt(32))*100+addressByte4.cast(dfeUInt(32))*1000)*4).cast(dfeUInt(32));
+////				//addressNumber<==271360;//12800;
+////
+////				startAddress<==hashIndexData.slice(32, 32);
+////				DFEsmValue startByte1=startAddress.slice(0, 8);
+////				DFEsmValue startByte2=startAddress.slice(8, 8);
+////				DFEsmValue startByte3=startAddress.slice(16, 8);
+////				DFEsmValue startByte4=startAddress.slice(24, 8);
+////
+////				//startAddress<==(startByte1+startByte2*10).cast(dfeUInt(32));
+////				startAddress<==((startByte1.cast(dfeUInt(32))+startByte2.cast(dfeUInt(32))*10+startByte3.cast(dfeUInt(32))*100+startByte4.cast(dfeUInt(32))*1000)*4).cast(dfeUInt(32));
+//
+////				//memorija na koju upucuje hashIndex
+////				sCurrentROMAddress.next<==startAddress;
+////				sCurrentRomAddressInitialized.next<==true;
+////				sEndROMAddress.next<==startAddress+addressNumber;
 
 				//LMem
 				sStartROMAddress.next<==startAddressBurst;
@@ -641,8 +733,8 @@ public class StampStateMachine extends ManagerStateMachine {
 
 				sHashIndexDataOutValid.next<==false;
 
-				debug.simPrintf("addressByte1=%u, addressByte2=%u, addressByte3=%u, addressByte4=%u\n",addressByte1,addressByte2,addressByte3,addressByte4);
-				debug.simPrintf("VALID romHashIndex, romHashIndex.dataOut=%x, startAddress=%u,addressNumber=%u, current=%u\n", romHashIndex.dataOut,startAddress,addressNumber,counter);
+				//debug.simPrintf("addressByte1=%u, addressByte2=%u, addressByte3=%u, addressByte4=%u\n",addressByte1,addressByte2,addressByte3,addressByte4);
+				//debug.simPrintf("VALID romHashIndex, romHashIndex.dataOut=%x, startAddress=%u,addressNumber=%u, current=%u\n", romHashIndex.dataOut,startAddress,addressNumber,counter);
 			}
 
 			IF(sRomDataOutValid===true)
@@ -770,7 +862,6 @@ public class StampStateMachine extends ManagerStateMachine {
 								//blank[5]=constant.value(dfeUInt(8),11); //BUG proveriti : dodela vrednosti VARIABLI (ne signalu) u IF petlji, bez obzira na vrednost uslova, a telo IF se normalno izvesava
 								//debug.simPrintf("TRALALA\n");
 
-
 								sURIMemoryWrite.next<==true;
 								//kada se postavi na TRUE, drzi vrednost samo jedan ciklus???? resetuje se posle svakog ciklusa na FALSE
 								uriMemorija.writeEnable<==true; //primljen PRVI space, oznacava da pocinje URI
@@ -858,12 +949,76 @@ public class StampStateMachine extends ManagerStateMachine {
 
 								debug.simPrintf("Ulaz u doHash funkciju startIndex=%u, endIndex=%u\n",startIndex,endIndex);
 
-								//							DFEsmAssignableValue g1=assignable.value(dfeUInt(3));
-								//							g1<==4;
+
 								doHashFunction(hashZbir, bytes,startIndex,endIndex);
 
 
+								DFEsmAssignableValue startIndexBit = assignable.value(dfeUInt(8));
+								DFEsmAssignableValue endIndexBit = assignable.value(dfeUInt(8));
+								startIndexBit <== startIndex.cast(dfeUInt(8))*8;
+								endIndexBit <== endIndex.cast(dfeUInt(8))*8+7;
+
+
+								DFEsmAssignableValue bitNumber = assignable.value(dfeUInt(9));
+								bitNumber <==0;
+
+								int bitPointer = 0;
+
+								for(int i=0;i<8;i++)
+								{
+									IF((i>=startIndex) & (i<=endIndex))
+									{
+											for(int j=0;j<8;j++)
+											{
+												SWITCH(bitNumber)
+												{
+													CASE(0) {
+														sStoreURL.next[0+j] <== bytes[i].slice(j, 1);
+													}
+
+													CASE(8) {
+														sStoreURL.next[8+j] <== bytes[i].slice(j, 1);
+													}
+
+													CASE(16) {
+														sStoreURL.next[16+j] <== bytes[i].slice(j, 1);
+													}
+
+													CASE(24) {
+														sStoreURL.next[24+j] <== bytes[i].slice(j, 1);
+													}
+
+													CASE(32) {
+														sStoreURL.next[32+j] <== bytes[i].slice(j, 1);
+													}
+
+													CASE(40) {
+														sStoreURL.next[40+j] <== bytes[i].slice(j, 1);
+													}
+
+													CASE(48) {
+														sStoreURL.next[48+j] <== bytes[i].slice(j, 1);
+													}
+
+													CASE(56) {
+														sStoreURL.next[56+j] <== bytes[i].slice(j, 1);
+													}
+												}
+											}
+										bitNumber <== bitNumber + 8;
+									}
+
+									bitPointer=bitPointer+8;
+
+									debug.simPrintf("TEST: bitPointer=%u\n", bitPointer);
+								}
+
+								//sStoreURL.next <== sStoreURL[i]
+
+								debug.simPrintf("TEST: startIndex=%u, endIndex=%u, startIndexBit=%u, endIndexBit=%u, bitNumber=%u, sStoreURL=%x\n", startIndex, endIndex, startIndexBit, endIndexBit, bitNumber, sStoreURL);
 								debug.simPrintf("Racunam hashZbir u stanju Start hashZbir=%u\n", hashZbir);
+
+								sBitNumber.next <== bitNumber;
 
 
 								//							IF(bajt5===' ')
@@ -926,7 +1081,6 @@ public class StampStateMachine extends ManagerStateMachine {
 								sHashZbirRegister.next<==hashZbir; //presi hashZbir u sledeci ciklus, jer DFEsmAssignableValue ne moze izmedju ciklusa
 								sHashZbirValid.next<==true;
 
-
 								debug.simPrintf("nextState: prijemURI: tick=%u, sNumericCurrent=%u, data=%x\n", counter,sCurrentState,data);
 							}
 						}
@@ -939,6 +1093,8 @@ public class StampStateMachine extends ManagerStateMachine {
 						startIndex<==0;
 						DFEsmAssignableValue endIndex=assignable.value(dfeUInt(3));
 						endIndex<==0;
+
+						debug.simPrintf("TEST: sBitNumber=%u, sStoreURL=%x\n", sBitNumber, sStoreURL);
 
 						for(int i=0;i<8;i++)
 						{
@@ -995,7 +1151,7 @@ public class StampStateMachine extends ManagerStateMachine {
 						//1) izracunaj hash tekuce word (64bits) and accumulate the result
 						//2)
 
-						for(int t=0;t<8;t++)
+						for(int t=0;t<8;t++) //
 						{
 							//debug.simPrintf("ZBIR blank[0]=%u, blank[3]=%u, blank[5]=%u, Broj spaceova=%u\n", blank[0],blank[3], blank[5],zbir);
 							debug.simPrintf("ZBIR stanje URI bytes[%d]=%u\n",t,bytes[t]);
@@ -1004,6 +1160,51 @@ public class StampStateMachine extends ManagerStateMachine {
 						debug.simPrintf("STANJE URI: Ulaz u doHash funkciju startIndex=%u, endIndex=%u\n",startIndex,endIndex);
 						doHashFunction(hashZbir,bytes,startIndex,endIndex);
 
+						/////////////
+						DFEsmAssignableValue bitNumber = assignable.value(dfeUInt(9));
+						bitNumber <==sBitNumber;
+
+						int bitPointer = 0;
+
+						for(int i=0;i<8;i++)
+						{
+							IF((i>=startIndex) & (i<=endIndex))
+							{
+								for(int t=0;t<504;t++)
+								{
+									IF(bitNumber===t)
+									{
+										for(int j=0;j<8;j++)
+										{
+											sStoreURL.next[t+j] <== bytes[i].slice(j, 1);
+											//copyStoreURL.slice(t+j, 1) <== bytes[i].slice(j, 1);
+										}
+
+										debug.simPrintf("TEST bytes: bytes=%x\n", bytes[i]);
+
+										//sStoreURL.next[alignRight+j] <== bytes[i].slice(j, 1);
+									}
+								}
+
+								bitNumber <== bitNumber + 8;
+
+							}
+
+							bitPointer=bitPointer+8;
+
+							debug.simPrintf("TEST: bitPointer=%u\n", bitPointer);
+						}
+
+
+
+						//sStoreURL.next <== sStoreURL[i]
+
+						debug.simPrintf("TEST URL: startIndex=%u, endIndex=%u, bitNumber=%u, sStoreURL=%x\n", startIndex, endIndex, bitNumber, sStoreURL);
+						debug.simPrintf("Racunam hashZbir u stanju Start hashZbir=%u\n", hashZbir);
+
+						sBitNumber.next<==bitNumber;
+
+						/////////
 						debug.simPrintf("Racunam hashZbir u stanju URI hashZbir=%u\n", hashZbir);
 
 						//ako je sistem u stanju prijema URIja onda, kad detektujes blank predji u stanje prijema Http verzije
@@ -1092,6 +1293,8 @@ public class StampStateMachine extends ManagerStateMachine {
 						//							//debug.simPrintf("nextState: prijemBlankLine: tick=%u, sNumericCurrent=%u, data=%x\n", counter,sCurrentState,data);
 						//						}
 						//					}
+
+						debug.simPrintf("TEST httpState: sBitNumber=%u, sStoreURL=%x\n", sBitNumber, sStoreURL);
 
 						//bezuslovna detekcija dva uzastopna CRLF karaktera
 						//1) 2 uzastopna u current WORD
@@ -1520,6 +1723,12 @@ public class StampStateMachine extends ManagerStateMachine {
 //		}
 
 
+
+		//send data to FIFO URL buffer
+//		storeUrlFifo.valid<==sHashZbirValid;
+//		storeUrlFifo <== sHashZbirRegister.cast(dfeUInt(64+3+3)); //constant.value(dfeUInt(64+3+3), 200);
+
+
 		fromStateMachineByteNumber.valid<==false;
 		fromStateMachineByteNumber<==0;
 
@@ -1559,7 +1768,23 @@ public class StampStateMachine extends ManagerStateMachine {
 
 		}
 
-			//debug.simPrintf("Tick=%u, memCmdOutput=%x, memCmdOutput.valid=%x\n",sCounter,memCmdReg,memCmdRegValid);
+
+		checksumOutput.valid<==false;
+		checksumOutput <== 0;
+
+		IF(sHashIndexValid)
+		{
+			checksumOutput.valid<==true;
+			checksumOutput <== sStoreURL.cast(dfeUInt(512));
+
+		}
+
+		IF(checksumResult.valid)
+		{
+			debug.simPrintf("tick=%u, rezultat parallelCRC: checksumResult=0x%x\n", counter, checksumResult);
+		}
+
+		//debug.simPrintf("Tick=%u, memCmdOutput=%x, memCmdOutput.valid=%x\n",sCounter,memCmdReg,memCmdRegValid);
 
 
 
@@ -1602,7 +1827,7 @@ public class StampStateMachine extends ManagerStateMachine {
 
 		IF(dataFromMem.valid)
 		{
-		  debug.simPrintf("Tick=%u, output=%x, output.valid=%u, sFileLengthBytesCounter=%u, sFileLengthBytes=%u\n", counter, output,output.valid, sFileLengthBytesCounter, sFileLengthBytes);
+		  debug.simPrintf("Tick=%u, output=%x, output.valid=%u, dataFromMem=%x, sFileLengthBytesCounter=%u, sFileLengthBytes=%u\n", counter, output,output.valid, dataFromMem, sFileLengthBytesCounter, sFileLengthBytes);
 		}
 
 	}
