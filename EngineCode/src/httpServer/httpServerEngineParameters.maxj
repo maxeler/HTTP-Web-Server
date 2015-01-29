@@ -1,0 +1,31 @@
+package httpServer;
+
+import com.maxeler.maxcompiler.v2.build.EngineParameters;
+
+public class httpServerEngineParameters extends EngineParameters {
+
+	protected httpServerEngineParameters(String[] args) {
+		super(args);
+	}
+
+	@Override
+	protected void declarations() {
+		// Add custom declarations here
+	}
+
+	@Override
+	protected void deriveParameters() {
+		// Define your parameters
+	}
+
+	@Override
+	public String getBuildName() {
+		return getMaxFileName() + "_" + getDFEModel() + "_" + getTarget();
+	}
+
+	@Override
+	protected void validate() {
+		// Add your validation logic here
+	}
+
+}

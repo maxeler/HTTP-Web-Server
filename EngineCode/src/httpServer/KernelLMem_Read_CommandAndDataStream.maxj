@@ -1,0 +1,34 @@
+package httpServer;
+
+import com.maxeler.maxcompiler.v2.kernelcompiler.Kernel;
+import com.maxeler.maxcompiler.v2.kernelcompiler.KernelParameters;
+import com.maxeler.maxcompiler.v2.kernelcompiler.stdlib.LMemCommandStream;
+import com.maxeler.maxcompiler.v2.kernelcompiler.stdlib.core.CounterChain;
+import com.maxeler.maxcompiler.v2.kernelcompiler.types.base.DFEVar;
+
+class KernelLMem_Read_CommandAndDataStream extends Kernel {
+
+	KernelLMem_Read_CommandAndDataStream(KernelParameters parameters) {
+		super(parameters);
+		DFEVar inA = io.input("inA", dfeUInt(64));
+		DFEVar totalBursts = io.scalarInput("totalBursts",dfeUInt(32));
+		DFEVar wordsPerBurst = io.scalarInput("wordsPerBurst",dfeUInt(32));
+
+		CounterChain chain = control.count.makeCounterChain();
+		DFEVar burstCount = chain.addCounter(totalBursts,1);
+		DFEVar wordCount = chain.addCounter(wordsPerBurst,1);
+
+		LMemCommandStream.makeKernelOutput("OcmdStream",
+				wordCount === 0,                   // control
+				burstCount,                        // address
+				constant.var(dfeUInt(8), 1),       // size
+				constant.var(dfeUInt(1), 0),       // inc
+				constant.var(dfeUInt(1), 0),       // stream
+				burstCount === (totalBursts - 1)); //tag
+
+
+		//debug.simPrintf("Kernel 2, burstCount=%u, wordCount=%u\n",burstCount,wordCount);
+
+		io.output("outA", inA, dfeUInt(64));
+	}
+}
