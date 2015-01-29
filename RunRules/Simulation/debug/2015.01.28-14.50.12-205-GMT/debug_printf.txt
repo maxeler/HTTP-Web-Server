@@ -1,0 +1,102 @@
+Tick=0, sBurstCounter===sDataBurstLength
+Tick=0, sBurstCounter===sDataBurstLength
+ZBIR zbir=1, startIndex=4, endIndex=7
+ZBIR stanje Start bytes[0]=71
+ZBIR stanje Start bytes[1]=69
+ZBIR stanje Start bytes[2]=84
+ZBIR stanje Start bytes[3]=0
+ZBIR stanje Start bytes[4]=47
+ZBIR stanje Start bytes[5]=105
+ZBIR stanje Start bytes[6]=109
+ZBIR stanje Start bytes[7]=97
+Ulaz u doHash funkciju startIndex=4, endIndex=7
+TEST: bitPointer=8
+TEST: bitPointer=16
+TEST: bitPointer=24
+TEST: bitPointer=32
+TEST: bitPointer=40
+TEST: bitPointer=48
+TEST: bitPointer=56
+TEST: bitPointer=64
+TEST: startIndex=4, endIndex=7, startIndexBit=32, endIndexBit=63, bitNumber=32, sStoreURL=00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+tick 1009275, data: 616d692f20544547, mod: 0, eof: 0, sof: 1, socket: 3f, input.valid=1, output.stall=0, input.stall=0
+tick 1009275, input: 103f616d692f20544547
+tick 1009275, rrrr: 7f0616d692f20544547
+tick 1009275, sCounter=1009275, SNumericCurrent=0, byte1=47
+TEST: sBitNumber=32, sStoreURL=000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000616d692f
+ZBIR stanje URI bytes[0]=103
+ZBIR stanje URI bytes[1]=101
+ZBIR stanje URI bytes[2]=115
+ZBIR stanje URI bytes[3]=49
+ZBIR stanje URI bytes[4]=47
+ZBIR stanje URI bytes[5]=110
+ZBIR stanje URI bytes[6]=97
+ZBIR stanje URI bytes[7]=109
+STANJE URI: Ulaz u doHash funkciju startIndex=0, endIndex=7
+TEST bytes: bytes=67
+TEST: bitPointer=8
+TEST bytes: bytes=65
+TEST: bitPointer=16
+TEST bytes: bytes=73
+TEST: bitPointer=24
+TEST bytes: bytes=31
+TEST: bitPointer=32
+TEST bytes: bytes=2f
+TEST: bitPointer=40
+TEST bytes: bytes=6e
+TEST: bitPointer=48
+TEST bytes: bytes=61
+TEST: bitPointer=56
+TEST bytes: bytes=6d
+TEST: bitPointer=64
+TEST URL: startIndex=0, endIndex=7, bitNumber=96, sStoreURL=000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000616d692f
+tick 1009276, data: 6d616e2f31736567, mod: 0, eof: 0, sof: 0, socket: 3f, input.valid=1, output.stall=0, input.stall=0
+tick 1009276, input: 3f6d616e2f31736567
+tick 1009276, rrrr: 7e06d616e2f31736567
+tick 1009276, sCounter=1009276, SNumericCurrent=1, byte1=67
+TEST: sBitNumber=96, sStoreURL=000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000006d616e2f31736567616d692f
+ZBIR stanje URI bytes[0]=46
+ZBIR stanje URI bytes[1]=115
+ZBIR stanje URI bytes[2]=118
+ZBIR stanje URI bytes[3]=103
+ZBIR stanje URI bytes[4]=0
+ZBIR stanje URI bytes[5]=49
+ZBIR stanje URI bytes[6]=50
+ZBIR stanje URI bytes[7]=51
+STANJE URI: Ulaz u doHash funkciju startIndex=0, endIndex=3
+TEST bytes: bytes=2e
+TEST: bitPointer=8
+TEST bytes: bytes=73
+TEST: bitPointer=16
+TEST bytes: bytes=76
+TEST: bitPointer=24
+TEST bytes: bytes=67
+TEST: bitPointer=32
+TEST: bitPointer=40
+TEST: bitPointer=48
+TEST: bitPointer=56
+TEST: bitPointer=64
+TEST URL: startIndex=0, endIndex=3, bitNumber=128, sStoreURL=000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000006d616e2f31736567616d692f
+nextState: prijemHttpVersion: tick=1009277, sNumericCurrent=1, data=333231206776732e
+tick 1009277, data: 333231206776732e, mod: 0, eof: 0, sof: 0, socket: 3f, input.valid=1, output.stall=0, input.stall=0
+tick 1009277, input: 3f333231206776732e
+tick 1009277, rrrr: 7e0333231206776732e
+tick 1009277, sCounter=1009277, SNumericCurrent=1, byte1=2e
+TEST httpState: sBitNumber=128, sStoreURL=0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000006776732e6d616e2f31736567616d692f
+U HTTP stanju: byte1=34, byte2=35, sPrev2Bytes=3332
+tick 1009278, data: 000000000a0d3534, mod: 4, eof: 1, sof: 0, socket: 3f, input.valid=1, output.stall=0, input.stall=0
+tick 1009278, input: c3f000000000a0d3534
+tick 1009278, rrrr: 7ec000000000a0d3534
+tick 1009278, sCounter=1009278, SNumericCurrent=2, byte1=34
+parallelCRC: tick=0000000000000001, dataIn=0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000006776732e6d616e2f31736567616d692f, dataIn.valid=0, lfsr_c=0, lfsr_q=c5fe, crc_out=0xc5fe
+checksumResult.valid=1
+checksumResult.slice(0, 15)=17918, sUseHashIndex.next=1
+tick=1009282, rezultat parallelCRC: checksumResult=0xc5fe
+Vrednost romHashIndex.dataOut=0000000000000000, romHashIndex.dataOut=00000000180003d1, sUseHashIndex=1, current=1009283
+startAddressBurst=0, fileLengthBursts=6, fileLengthBytes=977
+TEST httpState: sBitNumber=128, sStoreURL=0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000006776732e6d616e2f31736567616d692f
+U HTTP stanju: byte1=d, byte2=a, sPrev2Bytes=0
+tick 1042714, data: 0000000000000a0d, mod: 2, eof: 1, sof: 1, socket: 3f, input.valid=1, output.stall=0, input.stall=0
+tick 1042714, input: 1a3f0000000000000a0d
+tick 1042714, rrrr: 7fa0000000000000a0d
+tick 1042714, sCounter=1042714, SNumericCurrent=2, byte1=d

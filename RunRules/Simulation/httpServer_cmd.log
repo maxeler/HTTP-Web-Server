@@ -1,0 +1,223 @@
+Apache Ant version 1.6.0 compiled on December 18 2003
+Buildfile: httpServer.xml
+Detected Java version: 1.4 in: /usr/lib/jvm/java-1.7.0-openjdk-1.7.0.65.x86_64/jre
+Detected OS: Linux
+parsing buildfile /home/mvorkapic/workspace/working/RunRules/Simulation/httpServer.xml with URI = file:///home/mvorkapic/workspace/working/RunRules/Simulation/httpServer.xml
+Project base dir set to: /home/mvorkapic/workspace/working/EngineCode
+ [property] Loading Environment env.
+Property ${-*-command-variables-*-} has not been set
+Property ${env.MAXCOMPILERJCP} has not been set
+Build sequence for target `run' is [build, run]
+Complete build sequence is [build, run, help, runresult, clean, all, jar, ]
+
+build:
+      [ant] calling target [default] in build file /home/mvorkapic/workspace/working/RunRules/Simulation/httpServer_Build.xml
+parsing buildfile /home/mvorkapic/workspace/working/RunRules/Simulation/httpServer_Build.xml with URI = file:///home/mvorkapic/workspace/working/RunRules/Simulation/httpServer_Build.xml
+Project base dir set to: /home/mvorkapic/workspace/working/EngineCode
+ [property] Loading Environment env.
+Property ${-*-command-variables-*-} has not been set
+Property ${env.MAXCOMPILERJCP} has not been set
+      [ant] Entering /home/mvorkapic/workspace/working/RunRules/Simulation/httpServer_Build.xml...
+Build sequence for target `all' is [clean, build, all]
+Complete build sequence is [clean, build, all, ]
+
+clean:
+
+build:
+    [mkdir] Created dir: /home/mvorkapic/workspace/working/RunRules/Simulation/dist
+    [mkdir] Created dir: /home/mvorkapic/workspace/working/RunRules/Simulation/dist/bin
+     [copy] httpServer/.git/COMMIT_EDITMSG added as httpServer/.git/COMMIT_EDITMSG doesn't exist.
+     [copy] httpServer/.git/HEAD added as httpServer/.git/HEAD doesn't exist.
+     [copy] httpServer/.git/config added as httpServer/.git/config doesn't exist.
+     [copy] httpServer/.git/description added as httpServer/.git/description doesn't exist.
+     [copy] httpServer/.git/hooks/applypatch-msg.sample added as httpServer/.git/hooks/applypatch-msg.sample doesn't exist.
+     [copy] httpServer/.git/hooks/commit-msg.sample added as httpServer/.git/hooks/commit-msg.sample doesn't exist.
+     [copy] httpServer/.git/hooks/post-commit.sample added as httpServer/.git/hooks/post-commit.sample doesn't exist.
+     [copy] httpServer/.git/hooks/post-receive.sample added as httpServer/.git/hooks/post-receive.sample doesn't exist.
+     [copy] httpServer/.git/hooks/post-update.sample added as httpServer/.git/hooks/post-update.sample doesn't exist.
+     [copy] httpServer/.git/hooks/pre-applypatch.sample added as httpServer/.git/hooks/pre-applypatch.sample doesn't exist.
+     [copy] httpServer/.git/hooks/pre-commit.sample added as httpServer/.git/hooks/pre-commit.sample doesn't exist.
+     [copy] httpServer/.git/hooks/pre-rebase.sample added as httpServer/.git/hooks/pre-rebase.sample doesn't exist.
+     [copy] httpServer/.git/hooks/prepare-commit-msg.sample added as httpServer/.git/hooks/prepare-commit-msg.sample doesn't exist.
+     [copy] httpServer/.git/hooks/update.sample added as httpServer/.git/hooks/update.sample doesn't exist.
+     [copy] httpServer/.git/index added as httpServer/.git/index doesn't exist.
+     [copy] httpServer/.git/info/exclude added as httpServer/.git/info/exclude doesn't exist.
+     [copy] httpServer/.git/logs/HEAD added as httpServer/.git/logs/HEAD doesn't exist.
+     [copy] httpServer/.git/logs/refs/heads/master added as httpServer/.git/logs/refs/heads/master doesn't exist.
+     [copy] httpServer/.git/objects/16/818c26679f9e3a2e80a5587ba7d14d3ad6f5dd added as httpServer/.git/objects/16/818c26679f9e3a2e80a5587ba7d14d3ad6f5dd doesn't exist.
+     [copy] httpServer/.git/objects/6f/f376218672ba65d9d5ea91e7ce8782fb805160 added as httpServer/.git/objects/6f/f376218672ba65d9d5ea91e7ce8782fb805160 doesn't exist.
+     [copy] httpServer/.git/objects/98/fd96c5b3c88816d7e369fafa9d4dcb8287fe47 added as httpServer/.git/objects/98/fd96c5b3c88816d7e369fafa9d4dcb8287fe47 doesn't exist.
+     [copy] httpServer/.git/refs/heads/master added as httpServer/.git/refs/heads/master doesn't exist.
+     [copy] Copying 22 files to /home/mvorkapic/workspace/working/RunRules/Simulation/dist/bin
+     [copy] Copying /home/mvorkapic/workspace/working/EngineCode/src/httpServer/.git/hooks/post-commit.sample to /home/mvorkapic/workspace/working/RunRules/Simulation/dist/bin/httpServer/.git/hooks/post-commit.sample
+     [copy] Copying /home/mvorkapic/workspace/working/EngineCode/src/httpServer/.git/description to /home/mvorkapic/workspace/working/RunRules/Simulation/dist/bin/httpServer/.git/description
+     [copy] Copying /home/mvorkapic/workspace/working/EngineCode/src/httpServer/.git/HEAD to /home/mvorkapic/workspace/working/RunRules/Simulation/dist/bin/httpServer/.git/HEAD
+     [copy] Copying /home/mvorkapic/workspace/working/EngineCode/src/httpServer/.git/logs/HEAD to /home/mvorkapic/workspace/working/RunRules/Simulation/dist/bin/httpServer/.git/logs/HEAD
+     [copy] Copying /home/mvorkapic/workspace/working/EngineCode/src/httpServer/.git/objects/6f/f376218672ba65d9d5ea91e7ce8782fb805160 to /home/mvorkapic/workspace/working/RunRules/Simulation/dist/bin/httpServer/.git/objects/6f/f376218672ba65d9d5ea91e7ce8782fb805160
+     [copy] Copying /home/mvorkapic/workspace/working/EngineCode/src/httpServer/.git/logs/refs/heads/master to /home/mvorkapic/workspace/working/RunRules/Simulation/dist/bin/httpServer/.git/logs/refs/heads/master
+     [copy] Copying /home/mvorkapic/workspace/working/EngineCode/src/httpServer/.git/hooks/update.sample to /home/mvorkapic/workspace/working/RunRules/Simulation/dist/bin/httpServer/.git/hooks/update.sample
+     [copy] Copying /home/mvorkapic/workspace/working/EngineCode/src/httpServer/.git/index to /home/mvorkapic/workspace/working/RunRules/Simulation/dist/bin/httpServer/.git/index
+     [copy] Copying /home/mvorkapic/workspace/working/EngineCode/src/httpServer/.git/hooks/pre-rebase.sample to /home/mvorkapic/workspace/working/RunRules/Simulation/dist/bin/httpServer/.git/hooks/pre-rebase.sample
+     [copy] Copying /home/mvorkapic/workspace/working/EngineCode/src/httpServer/.git/hooks/commit-msg.sample to /home/mvorkapic/workspace/working/RunRules/Simulation/dist/bin/httpServer/.git/hooks/commit-msg.sample
+     [copy] Copying /home/mvorkapic/workspace/working/EngineCode/src/httpServer/.git/objects/98/fd96c5b3c88816d7e369fafa9d4dcb8287fe47 to /home/mvorkapic/workspace/working/RunRules/Simulation/dist/bin/httpServer/.git/objects/98/fd96c5b3c88816d7e369fafa9d4dcb8287fe47
+     [copy] Copying /home/mvorkapic/workspace/working/EngineCode/src/httpServer/.git/hooks/prepare-commit-msg.sample to /home/mvorkapic/workspace/working/RunRules/Simulation/dist/bin/httpServer/.git/hooks/prepare-commit-msg.sample
+     [copy] Copying /home/mvorkapic/workspace/working/EngineCode/src/httpServer/.git/info/exclude to /home/mvorkapic/workspace/working/RunRules/Simulation/dist/bin/httpServer/.git/info/exclude
+     [copy] Copying /home/mvorkapic/workspace/working/EngineCode/src/httpServer/.git/hooks/post-receive.sample to /home/mvorkapic/workspace/working/RunRules/Simulation/dist/bin/httpServer/.git/hooks/post-receive.sample
+     [copy] Copying /home/mvorkapic/workspace/working/EngineCode/src/httpServer/.git/hooks/pre-applypatch.sample to /home/mvorkapic/workspace/working/RunRules/Simulation/dist/bin/httpServer/.git/hooks/pre-applypatch.sample
+     [copy] Copying /home/mvorkapic/workspace/working/EngineCode/src/httpServer/.git/objects/16/818c26679f9e3a2e80a5587ba7d14d3ad6f5dd to /home/mvorkapic/workspace/working/RunRules/Simulation/dist/bin/httpServer/.git/objects/16/818c26679f9e3a2e80a5587ba7d14d3ad6f5dd
+     [copy] Copying /home/mvorkapic/workspace/working/EngineCode/src/httpServer/.git/hooks/post-update.sample to /home/mvorkapic/workspace/working/RunRules/Simulation/dist/bin/httpServer/.git/hooks/post-update.sample
+     [copy] Copying /home/mvorkapic/workspace/working/EngineCode/src/httpServer/.git/COMMIT_EDITMSG to /home/mvorkapic/workspace/working/RunRules/Simulation/dist/bin/httpServer/.git/COMMIT_EDITMSG
+     [copy] Copying /home/mvorkapic/workspace/working/EngineCode/src/httpServer/.git/refs/heads/master to /home/mvorkapic/workspace/working/RunRules/Simulation/dist/bin/httpServer/.git/refs/heads/master
+     [copy] Copying /home/mvorkapic/workspace/working/EngineCode/src/httpServer/.git/hooks/pre-commit.sample to /home/mvorkapic/workspace/working/RunRules/Simulation/dist/bin/httpServer/.git/hooks/pre-commit.sample
+     [copy] Copying /home/mvorkapic/workspace/working/EngineCode/src/httpServer/.git/config to /home/mvorkapic/workspace/working/RunRules/Simulation/dist/bin/httpServer/.git/config
+     [copy] Copying /home/mvorkapic/workspace/working/EngineCode/src/httpServer/.git/hooks/applypatch-msg.sample to /home/mvorkapic/workspace/working/RunRules/Simulation/dist/bin/httpServer/.git/hooks/applypatch-msg.sample
+
+
+[maxjcompiler] Compiling to folder /home/mvorkapic/workspace/working/RunRules/Simulation/dist/bin
+
+[maxjcompiler] Compiling files and folders:
+[maxjcompiler] /home/mvorkapic/workspace/working/EngineCode/src
+
+[maxjcompiler] Compiler options:
+[maxjcompiler] -noExit
+[maxjcompiler] -classpath
+[maxjcompiler] /network-raid/opt/maxcompiler-2014.2/lib/MaxCompiler.jar:/home/mvorkapic/workspace/maxjlibs/bin:/home/mvorkapic/workspace/maxeda/bin:/network-raid/opt/maxq2/maxq2-latest/maxq2.jar:/network-raid/opt/maxq/maxq-ctl.jar:/network-raid/opt/antlr-3.3/antlr-3.3-complete.jar
+[maxjcompiler] -d
+[maxjcompiler] /home/mvorkapic/workspace/working/RunRules/Simulation/dist/bin
+[maxjcompiler] ----------
+[maxjcompiler] 1. WARNING in /home/mvorkapic/workspace/working/EngineCode/src/httpServer/LimitedDepthFIFOcopy1byte.maxj (at line 26)
+[maxjcompiler] 	private final DFEsmPushOutput m_read;
+[maxjcompiler] 	                              ^^^^^^
+[maxjcompiler] The field LimitedDepthFIFOcopy1byte.m_read is never read locally
+[maxjcompiler] ----------
+[maxjcompiler] 2. WARNING in /home/mvorkapic/workspace/working/EngineCode/src/httpServer/LimitedDepthFIFOcopy1byte.maxj (at line 29)
+[maxjcompiler] 	private final DFEsmStateValue m_almostEmptyCounter;
+[maxjcompiler] 	                              ^^^^^^^^^^^^^^^^^^^^
+[maxjcompiler] The field LimitedDepthFIFOcopy1byte.m_almostEmptyCounter is never read locally
+[maxjcompiler] ----------
+[maxjcompiler] ----------
+[maxjcompiler] 3. WARNING in /home/mvorkapic/workspace/working/EngineCode/src/httpServer/httpServerStateMachine.maxj (at line 115)
+[maxjcompiler] 	private final DFEsmStateValue sCloseSocketCycleCounter = state.value(
+[maxjcompiler] 	                              ^^^^^^^^^^^^^^^^^^^^^^^^
+[maxjcompiler] The field httpServerStateMachine.sCloseSocketCycleCounter is never read locally
+[maxjcompiler] ----------
+[maxjcompiler] 4. WARNING in /home/mvorkapic/workspace/working/EngineCode/src/httpServer/httpServerStateMachine.maxj (at line 126)
+[maxjcompiler] 	private final DFEsmStateValue sCounter;
+[maxjcompiler] 	                              ^^^^^^^^
+[maxjcompiler] The field httpServerStateMachine.sCounter is never read locally
+[maxjcompiler] ----------
+[maxjcompiler] 5. WARNING in /home/mvorkapic/workspace/working/EngineCode/src/httpServer/httpServerStateMachine.maxj (at line 127)
+[maxjcompiler] 	private final DFEsmStateValue sNumericCurrentState;
+[maxjcompiler] 	                              ^^^^^^^^^^^^^^^^^^^^
+[maxjcompiler] The field httpServerStateMachine.sNumericCurrentState is never read locally
+[maxjcompiler] ----------
+[maxjcompiler] 6. WARNING in /home/mvorkapic/workspace/working/EngineCode/src/httpServer/httpServerStateMachine.maxj (at line 128)
+[maxjcompiler] 	private final DFEsmStateValue sHoldCounter;
+[maxjcompiler] 	                              ^^^^^^^^^^^^
+[maxjcompiler] The field httpServerStateMachine.sHoldCounter is never read locally
+[maxjcompiler] ----------
+[maxjcompiler] 7. WARNING in /home/mvorkapic/workspace/working/EngineCode/src/httpServer/httpServerStateMachine.maxj (at line 129)
+[maxjcompiler] 	private final DFEsmStateEnum<Modes> sMode;
+[maxjcompiler] 	                                    ^^^^^
+[maxjcompiler] The field httpServerStateMachine.sMode is never read locally
+[maxjcompiler] ----------
+[maxjcompiler] 8. WARNING in /home/mvorkapic/workspace/working/EngineCode/src/httpServer/httpServerStateMachine.maxj (at line 1369)
+[maxjcompiler] 	DFEsmValue methodBits = constant.value(dfeUInt(width),new BigInteger(1,"GET ".getBytes()));
+[maxjcompiler] 	           ^^^^^^^^^^
+[maxjcompiler] The local variable methodBits is never read
+[maxjcompiler] ----------
+[maxjcompiler] 9. WARNING in /home/mvorkapic/workspace/working/EngineCode/src/httpServer/httpServerStateMachine.maxj (at line 1456)
+[maxjcompiler] 	private void makeWaitFlagCommand(DFEsmStateValue cmdReg, int streamIx,
+[maxjcompiler] 			DFEsmValue flags, boolean untilSet) {
+[maxjcompiler] 	             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[maxjcompiler] The method makeWaitFlagCommand(DFEsmStateValue, int, DFEsmValue, boolean) from the type httpServerStateMachine is never used locally
+[maxjcompiler] ----------
+[maxjcompiler] 10. WARNING in /home/mvorkapic/workspace/working/EngineCode/src/httpServer/httpServerStateMachine.maxj (at line 1471)
+[maxjcompiler] 	private void makeSetFlagCommand(DFEsmStateValue cmdReg, int streamIx,
+[maxjcompiler] 			DFEsmValue flag, boolean set) {
+[maxjcompiler] 	             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[maxjcompiler] The method makeSetFlagCommand(DFEsmStateValue, int, DFEsmValue, boolean) from the type httpServerStateMachine is never used locally
+[maxjcompiler] ----------
+[maxjcompiler] 10 problems (10 warnings)
+
+all:
+      [ant] Exiting /home/mvorkapic/workspace/working/RunRules/Simulation/httpServer_Build.xml.
+
+run:
+     [java] Executing '/usr/lib/jvm/java-1.7.0-openjdk-1.7.0.65.x86_64/jre/bin/java' with arguments:
+     [java] '-Xmx2048m'
+     [java] '-classpath'
+     [java] '/home/mvorkapic/workspace/working/RunRules/Simulation/dist/bin:/network-raid/opt/maxcompiler-2014.2/lib/MaxCompiler.jar:/home/mvorkapic/workspace/maxjlibs/bin:/home/mvorkapic/workspace/maxeda/bin:/network-raid/opt/maxq2/maxq2-latest/maxq2.jar:/network-raid/opt/maxq/maxq-ctl.jar:/network-raid/opt/antlr-3.3/antlr-3.3-complete.jar'
+     [java] 'httpServer.httpServerManager'
+     [java] 
+     [java] The ' characters around the executable and arguments are
+     [java] not part of the command.
+     [java] Setting environment variable: MAXSOURCEDIRS=src
+     [java] Mon 13:05: MaxCompiler version: 2014.2
+     [java] Mon 13:05: Build "httpServer" start time: Mon Jan 26 13:05:58 GMT 2015
+     [java] Mon 13:05: Main build process running as user mvorkapic on host grim.office.maxeler.com
+     [java] Mon 13:05: Build location: /network-scratch/mvorkapic/maxdc_builds/26-01-15/httpServer_ISCA_DFE_SIM
+     [java] Mon 13:05: Detailed build log available in "_build.log"
+     [java] Mon 13:06: 
+     [java] Mon 13:06: ENGINE BUILD PARAMETERS
+     [java] Mon 13:06: 	 Build name: httpServer_ISCA_DFE_SIM
+     [java] Mon 13:06: 	   DFEModel: ISCA                   
+     [java] Mon 13:06: 	maxFileName: httpServer             
+     [java] Mon 13:06: 	     target: DFE_SIM                
+     [java] Mon 13:06: 	 enableMPCX: false                  
+     [java] Konvertovani oblik 18245
+     [java] Mon 13:06: WARNING: Manager state machine 'httpServer_state_machine' has uassigned variables in 'nextState':
+     [java] Mon 13:06: WARNING: Variable has been partially assigned
+     [java] Mon 13:06: WARNING: 	15 bits not set: ???????????????
+     [java] Mon 13:06: WARNING: 	Stack Trace: 
+     [java] Mon 13:06: WARNING: 	com.maxeler.maxcompiler.v2.statemachine.stdlib.Mem.romMapped(Mem.java:244)
+     [java] Mon 13:06: WARNING: 	httpServer.httpServerStateMachine.<init>(httpServerStateMachine.maxj:257)
+     [java] Mon 13:06: WARNING: 	httpServer.httpServerManager.<init>(httpServerManager.maxj:43)
+     [java] Mon 13:06: WARNING: 	httpServer.httpServerManager.main(httpServerManager.maxj:203)
+     [java] Mon 13:06: WARNING: Variable has been partially assigned
+     [java] Mon 13:06: WARNING: 	15 bits not set: ???????????????
+     [java] Mon 13:06: WARNING: 	Stack Trace: 
+     [java] Mon 13:06: WARNING: 	com.maxeler.maxcompiler.v2.statemachine.stdlib.Mem.romMapped(Mem.java:244)
+     [java] Mon 13:06: WARNING: 	httpServer.httpServerStateMachine.<init>(httpServerStateMachine.maxj:259)
+     [java] Mon 13:06: WARNING: 	httpServer.httpServerManager.<init>(httpServerManager.maxj:43)
+     [java] Mon 13:06: WARNING: 	httpServer.httpServerManager.main(httpServerManager.maxj:203)
+     [java] Mon 13:06: WARNING: Manager state machine 'httpServer_state_machine' has uassigned variables in 'outputFunction':
+     [java] Mon 13:06: WARNING: Control signal 'checksumResult.stall' has not been assigned in all cases
+     [java] Mon 13:06: WARNING: 	Stack Trace: 
+     [java] Mon 13:06: WARNING: 	com.maxeler.maxcompiler.v2.statemachine.manager.ManagerIO.pushInput(ManagerIO.java:109)
+     [java] Mon 13:06: WARNING: 	httpServer.httpServerStateMachine.<init>(httpServerStateMachine.maxj:154)
+     [java] Mon 13:06: WARNING: 	httpServer.httpServerManager.<init>(httpServerManager.maxj:43)
+     [java] Mon 13:06: WARNING: 	httpServer.httpServerManager.main(httpServerManager.maxj:203)
+     [java] Mon 13:06: Instantiating kernel "KernelLMem_Write_CommandAndDataStream"
+     [java] Mon 13:06: Instantiating kernel "KernelLMem_Read_CommandAndDataStream"
+     [java] Mon 13:06: Instantiating kernel "TxManagerKernelV1_kernel"
+     [java] Mon 13:06: 
+     [java] Mon 13:06: Compiling kernel "KernelLMem_Write_CommandAndDataStream"
+     [java] Mon 13:06: 
+     [java] Mon 13:06: Compiling kernel "KernelLMem_Read_CommandAndDataStream"
+     [java] Mon 13:06: 
+     [java] Mon 13:06: Compiling kernel "TxManagerKernelV1_kernel"
+     [java] Mon 13:06: Running back-end simulation build (3 phases)
+     [java] Mon 13:06: (1/3) - Prepare MaxFile Data (GenerateMaxFileDataFile)
+     [java] Mon 13:06: (2/3) - Compile Simulation Modules (SimCompilePass)
+     [java] Mon 13:06: ERROR: Error running external tool :-
+     [java] Mon 13:06: ERROR: Problem            : Command failed with exit code: 2
+     [java] Mon 13:06: ERROR: Command run        : make -j4
+     [java] Mon 13:06: ERROR: Directory run in   : /network-scratch/mvorkapic/maxdc_builds/26-01-15/httpServer_ISCA_DFE_SIM/scratch/software-sim/build
+     [java] Mon 13:06: ERROR: Exit code          : 2
+     [java] Mon 13:06: ERROR: Detailed build log : /network-scratch/mvorkapic/maxdc_builds/26-01-15/httpServer_ISCA_DFE_SIM/_build.log
+
+
+     [java] Java Result: 1
+     [exec] Current OS is Linux
+     [exec] Executing '/network-raid/opt/maxcompiler-2014.2/lib/MaxIDE/copyBuildResults.sh' with arguments:
+     [exec] '-p'
+     [exec] 'Simulation'
+     [exec] 
+     [exec] The ' characters around the executable and arguments are
+     [exec] not part of the command.
+
+
+
+BUILD SUCCESSFUL
+Total time: 26 seconds

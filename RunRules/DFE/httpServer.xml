@@ -14,7 +14,7 @@
     </condition>
     <target name="all" depends="runresult"/>
     <target name="build">
-        <ant inheritAll="false" antfile="../RunRules/Simulation/Stamp_Build.xml"/>
+        <ant inheritAll="false" antfile="../RunRules/DFE/httpServer_Build.xml"/>
     </target>
     <target name="run" depends="build">
         <condition property="args" value="">
@@ -22,21 +22,22 @@
                 <isset property="args"/>
             </not>
         </condition>
-        <java classname="stamp.StampManager" fork="true" failonerror="false" resultproperty="java.result">
+        <java classname="httpServer.httpServerManager" fork="true" failonerror="false" resultproperty="java.result">
             <env key="MAXSOURCEDIRS" value="src"/>
             <jvmarg value="-Xmx2048m"/>
             <arg line="${args}"/>
             <classpath>
                 <pathelement path="${env.ANT_MAXELER_INTERNAL_MAXIDE_JARS}"/>
-                <pathelement path="../RunRules/Simulation/dist/bin"/>
+                <pathelement path="../RunRules/DFE/dist/bin"/>
                 <pathelement path="${maxcompilerdirpath}"/>
                 <pathelement path="../../maxjlibs/bin"/>
+                <pathelement path="../../maxeda/bin"/>
                 <pathelement path="${EnvClassPath}"/>
             </classpath>
         </java>
-        <exec executable="${env.MAXCOMPILERDIR}/lib/MaxIDE/copyBuildResults.sh" newenvironment="false" dir="../RunRules/Simulation">
+        <exec executable="${env.MAXCOMPILERDIR}/lib/MaxIDE/copyBuildResults.sh" newenvironment="false" dir="../RunRules/DFE">
             <arg value="-p"/>
-            <arg value="Simulation"/>
+            <arg value="DFE"/>
         </exec>
     </target>
     <target name="runresult" depends="run">
@@ -49,25 +50,25 @@
         <fail if="java.run.fail" message="java run stage failed."/>
     </target>
     <target name="clean">
-        <ant inheritAll="false" antfile="../RunRules/Simulation/Stamp_Build.xml" target="clean"/>
+        <ant inheritAll="false" antfile="../RunRules/DFE/httpServer_Build.xml" target="clean"/>
     </target>
     <target name="jar" depends="build">
-        <mkdir dir="../RunRules/Simulation/dist/jar"/>
-        <copy includeemptydirs="false" todir="../RunRules/Simulation/dist/jar">
-            <fileset dir="../RunRules/Simulation/dist/bin" excludes="**/*.uad, **/*.ucd, **/*.uld, **/*.upd, **/*.udd, **/*.uod, **/*.usd, **/*.utd, **/*.uud, **/*.odd, **/*.ead, **/*.ecd, **/*.eld, **/*.epd, **/*.edd, **/*.eod, **/*.esd, **/*.etd, **/*.eud, **/*.urd*.uml, **/*.ecore, **/*.launch, **/*.java, **/*.maxj, **/package.html"/>
+        <mkdir dir="../RunRules/DFE/dist/jar"/>
+        <copy includeemptydirs="false" todir="../RunRules/DFE/dist/jar">
+            <fileset dir="../RunRules/DFE/dist/bin" excludes="**/*.uad, **/*.ucd, **/*.uld, **/*.upd, **/*.udd, **/*.uod, **/*.usd, **/*.utd, **/*.uud, **/*.odd, **/*.ead, **/*.ecd, **/*.eld, **/*.epd, **/*.edd, **/*.eod, **/*.esd, **/*.etd, **/*.eud, **/*.urd*.uml, **/*.ecore, **/*.launch, **/*.java, **/*.maxj, **/package.html"/>
         </copy>
-        <jar destfile="StampManager.jar" basedir="../RunRules/Simulation/dist/jar">
+        <jar destfile="httpServerManager.jar" basedir="../RunRules/DFE/dist/jar">
             <manifest>
-                <attribute name="Main-Class" value="stamp.StampManager"/>
+                <attribute name="Main-Class" value="httpServer.httpServerManager"/>
             </manifest>
         </jar>
     </target>
     <target name="help">
-        <echo message="ant -f Stamp.xml -Dargs=&quot;${Value}&quot;&#9;Run project"/>
-        <echo message="ant -f Stamp.xml build&#9;&#9;&#9;Compile project"/>
-        <echo message="ant -f Stamp.xml run -Dargs=&quot;${Value}&quot;&#9;Run project"/>
-        <echo message="ant -f Stamp.xml clean&#9;&#9;&#9;Delete temp folders"/>
-        <echo message="ant -f Stamp.xml jar&#9;&#9;&#9;Create jar package"/>
-        <echo message="ant -f Stamp.xml help&#9;&#9;&#9;Print help message"/>
+        <echo message="ant -f httpServer.xml -Dargs=&quot;${Value}&quot;&#9;Run project"/>
+        <echo message="ant -f httpServer.xml build&#9;&#9;&#9;Compile project"/>
+        <echo message="ant -f httpServer.xml run -Dargs=&quot;${Value}&quot;&#9;Run project"/>
+        <echo message="ant -f httpServer.xml clean&#9;&#9;&#9;Delete temp folders"/>
+        <echo message="ant -f httpServer.xml jar&#9;&#9;&#9;Create jar package"/>
+        <echo message="ant -f httpServer.xml help&#9;&#9;&#9;Print help message"/>
     </target>
 </project>

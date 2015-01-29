@@ -9,10 +9,7 @@
 #include <netinet/tcp.h>
 
 #include <MaxSLiCInterface.h>
-//#include "Stamp.h"
 #include "Maxfiles.h"
-
-//#include <Math.h>
 
 typedef struct {
 	uint16_t total_items;
@@ -202,7 +199,7 @@ void fillRomHashIndex(FILE *fpHash, uint64_t **pHash, long Lhash) {
 			tr[7 - j] = wt;
 		}
 
-		printf("Element niz[%d]=%016llx\n", i, nizHash[i]);
+		//printf("Element niz[%d]=%016llx\n", i, nizHash[i]);
 	}
 
 	*pHash = nizHash;
@@ -226,9 +223,7 @@ int main(int argc, char *argv[]) {
 
 	//romHASHindexMapped rom initialization
 
-					//max_set_mem_uint64t (max_actions_t *actions, const char *block_name, const char *mem_name, size_t index, uint64_t v)
-
-
+					//***initialization files for hashIndex table***//
 					//char fileHashIndex[]="/home/nemanja/Desktop/hashIndexFinalLongLMem.html";
 					//char fileHashIndex[]="/home/nemanja/Desktop/hashIndexFinalLongLMemTest.html";
 					//char fileHashIndex[]="/home/nemanja/Desktop/hashIndexFinalLongLMemExactBytes.html";
@@ -239,11 +234,11 @@ int main(int argc, char *argv[]) {
 					//char fileHashIndex[]="/home/nemanja/Desktop/hashIndexFinalLongLMemExactBytes19200.html";
 					//char fileHashIndex[]="/home/nemanja/Desktop/hashIndexFinalLongLMemExactBytesVeliko.html";
 
-					char fileHashIndex1[]="/home/nemanja/Desktop/romHashIndex1_init.html";
-					char fileHashIndex2[]="/home/nemanja/Desktop/romHashIndex2_init.html";
+					char fileHashIndex1[]="/home/mvorkapic/workspace/working/CPUCode/romHashIndex1_init.html";
+					char fileHashIndex2[]="/home/mvorkapic/workspace/working/CPUCode/romHashIndex2_init.html";
 
-					uint64_t *nizHash1;
-					uint64_t *nizHash2;
+					uint64_t *arrHash1;
+					uint64_t *arrHash2;
 					long Lhash;
 
 					FILE *fpHash1 = fopen (fileHashIndex1,"rb");
@@ -254,12 +249,12 @@ int main(int argc, char *argv[]) {
 					Lhash = ftell (fpHash1);
 					rewind(fpHash1);
 
-					fillRomHashIndex(fpHash1, &nizHash1, Lhash);
-					fillRomHashIndex(fpHash2, &nizHash2, Lhash);
+					fillRomHashIndex(fpHash1, &arrHash1, Lhash);
+					fillRomHashIndex(fpHash2, &arrHash2, Lhash);
 
 					//getchar();
 
-					max_file_t *maxfile = Stamp_init();
+					max_file_t *maxfile = httpServer_init();
 					max_engine_t * engine = max_load(maxfile, "*");
 					max_actions_t *actions = max_actions_init(maxfile, NULL);
 
@@ -269,21 +264,17 @@ int main(int argc, char *argv[]) {
 						//max_set_mem_uint64t(actions, "stamp_state_machine", "romMapped", i, niz[i]);
 						//printf("FFFFFFF 1&2 %d: %016llx, %016llx\n", i, nizHash1[i], nizHash2[i]);
 
-						max_set_mem_uint64t(actions, "stamp_state_machine", "romHashIndex1", i, nizHash1[i]);
-						max_set_mem_uint64t(actions, "stamp_state_machine", "romHashIndex2", i, nizHash2[i]);
+						max_set_mem_uint64t(actions, "httpServer_state_machine", "romHashIndex1", i, arrHash1[i]);
+						max_set_mem_uint64t(actions, "httpServer_state_machine", "romHashIndex2", i, arrHash2[i]);
 					}
 
 					//max_set_mem_uint64t(actions, "stamp_state_machine", "romMapped", 0, niz[0]);
-
-
 					//exit(0);
-
-
 					max_run(engine, actions);
 					max_actions_free(actions);
 
 
-	//LMem inicijalizacija
+	//LMem initialization
 				//max_set_mem_uint64t (max_actions_t *actions, const char *block_name, const char *mem_name, size_t index, uint64_t v)
 
 				//char file[]="/home/nemanja/Desktop/htmlTest5LongManja.html";
@@ -291,7 +282,7 @@ int main(int argc, char *argv[]) {
 				//char file[]="/home/nemanja/Desktop/Test.html";
 			    //char file[]="/home/nemanja/Desktop/htmlTest5LongLMem.html";
 
-				char file[]="/home/nemanja/Desktop/lmem_generated_file.html";
+				char file[]="/home/mvorkapic/workspace/working/CPUCode/lmem_generated_file.html";
 
 				long L;
 				size_t result;
@@ -315,7 +306,6 @@ int main(int argc, char *argv[]) {
 				size_t Nelem = sizeof(uint64_t)*(L/8);
 				niz = (uint64_t*) malloc (Nelem);
 
-				//for(int i=0;i<L/8;i++)
 				{
 					result = fread(niz,1,L,fp); //read 8 bytes (64 bits) ie. 8 elements of 1 byte in size
 				}
@@ -522,7 +512,7 @@ int main(int argc, char *argv[]) {
 //
 //	}
 
-	uint64_t frameCounter=0;
+	uint64_t frameCounter=0; //
 	uint64_t frameCounterPrevious=0;
 
 	void *read_ptr;
@@ -547,7 +537,6 @@ int main(int argc, char *argv[]) {
 
 		//part 1: receive fileLength byteNumber
 
-
 		int FoundByteNumber=0;
 		while(FoundByteNumber!=1) //first wait to receive LengthBytes number
 		{
@@ -559,11 +548,9 @@ int main(int argc, char *argv[]) {
 				max_llstream_read_discard(read_llstream,1);
 				FoundByteNumber=1;
 			}
-
 		}
 
 		printf("PART 2\n");
-
 
 		//part 2: receive total number of data transfered
 
@@ -613,7 +600,6 @@ int main(int argc, char *argv[]) {
 		}
 	}
 
-
 //	while(1)
 //	{
 //		//for(int i=0;i<Nsockets;i++)
@@ -647,7 +633,6 @@ int main(int argc, char *argv[]) {
 //		 max_tcp_select(Nsockets,dfe_socket,num_changed_sockets,changed_sockets,NULL);
 //	 }
 //	}
-
 
 	getchar(); //block c code execution; when you want touse external tcp application
 	//comnnet this line, in case you want to work with external TCP client application eg. Firefox or something else
@@ -728,7 +713,6 @@ int main(int argc, char *argv[]) {
 		exchangeItems(cpu_socket, items1, sizeof(items1));
 		//printf("Prolaz %d\n",i);
 	}
-
 
 	//uint8_t
 	//exchangeItems(cpu_socket, items1, sizeof(items1));

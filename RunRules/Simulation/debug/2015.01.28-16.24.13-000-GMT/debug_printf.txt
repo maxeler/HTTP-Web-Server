@@ -1,0 +1,268 @@
+Tick=0, sBurstCounter===sDataBurstLength
+Tick=0, sBurstCounter===sDataBurstLength
+ZBIR zbir=1, startIndex=4, endIndex=7
+ZBIR stanje Start bytes[0]=71
+ZBIR stanje Start bytes[1]=69
+ZBIR stanje Start bytes[2]=84
+ZBIR stanje Start bytes[3]=0
+ZBIR stanje Start bytes[4]=47
+ZBIR stanje Start bytes[5]=105
+ZBIR stanje Start bytes[6]=109
+ZBIR stanje Start bytes[7]=97
+Ulaz u doHash funkciju startIndex=4, endIndex=7
+TEST: bitPointer=8
+TEST: bitPointer=16
+TEST: bitPointer=24
+TEST: bitPointer=32
+TEST: bitPointer=40
+TEST: bitPointer=48
+TEST: bitPointer=56
+TEST: bitPointer=64
+TEST: startIndex=4, endIndex=7, startIndexBit=32, endIndexBit=63, bitNumber=32, sStoreURL=00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+tick 529698, data: 616d692f20544547, mod: 0, eof: 0, sof: 1, socket: 3f, input.valid=1, output.stall=0, input.stall=0
+tick 529698, input: 103f616d692f20544547
+tick 529698, rrrr: 7f0616d692f20544547
+tick 529698, sCounter=529698, SNumericCurrent=0, byte1=47
+TEST: sBitNumber=32, sStoreURL=000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000616d692f
+ZBIR stanje URI bytes[0]=103
+ZBIR stanje URI bytes[1]=101
+ZBIR stanje URI bytes[2]=115
+ZBIR stanje URI bytes[3]=49
+ZBIR stanje URI bytes[4]=47
+ZBIR stanje URI bytes[5]=110
+ZBIR stanje URI bytes[6]=97
+ZBIR stanje URI bytes[7]=109
+STANJE URI: Ulaz u doHash funkciju startIndex=0, endIndex=7
+TEST bytes: bytes=67
+TEST: bitPointer=8
+TEST bytes: bytes=65
+TEST: bitPointer=16
+TEST bytes: bytes=73
+TEST: bitPointer=24
+TEST bytes: bytes=31
+TEST: bitPointer=32
+TEST bytes: bytes=2f
+TEST: bitPointer=40
+TEST bytes: bytes=6e
+TEST: bitPointer=48
+TEST bytes: bytes=61
+TEST: bitPointer=56
+TEST bytes: bytes=6d
+TEST: bitPointer=64
+TEST URL: startIndex=0, endIndex=7, bitNumber=96, sStoreURL=000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000616d692f
+tick 529699, data: 6d616e2f31736567, mod: 0, eof: 0, sof: 0, socket: 3f, input.valid=1, output.stall=0, input.stall=0
+tick 529699, input: 3f6d616e2f31736567
+tick 529699, rrrr: 7e06d616e2f31736567
+tick 529699, sCounter=529699, SNumericCurrent=1, byte1=67
+TEST: sBitNumber=96, sStoreURL=000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000006d616e2f31736567616d692f
+ZBIR stanje URI bytes[0]=46
+ZBIR stanje URI bytes[1]=115
+ZBIR stanje URI bytes[2]=118
+ZBIR stanje URI bytes[3]=103
+ZBIR stanje URI bytes[4]=0
+ZBIR stanje URI bytes[5]=49
+ZBIR stanje URI bytes[6]=50
+ZBIR stanje URI bytes[7]=51
+STANJE URI: Ulaz u doHash funkciju startIndex=0, endIndex=3
+TEST bytes: bytes=2e
+TEST: bitPointer=8
+TEST bytes: bytes=73
+TEST: bitPointer=16
+TEST bytes: bytes=76
+TEST: bitPointer=24
+TEST bytes: bytes=67
+TEST: bitPointer=32
+TEST: bitPointer=40
+TEST: bitPointer=48
+TEST: bitPointer=56
+TEST: bitPointer=64
+TEST URL: startIndex=0, endIndex=3, bitNumber=128, sStoreURL=000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000006d616e2f31736567616d692f
+nextState: prijemHttpVersion: tick=529700, sNumericCurrent=1, data=333231206776732e
+tick 529700, data: 333231206776732e, mod: 0, eof: 0, sof: 0, socket: 3f, input.valid=1, output.stall=0, input.stall=0
+tick 529700, input: 3f333231206776732e
+tick 529700, rrrr: 7e0333231206776732e
+tick 529700, sCounter=529700, SNumericCurrent=1, byte1=2e
+TEST httpState: sBitNumber=128, sStoreURL=0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000006776732e6d616e2f31736567616d692f
+U HTTP stanju: byte1=34, byte2=35, sPrev2Bytes=3332
+tick 529701, data: 000000000a0d3534, mod: 4, eof: 1, sof: 0, socket: 3f, input.valid=1, output.stall=0, input.stall=0
+tick 529701, input: c3f000000000a0d3534
+tick 529701, rrrr: 7ec000000000a0d3534
+tick 529701, sCounter=529701, SNumericCurrent=2, byte1=34
+parallelCRC: tick=0000000000000001, dataIn=0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000006776732e6d616e2f31736567616d692f, dataIn.valid=0, lfsr_c=0, lfsr_q=c5fe, crc_out=0xc5fe
+checksumResult.valid=1
+checksumResult.slice(0, 15)=17918, sUseHashIndex.next=1
+tick=529705, rezultat parallelCRC: checksumResult=0xc5fe
+Vrednost romHashIndex.dataOut=0000000000000000, romHashIndex.dataOut=00000000180003d1, sUseHashIndex=1, current=529706
+startAddressBurst=0, fileLengthBursts=6, fileLengthBytes=977
+TEST httpState: sBitNumber=128, sStoreURL=0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000006776732e6d616e2f31736567616d692f
+U HTTP stanju: byte1=d, byte2=a, sPrev2Bytes=0
+tick 572303, data: 0000000000000a0d, mod: 2, eof: 1, sof: 1, socket: 3f, input.valid=1, output.stall=0, input.stall=0
+tick 572303, input: 1a3f0000000000000a0d
+tick 572303, rrrr: 7fa0000000000000a0d
+tick 572303, sCounter=572303, SNumericCurrent=2, byte1=d
+TEST httpState: sBitNumber=128, sStoreURL=0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000006776732e6d616e2f31736567616d692f
+U HTTP stanju: byte1=d, byte2=a, sPrev2Bytes=0
+nextState 7: krajGETrequesta: tick=601645, sNumericCurrent=2, data=0000000000000a0d
+tick 601645, data: 0000000000000a0d, mod: 2, eof: 1, sof: 1, socket: 3f, input.valid=1, output.stall=0, input.stall=0
+tick 601645, input: 1a3f0000000000000a0d
+tick 601645, rrrr: 7fa0000000000000a0d
+tick 601645, sCounter=601645, SNumericCurrent=2, byte1=d
+tick=601648, memCmdOutput.stall=0, Pushing out memory command***: 0001010100000000
+tick=601649, memCmdOutput.stall=0, Pushing out memory command***: 0001010100000001
+tick=601650, memCmdOutput.stall=0, Pushing out memory command***: 0001010100000002
+tick=601651, memCmdOutput.stall=0, Pushing out memory command***: 0001010100000003
+Poslata poslednja LMem read komanda, sLMemBurstCounter=5
+tick=601652, memCmdOutput.stall=0, Pushing out memory command***: 0001010100000004
+tick=601653, memCmdOutput.stall=0, Pushing out memory command***: 0001010100000005
+Tick=601654, output=183f6576206c6d783f3c, output.valid=1, dataFromMem=6576206c6d783f3c, sFileLengthBytesCounter=8, sFileLengthBytes=977
+Tick=601655, output=183f31223d6e6f697372, output.valid=1, dataFromMem=31223d6e6f697372, sFileLengthBytesCounter=16, sFileLengthBytes=977
+Tick=601656, output=183f6f636e652022302e, output.valid=1, dataFromMem=6f636e652022302e, sFileLengthBytesCounter=24, sFileLengthBytes=977
+Tick=601657, output=183f7475223d676e6964, output.valid=1, dataFromMem=7475223d676e6964, sFileLengthBytesCounter=32, sFileLengthBytes=977
+Tick=601658, output=183f0a0a3e3f22382d66, output.valid=1, dataFromMem=0a0a3e3f22382d66, sFileLengthBytesCounter=40, sFileLengthBytes=977
+Tick=601659, output=183f656854202d2d213c, output.valid=1, dataFromMem=656854202d2d213c, sFileLengthBytesCounter=48, sFileLengthBytes=977
+Tick=601660, output=183f6163206e6f636920, output.valid=1, dataFromMem=6163206e6f636920, sFileLengthBytesCounter=56, sFileLengthBytes=977
+Tick=601661, output=183f657375206562206e, output.valid=1, dataFromMem=657375206562206e, sFileLengthBytesCounter=64, sFileLengthBytes=977
+Tick=601662, output=183f796c656572662064, output.valid=1, dataFromMem=796c656572662064, sFileLengthBytesCounter=72, sFileLengthBytes=977
+Tick=601663, output=183f68746f62206e6920, output.valid=1, dataFromMem=68746f62206e6920, sFileLengthBytesCounter=80, sFileLengthBytes=977
+Tick=601664, output=183f616e6f7372657020, output.valid=1, dataFromMem=616e6f7372657020, sFileLengthBytesCounter=88, sFileLengthBytes=977
+Tick=601665, output=183f6f6320646e61206c, output.valid=1, dataFromMem=6f6320646e61206c, sFileLengthBytesCounter=96, sFileLengthBytes=977
+Tick=601666, output=183f6c61696372656d6d, output.valid=1, dataFromMem=6c61696372656d6d, sFileLengthBytesCounter=104, sFileLengthBytes=977
+Tick=601667, output=183f7463656a6f727020, output.valid=1, dataFromMem=7463656a6f727020, sFileLengthBytesCounter=112, sFileLengthBytes=977
+Tick=601668, output=183f6e20687469772073, output.valid=1, dataFromMem=6e20687469772073, sFileLengthBytesCounter=120, sFileLengthBytes=977
+Tick=601669, output=183f626972747461206f, output.valid=1, dataFromMem=626972747461206f, sFileLengthBytesCounter=128, sFileLengthBytes=977
+Tick=601670, output=183f6572206e6f697475, output.valid=1, dataFromMem=6572206e6f697475, sFileLengthBytesCounter=136, sFileLengthBytes=977
+Tick=601671, output=183f202c646572697571, output.valid=1, dataFromMem=202c646572697571, sFileLengthBytesCounter=144, sFileLengthBytes=977
+Tick=601672, output=183f61776c6120747562, output.valid=1, dataFromMem=61776c6120747562, sFileLengthBytesCounter=152, sFileLengthBytes=977
+Tick=601673, output=183f6572707061207379, output.valid=1, dataFromMem=6572707061207379, sFileLengthBytesCounter=160, sFileLengthBytes=977
+Tick=601674, output=183f0a2e646574616963, output.valid=1, dataFromMem=0a2e646574616963, sFileLengthBytesCounter=168, sFileLengthBytes=977
+Tick=601675, output=183f2079616d20756f59, output.valid=1, dataFromMem=2079616d20756f59, sFileLengthBytesCounter=176, sFileLengthBytes=977
+Tick=601676, output=183f2d62757320544f4e, output.valid=1, dataFromMem=2d62757320544f4e, sFileLengthBytesCounter=184, sFileLengthBytes=977
+Tick=601677, sBurstCounter=0
+Tick=601677, output=183f2c65736e6563696c, output.valid=1, dataFromMem=2c65736e6563696c, sFileLengthBytesCounter=192, sFileLengthBytes=977
+Tick=601678, output=183f2c6c6c6573657220, output.valid=1, dataFromMem=2c6c6c6573657220, sFileLengthBytesCounter=200, sFileLengthBytes=977
+Tick=601679, output=183f72202c746e657220, output.valid=1, dataFromMem=72202c746e657220, sFileLengthBytesCounter=208, sFileLengthBytes=977
+Tick=601680, output=183f6269727473696465, output.valid=1, dataFromMem=6269727473696465, sFileLengthBytesCounter=216, sFileLengthBytes=977
+Tick=601681, output=183f6f20726f20657475, output.valid=1, dataFromMem=6f20726f20657475, sFileLengthBytesCounter=224, sFileLengthBytes=977
+Tick=601682, output=183f6573697772656874, output.valid=1, dataFromMem=6573697772656874, sFileLengthBytesCounter=232, sFileLengthBytes=977
+Tick=601683, output=183f6566736e61727420, output.valid=1, dataFromMem=6566736e61727420, sFileLengthBytesCounter=240, sFileLengthBytes=977
+Tick=601684, output=183f6369206568742072, output.valid=1, dataFromMem=6369206568742072, sFileLengthBytesCounter=248, sFileLengthBytes=977
+Tick=601685, output=183f6f68746977206e6f, output.valid=1, dataFromMem=6f68746977206e6f, sFileLengthBytesCounter=256, sFileLengthBytes=977
+Tick=601686, output=183f6572707865207475, output.valid=1, dataFromMem=6572707865207475, sFileLengthBytesCounter=264, sFileLengthBytes=977
+Tick=601687, output=183f7474697277207373, output.valid=1, dataFromMem=7474697277207373, sFileLengthBytesCounter=272, sFileLengthBytes=977
+Tick=601688, output=183f696d726570206e65, output.valid=1, dataFromMem=696d726570206e65, sFileLengthBytesCounter=280, sFileLengthBytes=977
+Tick=601689, output=183f7266206e6f697373, output.valid=1, dataFromMem=7266206e6f697373, sFileLengthBytesCounter=288, sFileLengthBytes=977
+Tick=601690, output=183f6d6e6f6369206d6f, output.valid=1, dataFromMem=6d6e6f6369206d6f, sFileLengthBytesCounter=296, sFileLengthBytes=977
+Tick=601691, output=183f6f632e7274736e6f, output.valid=1, dataFromMem=6f632e7274736e6f, sFileLengthBytesCounter=304, sFileLengthBytes=977
+Tick=601692, output=183f3c0a0a3e2d2d206d, output.valid=1, dataFromMem=3c0a0a3e2d2d206d, sFileLengthBytesCounter=312, sFileLengthBytes=977
+Tick=601693, output=183f45505954434f4421, output.valid=1, dataFromMem=45505954434f4421, sFileLengthBytesCounter=320, sFileLengthBytes=977
+Tick=601694, output=183f4255502067767320, output.valid=1, dataFromMem=4255502067767320, sFileLengthBytesCounter=328, sFileLengthBytes=977
+Tick=601695, output=183f2f2f2d222043494c, output.valid=1, dataFromMem=2f2f2d222043494c, sFileLengthBytesCounter=336, sFileLengthBytes=977
+Tick=601696, output=183f4454442f2f433357, output.valid=1, dataFromMem=4454442f2f433357, sFileLengthBytesCounter=344, sFileLengthBytes=977
+Tick=601697, output=183f312e312047565320, output.valid=1, dataFromMem=312e312047565320, sFileLengthBytesCounter=352, sFileLengthBytes=977
+Tick=601698, output=183f682220224e452f2f, output.valid=1, dataFromMem=682220224e452f2f, sFileLengthBytesCounter=360, sFileLengthBytes=977
+Tick=601699, output=183f77772f2f3a707474, output.valid=1, dataFromMem=77772f2f3a707474, sFileLengthBytesCounter=368, sFileLengthBytes=977
+Tick=601700, output=183f67726f2e33772e77, output.valid=1, dataFromMem=67726f2e33772e77, sFileLengthBytesCounter=376, sFileLengthBytes=977
+Tick=601701, sBurstCounter=1
+Tick=601701, output=183f636968706172472f, output.valid=1, dataFromMem=636968706172472f, sFileLengthBytesCounter=384, sFileLengthBytes=977
+Tick=601702, output=183f2e312f4756532f73, output.valid=1, dataFromMem=2e312f4756532f73, sFileLengthBytesCounter=392, sFileLengthBytes=977
+Tick=601703, output=183f76732f4454442f31, output.valid=1, dataFromMem=76732f4454442f31, sFileLengthBytesCounter=400, sFileLengthBytes=977
+Tick=601704, output=183f226474642e313167, output.valid=1, dataFromMem=226474642e313167, sFileLengthBytesCounter=408, sFileLengthBytes=977
+Tick=601705, output=183f76206776733c0a3e, output.valid=1, dataFromMem=76206776733c0a3e, sFileLengthBytesCounter=416, sFileLengthBytes=977
+Tick=601706, output=183f223d6e6f69737265, output.valid=1, dataFromMem=223d6e6f69737265, sFileLengthBytesCounter=424, sFileLengthBytes=977
+Tick=601707, output=183f6c6d782022312e31, output.valid=1, dataFromMem=6c6d782022312e31, sFileLengthBytesCounter=432, sFileLengthBytes=977
+Tick=601708, output=183f70747468223d736e, output.valid=1, dataFromMem=70747468223d736e, sFileLengthBytesCounter=440, sFileLengthBytes=977
+Tick=601709, output=183f772e7777772f2f3a, output.valid=1, dataFromMem=772e7777772f2f3a, sFileLengthBytesCounter=448, sFileLengthBytes=977
+Tick=601710, output=183f30322f67726f2e33, output.valid=1, dataFromMem=30322f67726f2e33, sFileLengthBytesCounter=456, sFileLengthBytes=977
+Tick=601711, output=183f20226776732f3030, output.valid=1, dataFromMem=20226776732f3030, sFileLengthBytesCounter=464, sFileLengthBytes=977
+Tick=601712, output=183f6c783a736e6c6d78, output.valid=1, dataFromMem=6c783a736e6c6d78, sFileLengthBytesCounter=472, sFileLengthBytes=977
+Tick=601713, output=183f747468223d6b6e69, output.valid=1, dataFromMem=747468223d6b6e69, sFileLengthBytesCounter=480, sFileLengthBytes=977
+Tick=601714, output=183f2e7777772f2f3a70, output.valid=1, dataFromMem=2e7777772f2f3a70, sFileLengthBytesCounter=488, sFileLengthBytes=977
+Tick=601715, output=183f312f67726f2e3377, output.valid=1, dataFromMem=312f67726f2e3377, sFileLengthBytesCounter=496, sFileLengthBytes=977
+Tick=601716, output=183f6e696c782f393939, output.valid=1, dataFromMem=6e696c782f393939, sFileLengthBytesCounter=504, sFileLengthBytes=977
+Tick=601717, output=183f7030223d7820226b, output.valid=1, dataFromMem=7030223d7820226b, sFileLengthBytesCounter=512, sFileLengthBytes=977
+Tick=601718, output=183f7030223d79202278, output.valid=1, dataFromMem=7030223d79202278, sFileLengthBytesCounter=520, sFileLengthBytes=977
+Tick=601719, output=183f697720090a0a2278, output.valid=1, dataFromMem=697720090a0a2278, sFileLengthBytesCounter=528, sFileLengthBytes=977
+Tick=601720, output=183f323135223d687464, output.valid=1, dataFromMem=323135223d687464, sFileLengthBytesCounter=536, sFileLengthBytes=977
+Tick=601721, output=183f6769656820227870, output.valid=1, dataFromMem=6769656820227870, sFileLengthBytesCounter=544, sFileLengthBytes=977
+Tick=601722, output=183f70323135223d7468, output.valid=1, dataFromMem=70323135223d7468, sFileLengthBytesCounter=552, sFileLengthBytes=977
+Tick=601723, output=183f4277656976202278, output.valid=1, dataFromMem=4277656976202278, sFileLengthBytesCounter=560, sFileLengthBytes=977
+Tick=601724, output=183f20302030223d786f, output.valid=1, dataFromMem=20302030223d786f, sFileLengthBytesCounter=568, sFileLengthBytes=977
+Tick=601725, sBurstCounter=2
+Tick=601725, output=183f2232313520323135, output.valid=1, dataFromMem=2232313520323135, sFileLengthBytesCounter=576, sFileLengthBytes=977
+Tick=601726, output=183f2d656c62616e6520, output.valid=1, dataFromMem=2d656c62616e6520, sFileLengthBytesCounter=584, sFileLengthBytes=977
+Tick=601727, output=183f756f72676b636162, output.valid=1, dataFromMem=756f72676b636162, sFileLengthBytesCounter=592, sFileLengthBytes=977
+Tick=601728, output=183f2077656e223d646e, output.valid=1, dataFromMem=2077656e223d646e, sFileLengthBytesCounter=600, sFileLengthBytes=977
+Tick=601729, output=183f2032313520302030, output.valid=1, dataFromMem=2032313520302030, sFileLengthBytesCounter=608, sFileLengthBytes=977
+Tick=601730, output=183f6c6d782022323135, output.valid=1, dataFromMem=6c6d782022323135, sFileLengthBytesCounter=616, sFileLengthBytes=977
+Tick=601731, output=183f223d65636170733a, output.valid=1, dataFromMem=223d65636170733a, sFileLengthBytesCounter=624, sFileLengthBytes=977
+Tick=601732, output=183f6576726573657270, output.valid=1, dataFromMem=6576726573657270, sFileLengthBytesCounter=632, sFileLengthBytes=977
+Tick=601733, output=183f223d6c6c69662022, output.valid=1, dataFromMem=223d6c6c69662022, sFileLengthBytesCounter=640, sFileLengthBytes=977
+Tick=601734, output=183f2230303030303023, output.valid=1, dataFromMem=2230303030303023, sFileLengthBytesCounter=648, sFileLengthBytes=977
+Tick=601735, output=183f687461703c0a0a3e, output.valid=1, dataFromMem=687461703c0a0a3e, sFileLengthBytesCounter=656, sFileLengthBytes=977
+Tick=601736, output=183f657375223d646920, output.valid=1, dataFromMem=657375223d646920, sFileLengthBytesCounter=664, sFileLengthBytes=977
+Tick=601737, output=183f20226e6f63692d72, output.valid=1, dataFromMem=20226e6f63692d72, sFileLengthBytesCounter=672, sFileLengthBytes=977
+Tick=601738, output=183f2e3730344d223d64, output.valid=1, dataFromMem=2e3730344d223d64, sFileLengthBytesCounter=680, sFileLengthBytes=977
+Tick=601739, output=183f2e3036332c383434, output.valid=1, dataFromMem=2e3036332c383434, sFileLengthBytesCounter=688, sFileLengthBytes=977
+Tick=601740, output=183f2e39352d63343734, output.valid=1, dataFromMem=2e39352d63343734, sFileLengthBytesCounter=696, sFileLengthBytes=977
+Tick=601741, output=183f362e33312d363330, output.valid=1, dataFromMem=362e33312d363330, sFileLengthBytesCounter=704, sFileLengthBytes=977
+Tick=601742, output=183f392e3331312d3731, output.valid=1, dataFromMem=392e3331312d3731, sFileLengthBytesCounter=712, sFileLengthBytes=977
+Tick=601743, output=183f34352e35322d3938, output.valid=1, dataFromMem=34352e35322d3938, sFileLengthBytesCounter=720, sFileLengthBytes=977
+Tick=601744, output=183f3537332e37382d31, output.valid=1, dataFromMem=3537332e37382d31, sFileLengthBytesCounter=728, sFileLengthBytes=977
+Tick=601745, output=183f0a3731372e35372d, output.valid=1, dataFromMem=0a3731372e35372d, sFileLengthBytesCounter=736, sFileLengthBytes=977
+Tick=601746, output=183f2d31302e31386309, output.valid=1, dataFromMem=2d31302e31386309, sFileLengthBytesCounter=744, sFileLengthBytes=977
+Tick=601747, output=183f2c3932372e323531, output.valid=1, dataFromMem=2c3932372e323531, sFileLengthBytesCounter=752, sFileLengthBytes=977
+Tick=601748, output=183f322d3337342e3132, output.valid=1, dataFromMem=322d3337342e3132, sFileLengthBytesCounter=760, sFileLengthBytes=977
+Tick=601749, sBurstCounter=3
+Tick=601749, output=183f362d3630342e3433, output.valid=1, dataFromMem=362d3630342e3433, sFileLengthBytesCounter=768, sFileLengthBytes=977
+Tick=601750, output=183f33322d3237302e34, output.valid=1, dataFromMem=33322d3237302e34, sFileLengthBytesCounter=776, sFileLengthBytes=977
+Tick=601751, output=183f382d633630342e34, output.valid=1, dataFromMem=382d633630342e34, sFileLengthBytesCounter=784, sFileLengthBytes=977
+Tick=601752, output=183f2d302c3133322e37, output.valid=1, dataFromMem=2d302c3133322e37, sFileLengthBytesCounter=792, sFileLengthBytes=977
+Tick=601753, output=183f2c3330332e353431, output.valid=1, dataFromMem=2c3330332e353431, sFileLengthBytesCounter=800, sFileLengthBytes=977
+Tick=601754, output=183f362d3231382e3438, output.valid=1, dataFromMem=362d3231382e3438, sFileLengthBytesCounter=808, sFileLengthBytes=977
+Tick=601755, output=183f33322c3237302e34, output.valid=1, dataFromMem=33322c3237302e34, sFileLengthBytesCounter=816, sFileLengthBytes=977
+Tick=601756, output=183f3732633630342e34, output.valid=1, dataFromMem=3732633630342e34, sFileLengthBytesCounter=824, sFileLengthBytes=977
+Tick=601757, output=183f2e30352c3231342e, output.valid=1, dataFromMem=2e30352c3231342e, sFileLengthBytesCounter=832, sFileLengthBytes=977
+Tick=601758, output=183f362e39322d323834, output.valid=1, dataFromMem=362e39322d323834, sFileLengthBytesCounter=840, sFileLengthBytes=977
+Tick=601759, output=183f39332e32362c3830, output.valid=1, dataFromMem=39332e32362c3830, sFileLengthBytesCounter=848, sFileLengthBytes=977
+Tick=601760, output=183f3537332e37382d33, output.valid=1, dataFromMem=3537332e37382d33, sFileLengthBytesCounter=856, sFileLengthBytes=977
+Tick=601761, output=183f0a3731372e35372c, output.valid=1, dataFromMem=0a3731372e35372c, sFileLengthBytesCounter=864, sFileLengthBytes=977
+Tick=601762, output=183f31302e39352d6309, output.valid=1, dataFromMem=31302e39352d6309, sFileLengthBytesCounter=872, sFileLengthBytes=977
+Tick=601763, output=183f3930362e33312c32, output.valid=1, dataFromMem=3930362e33312c32, sFileLengthBytesCounter=880, sFileLengthBytes=977
+Tick=601764, output=183f2c3337342e34352d, output.valid=1, dataFromMem=2c3337342e34352d, sFileLengthBytesCounter=888, sFileLengthBytes=977
+Tick=601765, output=183f352d3332372e3434, output.valid=1, dataFromMem=352d3332372e3434, sFileLengthBytesCounter=896, sFileLengthBytes=977
+Tick=601766, output=183f30312c3337342e34, output.valid=1, dataFromMem=30312c3337342e34, sFileLengthBytesCounter=904, sFileLengthBytes=977
+Tick=601767, output=183f3134683637312e31, output.valid=1, dataFromMem=3134683637312e31, sFileLengthBytesCounter=912, sFileLengthBytes=977
+Tick=601768, output=183f3634433833382e31, output.valid=1, dataFromMem=3634433833382e31, sFileLengthBytesCounter=920, sFileLengthBytes=977
+Tick=601769, output=183f30342c3931392e31, output.valid=1, dataFromMem=30342c3931392e31, sFileLengthBytesCounter=928, sFileLengthBytes=977
+Tick=601770, output=183f36342c3639312e35, output.valid=1, dataFromMem=36342c3639312e35, sFileLengthBytesCounter=936, sFileLengthBytes=977
+Tick=601771, output=183f37332c3835342e36, output.valid=1, dataFromMem=37332c3835342e36, sFileLengthBytesCounter=944, sFileLengthBytes=977
+Tick=601772, output=183f30342c3338302e34, output.valid=1, dataFromMem=30342c3338302e34, sFileLengthBytesCounter=952, sFileLengthBytes=977
+Tick=601773, sBurstCounter=4
+Tick=601773, output=183f36332c3834342e37, output.valid=1, dataFromMem=36332c3834342e37, sFileLengthBytesCounter=960, sFileLengthBytes=977
+Tick=601774, output=183f2f227a3437342e30, output.valid=1, dataFromMem=2f227a3437342e30, sFileLengthBytesCounter=968, sFileLengthBytes=977
+Tick=601775, output=183f3e6776732f3c0a3e, output.valid=1, dataFromMem=3e6776732f3c0a3e, sFileLengthBytesCounter=976, sFileLengthBytes=977
+Tick=601776, slanje: mod=1, sFileLengthBytesCounter=984, sFileLengthBytes=977
+Tick=601776, output=193f000000000000000a, output.valid=1, dataFromMem=000000000000000a, sFileLengthBytesCounter=984, sFileLengthBytes=977
+Tick=601777, output=00000000000000000, output.valid=0, dataFromMem=0000000000000000, sFileLengthBytesCounter=992, sFileLengthBytes=977
+Tick=601778, output=00000000000000000, output.valid=0, dataFromMem=0000000000000000, sFileLengthBytesCounter=1000, sFileLengthBytes=977
+Tick=601779, output=00000000000000000, output.valid=0, dataFromMem=0000000000000000, sFileLengthBytesCounter=1008, sFileLengthBytes=977
+Tick=601780, output=00000000000000000, output.valid=0, dataFromMem=0000000000000000, sFileLengthBytesCounter=1016, sFileLengthBytes=977
+Tick=601781, output=00000000000000000, output.valid=0, dataFromMem=0000000000000000, sFileLengthBytesCounter=1024, sFileLengthBytes=977
+Tick=601782, output=00000000000000000, output.valid=0, dataFromMem=0000000000000000, sFileLengthBytesCounter=1032, sFileLengthBytes=977
+Tick=601783, output=00000000000000000, output.valid=0, dataFromMem=0000000000000000, sFileLengthBytesCounter=1040, sFileLengthBytes=977
+Tick=601784, output=00000000000000000, output.valid=0, dataFromMem=0000000000000000, sFileLengthBytesCounter=1048, sFileLengthBytes=977
+Tick=601785, output=00000000000000000, output.valid=0, dataFromMem=0000000000000000, sFileLengthBytesCounter=1056, sFileLengthBytes=977
+Tick=601786, output=00000000000000000, output.valid=0, dataFromMem=0000000000000000, sFileLengthBytesCounter=1064, sFileLengthBytes=977
+Tick=601787, output=00000000000000000, output.valid=0, dataFromMem=0000000000000000, sFileLengthBytesCounter=1072, sFileLengthBytes=977
+Tick=601788, output=00000000000000000, output.valid=0, dataFromMem=0000000000000000, sFileLengthBytesCounter=1080, sFileLengthBytes=977
+Tick=601789, output=00000000000000000, output.valid=0, dataFromMem=0000000000000000, sFileLengthBytesCounter=1088, sFileLengthBytes=977
+Tick=601790, output=00000000000000000, output.valid=0, dataFromMem=0000000000000000, sFileLengthBytesCounter=1096, sFileLengthBytes=977
+Tick=601791, output=00000000000000000, output.valid=0, dataFromMem=0000000000000000, sFileLengthBytesCounter=1104, sFileLengthBytes=977
+Tick=601792, output=00000000000000000, output.valid=0, dataFromMem=0000000000000000, sFileLengthBytesCounter=1112, sFileLengthBytes=977
+Tick=601793, output=00000000000000000, output.valid=0, dataFromMem=0000000000000000, sFileLengthBytesCounter=1120, sFileLengthBytes=977
+Tick=601794, output=00000000000000000, output.valid=0, dataFromMem=0000000000000000, sFileLengthBytesCounter=1128, sFileLengthBytes=977
+Tick=601795, output=00000000000000000, output.valid=0, dataFromMem=0000000000000000, sFileLengthBytesCounter=1136, sFileLengthBytes=977
+Tick=601796, output=00000000000000000, output.valid=0, dataFromMem=0000000000000000, sFileLengthBytesCounter=1144, sFileLengthBytes=977
+Tick=601797, sBurstCounter=5
+Tick=601797, output=00000000000000000, output.valid=0, dataFromMem=0000000000000000, sFileLengthBytesCounter=1152, sFileLengthBytes=977
+Tick=601798, sBurstCounter===sDataBurstLength
