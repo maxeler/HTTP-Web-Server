@@ -1,0 +1,210 @@
+package httpServer;
+
+import com.maxeler.maxcompiler.v2.managers.DFEManager;
+import com.maxeler.maxcompiler.v2.statemachine.DFEsmAssignableValue;
+import com.maxeler.maxcompiler.v2.statemachine.DFEsmSinglePortMappedROM;
+import com.maxeler.maxcompiler.v2.statemachine.DFEsmStateValue;
+import com.maxeler.maxcompiler.v2.statemachine.Latency;
+import com.maxeler.maxcompiler.v2.statemachine.manager.DFEsmPushInput;
+import com.maxeler.maxcompiler.v2.statemachine.manager.DFEsmPushOutput;
+import com.maxeler.maxcompiler.v2.statemachine.manager.ManagerStateMachine;
+
+public class hashIndex extends ManagerStateMachine {
+	// BRAM memories
+	// private final DFEsmSinglePortMappedROM romMemorija;
+
+	private final DFEsmSinglePortMappedROM romHashIndex1;
+	private final DFEsmSinglePortMappedROM romHashIndex2;
+
+	// ALTERA doesn't support READ_FIRST mode, WRITE_FIRST needs to be used
+	// ISCA uses Altera chip
+	// private final DFEsmSinglePortRAM uriMemorija = mem.ram(dfeUInt(64), 128,
+	// SinglePortRAMMode.WRITE_FIRST, Latency.ONE_CYCLE);
+
+	// private final DFEsmStateValue sRomHashIndexAddress =
+	// state.value(dfeUInt(15), 0);
+	private final DFEsmStateValue sHashIndexDataOutValid = state.value(
+			dfeBool(), false);
+	private final DFEsmStateValue sStartROMAddress = state
+			.value(dfeUInt(19), 0);
+	private final DFEsmStateValue sEndROMAddress = state.value(dfeUInt(32), 0);
+
+	private final DFEsmStateValue sRomDataOutValid = state.value(dfeBool(),	false);
+	private final DFEsmStateValue sRomAddressValid = state.value(dfeBool(),	false);
+	private final DFEsmStateValue sCurrentRomAddressInitialized = state.value(dfeBool(), false);
+
+	private final DFEsmStateValue sWhatHashIndexToUse = state.value(dfeUInt(1),	0);
+
+	private final DFEsmPushInput crcResultInput = io.pushInput(	"crcResultInput", dfeUInt(16), 1);
+	private final DFEsmPushOutput hashIndexOutput = io.pushOutput("hashIndexOutput", dfeUInt(64), 1);
+
+	private final DFEsmStateValue sDataBurstLength = state.value(dfeUInt(19), 0);
+	private final DFEsmStateValue sFileLengthBytes = state.value(dfeUInt(26), 0);
+	private final DFEsmStateValue counter = state.value(dfeUInt(20), 0); // 40
+	private final DFEsmStateValue sOutputByteCounter = state.value(dfeUInt(11),
+			0);
+
+	// private final DFEsmStateValue sURIMemoryWrite =
+	// state.value(dfeBool(),false);
+	// private final DFEsmStateValue sDataPreValue = state.value(dfeUInt(64),0);
+	// private final DFEsmStateValue sUriWordCount = state.value(dfeUInt(8), 0);
+	// private final DFEsmStateValue sUriSimpleHash = state.value(dfeUInt(16),
+	// 0);
+	// private final DFEsmStateValue sUriRamAddress = state.value(dfeUInt(7),
+	// 0);
+
+	public hashIndex(DFEManager owner) {
+		super(owner);
+
+		// HashIndex
+		romHashIndex1 = mem.romMapped("romHashIndex1", dfeUInt(64), 32768,	Latency.ONE_CYCLE);
+		romHashIndex2 = mem.romMapped("romHashIndex2", dfeUInt(64), 32768,	Latency.ONE_CYCLE);
+	}
+
+	@Override
+	protected void nextState() {
+
+
+		counter.next<==counter+1;
+
+		IF(crcResultInput.valid)
+		{
+			romHashIndex1.address <== crcResultInput.slice(0, 15);
+			romHashIndex2.address <== crcResultInput.slice(0, 15);
+			sWhatHashIndexToUse.next <== crcResultInput[15];
+
+			debug.simPrintf("crcResultInput.valid=%d, crcResultInput(0, 15)=%u, sWhatHashIndexToUse=%u\n", crcResultInput.valid, crcResultInput.slice(0, 15),crcResultInput[15]);
+
+			sHashIndexDataOutValid.next<==true;
+		}
+
+		IF(sHashIndexDataOutValid===true) //
+		{
+			DFEsmAssignableValue hashIndexData = assignable.value(dfeUInt(64));
+			hashIndexData <== 0;
+
+			IF(sWhatHashIndexToUse===0)
+			{
+				hashIndexData <== romHashIndex1.dataOut;
+			}
+			ELSE
+			{
+				hashIndexData <== romHashIndex2.dataOut;
+			}
+
+			//hashIndexData <== sWhatHashIndexToUse?romHashIndex1.dataOut:romHashIndex2.dataOut;
+
+			debug.simPrintf("hashIndex: Value romHashIndex.dataOut=%x, romHashIndex.dataOut=%x, sUseHashIndex=%x, current=%u\n", romHashIndex1.dataOut, romHashIndex2.dataOut, sWhatHashIndexToUse, counter);
+
+			DFEsmAssignableValue startAddressBurst=assignable.value(dfeUInt(19)); //startAddressBurst in LMem
+			DFEsmAssignableValue fileLengthBursts=assignable.value(dfeUInt(19)); //length of a file as number of Bursts
+			DFEsmAssignableValue fileLengthBytes=assignable.value(dfeUInt(26));  // 2^26 / 1024 /1024 = 64 MB, ali ovo ipak nije celobrojan broj Burstova, poslednji burst nece biti zauzet do kraja
+
+			fileLengthBytes<==hashIndexData.slice(0, 26); //romHashIndex.dataOut.slice(0, 26); //file length + ResponseHeaderlength(56 bytes)
+			fileLengthBursts<==hashIndexData.slice(26, 19); //romHashIndex.dataOut.slice(26, 19);
+			startAddressBurst<==hashIndexData.slice(45, 19); //romHashIndex.dataOut.slice(44, 19);
+
+			debug.simPrintf("hashIndex: startAddressBurst=%u, fileLengthBursts=%u, fileLengthBytes=%u\n",startAddressBurst,fileLengthBursts,fileLengthBytes);
+
+			sHashIndexDataOutValid.next<==false;
+
+			//debug.simPrintf("addressByte1=%u, addressByte2=%u, addressByte3=%u, addressByte4=%u\n",addressByte1,addressByte2,addressByte3,addressByte4);
+			//debug.simPrintf("VALID romHashIndex, romHashIndex.dataOut=%x, startAddress=%u,addressNumber=%u, current=%u\n", romHashIndex.dataOut,startAddress,addressNumber,counter);
+		}
+	}
+
+	@Override
+	protected void outputFunction() {
+		//OUTPUT:
+
+			IF(crcResultInput.valid)
+			{
+				debug.simPrintf("hashIndex: tick=%u, parallelCRC: crcResultInput=0x%x\n", counter, crcResultInput);
+			}
+
+			DFEsmAssignableValue hashIndexData = assignable.value(dfeUInt(64));
+			hashIndexData <== 0;
+
+			IF(sWhatHashIndexToUse===0)
+			{
+				hashIndexData <== romHashIndex1.dataOut;
+			}
+			ELSE
+			{
+				hashIndexData <== romHashIndex2.dataOut;
+			}
+
+			hashIndexOutput.valid <== false;
+			hashIndexOutput <==0;
+
+			IF(sHashIndexDataOutValid===true) //
+			{
+				hashIndexOutput.valid <== true;
+				hashIndexOutput <== hashIndexData;
+			}
+	}
+}
+
+// IF(sHashIndexValid===true)
+// {
+// sHashIndexValid.next <== false;
+// }
+
+// IF(sHashIndexValid===true)
+// {
+// //DFEsmAssignableValue ttt=assignable.value(dfeUInt(64));
+// //sRomHashIndexAddress.next<==sRomHashIndexAddress+1;
+//
+// romHashIndex.address <== ; //sRomHashIndexAddress.slice(0, 15);
+// romHashIndex2.address <== ; //sRomHashIndexAddress.slice(0, 15);
+// //
+// IF(sRomHashIndexAddress[14]===0)
+// {
+// //case 1: first bit is 0 -> use romHashIndex
+// //case 2: first bit is 1 -> use romHashIndex2
+// // <== ;
+//
+// <== romHashIndex.dataOut;
+// }
+// ELSE //if sRomHashIndexAddress[15]===1
+// {//
+// // <== romHashIndex2.dataOut;
+// }
+//
+// //romHashIndex.address<==sRomHashIndexAddress;
+// //debug.simPrintf("Postavljam romHashIndex.address na=%u, current=%u\n",
+// sRomHashIndexAddress,counter);
+// //sHashIndexValid.next<==false;
+// //ttt<==romHashIndex.dataOut;
+// //sHashIndexDataOutValid.next<==true;
+// debug.simPrintf("Vrednost romHashIndex.dataOut=%x, romHashIndex.dataOut=%x, current=%u\n",
+// romHashIndex.dataOut, romHashIndex2.dataOut, counter);
+//
+// romHashIndex.address<==12;//sRomHashIndexAddress;
+// debug.simPrintf("Postavljam romHashIndex.address na=%u, current=%u\n",
+// sRomHashIndexAddress,counter);
+// sHashIndexValid.next<==false;
+// //ttt<==romHashIndex.dataOut;
+// sHashIndexDataOutValid.next<==true;
+// debug.simPrintf("Vrednost romHashIndex.dataOut=%x, current=%u\n",
+// romHashIndex.dataOut,counter);
+//
+// // romHashIndex.dataOut;
+//
+// // sMemoryRead.next<==false;
+// // sCurrentState.next<==States.start; //after memory was read, change current
+// state;
+// // sCurrentROMAddress.next<==0;
+// // debug.simPrintf("Iscitana poslednja adresa, adresa=%u",
+// sCurrentROMAddress);
+// }
+
+// IF(sHashIndexValid===true)
+// {
+// DFEsmAssignableValue ttt=assignable.value(dfeUInt(64));
+// debug.simPrintf("outputFunction() Postavljam romHashIndex.address na=%u, current=%u\n",
+// sRomHashIndexAddress,counter);
+// ttt<==romHashIndex.dataOut;
+// debug.simPrintf("outputFunction() Vrednost romHashIndex.dataOut=%x, current=%u\n",
+// romMemorija.dataOut,counter);
+// }
