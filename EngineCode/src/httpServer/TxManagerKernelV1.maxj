@@ -54,7 +54,6 @@ public class TxManagerKernelV1 extends Kernel {
 		DFEVar txIsStart = txValid & txDataSof;
 		DFEVar txSocket = Reductions.streamHold((DFEVar)txData[TCPType.SOCKET], txIsStart);
 
-
 		io.output(OUTPUT_TX_DATA, tcpStructType, txValid) <== txData;
 
 		DFEVar frameCount = control.count.makeCounter(

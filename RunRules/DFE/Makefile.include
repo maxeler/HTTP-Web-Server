@@ -75,47 +75,47 @@ $(THIS_FILE): $(THIS_PATH)RunRules.settings
 	java -jar $(MAXIDEDIR)/projectAdmin.jar -u $(THIS_PATH)../../ DFE
 	
 #
-# MaxFile: Stamp
+# MaxFile: httpServer
 #
 
 
-BUILDNAME_MAXFILE_1:=Stamp
-MAXFILE_1:=Stamp.max
+BUILDNAME_MAXFILE_1:=httpServer
+MAXFILE_1:=httpServer.max
 
-$(OBJDIR)/Stamp.o: $(MAXDIR)/Stamp.max
-	$(MAXFILECOMPILE) "$<" "$@" "Stamp"
+$(OBJDIR)/httpServer.o: $(MAXDIR)/httpServer.max
+	$(MAXFILECOMPILE) "$<" "$@" "httpServer"
 
-$(OBJDIR)/slic_Stamp.o: $(MAXDIR)/Stamp.max
+$(OBJDIR)/slic_httpServer.o: $(MAXDIR)/httpServer.max
 	$(SLICCOMPILE) "$<" "$@"
 
-$(MAXDIR)/Stamp.max: 
-	( cd "$(THIS_PATH)/" && if [ -z "$${MAXCOMPILER_BUILD_DIR+xxx}" ]; then export MAXCOMPILER_BUILD_DIR="$(realpath $(MAXDIR))"; fi ;  export MAX_BUILDPARAMS="DFEModel='ISCA' target='DFE' maxFileName='Stamp' " ; set -o pipefail ; ant -v -f "Stamp.xml" run 2>&1 | tee Stamp_cmd.log ; exit ${PIPESTATUS[0]} )
-	cp "`grep -o -e "^.*MaxFile: .*\.max" $(THIS_PATH)/Stamp_cmd.log | cut -d ':'  -f 4 | sed 's/^ //g'`" "$(MAXDIR)/Stamp.max"
-	cp "`grep -o -e "^.*MaxFile: .*\.max" $(THIS_PATH)/Stamp_cmd.log | cut -d ':'  -f 4 | sed 's/^ //g' | sed 's/\.max/.h/g'`" "$(MAXDIR)/Stamp.h"
+$(MAXDIR)/httpServer.max: 
+	( cd "$(THIS_PATH)/" && if [ -z "$${MAXCOMPILER_BUILD_DIR+xxx}" ]; then export MAXCOMPILER_BUILD_DIR="$(realpath $(MAXDIR))"; fi ;  export MAX_BUILDPARAMS="DFEModel='ISCA' target='DFE' maxFileName='httpServer' " ; set -o pipefail ; ant -v -f "httpServer.xml" run 2>&1 | tee httpServer_cmd.log ; exit ${PIPESTATUS[0]} )
+	cp "`grep -o -e "^.*MaxFile: .*\.max" $(THIS_PATH)/httpServer_cmd.log | cut -d ':'  -f 4 | sed 's/^ //g'`" "$(MAXDIR)/httpServer.max"
+	cp "`grep -o -e "^.*MaxFile: .*\.max" $(THIS_PATH)/httpServer_cmd.log | cut -d ':'  -f 4 | sed 's/^ //g' | sed 's/\.max/.h/g'`" "$(MAXDIR)/httpServer.h"
 	cp -f "$(MAXDIR)/"*.h "$(INCDIR)/"
 
 
-MAXFILEBUILDNAMEDEFS=-DBUILDNAME_MAXFILE_1=Stamp -DMAXFILE_1="Stamp.max" 
+MAXFILEBUILDNAMEDEFS=-DBUILDNAME_MAXFILE_1=httpServer -DMAXFILE_1="httpServer.max" 
 
 
 #
 # List of all MAX files
 #
-MAXFILEOBJECTS := $(OBJDIR)/Stamp.o 
+MAXFILEOBJECTS := $(OBJDIR)/httpServer.o 
 
-SLICFILEOBJECTS := $(OBJDIR)/slic_Stamp.o 
+SLICFILEOBJECTS := $(OBJDIR)/slic_httpServer.o 
 
 
 #
 # Targets/Variables managing running of the app
 #
-EXE_SO_NAME=Stamp
+EXE_SO_NAME=httpServer
 LIBLDFLAGS=
 LIBGCCFLAGS=
 
 RUNENV=export LD_LIBRARY_PATH="$$MAXELEROSDIR/lib:$$LD_LIBRARY_PATH" ; 
 
-RUNARGS?=172.16.0.1 172.16.0.10 255.255.255.0
+RUNARGS?=172.17.0.9 172.17.0.17 255.255.255.224
 
 ifneq (,$(ARGS))
 #if ARGS is defined

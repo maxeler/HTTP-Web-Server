@@ -264,15 +264,14 @@ int main(int argc, char *argv[]) {
 						//max_set_mem_uint64t(actions, "stamp_state_machine", "romMapped", i, niz[i]);
 						//printf("FFFFFFF 1&2 %d: %016llx, %016llx\n", i, nizHash1[i], nizHash2[i]);
 
-						max_set_mem_uint64t(actions, "httpServer_state_machine", "romHashIndex1", i, arrHash1[i]);
-						max_set_mem_uint64t(actions, "httpServer_state_machine", "romHashIndex2", i, arrHash2[i]);
+						max_set_mem_uint64t(actions, "hashIndex", "romHashIndex1", i, arrHash1[i]);
+						max_set_mem_uint64t(actions, "hashIndex", "romHashIndex2", i, arrHash2[i]);
 					}
 
 					//max_set_mem_uint64t(actions, "stamp_state_machine", "romMapped", 0, niz[0]);
 					//exit(0);
 					max_run(engine, actions);
 					max_actions_free(actions);
-
 
 	//LMem initialization
 				//max_set_mem_uint64t (max_actions_t *actions, const char *block_name, const char *mem_name, size_t index, uint64_t v)
@@ -425,7 +424,6 @@ int main(int argc, char *argv[]) {
 		max_tcp_await_state(dfe_socket[i], MAX_TCP_STATE_LISTEN, NULL); //ceka dok tcp SOCKET ne dodje u LISTEN connection state
 	}
 
-
 	int cpu_socket = create_cpu_tcp_socket(); //otvara CPU socket //&dfe_ip, port
 
 	//connect to the remote ip
@@ -519,12 +517,9 @@ int main(int argc, char *argv[]) {
 	uint8_t *read_buffer;
 	max_llstream_t *read_llstream;
 	uint64_t *byteNumber;
-	printf("Setting up output streams.\n");
+	printf("CPU code: Setting up output streams.\n");
 	posix_memalign ((void *) &read_buffer, 16, 16 * 1);
 	read_llstream = max_llstream_setup (engine, "toCpuByteNumber", 1, 16, read_buffer);
-
-
-
 
 	size_t txMgr_buffer_size = 512 * sizeof(tx_event_type_t);
 	void *txMgr_buffer;
@@ -536,6 +531,8 @@ int main(int argc, char *argv[]) {
 	while(1){
 
 		//part 1: receive fileLength byteNumber
+
+		printf("CPU code: PART 1\n");
 
 		int FoundByteNumber=0;
 		while(FoundByteNumber!=1) //first wait to receive LengthBytes number
@@ -550,10 +547,9 @@ int main(int argc, char *argv[]) {
 			}
 		}
 
-		printf("PART 2\n");
-
 		//part 2: receive total number of data transfered
 
+		printf("CPU code: PART 2\n");
 
 		int exitFlagw=0;
 		while(exitFlagw==0)
@@ -562,11 +558,11 @@ int main(int argc, char *argv[]) {
 
 			//while (max_llstream_read(llstream, 1, &txMgrSlot)==1) {
 			event = txMgrSlot;
-			printf("Got ack from TxManager: Total frames: %ld\n", event->frameCount);
+			printf("CPU code: Got ack from TxManager: Total frames: %ld\n", event->frameCount);
 			max_llstream_read_discard(llstream, 1);
 			//frameCounter+=1;
 			frameCounter=(event->frameCount) + 1;
-			printf("frameCounter=%ld\n", frameCounter);
+			printf("CPU code: frameCounter=%ld\n", frameCounter);
 
 			double tt=(*byteNumber)/8.0;
 			uint64_t y=CEILING_POS(tt);
@@ -574,25 +570,25 @@ int main(int argc, char *argv[]) {
 			{
 
 				sleep(2);
-				printf("frameCounter=%ld, frameCounterPrevious=%ld, ceil(fileLength)=%u\n", frameCounter, frameCounterPrevious, y);
+				printf("CPU code: frameCounter=%ld, frameCounterPrevious=%ld, ceil(fileLength)=%u\n", frameCounter, frameCounterPrevious, y);
 
 				uint16_t socket_returned=event->socketID;
-				printf("Closing socket=%u\n", socket_returned);
+				printf("CPU code: Closing socket=%u\n", socket_returned);
 				max_tcp_close(dfe_socket[socket_returned]);
 				//max_tcp_close_mode_t close_mode=MAX_TCP_CLOSE_ABORT_RESET;
 				//max_tcp_close_advanced(dfe_socket[socket_returned],close_mode);
 
-				printf("Waiting for MAX_TCP_STATE_CLOSED\n");
+				printf("CPU code: Waiting for MAX_TCP_STATE_CLOSED\n");
 				max_tcp_await_state(dfe_socket[socket_returned], MAX_TCP_STATE_CLOSED, NULL);
 				//dfe_socket[0] = max_tcp_create_socket(engine, "tcp_ISCA_QSFP_BOT_10G_PORT1");  //socket 0 //"tcp_ch2_sfp1"
 
-				printf("Set LISTEN state\n");
+				printf("CPU code: Set LISTEN state\n");
 				max_tcp_listen(dfe_socket[socket_returned], port);
 
-				printf("Waiting for MAX_TCP_STATE_LISTEN\n");
+				printf("CPU code: Waiting for MAX_TCP_STATE_LISTEN\n");
 				max_tcp_await_state(dfe_socket[socket_returned], MAX_TCP_STATE_LISTEN, NULL); //ceka dok tcp SOCKET ne dodje u LISTEN connection state
 
-				printf("Opened again socket=%u\n", socket_returned);
+				printf("CPU code: Again opened socket=%u\n", socket_returned);
 
 				frameCounterPrevious=frameCounter;
 				exitFlagw=1;

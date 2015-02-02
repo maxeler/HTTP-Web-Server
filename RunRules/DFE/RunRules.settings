@@ -6,9 +6,9 @@
 <enableMPCX enabled="false"/>
 </common>
 <maxFiles>
-<maxFile buildName="Stamp" buildOrUseExisting="build">
+<maxFile buildName="httpServer" buildOrUseExisting="build">
 <runConfiguration askBeforeAutoBuild="true">
-<mainClass>stamp.StampManager</mainClass>
+<mainClass>httpServer.httpServerManager</mainClass>
 <maxHeapSize>2</maxHeapSize>
 </runConfiguration>
 <selectEngineTarget enabled="false">VECTIS</selectEngineTarget>
@@ -17,13 +17,13 @@
 </maxFiles>
 <cpuCode targetType="executable">
 <libraryName/>
-<exeName>Stamp</exeName>
+<exeName>httpServer</exeName>
 <skin>
 <ancillaryReleaseInformation enabled="false">
 <dir name=""/>
 </ancillaryReleaseInformation>
 </skin>
-<arguments>172.16.0.1 172.16.0.10 255.255.255.0</arguments>
+<arguments>172.17.0.9 172.17.0.17 255.255.255.224</arguments>
 <remoteExecution enabled="false">
 <remoteMachineName/>
 <scriptName/>

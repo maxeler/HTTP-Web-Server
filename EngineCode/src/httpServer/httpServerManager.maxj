@@ -34,20 +34,12 @@ public class httpServerManager extends NetworkManager {
 
 		MemoryControlGroup ctrlGroup = addMemoryControlGroup("ctrlGroup", wire.getOutput(SimpleWire.OUTPUT));
 
-		//DFELink writeMemStream = addStreamToOnCardMemory("writeMemStream", ctrlGroup);
+		//	DFELink writeMemStream = addStreamToOnCardMemory("writeMemStream", ctrlGroup);
 		DFELink readMemStream = addStreamFromOnCardMemory("readMemStream", ctrlGroup);
-		ctrlGroup.finalise();
+	    ctrlGroup.finalise();
 
 		//STATE MACHINE
-		StateMachineBlock stateMachine = addStateMachine("httpServer_state_machine",
-														 new httpServerStateMachine(this,
-																               ctrlGroup.getStreamIndexIdWithinGroup("readMemStream")
-																               )
-														);
-
-		//komande se salju iz state masine preko wire state masine u LMem
-		wire.getInput(SimpleWire.INPUT) <== stateMachine.getOutput(httpServerStateMachine.OUTPUT_MEM_COMMAND);
-		stateMachine.getInput(httpServerStateMachine.INPUT_MEM_DATA) <== readMemStream;
+		StateMachineBlock stateMachine = addStateMachine("httpServerStateMachine", new httpServerStateMachine(this));
 
 		//KernelBlock preprocessor = addKernel(new PreprocessorKernel(makeKernelParameters("Preprocessor")));
 
@@ -75,7 +67,7 @@ public class httpServerManager extends NetworkManager {
 		toLmem<==kWrite.getOutput("outA");
 
 		KernelBlock kRead = addKernel(new KernelLMem_Read_CommandAndDataStream(makeKernelParameters(KERNEL_NAME_read)));
-		DFELink fromLmem = addStreamFromOnCardMemory("fromLmem",kRead.getOutput("OcmdStream"));
+		DFELink fromLmem = addStreamFromOnCardMemory("fromLmem", kRead.getOutput("OcmdStream"));
 
 		kRead.getInput("inA")<==fromLmem;
 		toCpu <== kRead.getOutput("outA");
@@ -84,22 +76,8 @@ public class httpServerManager extends NetworkManager {
 //		DFELink toCpuDataSentFlag = addStreamToCPU("toCpuDataSentFlag");
 //		toCpuDataSentFlag <== stateMachine.getOutput("fromStateMachineDataSentFlag");
 
-		//
-		//socket disconnect
-		KernelBlock TxManagerKernelV1kernel = addKernel(new TxManagerKernelV1(makeKernelParameters("TxManagerKernelV1_kernel"), new TCPType()));
 
-		DFELink toCpuOutputTxEvent = addStreamToCPU("toCpuOutputTxEvent");
-		toCpuOutputTxEvent <== TxManagerKernelV1kernel.getOutput(TxManagerKernelV1.OUTPUT_TX_EVENTS);
 
-		TxManagerKernelV1kernel.getInput(TxManagerKernelV1.INPUT_TX_DATA) <==	stateMachine.getOutput("stamped_tcp_frm_sm");//
-		tcp_stream.getTransmitStream() <== TxManagerKernelV1kernel.getOutput(TxManagerKernelV1.OUTPUT_TX_DATA);
-
-		//ByteNumber --> CPU
-		StateMachineBlock wireByteNumber = addStateMachine("byteNumber", new SimpleWire(this, 64));
-	    wireByteNumber.getInput(SimpleWire.INPUT) <== stateMachine.getOutput("fromStateMachineByteNumber");
-
-		DFELink toCpuByteNumber = addStreamToCPU("toCpuByteNumber");
-		toCpuByteNumber <== wireByteNumber.getOutput(SimpleWire.OUTPUT);
 
 //		//FIFO buffer for storing URL of incoming TCP frames
 //		StateMachineBlock fifo_instanca = addStateMachine("fifo_instanca", new LimitedDepthFIFOcopy(this, 64+3+3,1,1));
@@ -113,7 +91,59 @@ public class httpServerManager extends NetworkManager {
 		StateMachineBlock parallelCRC = addStateMachine("parallelCRC", new ParallelCRC(this));
 		parallelCRC.getInput(ParallelCRC.dataIn) <== stateMachine.getOutput("checksumOutput"); //addStreamFromCPU("toParallelCRC");
 		//addStreamToCPU("fromParallelCRC")<== parallelCRC.getOutput(ParallelCRC.crcOut);
-		stateMachine.getInput("checksumResult") <== parallelCRC.getOutput(ParallelCRC.crcOut);
+
+		//hashIndex
+		//stateMachine.getInput("checksumResult") <== parallelCRC.getOutput(ParallelCRC.crcOut);
+		StateMachineBlock hashIndex = addStateMachine("hashIndex", new hashIndex(this));
+		hashIndex.getInput("crcResultInput") <== parallelCRC.getOutput(ParallelCRC.crcOut);
+
+		//komande se salju iz state masine preko wire state masine u LMem
+		StateMachineBlock LMEM1 = addStateMachine("LMEM", new LMEM(this, ctrlGroup.getStreamIndexIdWithinGroup("readMemStream")));
+		wire.getInput(SimpleWire.INPUT) <== LMEM1.getOutput(LMEM.OUTPUT_MEM_COMMAND);
+		LMEM1.getInput(LMEM.INPUT_MEM_DATA) <== readMemStream;
+		LMEM1.getInput("dataFromHashIndex") <== hashIndex.getOutput("hashIndexOutput");
+
+		//socket disconnect
+		KernelBlock TxManagerKernelV1kernel = addKernel(new TxManagerKernelV1(makeKernelParameters("TxManagerKernelV1_kernel"), new TCPType()));
+		DFELink toCpuOutputTxEvent = addStreamToCPU("toCpuOutputTxEvent");
+		toCpuOutputTxEvent <== TxManagerKernelV1kernel.getOutput(TxManagerKernelV1.OUTPUT_TX_EVENTS);
+
+		TxManagerKernelV1kernel.getInput(TxManagerKernelV1.INPUT_TX_DATA) <==	LMEM1.getOutput("outputLMEM");//
+		tcp_stream.getTransmitStream() <== TxManagerKernelV1kernel.getOutput(TxManagerKernelV1.OUTPUT_TX_DATA);
+
+		//ByteNumber --> CPU
+		StateMachineBlock wireByteNumber = addStateMachine("byteNumber", new SimpleWire(this, 64));
+	    wireByteNumber.getInput(SimpleWire.INPUT) <== LMEM1.getOutput("fromStateMachineByteNumber");
+	    DFELink toCpuByteNumber = addStreamToCPU("toCpuByteNumber");
+		toCpuByteNumber <== wireByteNumber.getOutput(SimpleWire.OUTPUT);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 		//KernelBlock k = addKernel(new LMemExampleKernel(makeKernelParameters(KERNEL_NAME)));
 

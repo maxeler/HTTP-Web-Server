@@ -1,657 +1,132 @@
-Thu 12:05: ########################################## 
-Thu 12:05: Compiling.
-Thu 12:05: ########################################## 
+Mon 18:17: ########################################## 
+Mon 18:17: Compiling.
+Mon 18:17: ########################################## 
 
-Thu 12:05: MaxCompiler version: 2014.1.1.
-Thu 12:05: Build Simulation run rule for working start time: Thu Jan 29 12:05:08 GMT 2015.
-Thu 12:05: Project location: /home/mvorkapic/workspace/working.
-Thu 12:05: Detailed build log: /home/mvorkapic/workspace/working/RunRules/Simulation/build.log.
+Mon 18:17: MaxCompiler version: 2014.1.1.
+Mon 18:17: Build Simulation run rule for working start time: Mon Feb 02 18:17:39 GMT 2015.
+Mon 18:17: Project location: /home/mvorkapic/workspace/working.
+Mon 18:17: Detailed build log: /home/mvorkapic/workspace/working/RunRules/Simulation/build.log.
 
-Thu 12:05: Compiling Engine Code.
-Thu 12:05: Engine building skipped (no changes on .max files).
-Thu 12:05: Compiling CPU Code.
-Thu 12:05: Run CPU project make files updating
-Thu 12:05: Executing command:
-Thu 12:05: java -jar /network-raid/opt/maxcompiler-2014.1.1/lib/MaxIDE/projectAdmin.jar -u /home/mvorkapic/workspace/working Simulation 
-Thu 12:05: Command output:
+Mon 18:17: Compiling Engine Code.
+Mon 18:17: Building httpServer.max file. 
+Mon 18:17: Setting environment variable:
+Mon 18:17: MAXCOMPILER_BUILD_DIR : /network-scratch/mvorkapic/maxdc_builds/
+Mon 18:17: MAX_BUILDPARAMS : DFEModel='ISCA' target='DFE_SIM' maxFileName='httpServer'  
+Mon 18:17: Building output:
+Mon 18:17: MaxCompiler version: 2014.1.1
+Mon 18:17: Build "httpServer" start time: Mon Feb 02 18:17:40 GMT 2015
+Mon 18:17: Main build process running as user mvorkapic on host grim.office.maxeler.com
+Mon 18:17: Build location: /network-scratch/mvorkapic/maxdc_builds/02-02-15/httpServer_ISCA_DFE_SIM
+Mon 18:17: Detailed build log available in "_build.log"
+Mon 18:18: 
+Mon 18:18: ENGINE BUILD PARAMETERS
+Mon 18:18: 	 Build name: httpServer_ISCA_DFE_SIM
+Mon 18:18: 	   DFEModel: ISCA                   
+Mon 18:18: 	maxFileName: httpServer             
+Mon 18:18: 	     target: DFE_SIM                
+Mon 18:18: 	 enableMPCX: false                  
+Mon 18:18: WARNING: Manager state machine 'httpServerStateMachine' has uassigned variables in 'outputFunction':
+Mon 18:18: WARNING: Control signal 'tcp_to_sm.stall' has not been assigned in all cases
+Mon 18:18: WARNING: 	Stack Trace: 
+Mon 18:18: WARNING: 	com.maxeler.maxcompiler.v2.statemachine.manager.ManagerIO.pushInput(ManagerIO.java:109)
+Mon 18:18: WARNING: 	httpServer.httpServerStateMachine.<init>(httpServerStateMachine.maxj:64)
+Mon 18:18: WARNING: 	httpServer.httpServerManager.<init>(httpServerManager.maxj:42)
+Mon 18:18: WARNING: 	httpServer.httpServerManager.main(httpServerManager.maxj:233)
+Mon 18:18: Instantiating kernel "KernelLMem_Write_CommandAndDataStream"
+Mon 18:18: Instantiating kernel "KernelLMem_Read_CommandAndDataStream"
+Mon 18:18: WARNING: Manager state machine 'hashIndex' has uassigned variables in 'nextState':
+Mon 18:18: WARNING: Variable has been partially assigned
+Mon 18:18: WARNING: 	15 bits not set: ???????????????
+Mon 18:18: WARNING: 	Stack Trace: 
+Mon 18:18: WARNING: 	com.maxeler.maxcompiler.v2.statemachine.stdlib.Mem.romMapped(Mem.java:244)
+Mon 18:18: WARNING: 	httpServer.hashIndex.<init>(hashIndex.maxj:60)
+Mon 18:18: WARNING: 	httpServer.httpServerManager.<init>(httpServerManager.maxj:97)
+Mon 18:18: WARNING: 	httpServer.httpServerManager.main(httpServerManager.maxj:233)
+Mon 18:18: WARNING: Variable has been partially assigned
+Mon 18:18: WARNING: 	15 bits not set: ???????????????
+Mon 18:18: WARNING: 	Stack Trace: 
+Mon 18:18: WARNING: 	com.maxeler.maxcompiler.v2.statemachine.stdlib.Mem.romMapped(Mem.java:244)
+Mon 18:18: WARNING: 	httpServer.hashIndex.<init>(hashIndex.maxj:61)
+Mon 18:18: WARNING: 	httpServer.httpServerManager.<init>(httpServerManager.maxj:97)
+Mon 18:18: WARNING: 	httpServer.httpServerManager.main(httpServerManager.maxj:233)
+Mon 18:18: WARNING: Manager state machine 'hashIndex' has uassigned variables in 'outputFunction':
+Mon 18:18: WARNING: Control signal 'crcResultInput.stall' has not been assigned in all cases
+Mon 18:18: WARNING: 	Stack Trace: 
+Mon 18:18: WARNING: 	com.maxeler.maxcompiler.v2.statemachine.manager.ManagerIO.pushInput(ManagerIO.java:109)
+Mon 18:18: WARNING: 	httpServer.hashIndex.<init>(hashIndex.maxj:38)
+Mon 18:18: WARNING: 	httpServer.httpServerManager.<init>(httpServerManager.maxj:97)
+Mon 18:18: WARNING: 	httpServer.httpServerManager.main(httpServerManager.maxj:233)
+Mon 18:18: WARNING: Manager state machine 'LMEM' has uassigned variables in 'outputFunction':
+Mon 18:18: WARNING: Control signal 'dataFromHashIndex.stall' has not been assigned in all cases
+Mon 18:18: WARNING: 	Stack Trace: 
+Mon 18:18: WARNING: 	com.maxeler.maxcompiler.v2.statemachine.manager.ManagerIO.pushInput(ManagerIO.java:109)
+Mon 18:18: WARNING: 	httpServer.LMEM.<init>(LMEM.maxj:37)
+Mon 18:18: WARNING: 	httpServer.httpServerManager.<init>(httpServerManager.maxj:101)
+Mon 18:18: WARNING: 	httpServer.httpServerManager.main(httpServerManager.maxj:233)
+Mon 18:18: Instantiating kernel "TxManagerKernelV1_kernel"
+Mon 18:18: 
+Mon 18:18: Compiling kernel "KernelLMem_Write_CommandAndDataStream"
+Mon 18:18: 
+Mon 18:18: Compiling kernel "KernelLMem_Read_CommandAndDataStream"
+Mon 18:18: 
+Mon 18:18: Compiling kernel "TxManagerKernelV1_kernel"
+Mon 18:18: Running back-end simulation build (3 phases)
+Mon 18:18: (1/3) - Prepare MaxFile Data (GenerateMaxFileDataFile)
+Mon 18:18: (2/3) - Compile Simulation Modules (SimCompilePass)
+Mon 18:18: (3/3) - Generate MaxFile (AddSimObjectToMaxFilePass)
+Mon 18:18: MaxFile: /network-scratch/mvorkapic/maxdc_builds/02-02-15/httpServer_ISCA_DFE_SIM/results/httpServer.max (MD5Sum: 59270a042fb407c3a61780cb5e4f3e24)
+Mon 18:18: Build completed: Mon Feb 02 18:18:58 GMT 2015 (took 1 min, 18 secs)
+Mon 18:18: Executing command:
+Mon 18:18: cp /home/mvorkapic/workspace/working/RunRules/Simulation/maxfiles/httpServer.h /home/mvorkapic/workspace/working/RunRules/Simulation/include/httpServer.h 
+Mon 18:18: Command output:
+Mon 18:18: Building: httpServer.max file finished.
+Mon 18:18: Engine build finished.
+Mon 18:18: Compiling CPU Code.
+Mon 18:18: Run CPU project make files updating
+Mon 18:18: Executing command:
+Mon 18:18: java -jar /network-raid/opt/maxcompiler-2014.1.1/lib/MaxIDE/projectAdmin.jar -u /home/mvorkapic/workspace/working Simulation 
+Mon 18:18: Command output:
 
-Thu 12:05: MaxCompiler Project Admin Tool Version 2014.1.1
-Thu 12:05:  Copyright Maxeler Technologies 2010 - 2014. All rights reserved.
-Thu 12:05: Handler version 1
-Thu 12:05: Updating RunRule dependent Makefiles for RunRule 'Simulation'
-Thu 12:05: Found makefiles: 1
-Thu 12:05: 	Updated: Simulation
-Thu 12:05: Run CPU make.
-Thu 12:05: make RUNRULE=Simulation 
-Thu 12:05: Command output:
-Thu 12:05: make -f Makefile ../RunRules/Simulation/binaries/httpServer
-Thu 12:05: make[1]: Entering directory `/home/mvorkapic/workspace/working/CPUCode'
-Thu 12:05: cc -g -O3 -Wall -Wextra -fmessage-length=0 -I ../RunRules/Simulation/include -I. -I/network-raid/opt/maxcompiler-2014.1.1/lib/maxeleros-sim/include -I/network-raid/opt/maxcompiler-2014.1.1/include/slic -D_XOPEN_SOURCE=600  -std=c99 -DBUILDNAME_MAXFILE_1=httpServer -DMAXFILE_1="httpServer.max"  -o "../RunRules/Simulation/objects/httpServerCpuCode.o" -c "httpServerCpuCode.c"
-Thu 12:05: httpServerCpuCode.c: In function 'exchangeItems':
-Thu 12:05: httpServerCpuCode.c:116: warning: unused variable 'sum'
-Thu 12:05: httpServerCpuCode.c:73: warning: unused variable 'y'
-Thu 12:05: httpServerCpuCode.c:67: warning: unused variable 'word'
-Thu 12:05: httpServerCpuCode.c:66: warning: unused variable 'data_received'
-Thu 12:05: httpServerCpuCode.c: In function 'fillRomHashIndex':
-Thu 12:05: httpServerCpuCode.c:177: warning: implicit declaration of function 'ceil'
-Thu 12:05: httpServerCpuCode.c:177: warning: incompatible implicit declaration of built-in function 'ceil'
-Thu 12:05: httpServerCpuCode.c: In function 'main':
-Thu 12:05: httpServerCpuCode.c:262: warning: comparison between signed and unsigned integer expressions
-Thu 12:05: httpServerCpuCode.c:298: warning: incompatible implicit declaration of built-in function 'ceil'
-Thu 12:05: httpServerCpuCode.c:547: warning: format '%u' expects type 'unsigned int', but argument 2 has type 'uint64_t'
-Thu 12:05: httpServerCpuCode.c:578: warning: format '%u' expects type 'unsigned int', but argument 4 has type 'uint64_t'
-Thu 12:05: httpServerCpuCode.c:831: warning: format '%u' expects type 'unsigned int', but argument 2 has type 'long unsigned int'
-Thu 12:05: httpServerCpuCode.c:855: warning: unused variable 'items4'
-Thu 12:05: httpServerCpuCode.c:840: warning: unused variable 'items3'
-Thu 12:05: httpServerCpuCode.c:723: warning: unused variable 'items2'
-Thu 12:05: httpServerCpuCode.c:640: warning: unused variable 'vrednost'
-Thu 12:05: httpServerCpuCode.c:449: warning: unused variable 'timeout'
-Thu 12:05: httpServerCpuCode.c:442: warning: unused variable 'num_changed_sockets'
-Thu 12:05: cc -g -O3 -Wall -Wextra -fmessage-length=0 -I ../RunRules/Simulation/include -I. -I/network-raid/opt/maxcompiler-2014.1.1/lib/maxeleros-sim/include -I/network-raid/opt/maxcompiler-2014.1.1/include/slic -D_XOPEN_SOURCE=600  -std=c99 -DBUILDNAME_MAXFILE_1=httpServer -DMAXFILE_1="httpServer.max"  -MM -MP -MT "../RunRules/Simulation/objects/httpServerCpuCode.o" "httpServerCpuCode.c" > "../RunRules/Simulation/objects/httpServerCpuCode.d"
-Thu 12:05: cc ../RunRules/Simulation/objects/httpServerCpuCode.o ../RunRules/Simulation/objects/slic_httpServer.o  -L/network-raid/opt/maxcompiler-2014.1.1/lib -L/network-raid/opt/maxcompiler-2014.1.1/lib/maxeleros-sim/lib -lslic -lmaxeleros -lm -lpthread  -o "../RunRules/Simulation/binaries/httpServer"
-Thu 12:05: make[1]: Leaving directory `/home/mvorkapic/workspace/working/CPUCode'
-Thu 12:05: Build completed: Thu Jan 29 12:05:10 GMT 2015
+Mon 18:18: MaxCompiler Project Admin Tool Version 2014.1.1
+Mon 18:18:  Copyright Maxeler Technologies 2010 - 2014. All rights reserved.
+
+Mon 18:18: Handler version 1
+Mon 18:18: Updating RunRule dependent Makefiles for RunRule 'Simulation'
+Mon 18:18: Found makefiles: 1
+Mon 18:18: 	Updated: Simulation
+Mon 18:18: Run CPU make.
+Mon 18:18: make RUNRULE=Simulation 
+Mon 18:18: Command output:
+Mon 18:18: make -f Makefile ../RunRules/Simulation/binaries/httpServer
+Mon 18:18: make[1]: Entering directory `/home/mvorkapic/workspace/working/CPUCode'
+Mon 18:18: /network-raid/opt/maxcompiler-2014.1.1/bin/sliccompile "../RunRules/Simulation/maxfiles/httpServer.max" "../RunRules/Simulation/objects/slic_httpServer.o"
+Mon 18:19: Processing maxfile for MAX4AB24B_SIM from '../RunRules/Simulation/maxfiles/httpServer.max'.
+Mon 18:19: gcc -std=gnu99 -Wall -Werror -fno-guess-branch-probability -frandom-seed=foo -Wno-unused-variable -Wno-unused-function -fPIC -I /network-raid/opt/maxcompiler-2014.1.1/include/slic -DMAXFILE_INC="/home/mvorkapic/workspace/working/CPUCode/../RunRules/Simulation/maxfiles/httpServer.max" -DSLIC_NO_DESTRUCTORS -c /network-raid/opt/maxcompiler-2014.1.1/src/slicinterface/MaxFileInit.c -o slic_httpServer.o 
+Mon 18:19: Copying .max file C object into '/home/mvorkapic/workspace/working/CPUCode/../RunRules/Simulation/objects'
+Mon 18:19: cc -g -O3 -Wall -Wextra -fmessage-length=0 -I ../RunRules/Simulation/include -I. -I/network-raid/opt/maxcompiler-2014.1.1/lib/maxeleros-sim/include -I/network-raid/opt/maxcompiler-2014.1.1/include/slic -D_XOPEN_SOURCE=600  -std=c99 -DBUILDNAME_MAXFILE_1=httpServer -DMAXFILE_1="httpServer.max"  -o "../RunRules/Simulation/objects/httpServerCpuCode.o" -c "httpServerCpuCode.c"
+Mon 18:19: httpServerCpuCode.c: In function 'exchangeItems':
+Mon 18:19: httpServerCpuCode.c:116: warning: unused variable 'sum'
+Mon 18:19: httpServerCpuCode.c:73: warning: unused variable 'y'
+Mon 18:19: httpServerCpuCode.c:67: warning: unused variable 'word'
+Mon 18:19: httpServerCpuCode.c:66: warning: unused variable 'data_received'
+Mon 18:19: httpServerCpuCode.c: In function 'fillRomHashIndex':
+Mon 18:19: httpServerCpuCode.c:177: warning: implicit declaration of function 'ceil'
+Mon 18:19: httpServerCpuCode.c:177: warning: incompatible implicit declaration of built-in function 'ceil'
+Mon 18:19: httpServerCpuCode.c: In function 'main':
+Mon 18:19: httpServerCpuCode.c:262: warning: comparison between signed and unsigned integer expressions
+Mon 18:19: httpServerCpuCode.c:297: warning: incompatible implicit declaration of built-in function 'ceil'
+Mon 18:19: httpServerCpuCode.c:544: warning: format '%u' expects type 'unsigned int', but argument 2 has type 'uint64_t'
+Mon 18:19: httpServerCpuCode.c:573: warning: format '%u' expects type 'unsigned int', but argument 4 has type 'uint64_t'
+Mon 18:19: httpServerCpuCode.c:826: warning: format '%u' expects type 'unsigned int', but argument 2 has type 'long unsigned int'
+Mon 18:19: httpServerCpuCode.c:850: warning: unused variable 'items4'
+Mon 18:19: httpServerCpuCode.c:835: warning: unused variable 'items3'
+Mon 18:19: httpServerCpuCode.c:718: warning: unused variable 'items2'
+Mon 18:19: httpServerCpuCode.c:635: warning: unused variable 'vrednost'
+Mon 18:19: httpServerCpuCode.c:447: warning: unused variable 'timeout'
+Mon 18:19: httpServerCpuCode.c:440: warning: unused variable 'num_changed_sockets'
+Mon 18:19: cc -g -O3 -Wall -Wextra -fmessage-length=0 -I ../RunRules/Simulation/include -I. -I/network-raid/opt/maxcompiler-2014.1.1/lib/maxeleros-sim/include -I/network-raid/opt/maxcompiler-2014.1.1/include/slic -D_XOPEN_SOURCE=600  -std=c99 -DBUILDNAME_MAXFILE_1=httpServer -DMAXFILE_1="httpServer.max"  -MM -MP -MT "../RunRules/Simulation/objects/httpServerCpuCode.o" "httpServerCpuCode.c" > "../RunRules/Simulation/objects/httpServerCpuCode.d"
+Mon 18:19: cc ../RunRules/Simulation/objects/httpServerCpuCode.o ../RunRules/Simulation/objects/slic_httpServer.o  -L/network-raid/opt/maxcompiler-2014.1.1/lib -L/network-raid/opt/maxcompiler-2014.1.1/lib/maxeleros-sim/lib -lslic -lmaxeleros -lm -lpthread  -o "../RunRules/Simulation/binaries/httpServer"
+Mon 18:19: make[1]: Leaving directory `/home/mvorkapic/workspace/working/CPUCode'
+Mon 18:19: Build completed: Mon Feb 02 18:19:04 GMT 2015
 
 
-Thu 12:05: ########################################## 
-Thu 12:05: Running
-Thu 12:05: ########################################## 
-Thu 12:05: Executing command:
-Thu 12:05: '/home/mvorkapic/workspace/working/RunRules/Simulation/binaries/httpServer' '169.254.10.4' '169.254.10.44' '255.255.255.0' 
-Thu 12:05: Command output:
-Thu 12:05: Loading DFE memory.
-Thu 12:05: Tick=0, sBurstCounter===sDataBurstLength
-Thu 12:05: Tick=0, sBurstCounter===sDataBurstLength
-Thu 12:05: Reading DFE memory.
-Thu 12:05: Dodeljeni broj socket0=0
-Thu 12:05: Dodeljeni broj socket1=1
-Thu 12:05: Dodeljeni broj socket2=2
-Thu 12:05: Dodeljeni broj socket3=3
-Thu 12:05: Dodeljeni broj socket4=4
-Thu 12:05: Dodeljeni broj socket5=5
-Thu 12:05: Dodeljeni broj socket6=6
-Thu 12:05: Dodeljeni broj socket7=7
-Thu 12:05: Dodeljeni broj socket8=8
-Thu 12:05: Dodeljeni broj socket9=9
-Thu 12:05: Dodeljeni broj socket10=10
-Thu 12:05: Dodeljeni broj socket11=11
-Thu 12:05: Dodeljeni broj socket12=12
-Thu 12:05: Dodeljeni broj socket13=13
-Thu 12:05: Dodeljeni broj socket14=14
-Thu 12:05: Dodeljeni broj socket15=15
-Thu 12:05: Dodeljeni broj socket16=16
-Thu 12:05: Dodeljeni broj socket17=17
-Thu 12:05: Dodeljeni broj socket18=18
-Thu 12:05: Dodeljeni broj socket19=19
-Thu 12:05: Dodeljeni broj socket20=20
-Thu 12:05: Dodeljeni broj socket21=21
-Thu 12:05: Dodeljeni broj socket22=22
-Thu 12:05: Dodeljeni broj socket23=23
-Thu 12:05: Dodeljeni broj socket24=24
-Thu 12:05: Dodeljeni broj socket25=25
-Thu 12:05: Dodeljeni broj socket26=26
-Thu 12:05: Dodeljeni broj socket27=27
-Thu 12:05: Dodeljeni broj socket28=28
-Thu 12:05: Dodeljeni broj socket29=29
-Thu 12:05: Dodeljeni broj socket30=30
-Thu 12:05: Dodeljeni broj socket31=31
-Thu 12:05: Dodeljeni broj socket32=32
-Thu 12:05: Dodeljeni broj socket33=33
-Thu 12:05: Dodeljeni broj socket34=34
-Thu 12:05: Dodeljeni broj socket35=35
-Thu 12:05: Dodeljeni broj socket36=36
-Thu 12:05: Dodeljeni broj socket37=37
-Thu 12:05: Dodeljeni broj socket38=38
-Thu 12:05: Dodeljeni broj socket39=39
-Thu 12:05: Dodeljeni broj socket40=40
-Thu 12:05: Dodeljeni broj socket41=41
-Thu 12:05: Dodeljeni broj socket42=42
-Thu 12:05: Dodeljeni broj socket43=43
-Thu 12:05: Dodeljeni broj socket44=44
-Thu 12:05: Dodeljeni broj socket45=45
-Thu 12:05: Dodeljeni broj socket46=46
-Thu 12:05: Dodeljeni broj socket47=47
-Thu 12:05: Dodeljeni broj socket48=48
-Thu 12:05: Dodeljeni broj socket49=49
-Thu 12:05: Dodeljeni broj socket50=50
-Thu 12:05: Dodeljeni broj socket51=51
-Thu 12:05: Dodeljeni broj socket52=52
-Thu 12:05: Dodeljeni broj socket53=53
-Thu 12:05: Dodeljeni broj socket54=54
-Thu 12:05: Dodeljeni broj socket55=55
-Thu 12:05: Dodeljeni broj socket56=56
-Thu 12:05: Dodeljeni broj socket57=57
-Thu 12:05: Dodeljeni broj socket58=58
-Thu 12:05: Dodeljeni broj socket59=59
-Thu 12:05: Dodeljeni broj socket60=60
-Thu 12:05: Dodeljeni broj socket61=61
-Thu 12:05: Dodeljeni broj socket62=62
-Thu 12:05: Dodeljeni broj socket63=63
-Thu 12:05: Setting up output streams.
-Thu 12:05: ZBIR zbir=1, startIndex=4, endIndex=7
-Thu 12:05: ZBIR stanje Start bytes[0]=71
-Thu 12:05: ZBIR stanje Start bytes[1]=69
-Thu 12:05: ZBIR stanje Start bytes[2]=84
-Thu 12:05: ZBIR stanje Start bytes[3]=0
-Thu 12:05: ZBIR stanje Start bytes[4]=47
-Thu 12:05: ZBIR stanje Start bytes[5]=105
-Thu 12:05: ZBIR stanje Start bytes[6]=109
-Thu 12:05: ZBIR stanje Start bytes[7]=97
-Thu 12:05: Ulaz u doHash funkciju startIndex=4, endIndex=7
-Thu 12:05: TEST: bitPointer=8
-Thu 12:05: TEST: bitPointer=16
-Thu 12:05: TEST: bitPointer=24
-Thu 12:05: TEST: bitPointer=32
-Thu 12:05: TEST: bitPointer=40
-Thu 12:05: TEST: bitPointer=48
-Thu 12:05: TEST: bitPointer=56
-Thu 12:05: TEST: bitPointer=64
-Thu 12:05: TEST: startIndex=4, endIndex=7, startIndexBit=32, endIndexBit=63, bitNumber=32, sStoreURL=00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
-Thu 12:05: tick 771276, data: 616d692f20544547, mod: 0, eof: 0, sof: 1, socket: 3f, input.valid=1, output.stall=0, input.stall=0
-Thu 12:05: tick 771276, input: 103f616d692f20544547
-Thu 12:05: tick 771276, rrrr: 7f0616d692f20544547
-Thu 12:05: tick 771276, sCounter=771276, SNumericCurrent=0, byte1=47
-Thu 12:05: 1TEST: sBitNumber=32, sStoreURL=000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000616d692f
-Thu 12:05: ZBIR stanje URI bytes[0]=103
-Thu 12:05: ZBIR stanje URI bytes[1]=101
-Thu 12:05: ZBIR stanje URI bytes[2]=115
-Thu 12:05: ZBIR stanje URI bytes[3]=49
-Thu 12:05: ZBIR stanje URI bytes[4]=47
-Thu 12:05: ZBIR stanje URI bytes[5]=110
-Thu 12:05: ZBIR stanje URI bytes[6]=97
-Thu 12:05: ZBIR stanje URI bytes[7]=109
-Thu 12:05: STANJE URI: Ulaz u doHash funkciju startIndex=0, endIndex=7
-Thu 12:05: TEST bytes: bytes=67
-Thu 12:05: TEST: bitPointer=8
-Thu 12:05: TEST bytes: bytes=65
-Thu 12:05: TEST: bitPointer=16
-Thu 12:05: TEST bytes: bytes=73
-Thu 12:05: TEST: bitPointer=24
-Thu 12:05: TEST bytes: bytes=31
-Thu 12:05: TEST: bitPointer=32
-Thu 12:05: TEST bytes: bytes=2f
-Thu 12:05: TEST: bitPointer=40
-Thu 12:05: TEST bytes: bytes=6e
-Thu 12:05: TEST: bitPointer=48
-Thu 12:05: TEST bytes: bytes=61
-Thu 12:05: TEST: bitPointer=56
-Thu 12:05: TEST bytes: bytes=6d
-Thu 12:05: TEST: bitPointer=64
-Thu 12:05: TEST URL: startIndex=0, endIndex=7, bitNumber=96, sStoreURL=000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000616d692f
-Thu 12:05: tick 771277, data: 6d616e2f31736567, mod: 0, eof: 0, sof: 0, socket: 3f, input.valid=1, output.stall=0, input.stall=0
-Thu 12:05: tick 771277, input: 3f6d616e2f31736567
-Thu 12:05: tick 771277, rrrr: 7e06d616e2f31736567
-Thu 12:05: tick 771277, sCounter=771277, SNumericCurrent=1, byte1=67
-Thu 12:05: 1TEST: sBitNumber=96, sStoreURL=000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000006d616e2f31736567616d692f
-Thu 12:05: ZBIR stanje URI bytes[0]=46
-Thu 12:05: ZBIR stanje URI bytes[1]=115
-Thu 12:05: ZBIR stanje URI bytes[2]=118
-Thu 12:05: ZBIR stanje URI bytes[3]=103
-Thu 12:05: ZBIR stanje URI bytes[4]=0
-Thu 12:05: ZBIR stanje URI bytes[5]=49
-Thu 12:05: ZBIR stanje URI bytes[6]=50
-Thu 12:05: ZBIR stanje URI bytes[7]=51
-Thu 12:05: STANJE URI: Ulaz u doHash funkciju startIndex=0, endIndex=3
-Thu 12:05: TEST bytes: bytes=2e
-Thu 12:05: TEST: bitPointer=8
-Thu 12:05: TEST bytes: bytes=73
-Thu 12:05: TEST: bitPointer=16
-Thu 12:05: TEST bytes: bytes=76
-Thu 12:05: TEST: bitPointer=24
-Thu 12:05: TEST bytes: bytes=67
-Thu 12:05: TEST: bitPointer=32
-Thu 12:05: TEST: bitPointer=40
-Thu 12:05: TEST: bitPointer=48
-Thu 12:05: TEST: bitPointer=56
-Thu 12:05: TEST: bitPointer=64
-Thu 12:05: TEST URL: startIndex=0, endIndex=3, bitNumber=128, sStoreURL=000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000006d616e2f31736567616d692f
-Thu 12:05: nextState: prijemHttpVersion: tick=771278, sNumericCurrent=1, data=333231206776732e
-Thu 12:05: tick 771278, data: 333231206776732e, mod: 0, eof: 0, sof: 0, socket: 3f, input.valid=1, output.stall=0, input.stall=0
-Thu 12:05: tick 771278, input: 3f333231206776732e
-Thu 12:05: tick 771278, rrrr: 7e0333231206776732e
-Thu 12:05: tick 771278, sCounter=771278, SNumericCurrent=1, byte1=2e
-Thu 12:05: 1TEST httpState: sBitNumber=128, sStoreURL=0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000006776732e6d616e2f31736567616d692f
-Thu 12:05: U HTTP stanju: byte1=34, byte2=35, sPrev2Bytes=3332
-Thu 12:05: tick 771279, data: 000000000a0d3534, mod: 4, eof: 1, sof: 0, socket: 3f, input.valid=1, output.stall=0, input.stall=0
-Thu 12:05: tick 771279, input: c3f000000000a0d3534
-Thu 12:05: tick 771279, rrrr: 7ec000000000a0d3534
-Thu 12:05: tick 771279, sCounter=771279, SNumericCurrent=2, byte1=34
-Thu 12:05: 1parallelCRC: tick=0000000000000001, dataIn=0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000006776732e6d616e2f31736567616d692f, dataIn.valid=0, lfsr_c=0, lfsr_q=c5fe, crc_out=0xc5fe
-Thu 12:05: checksumResult.valid=1
-Thu 12:05: checksumResult.slice(0, 15)=17918, sUseHashIndex.next=1
-Thu 12:05: tick=771283, rezultat parallelCRC: checksumResult=0xc5fe
-Thu 12:05: Vrednost romHashIndex.dataOut=0000000000000000, romHashIndex.dataOut=00000000180003d1, sUseHashIndex=1, current=771284
-Thu 12:05: startAddressBurst=0, fileLengthBursts=6, fileLengthBytes=977
-Thu 12:05: TEST httpState: sBitNumber=128, sStoreURL=0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000006776732e6d616e2f31736567616d692f
-Thu 12:05: U HTTP stanju: byte1=d, byte2=a, sPrev2Bytes=0
-Thu 12:05: tick 805967, data: 0000000000000a0d, mod: 2, eof: 1, sof: 1, socket: 3f, input.valid=1, output.stall=0, input.stall=0
-Thu 12:05: tick 805967, input: 1a3f0000000000000a0d
-Thu 12:05: tick 805967, rrrr: 7fa0000000000000a0d
-Thu 12:05: tick 805967, sCounter=805967, SNumericCurrent=2, byte1=d
-Thu 12:05: 1TEST httpState: sBitNumber=128, sStoreURL=0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000006776732e6d616e2f31736567616d692f
-Thu 12:05: U HTTP stanju: byte1=d, byte2=a, sPrev2Bytes=0
-Thu 12:05: nextState 7: krajGETrequesta: tick=816405, sNumericCurrent=2, data=0000000000000a0d
-Thu 12:05: tick 816405, data: 0000000000000a0d, mod: 2, eof: 1, sof: 1, socket: 3f, input.valid=1, output.stall=0, input.stall=0
-Thu 12:05: tick 816405, input: 1a3f0000000000000a0d
-Thu 12:05: tick 816405, rrrr: 7fa0000000000000a0d
-Thu 12:05: tick 816405, sCounter=816405, SNumericCurrent=2, byte1=d
-Thu 12:05: 1tick=816408, memCmdOutput.stall=0, Pushing out memory command***: 0001010100000000
-Thu 12:05: tick=816409, memCmdOutput.stall=0, Pushing out memory command***: 0001010100000001
-Thu 12:05: tick=816410, memCmdOutput.stall=0, Pushing out memory command***: 0001010100000002
-Thu 12:05: tick=816411, memCmdOutput.stall=0, Pushing out memory command***: 0001010100000003
-Thu 12:05: Poslata poslednja LMem read komanda, sLMemBurstCounter=5
-Thu 12:05: tick=816412, memCmdOutput.stall=0, Pushing out memory command***: 0001010100000004
-Thu 12:05: tick=816413, memCmdOutput.stall=0, Pushing out memory command***: 0001010100000005
-Thu 12:05: Tick=816414, output=183f6576206c6d783f3c, output.valid=1, dataFromMem=6576206c6d783f3c, sFileLengthBytesCounter=8, sFileLengthBytes=977
-Thu 12:05: Tick=816415, output=183f31223d6e6f697372, output.valid=1, dataFromMem=31223d6e6f697372, sFileLengthBytesCounter=16, sFileLengthBytes=977
-Thu 12:05: Tick=816416, output=183f6f636e652022302e, output.valid=1, dataFromMem=6f636e652022302e, sFileLengthBytesCounter=24, sFileLengthBytes=977
-Thu 12:05: Tick=816417, output=183f7475223d676e6964, output.valid=1, dataFromMem=7475223d676e6964, sFileLengthBytesCounter=32, sFileLengthBytes=977
-Thu 12:05: Tick=816418, output=183f0a0a3e3f22382d66, output.valid=1, dataFromMem=0a0a3e3f22382d66, sFileLengthBytesCounter=40, sFileLengthBytes=977
-Thu 12:05: Tick=816419, output=183f656854202d2d213c, output.valid=1, dataFromMem=656854202d2d213c, sFileLengthBytesCounter=48, sFileLengthBytes=977
-Thu 12:05: Tick=816420, output=183f6163206e6f636920, output.valid=1, dataFromMem=6163206e6f636920, sFileLengthBytesCounter=56, sFileLengthBytes=977
-Thu 12:05: Tick=816421, output=183f657375206562206e, output.valid=1, dataFromMem=657375206562206e, sFileLengthBytesCounter=64, sFileLengthBytes=977
-Thu 12:05: Tick=816422, output=183f796c656572662064, output.valid=1, dataFromMem=796c656572662064, sFileLengthBytesCounter=72, sFileLengthBytes=977
-Thu 12:05: CPU byteNumber=977
-Thu 12:05: PART 2
-Thu 12:05: Tick=816423, output=183f68746f62206e6920, output.valid=1, dataFromMem=68746f62206e6920, sFileLengthBytesCounter=80, sFileLengthBytes=977
-Thu 12:05: Tick=816424, output=183f616e6f7372657020, output.valid=1, dataFromMem=616e6f7372657020, sFileLengthBytesCounter=88, sFileLengthBytes=977
-Thu 12:05: Tick=816425, output=183f6f6320646e61206c, output.valid=1, dataFromMem=6f6320646e61206c, sFileLengthBytesCounter=96, sFileLengthBytes=977
-Thu 12:05: Tick=816426, output=183f6c61696372656d6d, output.valid=1, dataFromMem=6c61696372656d6d, sFileLengthBytesCounter=104, sFileLengthBytes=977
-Thu 12:05: Tick=816427, output=183f7463656a6f727020, output.valid=1, dataFromMem=7463656a6f727020, sFileLengthBytesCounter=112, sFileLengthBytes=977
-Thu 12:05: Tick=816428, output=183f6e20687469772073, output.valid=1, dataFromMem=6e20687469772073, sFileLengthBytesCounter=120, sFileLengthBytes=977
-Thu 12:05: Tick=816429, output=183f626972747461206f, output.valid=1, dataFromMem=626972747461206f, sFileLengthBytesCounter=128, sFileLengthBytes=977
-Thu 12:05: Tick=816430, output=183f6572206e6f697475, output.valid=1, dataFromMem=6572206e6f697475, sFileLengthBytesCounter=136, sFileLengthBytes=977
-Thu 12:05: Tick=816431, output=183f202c646572697571, output.valid=1, dataFromMem=202c646572697571, sFileLengthBytesCounter=144, sFileLengthBytes=977
-Thu 12:05: Tick=816432, output=183f61776c6120747562, output.valid=1, dataFromMem=61776c6120747562, sFileLengthBytesCounter=152, sFileLengthBytes=977
-Thu 12:05: Tick=816433, output=183f6572707061207379, output.valid=1, dataFromMem=6572707061207379, sFileLengthBytesCounter=160, sFileLengthBytes=977
-Thu 12:05: Tick=816434, output=183f0a2e646574616963, output.valid=1, dataFromMem=0a2e646574616963, sFileLengthBytesCounter=168, sFileLengthBytes=977
-Thu 12:05: Tick=816435, output=183f2079616d20756f59, output.valid=1, dataFromMem=2079616d20756f59, sFileLengthBytesCounter=176, sFileLengthBytes=977
-Thu 12:05: Tick=816436, output=183f2d62757320544f4e, output.valid=1, dataFromMem=2d62757320544f4e, sFileLengthBytesCounter=184, sFileLengthBytes=977
-Thu 12:05: Tick=816437, sBurstCounter=0
-Thu 12:05: Tick=816437, output=183f2c65736e6563696c, output.valid=1, dataFromMem=2c65736e6563696c, sFileLengthBytesCounter=192, sFileLengthBytes=977
-Thu 12:05: Tick=816438, output=183f2c6c6c6573657220, output.valid=1, dataFromMem=2c6c6c6573657220, sFileLengthBytesCounter=200, sFileLengthBytes=977
-Thu 12:05: Tick=816439,
-Thu 12:05:  output=183f72202c746e657220, output.valid=1, dataFromMem=72202c746e657220, sFileLengthBytesCounter=208, sFileLengthBytes=977
-Thu 12:05: Tick=816440, output=183f6269727473696465, output.valid=1, dataFromMem=6269727473696465, sFileLengthBytesCounter=216, sFileLengthBytes=977
-Thu 12:05: Tick=816441, output=183f6f20726f20657475, output.valid=1, dataFromMem=6f20726f20657475, sFileLengthBytesCounter=224, sFileLengthBytes=977
-Thu 12:05: Got ack from TxManager: Total frames: 0
-Thu 12:05: frameCounter=1
-Thu 12:05: Tick=816442, output=183f6573697772656874, output.valid=1, dataFromMem=6573697772656874, sFileLengthBytesCounter=232, sFileLengthBytes=977
-Thu 12:05: Tick=816443, output=183f6566736e61727420, output.valid=1, dataFromMem=6566736e61727420, sFileLengthBytesCounter=240, sFileLengthBytes=977
-Thu 12:05: Tick=816444, output=183f6369206568742072, output.valid=1, dataFromMem=6369206568742072, sFileLengthBytesCounter=248, sFileLengthBytes=977
-Thu 12:05: Tick=816445, output=183f6f68746977206e6f, output.valid=1, dataFromMem=6f68746977206e6f, sFileLengthBytesCounter=256, sFileLengthBytes=977
-Thu 12:05: Got ack from TxManager: Total frames: 1
-Thu 12:05: frameCounter=2
-Thu 12:05: Tick=816446, output=183f6572707865207475, output.valid=1, dataFromMem=6572707865207475, sFileLengthBytesCounter=264, sFileLengthBytes=977
-Thu 12:05: Tick=816447, output=183f7474697277207373, output.valid=1, dataFromMem=7474697277207373, sFileLengthBytesCounter=272, sFileLengthBytes=977
-Thu 12:05: Tick=816448, output=183f696d726570206e65, output.valid=1, dataFromMem=696d726570206e65, sFileLengthBytesCounter=280, sFileLengthBytes=977
-Thu 12:05: Tick=816449, output=183f7266206e6f697373, output.valid=1, dataFromMem=7266206e6f697373, sFileLengthBytesCounter=288, sFileLengthBytes=977
-Thu 12:05: Got ack from TxManager: Total frames: 2
-Thu 12:05: frameCounter=3
-Thu 12:05: Tick=816450, output=183f6d6e6f6369206d6f, output.valid=1, dataFromMem=6d6e6f6369206d6f, sFileLengthBytesCounter=296, sFileLengthBytes=977
-Thu 12:05: Tick=816451, output=183f6f632e7274736e6f, output.valid=1, dataFromMem=6f632e7274736e6f, sFileLengthBytesCounter=304, sFileLengthBytes=977
-Thu 12:05: Tick=816452, output=183f3c0a0a3e2d2d206d, output.valid=1, dataFromMem=3c0a0a3e2d2d206d, sFileLengthBytesCounter=312, sFileLengthBytes=977
-Thu 12:05: Tick=816453, output=183f45505954434f4421, output.valid=1, dataFromMem=45505954434f4421, sFileLengthBytesCounter=320, sFileLengthBytes=977
-Thu 12:05: Got ack from TxManager: Total frames: 3
-Thu 12:05: frameCounter=4
-Thu 12:05: Tick=816454, output=183f4255502067767320, output.valid=1, dataFromMem=4255502067767320, sFileLengthBytesCounter=328, sFileLengthBytes=977
-Thu 12:05: Tick=816455, output=183f2f2f2d222043494c, output.valid=1, dataFromMem=2f2f2d222043494c, sFileLengthBytesCounter=336, sFileLengthBytes=977
-Thu 12:05: Tick=816456, output=183f4454442f2f433357, output.valid=1, dataFromMem=4454442f2f433357, sFileLengthBytesCounter=344, sFileLengthBytes=977
-Thu 12:05: Tick=816457, output=183f312e312047565320, output.valid=1, dataFromMem=312e312047565320, sFileLengthBytesCounter=352, sFileLengthBytes=977
-Thu 12:05: Got ack from TxManager: Total frames: 4
-Thu 12:05: frameCounter=5
-Thu 12:05: Tick=816458, output=183f682220224e452f2f, output.valid=1, dataFromMem=682220224e452f2f, sFileLengthBytesCounter=360, sFileLengthBytes=977
-Thu 12:05: Tick=816459, output=183f77772f2f3a707474, output.valid=1, dataFromMem=77772f2f3a707474, sFileLengthBytesCounter=368, sFileLengthBytes=977
-Thu 12:05: Tick=816460, output=183f67726f2e33772e77, output.valid=1, dataFromMem=67726f2e33772e77, sFileLengthBytesCounter=376, sFileLengthBytes=977
-Thu 12:05: Tick=816461, sBurstCounter=1
-Thu 12:05: Tick=816461, output=183f636968706172472f, output.valid=1, dataFromMem=636968706172472f, sFileLengthBytesCounter=384, sFileLengthBytes=977
-Thu 12:05: Got ack from TxManager: Total frames: 5
-Thu 12:05: frameCounter=6
-Thu 12:05: Tick=816462, output=183f2e312f4756532f73, output.valid=1, dataFromMem=2e312f4756532f73, sFileLengthBytesCounter=392, sFileLengthBytes=977
-Thu 12:05: Tick=816463, output=183f76732f4454442f31, output.valid=1, dataFromMem=76732f4454442f31, sFileLengthBytesCounter=400, sFileLengthBytes=977
-Thu 12:05: Tick=816464, output=183f226474642e313167, output.valid=1, dataFromMem=226474642e313167, sFileLengthBytesCounter=408, sFileLengthBytes=977
-Thu 12:05: Tick=816465, output=183f76206776733c0a3e, output.valid=1, dataFromMem=76206776733c0a3e, sFileLengthBytesCounter=416, sFil
-Thu 12:05: eLengthBytes=977
-Thu 12:05: Got ack from TxManager: Total frames: 6
-Thu 12:05: frameCounter=7
-Thu 12:05: Tick=816466, output=183f223d6e6f69737265, output.valid=1, dataFromMem=223d6e6f69737265, sFileLengthBytesCounter=424, sFileLengthBytes=977
-Thu 12:05: Tick=816467, output=183f6c6d782022312e31, output.valid=1, dataFromMem=6c6d782022312e31, sFileLengthBytesCounter=432, sFileLengthBytes=977
-Thu 12:05: Tick=816468, output=183f70747468223d736e, output.valid=1, dataFromMem=70747468223d736e, sFileLengthBytesCounter=440, sFileLengthBytes=977
-Thu 12:05: Tick=816469, output=183f772e7777772f2f3a, output.valid=1, dataFromMem=772e7777772f2f3a, sFileLengthBytesCounter=448, sFileLengthBytes=977
-Thu 12:05: Got ack from TxManager: Total frames: 7
-Thu 12:05: frameCounter=8
-Thu 12:05: Tick=816470, output=183f30322f67726f2e33, output.valid=1, dataFromMem=30322f67726f2e33, sFileLengthBytesCounter=456, sFileLengthBytes=977
-Thu 12:05: Tick=816471, output=183f20226776732f3030, output.valid=1, dataFromMem=20226776732f3030, sFileLengthBytesCounter=464, sFileLengthBytes=977
-Thu 12:05: Tick=816472, output=183f6c783a736e6c6d78, output.valid=1, dataFromMem=6c783a736e6c6d78, sFileLengthBytesCounter=472, sFileLengthBytes=977
-Thu 12:05: Tick=816473, output=183f747468223d6b6e69, output.valid=1, dataFromMem=747468223d6b6e69, sFileLengthBytesCounter=480, sFileLengthBytes=977
-Thu 12:05: Tick=816474, output=183f2e7777772f2f3a70, output.valid=1, dataFromMem=2e7777772f2f3a70, sFileLengthBytesCounter=488, sFileLengthBytes=977
-Thu 12:05: Tick=816475, output=183f312f67726f2e3377, output.valid=1, dataFromMem=312f67726f2e3377, sFileLengthBytesCounter=496, sFileLengthBytes=977
-Thu 12:05: Tick=816476, output=183f6e696c782f393939, output.valid=1, dataFromMem=6e696c782f393939, sFileLengthBytesCounter=504, sFileLengthBytes=977
-Thu 12:05: Tick=816477, output=183f7030223d7820226b, output.valid=1, dataFromMem=7030223d7820226b, sFileLengthBytesCounter=512, sFileLengthBytes=977
-Thu 12:05: Tick=816478, output=183f7030223d79202278, output.valid=1, dataFromMem=7030223d79202278, sFileLengthBytesCounter=520, sFileLengthBytes=977
-Thu 12:05: Tick=816479, output=183f697720090a0a2278, output.valid=1, dataFromMem=697720090a0a2278, sFileLengthBytesCounter=528, sFileLengthBytes=977
-Thu 12:05: Tick=816480, output=183f323135223d687464, output.valid=1, dataFromMem=323135223d687464, sFileLengthBytesCounter=536, sFileLengthBytes=977
-Thu 12:05: Tick=816481, output=183f6769656820227870, output.valid=1, dataFromMem=6769656820227870, sFileLengthBytesCounter=544, sFileLengthBytes=977
-Thu 12:05: Tick=816482, output=183f70323135223d7468, output.valid=1, dataFromMem=70323135223d7468, sFileLengthBytesCounter=552, sFileLengthBytes=977
-Thu 12:05: Tick=816483, output=183f4277656976202278, output.valid=1, dataFromMem=4277656976202278, sFileLengthBytesCounter=560, sFileLengthBytes=97Got ack from TxManager: Total frames: 8
-Thu 12:05: 7
-Thu 12:05: Tick=816484, output=183f20302030223d786f, output.valid=1, dataFromMem=20302030223d786f, sFileLengthBytesCounter=568, sFileLengthBytes=977
-Thu 12:05: Tick=816485, sBurstCounter=2
-Thu 12:05: Tick=816485, output=183f2232313520323135, output.valid=1, dataFromMem=2232313520323135, sFileLengthBytesCounter=576, sFileLengthBytes=977
-Thu 12:05: Tick=816486, output=183f2d656c62616e6520, output.valid=1, dataFromMem=2d656c62616e6520, sFileLengthBytesCounter=584, sFileLengthBytes=977
-Thu 12:05: Tick=816487, output=183f756f72676b636162, output.valid=1, dataFromMem=756f72676b636162, sFileLengthBytesCounter=592, sFileLengthBytes=977
-Thu 12:05: Tick=816488, output=183f2077656e223d646e, output.valid=1, dataFromMem=2077656e223d646e, sFileLengthBytesCounter=600, sFileLengthBytes=977
-Thu 12:05: Tick=816489, output=183f2032313520302030, output.valid=1, dataFromMem=2032313520302030, sFileLengthBytesCounter=608, sFileLengthBytes=977
-Thu 12:05: Tick=816490, output=183f6c6d782022323135, output.valid=1, dataFromMem=6c6d782022323135, sFileLengthBytesCounter=616, sFileLengthBytes=977
-Thu 12:05: Tick=816491, output=183f223d65636170733a, output.valid=1, dataFromMem=223d65636170733a, sFileLengthBytesCounter=624, sFileLengthBytes=977
-Thu 12:05: Tick=816492, output=183f6576726573657270, output.valid=1, dataFromMem=6576726573657270, sFileLengthBytesCounter=632, sFileLengthBytes=977
-Thu 12:05: Tick=816493, output=183f223d6c6c69662022, output.valid=1, dataFromMem=223d6c6c69662022, sFileLengthBytesCounter=640, sFileLengthBytes=977
-Thu 12:05: Tick=816494, output=183f2230303030303023, output.valid=1, dataFromMem=2230303030303023, sFileLengthBytesCounter=648, sFileLengthBytes=977
-Thu 12:05: Tick=816495, output=183f687461703c0a0a3e, output.valid=1, dataFromMem=687461703c0a0a3e, sFileLengthBytesCounter=656, sFileLengthBytes=977
-Thu 12:05: Tick=816496, output=183f657375223d646920, output.valid=1, dataFromMem=657375223d646920, sFileLengthBytesCounter=664, sFileLengthBytes=977
-Thu 12:05: Tick=816497, output=183f20226e6f63692d72, output.valid=1, dataFromMem=20226e6f63692d72, sFileLengthBytesCounter=672, sFileLengthBytes=977
-Thu 12:05: Tick=816498, output=183f2e3730344d223d64, output.valid=1, dataFromMem=2e3730344d223d6frameCounter=9
-Thu 12:05: 4, sFileLengthBytesCounter=680, sFileLengthBytes=977
-Thu 12:05: Tick=816499, output=183f2e3036332c383434, output.valid=1, dataFromMem=2e3036332c383434, sFileLengthBytesCounter=688, sFileLengthBytes=977
-Thu 12:05: Tick=816500, output=183f2e39352d63343734, output.valid=1, dataFromMem=2e39352d63343734, sFileLengthBytesCounter=696, sFileLengthBytes=977
-Thu 12:05: Tick=816501, output=183f362e33312d363330, output.valid=1, dataFromMem=362e33312d363330, sFileLengthBytesCounter=704, sFileLengthBytes=977
-Thu 12:05: Tick=816502, output=183f392e3331312d3731, outGot ack from TxManager: Total frames: 9
-Thu 12:05: put.valid=1, dataFromMem=392e3331312d3731, sFileLengthBytesCounter=712, sFileLengthBytes=977
-Thu 12:05: Tick=816503, output=183f34352e35322d3938, output.valid=1, dataFromMem=34352e35322d3938, sFileLengthBytesCounter=720, sFileLengthBytes=977
-Thu 12:05: Tick=816504, output=183f3537332e37382d31, output.valid=1, dataFromMem=3537332e37382d31, sFileLengthBytesCounter=728, sFileLengthBytes=977
-Thu 12:05: Tick=816505, output=183f0a3731372e35372d, output.valid=1, dataFromMem=0a3731372e35372d, sFileLengthBytesCounter=736, sFileLengthBytes=977
-Thu 12:05: Tick=816506, output=183f2d31302e31386309, output.valid=1, dataFromMem=2d31302e31386309, sFileLengthBytesCounter=744, sFileLengthBytes=977
-Thu 12:05: Tick=816507, output=183f2c3932372e323531, output.valid=1, dataFromMem=2c3932372e323531, sFileLengthBytesCounter=752, sFileLframeCounter=10
-Thu 12:05: Got ack from TxManager: Total frames: 10
-Thu 12:05: frameCounter=11
-Thu 12:05: Got ack from TxManager: Total frames: 11
-Thu 12:05: frameCounter=12
-Thu 12:05: Got ack from TxManager: Total frames: 12
-Thu 12:05: frameCounter=13
-Thu 12:05: Got ack from TxManager: Total frames: 13
-Thu 12:05: frameCounter=14
-Thu 12:05: Got ack from TxManager: Total frames: 14
-Thu 12:05: frameCounter=15
-Thu 12:05: Got ack from TxManager: Total frames: 15
-Thu 12:05: frameCounter=16
-Thu 12:05: Got ack from TxManager: Total frames: 16
-Thu 12:05: frameCounter=17
-Thu 12:05: Got ack from TxManager: Total frames: 17
-Thu 12:05: frameCounter=18
-Thu 12:05: Got ack from TxManager: Total frames: 18
-Thu 12:05: frameCounter=19
-Thu 12:05: Got ack from TxManager: Total frames: 19
-Thu 12:05: frameCounter=20
-Thu 12:05: Got ack from TxManager: Total frames: 20
-Thu 12:05: frameCounter=21
-Thu 12:05: Got ack from TxManager: Total frames: 21
-Thu 12:05: frameCounter=22
-Thu 12:05: Got ack from TxManager: Total frames: 22
-Thu 12:05: frameCounter=23
-Thu 12:05: Got ack from TxManager: Total frames: 23
-Thu 12:05: frameCounter=24
-Thu 12:05: Got ack from TxManager: Total frames: 24
-Thu 12:05: frameCounter=25
-Thu 12:05: Got ack from TxManager: Total frames: 25
-Thu 12:05: frameCounter=26
-Thu 12:05: Got ack from TxManager: Total frames: 26
-Thu 12:05: frameCounter=27
-Thu 12:05: Got ack from TxManager: Total frames: 27
-Thu 12:05: frameCounter=28
-Thu 12:05: Got ack from TxManager: Total frames: 28
-Thu 12:05: frameCounter=29
-Thu 12:05: Got ack from TxManager: Total frames: 29
-Thu 12:05: frameCounter=30
-Thu 12:05: Got ack from TxManager: Total frames: 30
-Thu 12:05: frameCounter=31
-Thu 12:05: Got ack from TxManager: Total frames: 31
-Thu 12:05: frameCounter=32
-Thu 12:05: Got ack from TxManager: Total frames: 32
-Thu 12:05: frameCounter=33
-Thu 12:05: Got ack from TxManager: Total frames: 33
-Thu 12:05: frameCounter=34
-Thu 12:05: Got ack from TxManager: Total frames: 34
-Thu 12:05: frameCounter=35
-Thu 12:05: Got ack from TxManager: Total frames: 35
-Thu 12:05: frameCounter=36
-Thu 12:05: Got ack from TxManager: Total frames: 36
-Thu 12:05: frameCounter=37
-Thu 12:05: Got ack from TxManager: Total frames: 37
-Thu 12:05: frameCounter=38
-Thu 12:05: Got ack from TxManager: Total frames: 38
-Thu 12:05: frameCounter=39
-Thu 12:05: Got ack from TxManager: Total frames: 39
-Thu 12:05: frameCounter=40
-Thu 12:05: Got ack from TxManager: Total frames: 40
-Thu 12:05: frameCounter=41
-Thu 12:05: Got ack from TxManager: Total frames: 41
-Thu 12:05: frameCounter=42
-Thu 12:05: Got ack from TxManager: Total frames: 42
-Thu 12:05: frameCounter=43
-Thu 12:05: Got ack from TxManager: Total frames: 43
-Thu 12:05: frameCounter=44
-Thu 12:05: Got ack from TxManager: Total frames: 44
-Thu 12:05: frameCounter=45
-Thu 12:05: Got ack from TxManager: To
-Thu 12:05: tal frames: 45
-Thu 12:05: frameCounter=46
-Thu 12:05: Got ack from TxManager: Total frames: 46
-Thu 12:05: frameCounter=47
-Thu 12:05: Got ack from TxManager: Total frames: 47
-Thu 12:05: frameCounter=48
-Thu 12:05: Got ack from TxManager: Total frames: 48
-Thu 12:05: frameCounter=49
-Thu 12:05: engthBytes=977
-Thu 12:05: Tick=816508, output=183f322d3337342e3132, output.valid=1, dataFromMem=322d3337342e3132, sFileLengthBytesCounter=760, sFileLengthBytes=977
-Thu 12:05: Tick=816509, sBurstCounter=3
-Thu 12:05: Tick=816509, output=183f362d3630342e3433, output.valid=1, dataFromMem=362dGot ack from TxManager: Total frames: 49
-Thu 12:05: frameCounter=50
-Thu 12:05: Got ack from TxManager: Total frames: 50
-Thu 12:05: frameCounter=51
-Thu 12:05: Got ack from TxManager: Total frames: 51
-Thu 12:05: frameCounter=52
-Thu 12:05: Got ack from TxManager: Total frames: 52
-Thu 12:05: frameCounter=53
-Thu 12:05: Got ack from TxManager: Total frames: 53
-Thu 12:05: frameCounter=54
-Thu 12:05: Got ack from TxManager: Total frames: 54
-Thu 12:05: frameCounter=55
-Thu 12:05: Got ack from TxManager: Total frames: 55
-Thu 12:05: frameCounter=56
-Thu 12:05: Got ack from TxManager: Total frames: 56
-Thu 12:05: frameCounter=57
-Thu 12:05: Got ack from TxManager: Total frames: 57
-Thu 12:05: frameCounter=58
-Thu 12:05: Got ack from TxManager: Total frames: 58
-Thu 12:05: frameCounter=59
-Thu 12:05: Got ack from TxManager: Total frames: 59
-Thu 12:05: frameCounter=60
-Thu 12:05: Got ack from TxManager: Total frames: 60
-Thu 12:05: frameCounter=61
-Thu 12:05: Got ack from TxManager: Total frames: 61
-Thu 12:05: frameCounter=62
-Thu 12:05: Got ack from TxManager: Total frames: 62
-Thu 12:05: frameCounter=63
-Thu 12:05: Got ack from TxManager: Total frames: 63
-Thu 12:05: frameCounter=64
-Thu 12:05: Got ack from TxManager: Total frames: 64
-Thu 12:05: frameCounter=65
-Thu 12:05: Got ack from TxManager: Total frames: 65
-Thu 12:05: frameCounter=66
-Thu 12:05: Got ack from TxManager: Total frames: 66
-Thu 12:05: frameCounter=67
-Thu 12:05: Got ack from TxManager: Total frames: 67
-Thu 12:05: frameCounter=68
-Thu 12:05: Got ack from TxManager: Total frames: 68
-Thu 12:05: frameCounter=69
-Thu 12:05: Got ack from TxManager: Total frames: 69
-Thu 12:05: frameCounter=70
-Thu 12:05: Got ack from TxManager: Total frames: 70
-Thu 12:05: frameCounter=71
-Thu 12:05: Got ack from TxManager: Total frames: 71
-Thu 12:05: frameCounter=72
-Thu 12:05: Got ack from TxManager: Total frames: 72
-Thu 12:05: frameCounter=73
-Thu 12:05: Got ack from TxManager: Total frames: 73
-Thu 12:05: frameCounter=74
-Thu 12:05: Got ack from TxManager: Total frames: 74
-Thu 12:05: frameCounter=75
-Thu 12:05: Got ack from TxManager: Total frames: 75
-Thu 12:05: frameCounter=76
-Thu 12:05: Got ack from TxManager: Total frames: 76
-Thu 12:05: frameCounter=77
-Thu 12:05: Got ack from TxManager: Total frames: 77
-Thu 12:05: frameCounter=78
-Thu 12:05: Got ack from TxManager: Total frames: 78
-Thu 12:05: frameCounter=79
-Thu 12:05: Got ack from TxManager: Total frames: 79
-Thu 12:05: frameCounter=80
-Thu 12:05: Got ack from TxManager: Total frames: 80
-Thu 12:05: frameCounter=81
-Thu 12:05: Got ack from TxManager: Total frames: 81
-Thu 12:05: frameCounter=82
-Thu 12:05: Got ack from TxManager: Total frames: 82
-Thu 12:05: frameCounter=83
-Thu 12:05: Got ack from TxManager: Total frames: 83
-Thu 12:05: frameCounter=84
-Thu 12:05: Got ack from TxManager: Total frames: 84
-Thu 12:05: 3630342e3433, sFileLengthBytesCounter=768, sFileLengthBytes=977
-Thu 12:05: Tick=816510, output=183f33322d3237302e34, output.valid=1, dataFromMem=33322d3237302e34, sFileLengthBytesCounter=776, sFileLengthBytes=977
-Thu 12:05: Tick=816511, output=183f382d633630342e34, output.validframeCounter=85
-Thu 12:05: Got ack from TxManager: Total frames: 85
-Thu 12:05: frameCounter=86
-Thu 12:05: Got ack from TxManager: Total frames: 86
-Thu 12:05: frameCounter=87
-Thu 12:05: Got ack from TxManager: Total frames: 87
-Thu 12:05: frameCounter=88
-Thu 12:05: Got ack from TxManager: Total frames: 88
-Thu 12:05: frameCounter=89
-Thu 12:05: Got ack from TxManager: Total frames: 89
-Thu 12:05: frameCounter=90
-Thu 12:05: Got ack from TxManager: Total frames: 90
-Thu 12:05: frameCounter=91
-Thu 12:05: Got ack from TxManager: Total frames: 91
-Thu 12:05: frameCounter=92
-Thu 12:05: Got ack from TxManager: Total frames: 92
-Thu 12:05: frameCounter=93
-Thu 12:05: Got ack from TxManager: Total frames: 93
-Thu 12:05: frameCounter=94
-Thu 12:05: Got ack from TxManager: Total frames: 94
-Thu 12:05: frameCounter=95
-Thu 12:05: Got ack from TxManager: Total frames: 95
-Thu 12:05: frameCounter=96
-Thu 12:05: Got ack from TxManager: Total frames: 96
-Thu 12:05: frameCounter=97
-Thu 12:05: Got ack from TxManager: Total frames: 97
-Thu 12:05: frameCounter=98
-Thu 12:05: Got ack from TxManager: Total frames: 98
-Thu 12:05: frameCounter=99
-Thu 12:05: Got ack from TxManager: Total frames: 99
-Thu 12:05: frameCounter=100
-Thu 12:05: Got ack from TxManager: Total frames: 100
-Thu 12:05: frameCounter=101
-Thu 12:05: Got ack from TxManager: Total frames: 101
-Thu 12:05: frameCounter=102
-Thu 12:05: Got ack from TxManager: Total frames: 102
-Thu 12:05: frameCounter=103
-Thu 12:05: Got ack from TxManager: Total frames: 103
-Thu 12:05: frameCounter=104
-Thu 12:05: Got ack from TxManager: Total frames: 104
-Thu 12:05: frameCounter=105
-Thu 12:05: Got ack from TxManager: Total frames: 105
-Thu 12:05: frameCount
-Thu 12:05: er=106
-Thu 12:05: Got ack from TxManager: Total frames: 106
-Thu 12:05: frameCounter=107
-Thu 12:05: Got ack from TxManager: Total frames: 107
-Thu 12:05: frameCounter=108
-Thu 12:05: Got ack from TxManager: Total frames: 108
-Thu 12:05: frameCounter=109
-Thu 12:05: Got ack from TxManager: Total frames: 109
-Thu 12:05: frameCounter=110
-Thu 12:05: Got ack from TxManager: Total frames: 110
-Thu 12:05: frameCounter=111
-Thu 12:05: Got ack from TxManager: Total frames: 111
-Thu 12:05: frameCounter=112
-Thu 12:05: Got ack from TxManager: Total frames: 112
-Thu 12:05: frameCounter=113
-Thu 12:05: Got ack from TxManager: Total frames: 113
-Thu 12:05: frameCounter=114
-Thu 12:05: Got ack from TxManager: Total frames: 114
-Thu 12:05: frameCounter=115
-Thu 12:05: Got ack from TxManager: Total frames: 115
-Thu 12:05: frameCounter=116
-Thu 12:05: Got ack from TxManager: Total frames: 116
-Thu 12:05: frameCounter=117
-Thu 12:05: Got ack from TxManager: Total frames: 117
-Thu 12:05: frameCounter=118
-Thu 12:05: Got ack from TxManager: Total frames: 118
-Thu 12:05: frameCounter=119
-Thu 12:05: Got ack from TxManager: Total frames: 119
-Thu 12:05: frameCounter=120
-Thu 12:05: Got ack from TxManager: Total frames: 120
-Thu 12:05: frameCounter=121
-Thu 12:05: Got ack from TxManager: Total frames: 121
-Thu 12:05: frameCounter=122
-Thu 12:05: Got ack from TxManager: Total frames: 122
-Thu 12:05: =1, dataFromMem=382d633630342e34, sFileLengthBytesCounter=784, sFileLengthBytes=977
-Thu 12:05: Tick=816512, output=183f2d302c3133322e37, output.valid=1, dataFromMem=2d302c3133322e37, sFileLengthBytesCounter=792, sFileLengthBytes=977
-Thu 12:05: Tick=816513, output=183f2c3330332eframeCounter=123
-Thu 12:05: 353431, output.valid=1, dataFromMem=2c3330332e353431, sFileLengthBytesCounter=800, sFileLengthBytes=977
-Thu 12:05: Tick=816514, output=183f362d3231382e3438, output.valid=1, dataFromMem=362d3231382e3438, sFileLengthBytesCounter=808, sFileLengthBytes=977
-Thu 12:05: Tick=816515, output=183f33322c3237302e34, output.valid=1, dataFromMem=33322c3237302e34, sFileLengthBytesCounter=816, sFileLengthBytes=977
-Thu 12:05: Tick=816516, output=183f3732633630342e34, output.valid=1, dataFromMem=3732633630342e34, sFileLengthBytesCounter=824, sFileLengthBytes=977
-Thu 12:05: Tick=816517, output=183f2e30352c3231342e, output.valid=1, dataFromMem=2e30352c3231342e, sFileLengthBytesCounter=832, sFileLengthBytes=977
-Thu 12:05: Tick=816518, output=183f362e39322d323834, output.valid=1, dataFromMem=362e39322d323834, sFileLengthBytesCounter=840, sFileLengthBytes=977
-Thu 12:05: Tick=816519, output=183f39332e32362c3830, output.valid=1, dataFromMem=39332e32362c3830, sFileLengthBytesCounter=848, sFileLengthBytes=977
-Thu 12:05: Tick=816520, output=183f3537332e37382d33, output.valid=1, dataFromMem=3537332e37382d33, sFileLengthBytesCounter=856, sFileLengthBytes=977
-Thu 12:05: Tick=816521, output=183f0a3731372e35372c, output.valid=1, dataFromMem=0a3731372e35372c, sFileLengthBytesCounter=864, sFileLengthBytes=977
-Thu 12:05: Tick=816522, output=183f31302e39352d6309, output.valid=1, dataFromMem=31302e39352d6309, sFileLengthBytesCounter=872, sFileLengthBytes=977
-Thu 12:05: Tick=816523, output=183f3930362e33312c32, output.valid=1, dataFromMem=3930362e33312c32, sFileLengthBytesCounter=880, sFileLengthBytes=977
-Thu 12:05: Tick=816524, output=183f2c3337342e34352d, output.valid=1, dataFromMem=2c3337342e34352d, sFileLengthBytesCounter=888, sFileLengthBytes=977
-Thu 12:05: Tick=816525, output=183f352d3332372e3434, output.valid=1, dataFromMem=352d3332372e3434, sFileLengthBytesCounter=896, sFileLengthBytes=977
-Thu 12:05: Tick=816526, output=183f30312c3337342e34, output.valid=1, dataFromMem=30312c3337342e34, sFileLengthBytesCounter=904, sFileLengthBytes=977
-Thu 12:05: Tick=816527, output=183f3134683637312e31, output.valid=1, dataFromMem=3134683637312e31, sFileLengthBytesCounter=912, sFileLengthBytes=977
-Thu 12:05: Tick=816528, output=183f3634433833382e31, output.valid=1, dataFromMem=3634433833382e31, sFileLengthBytesCounter=920, sFileLengthBytes=977
-Thu 12:05: Tick=816529, output=183f30342c3931392e31, output.valid=1, dataFromMem=30342c3931392e31, sFileLengthBytesCounter=928, sFileLengthBytes=977
-Thu 12:05: Tick=816530, output=183f36342c3639312e35, output.valid=1, dataFromMem=36342c3639312e35, sFileLengthBytesCounter=936, sFileLengthBytes=977
-Thu 12:05: Tick=816531, output=183f37332c3835342e36, output.valid=1, dataFromMem=37332c3835342e36, sFileLengthBytesCounter=944, sFileLengthBytes=977
-Thu 12:05: Tick=816532, output=183f30342c3338302e34, output.valid=1, dataFromMem=30342c3338302e34, sFileLengthBytesCounter=952, sFileLengthBytes=977
-Thu 12:05: Tick=816533, sBurstCounter=4
-Thu 12:05: Tick=816533, out
-Thu 12:05: put=183f36332c3834342e37, output.valid=1, dataFromMem=36332c3834342e37, sFileLengthBytesCounter=960, sFileLengthBytes=977
-Thu 12:05: Tick=816534, output=183f2f227a3437342e30, output.valid=1, dataFromMem=2f227a3437342e30, sFileLengthBytesCounter=968, sFileLengthBytes=977
-Thu 12:05: Tick=816535, output=183f3e6776732f3c0a3e, output.valid=1, dataFromMem=3e6776732f3c0a3e, sFileLengthBytesCounter=976, sFileLengthBytes=977
-Thu 12:05: Tick=816536, slanje: mod=1, sFileLengthBytesCounter=984, sFileLengthBytes=977
-Thu 12:05: Tick=816536, output=193f000000000000000a, output.valid=1, dataFromMem=000000000000000a, sFileLengthBytesCounter=984, sFileLengthBytes=977
-Thu 12:05: Tick=816537, output=00000000000000000, output.valid=0, dataFromMem=0000000000000000, sFileLengthBytesCounter=992, sFileLengthBytes=977
-Thu 12:05: Tick=816538, output=00000000000000000, output.valid=0, dataFromMem=0000000000000000, sFileLengthBytesCounter=1000, sFileLengthBytes=977
-Thu 12:05: Tick=816539, output=00000000000000000, output.valid=0, dataFromMem=0000000000000000, sFileLengthBytesCounter=1008, sFileLengthBytes=977
-Thu 12:05: Tick=816540, output=00000000000000000, output.valid=0, dataFromMem=0000000000000000, sFileLengthBytesCounter=1016, sFileLengthBytes=977
-Thu 12:05: Tick=816541, output=00000000000000000, output.valid=0, dataFromMem=0000000000000000, sFileLengthBytesCounter=1024, sFileLengthBytes=977
-Thu 12:05: Tick=816542, output=00000000000000000, output.valid=0, dataFromMem=0000000000000000, sFileLengthBytesCounter=1032, sFileLengthBytes=977
-Thu 12:05: Tick=816543, output=00000000000000000, output.valid=0, dataFromMem=0000000000000000, sFileLengthBytesCounter=1040, sFileLengthBytes=977
-Thu 12:05: Tick=816544, output=00000000000000000, output.valid=0, dataFromMem=0000000000000000, sFileLengthBytesCounter=1048, sFileLengthBytes=977
-Thu 12:05: Tick=816545, output=00000000000000000, output.valid=0, dataFromMem=0000000000000000, sFileLengthBytesCounter=1056, sFileLengthBytes=977
-Thu 12:05: Tick=816546, output=00000000000000000, output.valid=0, dataFromMem=0000000000000000, sFileLengthBytesCounter=1064, sFileLengthBytes=977
-Thu 12:05: Tick=816547, output=00000000000000000, output.valid=0, dataFromMem=0000000000000000, sFileLengthBytesCounter=1072, sFileLengthBytes=977
-Thu 12:05: Tick=816548, output=00000000000000000, output.valid=0, dataFromMem=0000000000000000, sFileLengthBytesCounter=1080, sFileLengthBytes=977
-Thu 12:05: Tick=816549, output=00000000000000000, output.valid=0, dataFromMem=0000000000000000, sFileLengthBytesCounter=1088, sFileLengthBytes=977
-Thu 12:05: Tick=816550, output=00000000000000000, output.valid=0, dataFromMem=0000000000000000, sFileLengthBytesCounter=1096, sFileLengthBytes=977
-Thu 12:05: Tick=816551, output=00000000000000000, output.valid=0, dataFromMem=0000000000000000, sFileLengthBytesCounter=1104, sFileLengthBytes=977
-Thu 12:05: Tick=816552, output=00000000000000000, output.valid=0, dataFromMem=0000000000000000, sFileLengthBytesCounter=1112, sFileLengthBytes=977
-Thu 12:05: Tick=816553, output=00000000000000000, output.valid=0, dataFromMem=0000000000000000, sFileLengthBytesCounter=1120, sFileLengthBytes=977
-Thu 12:05: Tick=816554, output=00000000000000000, output.valid=0, dataFromMem=0000000000000000, sFileLengthBytesCounter=1128, sFileLengthBytes=977
-Thu 12:05: Tick=816555, output=00000000000000000, output.valid=0, dataFromMem=0000000000000000, sFileLengthBytesCounter=1136, sFileLengthBytes=977
-Thu 12:05: Tick=816556, output=00000000000000000, output.valid=0, dataFromMem=0000000000000000, sFileLengthBytesCounter=1144, sFileLengthBytes=977
-Thu 12:05: Tick=816557, sBurstCounter=5
-Thu 12:05: Tick=816557, output=00000000000000000, output.valid=0, dataFromMem=0000000000000000, sFileLengthBytesCounter=1152, sFileLengthBytes=977
-Thu 12:05: Tick=816558, sBurstCounter===sDataBurstLength
-Thu 12:06: frameCounter=123, frameCounterPrevious=0, ceil(fileLength)=123
-Thu 12:06: Closing socket=63
-Thu 12:06: Waiting for MAX_TCP_STATE_CLOSED
-Thu 12:06: Set LISTEN state
-Thu 12:06: Waiting for MAX_TCP_STATE_LISTEN
-Thu 12:06: Opened again socket=63
-Thu 12:06: Process terminated with exit code -1.
-Thu 12:06: Terminated

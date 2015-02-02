@@ -14,13 +14,9 @@
 //-------------------------------------------------------------------------------
 
 //parallel CRC implementation
-//data: 128 bit at a time - 16 bytes
+//data: 512 bit at a time - 64 bytes
 //CRC output: 16 bit
 
-//CRC-16-CCITT
-//CRC module for data[63:0]
-//lfsr[15:0]=1+x^2+x^15+x^16;
-//http://outputlogic.com/?p=158
 
 package httpServer;
 
@@ -58,8 +54,6 @@ public class ParallelCRC extends ManagerStateMachine {
 
 	@Override
 	protected void nextState() {
-
-		//lfsr_q.next <== lfsr_c;
 
 		IF(sCrcValid)
 		{
@@ -115,13 +109,14 @@ public class ParallelCRC extends ManagerStateMachine {
 	protected void outputFunction() {
 
 		crc_out.valid <== sCrcValid; //data_in.valid;
-		crc_out <== lfsr_q;
+		crc_out <== lfsr_q; //data
 
 		data_in.stall <== crc_out.stall;
 
 		IF(sCrcValid)
 		{
-			debug.simPrintf("parallelCRC: tick=%x, dataIn=%x, dataIn.valid=%x, lfsr_c=%x, lfsr_q=%x, crc_out=0x%x\n", sCounter,data_in, data_in.valid, lfsr_c,lfsr_q,crc_out);
+			debug.simPrintf("parallelCRC: tick=%x, dataIn=%x\n", sCounter,data_in);
+			debug.simPrintf("parallelCRC: tick=%x, dataIn.valid=%x, lfsr_c=%x, lfsr_q=%x, crc_out=0x%x\n", sCounter, data_in.valid, lfsr_c,lfsr_q,crc_out);
 		}
 
 	}
