@@ -76,9 +76,6 @@ public class httpServerManager extends NetworkManager {
 //		DFELink toCpuDataSentFlag = addStreamToCPU("toCpuDataSentFlag");
 //		toCpuDataSentFlag <== stateMachine.getOutput("fromStateMachineDataSentFlag");
 
-
-
-
 //		//FIFO buffer for storing URL of incoming TCP frames
 //		StateMachineBlock fifo_instanca = addStateMachine("fifo_instanca", new LimitedDepthFIFOcopy(this, 64+3+3,1,1));
 //		fifo_instanca.getInput("input") <== stateMachine.getOutput("storeUrlFifo");
@@ -117,7 +114,8 @@ public class httpServerManager extends NetworkManager {
 	    DFELink toCpuByteNumber = addStreamToCPU("toCpuByteNumber");
 		toCpuByteNumber <== wireByteNumber.getOutput(SimpleWire.OUTPUT);
 
-
+		//socketNumber: stateMachine -> LMEM
+		LMEM1.getInput("socketNumberInput") <== stateMachine.getOutput("socketNumberOutput");
 
 
 

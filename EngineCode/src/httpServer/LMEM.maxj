@@ -14,29 +14,30 @@ import com.maxeler.maxcompiler.v2.statemachine.stdlib._State;
 
 public class LMEM extends ManagerStateMachine {
 
-	private enum MemCommand {
-		NOP(0), ClearFlags(1), SetFlags(2), BlockUntilFlagsSet(4), BlockUntilFlagsCleared(5);
-
-		private final int m_cmdCode;
-
-		private MemCommand(int cmdCode) {
-			m_cmdCode = cmdCode;
-		}
-
-		public int getInstructionCode() {
-			return m_cmdCode;
-		}
-	}
+//	private enum MemCommand {
+//		NOP(0), ClearFlags(1), SetFlags(2), BlockUntilFlagsSet(4), BlockUntilFlagsCleared(5);
+//
+//		private final int m_cmdCode;
+//
+//		private MemCommand(int cmdCode) {
+//			m_cmdCode = cmdCode;
+//		}
+//
+//		public int getInstructionCode() {
+//			return m_cmdCode;
+//		}
+//	}
 
 	// LMem
 	public static final String INPUT_MEM_DATA = "dataFromMem";
 	public static final String OUTPUT_MEM_COMMAND = "memCmd";
 	private final DFEStructType cmdType;
 
-	private final DFEsmPushInput dataFromMem = io.pushInput(INPUT_MEM_DATA,	dfeUInt(64), 1); // burstSizeBits
-	private final DFEsmPushInput dataFromHashIndex = io.pushInput("dataFromHashIndex",dfeUInt(64), 1); // burstSizeBits
+	private final DFEsmPushInput dataFromMem = io.pushInput(INPUT_MEM_DATA,	dfeUInt(64), 1);
+	private final DFEsmPushInput socketNumberInput = io.pushInput("socketNumberInput", dfeUInt(16), 1);
+	private final DFEsmPushInput dataFromHashIndex = io.pushInput("dataFromHashIndex",dfeUInt(64), 1);
 	private final DFEsmPushOutput fromStateMachineByteNumber = io.pushOutput("fromStateMachineByteNumber", dfeUInt(128), 5);
-	private final DFEsmPushOutput output = io.pushOutput("outputLMEM", dfeUInt(77), 1); // UDP TX stream format: 77 bits
+	private final DFEsmPushOutput output = io.pushOutput("outputLMEM", dfeUInt(77), 1); // TX stream format: 77 bits
 	private final DFEsmPushOutput memCmdOutput;
 	private final DFEsmStateValue memCmdReg;
 	private final DFEsmStateValue memCmdRegValid;
@@ -50,6 +51,7 @@ public class LMEM extends ManagerStateMachine {
 	private final DFEsmStateValue sStartROMAddress = state.value(dfeUInt(19), 0);
 	private final DFEsmStateValue sDataBurstLength = state.value(dfeUInt(19), 0);
 	private final DFEsmStateValue sFileLengthBytes = state.value(dfeUInt(26), 0);
+	private final DFEsmStateValue sSocketNumber = state.value(dfeUInt(16), 0);
 
 	private final DFEsmStateValue sLMemBurstCounter = state.value(dfeUInt(19),0);
 	private final DFEsmStateValue sBurstCounter = state.value(dfeUInt(19), 0);
@@ -130,7 +132,7 @@ protected void nextState() {
 //				sRomDataOutValid.next<==0;
 
 				sLMemBurstCounter.next<==0;
-				debug.simPrintf("Last LMem read command sent, sLMemBurstCounter=%u\n", sLMemBurstCounter);
+				debug.simPrintf("LMEM: Last LMem read command sent, sLMemBurstCounter=%u\n", sLMemBurstCounter);
 			}
 		}
 	}
@@ -141,7 +143,7 @@ protected void nextState() {
 		sFileLengthBytesCounter.next<==sFileLengthBytesCounter+8;
 		sFileLengthBytesCounterMini.next<==sFileLengthBytesCounterMini+8;
 
-		//debug.simPrintf("Tick=%u, sLMemBurstCounter=%u, Podaci sa LMem dataFromLMem.valid=%x, dataFromLMem=%x,\n",counter,sLMemBurstCounter,dataFromMem.valid, dataFromMem)
+		//debug.simPrintf("Tick=%u, sLMemBurstCounter=%u, LMem dataFromLMem.valid=%x, dataFromLMem=%x,\n",counter,sLMemBurstCounter,dataFromMem.valid, dataFromMem)
 
 		IF(sFileLengthBytesCounter>=sFileLengthBytes)
 		{
@@ -159,7 +161,7 @@ protected void nextState() {
 			sBurstCounter.next<==sBurstCounter+1;
 			sFileLengthBytesCounterMini.next<==8;
 
-			debug.simPrintf("Tick=%u, sBurstCounter=%u\n",counter,sBurstCounter);
+			debug.simPrintf("LMEM: Tick=%u, sBurstCounter=%u\n",counter,sBurstCounter);
 		}
 	}
 
@@ -172,7 +174,7 @@ protected void nextState() {
 		sDataBurstLength.next<==1;
 		sByteNumberFlag.next<==false;
 
-		debug.simPrintf("Tick=%u, sBurstCounter===sDataBurstLength\n",counter);
+		debug.simPrintf("LMEM: Tick=%u, sBurstCounter===sDataBurstLength\n",counter);
 	}
 
 	IF(sCloseSocketCycleFlag)
@@ -183,6 +185,12 @@ protected void nextState() {
 	IF(~output.stall) //output.stall
 	{
 
+	}
+
+	IF(socketNumberInput.valid)
+	{
+		sSocketNumber.next <== socketNumberInput;
+		debug.simPrintf("LMEM: tick=%u, socket number from the StateMachine received, sSocketNumber=%u\n", counter, socketNumberInput);
 	}
 }
 
@@ -203,7 +211,7 @@ protected void outputFunction() {
 			eof = constant.value(dfeBool(),1);
 			sof = constant.value(dfeBool(),1);
 
-			socket = constant.value(dfeUInt(8),63); //input.slice(64, 8).cast(dfeUInt(8)); // bajt 11
+			socket = sSocketNumber.cast(dfeUInt(8)); //input.slice(64, 8).cast(dfeUInt(8)); // bajt 11
 
 			output.valid <== dataFromMem.valid;
 			output<== sof # eof # mod # socket # data;
@@ -224,7 +232,7 @@ protected void outputFunction() {
 				eof = constant.value(dfeBool(),1);
 				sof = constant.value(dfeBool(),1);
 
-				debug.simPrintf("Tick=%u, slanje: mod=%u, sFileLengthBytesCounter=%u, sFileLengthBytes=%u\n", counter, mod, sFileLengthBytesCounter, sFileLengthBytes);
+				debug.simPrintf("LMEM: Tick=%u, sending: mod=%u, sFileLengthBytesCounter=%u, sFileLengthBytes=%u\n", counter, mod, sFileLengthBytesCounter, sFileLengthBytes);
 
 				output<== sof # eof # mod # socket # data;
 
@@ -261,7 +269,7 @@ protected void outputFunction() {
 
 		IF(dataFromMem.valid)
 		{
-		  //debug.simPrintf("LMEM: Tick=%u, output=%x, output.valid=%u, dataFromMem=%x, sFileLengthBytesCounter=%u, sFileLengthBytes=%u\n", counter, output,output.valid, dataFromMem, sFileLengthBytesCounter, sFileLengthBytes);
+		  debug.simPrintf("LMEM: Tick=%u, output=%x, output.valid=%u, dataFromMem=%x, sFileLengthBytesCounter=%u, sFileLengthBytes=%u\n", counter, output,output.valid, dataFromMem, sFileLengthBytesCounter, sFileLengthBytes);
 		}
 }
 

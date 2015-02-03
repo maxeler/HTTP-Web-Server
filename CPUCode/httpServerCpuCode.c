@@ -10,6 +10,7 @@
 
 #include <MaxSLiCInterface.h>
 #include "Maxfiles.h"
+#include <math.h>
 
 typedef struct {
 	uint16_t total_items;
@@ -224,6 +225,7 @@ int main(int argc, char *argv[]) {
 	//romHASHindexMapped rom initialization
 
 					//***initialization files for hashIndex table***//
+
 					//char fileHashIndex[]="/home/nemanja/Desktop/hashIndexFinalLongLMem.html";
 					//char fileHashIndex[]="/home/nemanja/Desktop/hashIndexFinalLongLMemTest.html";
 					//char fileHashIndex[]="/home/nemanja/Desktop/hashIndexFinalLongLMemExactBytes.html";

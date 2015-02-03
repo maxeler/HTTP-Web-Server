@@ -65,6 +65,7 @@ public class httpServerStateMachine extends ManagerStateMachine {
 
 
 	private final DFEsmPushOutput checksumOutput = io.pushOutput("checksumOutput", dfeUInt(512), 4);
+	private final DFEsmPushOutput socketNumberOutput = io.pushOutput("socketNumberOutput", dfeUInt(16), 1);
 
 	//
 	private final DFEsmValue byte1;
@@ -878,55 +879,24 @@ public class httpServerStateMachine extends ManagerStateMachine {
 		}
 		//output.valid <== sCurrentState===States.endGETrequesta; //counter>100000;//input.valid; //input.valid & input.valid; // counter>2000
 
-//output.valid<== false;
-//output <== 0;
-
-
 		IF(~sOutputStall) //output.stall
 		{
 
 		}
 
-		//dataLengthBytes<==((sEndROMAddress-1)-(sStartROMAddress+1) + 1)*8;
-		//dataLengthBytes.valid<==true;
-
-		//debug.simPrintf("tick=%u, output.valid=%x, output.stall=%x, dataFromMem.valid=%u\n",counter, output.valid,output.stall,dataFromMem.valid);
-
-//		//signal for CPU: socket close
-//		IF(sCloseSocketCycleFlag)
-//		{
-//
-//			IF(sCloseSocketCycleCounter<17)
-//			{
-//				//posalji strim
-//				//IF(~fromStateMachineDataSentFlag.stall)
-//				{
-//					fromStateMachineDataSentFlag.valid<==true;
-//					fromStateMachineDataSentFlag<==socket;
-//				}
-//
-//				debug.simPrintf("sCloseSocketCycleCounter=%u, Tick=%u\n",sCloseSocketCycleCounter,counter);
-//			}
-//		}
-
-		//send data to FIFO URL buffer
-//		storeUrlFifo.valid<==sHashZbirValid;
-//		storeUrlFifo <== sHashZbirRegister.cast(dfeUInt(64+3+3)); //constant.value(dfeUInt(64+3+3), 200);
-
-
-
-//		IF(dataFromMem.valid)
-//		{
-//			debug.simPrintf("BYTELENGTH Tick=%u, fromStateMachineByteNumber.valid=%x, fromStateMachineByteNumber=%u\n",sCounter,fromStateMachineByteNumber.valid,fromStateMachineByteNumber);
-//		}
-
 		checksumOutput.valid<==false;
 		checksumOutput <== 0;
+
+		socketNumberOutput.valid <== false;
+		socketNumberOutput <== 0;
 
 		IF(sStoreURLValid)
 		{
 			checksumOutput.valid<==true;
 			checksumOutput <== sStoreURL.cast(dfeUInt(512));
+
+			socketNumberOutput.valid <== true;
+			socketNumberOutput <== socket.cast(dfeUInt(16));
 		}
 
 

@@ -1,132 +1,1863 @@
-Mon 18:17: ########################################## 
-Mon 18:17: Compiling.
-Mon 18:17: ########################################## 
+Tue 16:14: ########################################## 
+Tue 16:14: Compiling.
+Tue 16:14: ########################################## 
 
-Mon 18:17: MaxCompiler version: 2014.1.1.
-Mon 18:17: Build Simulation run rule for working start time: Mon Feb 02 18:17:39 GMT 2015.
-Mon 18:17: Project location: /home/mvorkapic/workspace/working.
-Mon 18:17: Detailed build log: /home/mvorkapic/workspace/working/RunRules/Simulation/build.log.
+Tue 16:14: MaxCompiler version: 2014.1.1.
+Tue 16:14: Build Simulation run rule for working start time: Tue Feb 03 16:14:57 GMT 2015.
+Tue 16:14: Project location: /home/mvorkapic/workspace/working.
+Tue 16:14: Detailed build log: /home/mvorkapic/workspace/working/RunRules/Simulation/build.log.
 
-Mon 18:17: Compiling Engine Code.
-Mon 18:17: Building httpServer.max file. 
-Mon 18:17: Setting environment variable:
-Mon 18:17: MAXCOMPILER_BUILD_DIR : /network-scratch/mvorkapic/maxdc_builds/
-Mon 18:17: MAX_BUILDPARAMS : DFEModel='ISCA' target='DFE_SIM' maxFileName='httpServer'  
-Mon 18:17: Building output:
-Mon 18:17: MaxCompiler version: 2014.1.1
-Mon 18:17: Build "httpServer" start time: Mon Feb 02 18:17:40 GMT 2015
-Mon 18:17: Main build process running as user mvorkapic on host grim.office.maxeler.com
-Mon 18:17: Build location: /network-scratch/mvorkapic/maxdc_builds/02-02-15/httpServer_ISCA_DFE_SIM
-Mon 18:17: Detailed build log available in "_build.log"
-Mon 18:18: 
-Mon 18:18: ENGINE BUILD PARAMETERS
-Mon 18:18: 	 Build name: httpServer_ISCA_DFE_SIM
-Mon 18:18: 	   DFEModel: ISCA                   
-Mon 18:18: 	maxFileName: httpServer             
-Mon 18:18: 	     target: DFE_SIM                
-Mon 18:18: 	 enableMPCX: false                  
-Mon 18:18: WARNING: Manager state machine 'httpServerStateMachine' has uassigned variables in 'outputFunction':
-Mon 18:18: WARNING: Control signal 'tcp_to_sm.stall' has not been assigned in all cases
-Mon 18:18: WARNING: 	Stack Trace: 
-Mon 18:18: WARNING: 	com.maxeler.maxcompiler.v2.statemachine.manager.ManagerIO.pushInput(ManagerIO.java:109)
-Mon 18:18: WARNING: 	httpServer.httpServerStateMachine.<init>(httpServerStateMachine.maxj:64)
-Mon 18:18: WARNING: 	httpServer.httpServerManager.<init>(httpServerManager.maxj:42)
-Mon 18:18: WARNING: 	httpServer.httpServerManager.main(httpServerManager.maxj:233)
-Mon 18:18: Instantiating kernel "KernelLMem_Write_CommandAndDataStream"
-Mon 18:18: Instantiating kernel "KernelLMem_Read_CommandAndDataStream"
-Mon 18:18: WARNING: Manager state machine 'hashIndex' has uassigned variables in 'nextState':
-Mon 18:18: WARNING: Variable has been partially assigned
-Mon 18:18: WARNING: 	15 bits not set: ???????????????
-Mon 18:18: WARNING: 	Stack Trace: 
-Mon 18:18: WARNING: 	com.maxeler.maxcompiler.v2.statemachine.stdlib.Mem.romMapped(Mem.java:244)
-Mon 18:18: WARNING: 	httpServer.hashIndex.<init>(hashIndex.maxj:60)
-Mon 18:18: WARNING: 	httpServer.httpServerManager.<init>(httpServerManager.maxj:97)
-Mon 18:18: WARNING: 	httpServer.httpServerManager.main(httpServerManager.maxj:233)
-Mon 18:18: WARNING: Variable has been partially assigned
-Mon 18:18: WARNING: 	15 bits not set: ???????????????
-Mon 18:18: WARNING: 	Stack Trace: 
-Mon 18:18: WARNING: 	com.maxeler.maxcompiler.v2.statemachine.stdlib.Mem.romMapped(Mem.java:244)
-Mon 18:18: WARNING: 	httpServer.hashIndex.<init>(hashIndex.maxj:61)
-Mon 18:18: WARNING: 	httpServer.httpServerManager.<init>(httpServerManager.maxj:97)
-Mon 18:18: WARNING: 	httpServer.httpServerManager.main(httpServerManager.maxj:233)
-Mon 18:18: WARNING: Manager state machine 'hashIndex' has uassigned variables in 'outputFunction':
-Mon 18:18: WARNING: Control signal 'crcResultInput.stall' has not been assigned in all cases
-Mon 18:18: WARNING: 	Stack Trace: 
-Mon 18:18: WARNING: 	com.maxeler.maxcompiler.v2.statemachine.manager.ManagerIO.pushInput(ManagerIO.java:109)
-Mon 18:18: WARNING: 	httpServer.hashIndex.<init>(hashIndex.maxj:38)
-Mon 18:18: WARNING: 	httpServer.httpServerManager.<init>(httpServerManager.maxj:97)
-Mon 18:18: WARNING: 	httpServer.httpServerManager.main(httpServerManager.maxj:233)
-Mon 18:18: WARNING: Manager state machine 'LMEM' has uassigned variables in 'outputFunction':
-Mon 18:18: WARNING: Control signal 'dataFromHashIndex.stall' has not been assigned in all cases
-Mon 18:18: WARNING: 	Stack Trace: 
-Mon 18:18: WARNING: 	com.maxeler.maxcompiler.v2.statemachine.manager.ManagerIO.pushInput(ManagerIO.java:109)
-Mon 18:18: WARNING: 	httpServer.LMEM.<init>(LMEM.maxj:37)
-Mon 18:18: WARNING: 	httpServer.httpServerManager.<init>(httpServerManager.maxj:101)
-Mon 18:18: WARNING: 	httpServer.httpServerManager.main(httpServerManager.maxj:233)
-Mon 18:18: Instantiating kernel "TxManagerKernelV1_kernel"
-Mon 18:18: 
-Mon 18:18: Compiling kernel "KernelLMem_Write_CommandAndDataStream"
-Mon 18:18: 
-Mon 18:18: Compiling kernel "KernelLMem_Read_CommandAndDataStream"
-Mon 18:18: 
-Mon 18:18: Compiling kernel "TxManagerKernelV1_kernel"
-Mon 18:18: Running back-end simulation build (3 phases)
-Mon 18:18: (1/3) - Prepare MaxFile Data (GenerateMaxFileDataFile)
-Mon 18:18: (2/3) - Compile Simulation Modules (SimCompilePass)
-Mon 18:18: (3/3) - Generate MaxFile (AddSimObjectToMaxFilePass)
-Mon 18:18: MaxFile: /network-scratch/mvorkapic/maxdc_builds/02-02-15/httpServer_ISCA_DFE_SIM/results/httpServer.max (MD5Sum: 59270a042fb407c3a61780cb5e4f3e24)
-Mon 18:18: Build completed: Mon Feb 02 18:18:58 GMT 2015 (took 1 min, 18 secs)
-Mon 18:18: Executing command:
-Mon 18:18: cp /home/mvorkapic/workspace/working/RunRules/Simulation/maxfiles/httpServer.h /home/mvorkapic/workspace/working/RunRules/Simulation/include/httpServer.h 
-Mon 18:18: Command output:
-Mon 18:18: Building: httpServer.max file finished.
-Mon 18:18: Engine build finished.
-Mon 18:18: Compiling CPU Code.
-Mon 18:18: Run CPU project make files updating
-Mon 18:18: Executing command:
-Mon 18:18: java -jar /network-raid/opt/maxcompiler-2014.1.1/lib/MaxIDE/projectAdmin.jar -u /home/mvorkapic/workspace/working Simulation 
-Mon 18:18: Command output:
+Tue 16:14: Compiling Engine Code.
+Tue 16:14: Engine building skipped (no changes on .max files).
+Tue 16:14: Compiling CPU Code.
+Tue 16:14: Run CPU project make files updating
+Tue 16:14: Executing command:
+Tue 16:14: java -jar /network-raid/opt/maxcompiler-2014.1.1/lib/MaxIDE/projectAdmin.jar -u /home/mvorkapic/workspace/working Simulation 
+Tue 16:14: Command output:
 
-Mon 18:18: MaxCompiler Project Admin Tool Version 2014.1.1
-Mon 18:18:  Copyright Maxeler Technologies 2010 - 2014. All rights reserved.
+Tue 16:14: MaxCompiler Project Admin Tool Version 2014.1.1
 
-Mon 18:18: Handler version 1
-Mon 18:18: Updating RunRule dependent Makefiles for RunRule 'Simulation'
-Mon 18:18: Found makefiles: 1
-Mon 18:18: 	Updated: Simulation
-Mon 18:18: Run CPU make.
-Mon 18:18: make RUNRULE=Simulation 
-Mon 18:18: Command output:
-Mon 18:18: make -f Makefile ../RunRules/Simulation/binaries/httpServer
-Mon 18:18: make[1]: Entering directory `/home/mvorkapic/workspace/working/CPUCode'
-Mon 18:18: /network-raid/opt/maxcompiler-2014.1.1/bin/sliccompile "../RunRules/Simulation/maxfiles/httpServer.max" "../RunRules/Simulation/objects/slic_httpServer.o"
-Mon 18:19: Processing maxfile for MAX4AB24B_SIM from '../RunRules/Simulation/maxfiles/httpServer.max'.
-Mon 18:19: gcc -std=gnu99 -Wall -Werror -fno-guess-branch-probability -frandom-seed=foo -Wno-unused-variable -Wno-unused-function -fPIC -I /network-raid/opt/maxcompiler-2014.1.1/include/slic -DMAXFILE_INC="/home/mvorkapic/workspace/working/CPUCode/../RunRules/Simulation/maxfiles/httpServer.max" -DSLIC_NO_DESTRUCTORS -c /network-raid/opt/maxcompiler-2014.1.1/src/slicinterface/MaxFileInit.c -o slic_httpServer.o 
-Mon 18:19: Copying .max file C object into '/home/mvorkapic/workspace/working/CPUCode/../RunRules/Simulation/objects'
-Mon 18:19: cc -g -O3 -Wall -Wextra -fmessage-length=0 -I ../RunRules/Simulation/include -I. -I/network-raid/opt/maxcompiler-2014.1.1/lib/maxeleros-sim/include -I/network-raid/opt/maxcompiler-2014.1.1/include/slic -D_XOPEN_SOURCE=600  -std=c99 -DBUILDNAME_MAXFILE_1=httpServer -DMAXFILE_1="httpServer.max"  -o "../RunRules/Simulation/objects/httpServerCpuCode.o" -c "httpServerCpuCode.c"
-Mon 18:19: httpServerCpuCode.c: In function 'exchangeItems':
-Mon 18:19: httpServerCpuCode.c:116: warning: unused variable 'sum'
-Mon 18:19: httpServerCpuCode.c:73: warning: unused variable 'y'
-Mon 18:19: httpServerCpuCode.c:67: warning: unused variable 'word'
-Mon 18:19: httpServerCpuCode.c:66: warning: unused variable 'data_received'
-Mon 18:19: httpServerCpuCode.c: In function 'fillRomHashIndex':
-Mon 18:19: httpServerCpuCode.c:177: warning: implicit declaration of function 'ceil'
-Mon 18:19: httpServerCpuCode.c:177: warning: incompatible implicit declaration of built-in function 'ceil'
-Mon 18:19: httpServerCpuCode.c: In function 'main':
-Mon 18:19: httpServerCpuCode.c:262: warning: comparison between signed and unsigned integer expressions
-Mon 18:19: httpServerCpuCode.c:297: warning: incompatible implicit declaration of built-in function 'ceil'
-Mon 18:19: httpServerCpuCode.c:544: warning: format '%u' expects type 'unsigned int', but argument 2 has type 'uint64_t'
-Mon 18:19: httpServerCpuCode.c:573: warning: format '%u' expects type 'unsigned int', but argument 4 has type 'uint64_t'
-Mon 18:19: httpServerCpuCode.c:826: warning: format '%u' expects type 'unsigned int', but argument 2 has type 'long unsigned int'
-Mon 18:19: httpServerCpuCode.c:850: warning: unused variable 'items4'
-Mon 18:19: httpServerCpuCode.c:835: warning: unused variable 'items3'
-Mon 18:19: httpServerCpuCode.c:718: warning: unused variable 'items2'
-Mon 18:19: httpServerCpuCode.c:635: warning: unused variable 'vrednost'
-Mon 18:19: httpServerCpuCode.c:447: warning: unused variable 'timeout'
-Mon 18:19: httpServerCpuCode.c:440: warning: unused variable 'num_changed_sockets'
-Mon 18:19: cc -g -O3 -Wall -Wextra -fmessage-length=0 -I ../RunRules/Simulation/include -I. -I/network-raid/opt/maxcompiler-2014.1.1/lib/maxeleros-sim/include -I/network-raid/opt/maxcompiler-2014.1.1/include/slic -D_XOPEN_SOURCE=600  -std=c99 -DBUILDNAME_MAXFILE_1=httpServer -DMAXFILE_1="httpServer.max"  -MM -MP -MT "../RunRules/Simulation/objects/httpServerCpuCode.o" "httpServerCpuCode.c" > "../RunRules/Simulation/objects/httpServerCpuCode.d"
-Mon 18:19: cc ../RunRules/Simulation/objects/httpServerCpuCode.o ../RunRules/Simulation/objects/slic_httpServer.o  -L/network-raid/opt/maxcompiler-2014.1.1/lib -L/network-raid/opt/maxcompiler-2014.1.1/lib/maxeleros-sim/lib -lslic -lmaxeleros -lm -lpthread  -o "../RunRules/Simulation/binaries/httpServer"
-Mon 18:19: make[1]: Leaving directory `/home/mvorkapic/workspace/working/CPUCode'
-Mon 18:19: Build completed: Mon Feb 02 18:19:04 GMT 2015
+Tue 16:14:  Copyright Maxeler Technologies 2010 - 2014. All rights reserved.
+Tue 16:14: Handler version 1
+Tue 16:14: Updating RunRule dependent Makefiles for RunRule 'Simulation'
+Tue 16:14: Found makefiles: 1
+Tue 16:14: 	Updated: Simulation
+Tue 16:14: Run CPU make.
+Tue 16:14: make RUNRULE=Simulation 
+Tue 16:14: Command output:
+Tue 16:14: make -f Makefile ../RunRules/Simulation/binaries/httpServer
+Tue 16:14: make[1]: Entering directory `/home/mvorkapic/workspace/working/CPUCode'
+Tue 16:14: cc -g -O3 -Wall -Wextra -fmessage-length=0 -I ../RunRules/Simulation/include -I. -I/network-raid/opt/maxcompiler-2014.1.1/lib/maxeleros-sim/include -I/network-raid/opt/maxcompiler-2014.1.1/include/slic -D_XOPEN_SOURCE=600  -std=c99 -DBUILDNAME_MAXFILE_1=httpServer -DMAXFILE_1="httpServer.max"  -o "../RunRules/Simulation/objects/httpServerCpuCode.o" -c "httpServerCpuCode.c"
+Tue 16:14: httpServerCpuCode.c: In function 'exchangeItems':
+Tue 16:14: httpServerCpuCode.c:117: warning: unused variable 'sum'
+Tue 16:14: httpServerCpuCode.c:74: warning: unused variable 'y'
+Tue 16:14: httpServerCpuCode.c:68: warning: unused variable 'word'
+Tue 16:14: httpServerCpuCode.c:67: warning: unused variable 'data_received'
+Tue 16:14: httpServerCpuCode.c: In function 'main':
+Tue 16:14: httpServerCpuCode.c:264: warning: comparison between signed and unsigned integer expressions
+Tue 16:14: httpServerCpuCode.c:546: warning: format '%u' expects type 'unsigned int', but argument 2 has type 'uint64_t'
+Tue 16:14: httpServerCpuCode.c:575: warning: format '%u' expects type 'unsigned int', but argument 4 has type 'uint64_t'
+Tue 16:14: httpServerCpuCode.c:828: warning: format '%u' expects type 'unsigned int', but argument 2 has type 'long unsigned int'
+Tue 16:14: httpServerCpuCode.c:852: warning: unused variable 'items4'
+Tue 16:14: httpServerCpuCode.c:837: warning: unused variable 'items3'
+Tue 16:14: httpServerCpuCode.c:720: warning: unused variable 'items2'
+Tue 16:14: httpServerCpuCode.c:637: warning: unused variable 'vrednost'
+Tue 16:14: httpServerCpuCode.c:449: warning: unused variable 'timeout'
+Tue 16:14: httpServerCpuCode.c:442: warning: unused variable 'num_changed_sockets'
+Tue 16:14: cc -g -O3 -Wall -Wextra -fmessage-length=0 -I ../RunRules/Simulation/include -I. -I/network-raid/opt/maxcompiler-2014.1.1/lib/maxeleros-sim/include -I/network-raid/opt/maxcompiler-2014.1.1/include/slic -D_XOPEN_SOURCE=600  -std=c99 -DBUILDNAME_MAXFILE_1=httpServer -DMAXFILE_1="httpServer.max"  -MM -MP -MT "../RunRules/Simulation/objects/httpServerCpuCode.o" "httpServerCpuCode.c" > "../RunRules/Simulation/objects/httpServerCpuCode.d"
+Tue 16:14: cc ../RunRules/Simulation/objects/httpServerCpuCode.o ../RunRules/Simulation/objects/slic_httpServer.o  -L/network-raid/opt/maxcompiler-2014.1.1/lib -L/network-raid/opt/maxcompiler-2014.1.1/lib/maxeleros-sim/lib -lslic -lmaxeleros -lm -lpthread  -o "../RunRules/Simulation/binaries/httpServer"
+Tue 16:14: make[1]: Leaving directory `/home/mvorkapic/workspace/working/CPUCode'
+Tue 16:14: Build completed: Tue Feb 03 16:14:58 GMT 2015
 
 
+Tue 16:14: ########################################## 
+Tue 16:14: Running
+Tue 16:14: ########################################## 
+Tue 16:14: Executing command:
+Tue 16:14: '/home/mvorkapic/workspace/working/RunRules/Simulation/binaries/httpServer' '169.254.10.4' '169.254.10.44' '255.255.255.0' 
+Tue 16:14: Command output:
+Tue 16:14: Loading DFE memory.
+Tue 16:14: LMEM: Tick=0, sBurstCounter===sDataBurstLength
+Tue 16:15: LMEM: Tick=0, sBurstCounter===sDataBurstLength
+Tue 16:15: Reading DFE memory.
+Tue 16:15: Dodeljeni broj socket0=0
+Tue 16:15: Dodeljeni broj socket1=1
+Tue 16:15: Dodeljeni broj socket2=2
+Tue 16:15: Dodeljeni broj socket3=3
+Tue 16:15: Dodeljeni broj socket4=4
+Tue 16:15: Dodeljeni broj socket5=5
+Tue 16:15: Dodeljeni broj socket6=6
+Tue 16:15: Dodeljeni broj socket7=7
+Tue 16:15: Dodeljeni broj socket8=8
+Tue 16:15: Dodeljeni broj socket9=9
+Tue 16:15: Dodeljeni broj socket10=10
+Tue 16:15: Dodeljeni broj socket11=11
+Tue 16:15: Dodeljeni broj socket12=12
+Tue 16:15: Dodeljeni broj socket13=13
+Tue 16:15: Dodeljeni broj socket14=14
+Tue 16:15: Dodeljeni broj socket15=15
+Tue 16:15: Dodeljeni broj socket16=16
+Tue 16:15: Dodeljeni broj socket17=17
+Tue 16:15: Dodeljeni broj socket18=18
+Tue 16:15: Dodeljeni broj socket19=19
+Tue 16:15: Dodeljeni broj socket20=20
+Tue 16:15: Dodeljeni broj socket21=21
+Tue 16:15: Dodeljeni broj socket22=22
+Tue 16:15: Dodeljeni broj socket23=23
+Tue 16:15: Dodeljeni broj socket24=24
+Tue 16:15: Dodeljeni broj socket25=25
+Tue 16:15: Dodeljeni broj socket26=26
+Tue 16:15: Dodeljeni broj socket27=27
+Tue 16:15: Dodeljeni broj socket28=28
+Tue 16:15: Dodeljeni broj socket29=29
+Tue 16:15: Dodeljeni broj socket30=30
+Tue 16:15: Dodeljeni broj socket31=31
+Tue 16:15: Dodeljeni broj socket32=32
+Tue 16:15: Dodeljeni broj socket33=33
+Tue 16:15: Dodeljeni broj socket34=34
+Tue 16:15: Dodeljeni broj socket35=35
+Tue 16:15: Dodeljeni broj socket36=36
+Tue 16:15: Dodeljeni broj socket37=37
+Tue 16:15: Dodeljeni broj socket38=38
+Tue 16:15: Dodeljeni broj socket39=39
+Tue 16:15: Dodeljeni broj socket40=40
+Tue 16:15: Dodeljeni broj socket41=41
+Tue 16:15: Dodeljeni broj socket42=42
+Tue 16:15: Dodeljeni broj socket43=43
+Tue 16:15: Dodeljeni broj socket44=44
+Tue 16:15: Dodeljeni broj socket45=45
+Tue 16:15: Dodeljeni broj socket46=46
+Tue 16:15: Dodeljeni broj socket47=47
+Tue 16:15: Dodeljeni broj socket48=48
+Tue 16:15: Dodeljeni broj socket49=49
+Tue 16:15: Dodeljeni broj socket50=50
+Tue 16:15: Dodeljeni broj socket51=51
+Tue 16:15: Dodeljeni broj socket52=52
+Tue 16:15: Dodeljeni broj socket53=53
+Tue 16:15: Dodeljeni broj socket54=54
+Tue 16:15: Dodeljeni broj socket55=55
+Tue 16:15: Dodeljeni broj socket56=56
+Tue 16:15: Dodeljeni broj socket57=57
+Tue 16:15: Dodeljeni broj socket58=58
+Tue 16:15: Dodeljeni broj socket59=59
+Tue 16:15: Dodeljeni broj socket60=60
+Tue 16:15: Dodeljeni broj socket61=61
+Tue 16:15: Dodeljeni broj socket62=62
+Tue 16:15: Dodeljeni broj socket63=63
+Tue 16:15: CPU code: Setting up output streams.
+Tue 16:15: CPU code: PART 1
+Tue 16:15: ZBIR zbir=1, startIndex=4, endIndex=7
+Tue 16:15: ZBIR stanje Start bytes[0]=71
+Tue 16:15: ZBIR stanje Start bytes[1]=69
+Tue 16:15: ZBIR stanje Start bytes[2]=84
+Tue 16:15: ZBIR stanje Start bytes[3]=0
+Tue 16:15: ZBIR stanje Start bytes[4]=47
+Tue 16:15: ZBIR stanje Start bytes[5]=105
+Tue 16:15: ZBIR stanje Start bytes[6]=109
+Tue 16:15: ZBIR stanje Start bytes[7]=97
+Tue 16:15: Ulaz u doHash funkciju startIndex=4, endIndex=7
+Tue 16:15: TEST: bitPointer=8
+Tue 16:15: TEST: bitPointer=16
+Tue 16:15: TEST: bitPointer=24
+Tue 16:15: TEST: bitPointer=32
+Tue 16:15: TEST: bitPointer=40
+Tue 16:15: TEST: bitPointer=48
+Tue 16:15: TEST: bitPointer=56
+Tue 16:15: TEST: bitPointer=64
+Tue 16:15: TEST: startIndex=4, endIndex=7, startIndexBit=32, endIndexBit=63, bitNumber=32, sStoreURL=00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+Tue 16:15: tick 346805, data: 616d692f20544547, mod: 0, eof: 0, sof: 1, socket: 3f, input.valid=1, output.stall=378, input.stall=0
+Tue 16:15: tick 346805, input: 103f616d692f20544547
+Tue 16:15: tick 346805, rrrr: 7f0616d692f20544547
+Tue 16:15: tick 346805, sCounter=346805, SNumericCurrent=0, byte1=47
+Tue 16:15: 1TEST: sBitNumber=32, sStoreURL=000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000616d692f
+Tue 16:15: ZBIR stanje URI bytes[0]=103
+Tue 16:15: ZBIR stanje URI bytes[1]=101
+Tue 16:15: ZBIR stanje URI bytes[2]=115
+Tue 16:15: ZBIR stanje URI bytes[3]=49
+Tue 16:15: ZBIR stanje URI bytes[4]=47
+Tue 16:15: ZBIR stanje URI bytes[5]=97
+Tue 16:15: ZBIR stanje URI bytes[6]=112
+Tue 16:15: ZBIR stanje URI bytes[7]=112
+Tue 16:15: STANJE URI: Ulaz u doHash funkciju startIndex=0, endIndex=7
+Tue 16:15: TEST bytes: bytes=67
+Tue 16:15: TEST: bitPointer=8
+Tue 16:15: TEST bytes: bytes=65
+Tue 16:15: TEST: bitPointer=16
+Tue 16:15: TEST bytes: bytes=73
+Tue 16:15: TEST: bitPointer=24
+Tue 16:15: TEST bytes: bytes=31
+Tue 16:15: TEST: bitPointer=32
+Tue 16:15: TEST bytes: bytes=2f
+Tue 16:15: TEST: bitPointer=40
+Tue 16:15: TEST bytes: bytes=61
+Tue 16:15: TEST: bitPointer=48
+Tue 16:15: TEST bytes: bytes=70
+Tue 16:15: TEST: bitPointer=56
+Tue 16:15: TEST bytes: bytes=70
+Tue 16:15: TEST: bitPointer=64
+Tue 16:15: TEST URL: startIndex=0, endIndex=7, bitNumber=96, sStoreURL=000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000616d692f
+Tue 16:15: tick 346806, data: 7070612f31736567, mod: 0, eof: 0, sof: 0, socket: 3f, input.valid=1, output.stall=378, input.stall=0
+Tue 16:15: tick 346806, input: 3f7070612f31736567
+Tue 16:15: tick 346806, rrrr: 7e07070612f31736567
+Tue 16:15: tick 346806, sCounter=346806, SNumericCurrent=1, byte1=67
+Tue 16:15: 1TEST: sBitNumber=96, sStoreURL=000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000007070612f31736567616d692f
+Tue 16:15: ZBIR stanje URI bytes[0]=46
+Tue 16:15: ZBIR stanje URI bytes[1]=112
+Tue 16:15: ZBIR stanje URI bytes[2]=110
+Tue 16:15: ZBIR stanje URI bytes[3]=103
+Tue 16:15: ZBIR stanje URI bytes[4]=0
+Tue 16:15: ZBIR stanje URI bytes[5]=49
+Tue 16:15: ZBIR stanje URI bytes[6]=50
+Tue 16:15: ZBIR stanje URI bytes[7]=51
+Tue 16:15: STANJE URI: Ulaz u doHash funkciju startIndex=0, endIndex=3
+Tue 16:15: TEST bytes: bytes=2e
+Tue 16:15: TEST: bitPointer=8
+Tue 16:15: TEST bytes: bytes=70
+Tue 16:15: TEST: bitPointer=16
+Tue 16:15: TEST bytes: bytes=6e
+Tue 16:15: TEST: bitPointer=24
+Tue 16:15: TEST bytes: bytes=67
+Tue 16:15: TEST: bitPointer=32
+Tue 16:15: TEST: bitPointer=40
+Tue 16:15: TEST: bitPointer=48
+Tue 16:15: TEST: bitPointer=56
+Tue 16:15: TEST: bitPointer=64
+Tue 16:15: TEST URL: startIndex=0, endIndex=3, bitNumber=128, sStoreURL=000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000007070612f31736567616d692f
+Tue 16:15: nextState: prijemHttpVersion: tick=346807, sNumericCurrent=1, data=33323120676e702e
+Tue 16:15: tick 346807, data: 33323120676e702e, mod: 0, eof: 0, sof: 0, socket: 3f, input.valid=1, output.stall=378, input.stall=0
+Tue 16:15: tick 346807, input: 3f33323120676e702e
+Tue 16:15: tick 346807, rrrr: 7e033323120676e702e
+Tue 16:15: tick 346807, sCounter=346807, SNumericCurrent=1, byte1=2e
+Tue 16:15: 1TEST httpState: sBitNumber=128, sStoreURL=000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000676e702e7070612f31736567616d692f
+Tue 16:15: U HTTP stanju: byte1=34, byte2=35, sPrev2Bytes=3332
+Tue 16:15: tick 346808, data: 00000000000a3534, mod: 3, eof: 1, sof: 0, socket: 3f, input.valid=1, output.stall=378, input.stall=0
+Tue 16:15: tick 346808, input: b3f00000000000a3534
+Tue 16:15: tick 346808, rrrr: 7eb00000000000a3534
+Tue 16:15: tick 346808, sCounter=346808, SNumericCurrent=2, byte1=34
+Tue 16:15: 1LMEM: tick=346809, socket number from the StateMachine received, sSocketNumber=63
+Tue 16:15: parallelCRC: tick=0000000000000001, dataIn=000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000676e702e7070612f31736567616d692f
+Tue 16:15: parallelCRC: tick=0000000000000001, dataIn.valid=0, lfsr_c=0, lfsr_q=7aac, crc_out=0x7aac
+Tue 16:15: crcResultInput.valid=1, crcResultInput(0, 15)=31404, sWhatHashIndexToUse=0
+Tue 16:15: hashIndex: tick=346812, parallelCRC: crcResultInput=0x7aac
+Tue 16:15: hashIndex: Value romHashIndex.dataOut=0007200058000ff7, romHashIndex.dataOut=0000000000000000, sUseHashIndex=0, current=346813
+Tue 16:15: hashIndex: startAddressBurst=57, fileLengthBursts=22, fileLengthBytes=4087
+Tue 16:15: LMEM: Value dataFromHashIndex=0007200058000ff7
+Tue 16:15: LMEM: startAddressBurst=57, fileLengthBursts=22, fileLengthBytes=4087
+Tue 16:15: LMEM: tick=346816, memCmdOutput.stall=0, Pushing out memory command***: 0001010100000039
+Tue 16:15: LMEM: tick=346817, memCmdOutput.stall=0, Pushing out memory command***: 000101010000003a
+Tue 16:15: LMEM: tick=346818, memCmdOutput.stall=0, Pushing out memory command***: 000101010000003b
+Tue 16:15: LMEM: tick=346819, memCmdOutpu
+Tue 16:15: t.stall=0, Pushing out memory command***: 000101010000003c
+Tue 16:15: LMEM: tick=346820, memCmdOutput.stall=0, Pushing out memory command***: 000101010000003d
+Tue 16:15: LMEM: tick=346821, memCmdOutput.stall=0, Pushing out memory command***: 000101010000003e
+Tue 16:15: LMEM: tick=346822, memCmdOutput.stall=0, Pushing out memory command***: 000101010000003f
+Tue 16:15: LMEM: Tick=346822, output=183f0a1a0a0d474e5089, output.valid=1, dataFromMem=0a1a0a0d474e5089, sFileLengthBytesCounter=8, sFileLengthBytes=4087
+Tue 16:15: LMEM: sFileLengthBytes=ff7
+Tue 16:15: LMEM: tick=346823, memCmdOutput.stall=0, Pushing out memory command***: 0001010100000040
+Tue 16:15: LMEM: Tick=346823, output=183f524448490d000000, output.valid=1, dataFromMem=524448490d000000, sFileLengthBytesCounter=16, sFileLengthBytes=4087
+Tue 16:15: LMEM: tick=346824, memCmdOutput.stall=0, Pushing out memory command***: 0001010100000041
+Tue 16:15: LMEM: Tick=346824, output=183fb4000000b4000000, output.valid=1, dataFromMem=b4000000b4000000, sFileLengthBytesCounter=24, sFileLengthBytes=4087
+Tue 16:15: LMEM: tick=346825, memCmdOutput.stall=0, Pushing out memory command***: 0001010100000042
+Tue 16:15: LMEM: Tick=346825, output=183f06cd3d0000000608, output.valid=1, dataFromMem=06cd3d0000000608, sFileLengthBytesCounter=32, sFileLengthBytes=4087
+Tue 16:15: LMEM: tick=346826, memCmdOutput.stall=0, Pushing out memory command***: 0001010100000043
+Tue 16:15: LMEM: Tick=346826, output=183f5948700900000032, output.valid=1, dataFromMem=5948700900000032, sFileLengthBytesCounter=40, sFileLengthBytes=4087
+Tue 16:15: LMEM: tick=346827, memCmdOutput.stall=0, Pushing out memory command***: 0001010100000044
+Tue 16:15: LMEM: Tick=346827, output=183f0b0000130b000073, output.valid=1, dataFromMem=0b0000130b000073, sFileLengthBytesCounter=48, sFileLengthBytes=4087
+Tue 16:15: LMEM: tick=346828, memCmdOutput.stall=0, Pushing out memory command***: 0001010100000045
+Tue 16:15: LMEM: Tick=346828, output=183f0000189c9a000113, output.valid=1, dataFromMem=0000189c9a000113, sFileLengthBytesCounter=56, sFileLengthBytes=4087
+Tue 16:15: LMEM: tick=346829, memCmdOutput.stall=0, Pushing out memory command***: 0001010100000046
+Tue 16:15: LMEM: Tick=346829, output=183f6850504343694f0a, output.valid=1, dataFromMem=6850504343694f0a, sFileLengthBytesCounter=64, sFileLengthBytes=4087
+Tue 16:15: LMEM: tick=346830, memCmdOutput.stall=0, Pushing out memory command***: 0001010100000047
+Tue 16:15: LMEM: Tick=346830, output=183f20706f68736f746f, output.valid=1, dataFromMem=20706f68736f746f, sFileLengthBytesCounter=72, sFileLengthBytes=4087
+Tue 16:15: CPU byteNumber=4087
+Tue 16:15: CPU code: PART 2
+Tue 16:15: LMEM: tick=346831, memCmdOutput.stall=0, Pushing out memory command***: 0001010100000048
+Tue 16:15: LMEM: Tick=346831, output=183f666f727020434349, output.valid=1, dataFromMem=666f727020434349, sFileLengthBytesCounter=80, sFileLengthBytes=4087
+Tue 16:15: LMEM: tick=346832, memCmdOutput.stall=0, Pushing out memory command***: 0001010100000049
+Tue 16:15: LMEM: Tick=346832, output=183f9dda780000656c69, output.valid=1, dataFromMem=9dda780000656c69, sFileLengthBytesCounter=88, sFileLengthBytes=4087
+Tue 16:15: LMEM: tick=346833, memCmdOutput.stall=0, Pushing out memory command***: 000101010000004a
+Tue 16:15: LMEM: Tick=346833, output=183ff73d16e953546753, output.valid=1, dataFromMem=f73d16e953546753, sFileLengthBytesCounter=96, sFileLengthBytes=4087
+Tue 16:15: LMEM: tick=346834, memCmdOutput.stall=0, Pushing out memory command***: 000101010000004b
+Tue 16:15: LMEM: Tick=346834, output=183f4b9480884b42f4de, output.valid=1, dataFromMem=4b9480884b42f4de, sFileLengthBytesCounter=104, sFileLengthBytes=4087
+Tue 16:15: LMEM: tick=346835, memCmdOutput.stall=0, Pushing out memory command***: 000101010000004c
+Tue 16:15: LMEM: Tick=346835, output=183f8b4252200815526f, output.valid=1, dataFromMem=8b4252200815526f, sFileLengthBytesCounter=112, sFileLengthBytes=4087
+Tue 16:15: LMEM: Last LMem read command sent, sLMemBurstCounter=21
+Tue 16:15: LMEM: tick=346836, memCmdOutput.stall=0, Pushing out memory command***: 000101010000004d
+Tue 16:15: LMEM: Tick=346836, output=183f1009212a26911480, output.valid=1, dataFromMem=1009212a26911480, sFileLengthBytesCounter=120, sFileLengthBytes=4087
+Tue 16:15: LMEM: tick=346837, memCmdOutput.stall=0, Pushing out memory command***: 000101010000004e
+Tue 16:15: LMEM: Tick=346837, output=183fc15115d9a121884a, output.valid=1, dataFromMem=c15115d9a121884a, sFileLengthBytesCoun
+Tue 16:15: ter=128, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346838, output=183f88a0c81b04454511, output.valid=1, dataFromMem=88a0c81b04454511, sFileLengthBytesCounter=136, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346839, output=183f2c51158c808e8e03, output.valid=1, dataFromMem=2c51158c808e8e03, sFileLengthBytesCounter=144, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346840, output=183fa221e407d80a8a0c, output.valid=1, dataFromMem=a221e407d80a8a0c, sFileLengthBytesCounter=152, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346841, output=183fe1fbca8a88a3838e, output.valid=1, dataFromMem=e1fbca8a88a3838e, sFileLengthBytesCounter=160, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346842, output=183fcde6f7bcd66ba37b, output.valid=1, dataFromMem=cde6f7bcd66ba37b, sFileLengthBytesCounter=168, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346843, output=183f9df3ace73ed7b5fe, output.valid=1, dataFromMem=9df3ace73ed7b5fe, sFileLengthBytesCounter=176, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346844, output=183f48960c08c007cfb3, output.valid=1, dataFromMem=48960c08c007cfb3, sFileLengthBytesCounter=184, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346845, sBurstCounter=0
+Tue 16:15: LMEM: Tick=346845, output=183f1e42a90c80355133, output.valid=1, dataFromMem=1e42a90c80355133, sFileLengthBytesCounter=192, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346846, output=183fe4e1c6c4c783e011, output.valid=1, dataFromMem=e4e1c6c4c783e011, sFileLengthBytesCounter=200, sFileLengthBytes=4087
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 0
+Tue 16:15: CPU code: frameCounter=1
+Tue 16:15: LMEM: Tick=346847, output=183f100070240a81402e, output.valid=1, dataFromMem=100070240a81402e, sFileLengthBytesCounter=208, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346848, output=183f0123fd732164b308, output.valid=1, dataFromMem=0123fd732164b308, sFileLengthBytesCounter=216, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346849, output=183fc0222b3c3c7ef800, output.valid=1, dataFromMem=c0222b3c3c7ef800, sFileLengthBytesCounter=224, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346850, output=183f080bd3780100be07, output.valid=1, dataFromMem=080bd3780100be07, sFileLengthBytesCounter=232, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346851, output=183f871c30c09b4dc000, output.valid=1, dataFromMem=871c30c09b4dc000, sFileLengthBytesCounter=240, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346852, output=183f80015c9942ea0fff, output.valid=1, dataFromMem=80015c9942ea0fff, sFileLengthBytesCounter=248, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346853, output=183f084b389174c00184, output.valid=1, dataFromMem=084b389174c00184, sFileLengthBytesCounter=256, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346854, output=183fa6428e7a40001480, output.valid=1, dataFromMem=a6428e7a40001480, sFileLengthBytesCounter=264, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346855, output=183f26989d8001464CPU code: Got ack from TxManager: Total frames: 1
+Tue 16:15: CPU code: frameCounter=2
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 2
+Tue 16:15: CPU code: frameCounter=3
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 3
+Tue 16:15: CPU code: frameCounter=4
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 4
+Tue 16:15: CPU code: frameCounter=5
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 5
+Tue 16:15: CPU code: frameCounter=6
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 6
+Tue 16:15: CPU code: frameCounter=7
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 7
+Tue 16:15: CPU code: frameCounter=8
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 8
+Tue 16:15: CPU code: frameCounter=9
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 9
+Tue 16:15: CPU code: frameCounter=10
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 10
+Tue 16:15: CPU code: frameCounter=11
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 11
+Tue 16:15: CPU code: frameCounter=12
+Tue 16:15: 000, output.valid=1, dataFromMem=26989d8001464000, sFileLengthBytesCounter=272, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346856, output=183f63cb600004a00053, output.valid=1, dataFromMem=63cb600004a00053, sFileLengthBytesCounter=280, sFileLengthBytes=4087
+Tue 16:15: LMEM: TicCPU code: Got ack from TxManager: Total frames: 12
+Tue 16:15: CPU code: frameCounter=13
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 13
+Tue 16:15: CPU code: frameCounter=14
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 14
+Tue 16:15: CPU code: frameCounter=15
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 15
+Tue 16:15: CPU code: frameCounter=16
+
+Tue 16:15: k=346857, output=183f2760002d5000e362, output.valid=1, dataFromMem=2760002d5000e362, sFileLengthBytesCounter=288, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346858, output=183f99f89d8000d3e67f, output.valid=1, dataFromMem=99f89d8000d3e67f, sFileLengthBytesCounter=29CPU code: Got ack from TxManager: Total frames: 16
+Tue 16:15: CPU code: frameCounter=17
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 17
+Tue 16:15: CPU code: frameCounter=18
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 18
+Tue 16:15: CPU code: frameCounter=19
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 19
+Tue 16:15: CPU code: frameCounter=20
+Tue 16:15: 6, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346859, output=183f011521945b00017b, output.valid=1, dataFromMem=011521945b00017b, sFileLengthBytesCounter=304, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346860, output=183f44886513200091a0, output.valid=1, dataFromMem=4488651320CPU code: Got ack from TxManager: Total frames: 20
+Tue 16:15: CPU code: frameCounter=21
+Tue 16:15: 0091a0, sFileLengthBytesCounter=312, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346861, output=183f8a56cfac003b6800, output.valid=1, dataFromMem=8a56cfac003b6800, sFileLengthBytesCounter=320, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346862, output=183f4b66140030580045, outpCPU code: Got ack from TxManager: Total frames: 21
+Tue 16:15: CPU code: frameCounter=22
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 22
+Tue 16:15: CPU code: frameCounter=23
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 23
+Tue 16:15: CPU code: frameCounter=24
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 24
+Tue 16:15: CPU code: frameCounter=25
+Tue 16:15: ut.valid=1, dataFromMem=4b66140030580045, sFileLengthBytesCounter=328, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346863, output=183f4930002dd80039c4, output.valid=1, dataFromMem=4930002dd80039c4, sFileLengthBytesCounter=336, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346864,CPU code: Got ack from TxManager: Total frames: 25
+Tue 16:15:  output=183fc000b7b000486657, output.valid=1, dataFromMem=c000b7b000486657, sFileLengthBytesCounter=344, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346865, output=183f000c0800b20b10ce, output.valid=1, dataFromMem=000c0800b20b10ce, sFileLengthBytesCounter=352, sFileLCPU code: frameCounter=26
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 26
+Tue 16:15: CPU code: frameCounter=27
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 27
+Tue 16:15: CPU code: frameCounter=28
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 28
+Tue 16:15: CPU code: frameCounter=29
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 29
+Tue 16:15: CPU code: frameCounter=30
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 30
+Tue 16:15: CPU code: frameCounter=31
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 31
+Tue 16:15: CPU code: frameCounter=32
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 32
+Tue 16:15: CPU code: frameCounter=33
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 33
+Tue 16:15: CPU code: frameCounter=34
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 34
+Tue 16:15: CPU code: frameCounter=35
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 35
+Tue 16:15: CPU code: frameCounter=36
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 36
+Tue 16:15: CPU code: frameCounter=37
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 37
+Tue 16:15: CPU code: frameCounter=38
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 38
+Tue 16:15: CPU code: frameCounter=39
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 39
+Tue 16:15: CPU code: frameCounter=40
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 40
+Tue 16:15: CPU code: frameCounter=41
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 41
+Tue 16:15: CPU code: frameCounter=42
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 42
+Tue 16:15: CPU code: frameCounter=43
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 43
+Tue 16:15: CPU code: frameCounter=44
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 44
+Tue 16:15: CPU code: frameCounter=45
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 45
+Tue 16:15: CPU code: frameCounter=46
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 46
+Tue 16:15: CPU code: frameCounter=47
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 47
+Tue 16:15: CPU code: frameCounter=48
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 48
+Tue 16:15: CPU code: frameCounter=49
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 49
+Tue 16:15: CPU code: frameCounter=50
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 50
+Tue 16:15: CPU code: frameCounter=51
+Tue 16:15: CPU code: Got ack from TxManager: Total f
+Tue 16:15: rames: 51
+Tue 16:15: CPU code: frameCounter=52
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 52
+Tue 16:15: CPU code: frameCounter=53
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 53
+Tue 16:15: CPU code: frameCounter=54
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 54
+Tue 16:15: CPU code: frameCounter=55
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 55
+Tue 16:15: CPU code: frameCounter=56
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 56
+Tue 16:15: CPU code: frameCounter=57
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 57
+Tue 16:15: CPU code: frameCounter=58
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 58
+Tue 16:15: CPU code: frameCounter=59
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 59
+Tue 16:15: CPU code: frameCounter=60
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 60
+Tue 16:15: CPU code: frameCounter=61
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 61
+Tue 16:15: CPU code: frameCounter=62
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 62
+Tue 16:15: CPU code: frameCounter=63
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 63
+Tue 16:15: CPU code: frameCounter=64
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 64
+Tue 16:15: CPU code: frameCounter=65
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 65
+Tue 16:15: CPU code: frameCounter=66
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 66
+Tue 16:15: CPU code: frameCounter=67
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 67
+Tue 16:15: CPU code: frameCounter=68
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 68
+Tue 16:15: CPU code: frameCounter=69
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 69
+Tue 16:15: CPU code: frameCounter=70
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 70
+Tue 16:15: CPU code: frameCounter=71
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 71
+Tue 16:15: CPU code: frameCounter=72
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 72
+Tue 16:15: CPU code: frameCounter=73
+Tue 16:15: engthBytes=4087
+Tue 16:15: LMEM: Tick=346866, output=183f7b04002985885130, output.valid=1, dataFromMem=7b04002985885130, sFileLengthBytesCounter=360, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346867, output=183f8400782323c86000, output.valid=1, dataFromMem=8400782323c86000, sFileLengthBytesCounter=368, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346868, output=183ff13c57f246140099, output.valid=1, dataFromMem=f13c57f246140099, sFileLengthBytesCounter=376, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346869, sBurstCounter=1
+Tue 16:15: LMEM: Tick=346869, output=183f7800002ae710ae2b, output.valid=1, dataFromMem=7800002ae710ae2b, sFileLengthBytesCounter=384, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346870, output=183f81453924b93cb299, output.valid=1, dataFromMem=81453924b93cb299, sFileLengthBytesCounter=392, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346871, output=183f2e575707712d085b, output.valid=1, dataFromMem=2e575707712d085b, sFileLengthBytesCounter=400, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346872, output=183f36142b1749ce281e, output.valid=1, dataFromMem=36142b1749ce281e, sFileLengthBytesCounter=408, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346873, output=183f79c22e409a610261, output.valid=1, dataFromMem=79c22e409a610261, sFileLengthBytesCounter=416, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346874, output=183ff3e00f3481321999, output.valid=1, dataFromMem=f3e00f3481321999, sFileLengthBytesCounter=424, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346875, output=183fe0111591a00000cc, output.valid=1, dataFromMem=e0111591a00000cc, sFileLengthBytesCounter=432, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346876, output=183fceae0ece78fdf383, output.valid=1, dataFromMem=ceae0ece78fdf383, sFileLengthBytesCounter=440, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346877, output=183fea2d5f0eb68e36ce, output.valid=1, dataFromMem=ea2d5f0eb68e36ce, sFileLengthBytesCounter=448, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346878, output=183ffee3626222ff06bf, output.valid=1, dataFromMem=fee3626222ff06bf, sFileLengthBytesCounter=456, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346879, output=183fe100004070abcfe5, output.valid=1, dataFromMem=e100004070abcfe5, sFileLengthBytesCounter=464, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346880, output=183f1ab32f2cfed17e74, output.valid=1, dataFromMem=1ab32f2cfed17e74, sFileLengthBytesCounter=472, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346881, output=183f25a2fe6d80063b80, output.valid=1, dataFromMem=25a2fe6d80063b80, sFileLengthBytesCounter=480, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tic
+Tue 16:15: k=346882, output=183ff775a00b5e6804ee, output.valid=1, dataFromMem=f775a00b5e6804ee, sFileLengthBytesCounter=488, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346883, output=183fa000b5400fb2668b, output.valid=1, dataFromMem=a000b5400fb2668b, sFileLengthBytesCounter=496, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346884, output=183f3c7ef870f357dae9, output.valid=1, dataFromMem=3c7ef870f357dae9, sFileLengthBytesCounter=504, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346885, output=183fe5d9d9b990a1453c, output.valid=1, dataFromMem=e5d9d9b990a1453c, sFileLengthBytesCounter=512, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346886, output=183f615b42c44ad8e4e4, output.valid=1, dataFromMem=615b42c44ad8e4e4, sFileLengthBytesCounter=520, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346887, output=183fc05fc267fe7d57ca, output.valid=1, dataFromMem=c05fc267fe7d57ca, sFileLengthBytesCounter=528, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346888, output=183ff7fc3c7ef96cfd57, output.valid=1, dataFromMem=f7fc3c7ef96cfd57, sFileLengthBytesCounter=536, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346889, output=183f5d328124e2bee0f5, output.valid=1, dataFromMem=5d328124e2bee0f5, sFileLengthBytesCounter=544, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346890, output=183ff4ccc2e0f8044781, output.valid=1, dataFromMem=f4ccc2e0f8044781, sFileLengthBytesCounter=552, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346891, output=183f62840992cf1ca54c, output.valid=1, dataFromMem=62840992cf1ca54c, sFileLengthBytesCounter=560, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346892, output=183fff0bb7fc478fe6dc, output.valid=1, dataFromMem=ff0bb7fc478fe6dc, sFileLengthBytesCounter=568, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346893, sBurstCounter=2
+Tue 16:15: LMEM: Tick=346893, output=183fb96249c422d31dfc, output.valid=1, dataFromMem=b96249c422d31dfc, sFileLengthBytesCounter=576, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346894, output=183f8e711251e3142a58, output.valid=1, dataFromMem=8e711251e3142a58, sFileLengthBytesCounter=584, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346895, output=183f8922a532f38c9a44, output.valid=1, dataFromMem=8922a532f38c9a44, sFileLengthBytesCounter=592, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346896, output=183f64ffd225c5299242, output.valid=1, dataFromMem=64ffd225c5299242, sFileLengthBytesCounter=600, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346897, output=183f35df3e03fb2cdfe2, output.valid=1, dataFromMem=35df3e03fb2cdfe2, sFileLengthBytesCounter=608, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346898, output=183f2d917b013e6ab000, output.valid=1, dataFromMem=2d917b013e6ab000, sFileLengthBytesCounter=616, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346899, output=183f10274bf603635da8, output.valid=1, dataFromMem=10274bf603635da8, sFileLengthBytesCounter=624, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346900, output=183ff20000f7e2c07458, output.valid=1, dataFromMem=f20000f7e2c07458, sFileLengthBytesCounter=632, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346901, output=183f80030828d4c16fbb, output.valid=1, dataFromMem=80030828d4c16fbb, sFileLengthBytesCounter=640, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346902, output=183f3fefff77cfe18368, output.valid=1, dataFromMem=3fefff77cfe18368, sFileLengthBytesCounter=648, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346903, output=183f4966800025a047fd, output.valid=1, dataFromMem=4966800025a047fd, sFileLengthBytesCounter=656, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346904, output=183f2e24445e00007192, output.valid=1, dataFromMem=2e24445e00007192, sFileLengthBytesCounter=664, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346905, output=183f000008c73fb3ca54, output.valid=1, dataFromMem=000008c73fb3ca54, sFileLengthBytesCounter=672, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346906, output=183ff41b41b02a81a044, output.valid=1, dataFromMem=f41b41b02a81a044, sFileLengthBytesCounter=680, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346907, output=183f05c11c06c02c18c1, output.valid=1, dataFromMem=05c11c06c02c18c1, sFileLengthBytesCounter=688, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346908, output=183f42843660fc0bc1dc, output.valid=1, dataFromMem=42843660fc0bc1dc, sFileLengthBytesCounter=696, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346909, output=183f640a421042c2c424, output.valid=1, dataFromMem=640a421042c2c424, sFileLengthBytesCounter=704, sFi
+Tue 16:15: leLengthBytes=4087
+Tue 16:15: LMEM: Tick=346910, output=183f4282ac2960721c80, output.valid=1, dataFromMem=4282ac2960721c80, sFileLengthBytesCounter=712, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346911, output=183f2f602a1db0cd8628, output.valid=1, dataFromMem=2f602a1db0cd8628, sFileLengthBytesCounter=720, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346912, output=183f866851c0341d40d4, output.valid=1, dataFromMem=866851c0341d40d4, sFileLengthBytesCounter=728, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346913, output=183f0eb855c22e0e7093, output.valid=1, dataFromMem=0eb855c22e0e7093, sFileLengthBytesCounter=736, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346914, output=183fc19e0861fa0f703d, output.valid=1, dataFromMem=c19e0861fa0f703d, sFileLengthBytesCounter=744, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346915, output=183f08c841040981bc28, output.valid=1, dataFromMem=08c841040981bc28, sFileLengthBytesCounter=752, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346916, output=183f8a620188da216113, output.valid=1, dataFromMem=8a620188da216113, sFileLengthBytesCounter=760, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346917, sBurstCounter=3
+Tue 16:15: LMEM: Tick=346917, output=183ff8859917088e2358, output.valid=1, dataFromMem=f8859917088e2358, sFileLengthBytesCounter=768, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346918, output=183f20248b120448c121, output.valid=1, dataFromMem=20248b120448c121, sFileLengthBytesCounter=776, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346919, output=183f35914b22511488c9, output.valid=1, dataFromMem=35914b22511488c9, sFileLengthBytesCounter=784, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346920, output=183f485520548a523148, output.valid=1, dataFromMem=485520548a523148, sFileLengthBytesCounter=792, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346921, output=183f5c873902723df21d, output.valid=1, dataFromMem=5c873902723df21d, sFileLengthBytesCounter=800, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346922, output=183f823200c83b91ba46, output.valid=1, dataFromMem=823200c83b91ba46, sFileLengthBytesCounter=808, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346923, output=183fb281943147bc86fc, output.valid=1, dataFromMem=b281943147bc86fc, sFileLengthBytesCounter=816, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346924, output=183fa8b943b50cd43d51, output.valid=1, dataFromMem=a8b943b50cd43d51, sFileLengthBytesCounter=824, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346925, output=183f64d00ba246841a37, output.valid=1, dataFromMem=64d00ba246841a37, sFileLengthBytesCounter=832, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346926, output=183fd09ba0168f9a3174, output.valid=1, dataFromMem=d09ba0168f9a3174, sFileLengthBytesCounter=840, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346927, output=183fe7a1368c3d1ab472, output.valid=1, dataFromMem=e7a1368c3d1ab472, sFileLengthBytesCounter=848, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346928, output=183f433e8fda0f68abd0, output.valid=1, dataFromMem=433e8fda0f68abd0, sFileLengthBytesCounter=856, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346929, output=183fc4330718e8c030c7, output.valid=1, dataFromMem=c4330718e8c030c7, sFileLengthBytesCounter=864, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346930, output=183f38b142c3c62e306c, output.valid=1, dataFromMem=38b142c3c62e306c, sFileLengthBytesCounter=872, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346931, output=183fac22b1cb6393092c, output.valid=1, dataFromMem=ac22b1cb6393092c, sFileLengthBytesCounter=880, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346932, output=183f03ac56b01ac6ab0c, output.valid=1, dataFromMem=03ac56b01ac6ab0c, sFileLengthBytesCounter=888, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346933, output=183f0477b1cf63f589bb, output.valid=1, dataFromMem=0477b1cf63f589bb, sFileLengthBytesCounter=896, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346934, output=183f77043609c0458112, output.valid=1, dataFromMem=77043609c0458112, sFileLengthBytesCounter=904, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346935, output=183f4c5848411e612042, output.valid=1, dataFromMem=4c5848411e612042, sFileLengthBytesCounter=912, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346936, output=183f241c20a848d84e58, output.valid=1, dataFromMem=241c20a848d84e58, sFileLengthBytesCounter=920, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346937, output=183f8403093709da1134, output.valid=1, dataFromMem=8403093709da1134, sFi
+Tue 16:15: leLengthBytesCounter=928, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346938, output=183fb44ba8932227c251, output.valid=1, dataFromMem=b44ba8932227c251, sFileLengthBytesCounter=936, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346939, output=183f326218c4f911ba26, output.valid=1, dataFromMem=326218c4f911ba26, sFileLengthBytesCounter=944, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346940, output=183f12d6232c48588731, output.valid=1, dataFromMem=12d6232c48588731, sFileLengthBytesCounter=952, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346941, sBurstCounter=4
+Tue 16:15: LMEM: Tick=346941, output=183fc443887b102f138f, output.valid=1, dataFromMem=c443887b102f138f, sFileLengthBytesCounter=960, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346942, output=183fb927324389122437, output.valid=1, dataFromMem=b927324389122437, sFileLengthBytesCounter=968, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346943, output=183f12d254a4b1490290, output.valid=1, dataFromMem=12d254a4b1490290, sFileLengthBytesCounter=976, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346944, output=183f2ce923526ed246d2, output.valid=1, dataFromMem=2ce923526ed246d2, sFileLengthBytesCounter=984, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346945, output=183fc993231a48349ba9, output.valid=1, dataFromMem=c993231a48349ba9, sFileLengthBytesCounter=992, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346946, output=183f2c943907b26b64da, output.valid=1, dataFromMem=2c943907b26b64da, sFileLengthBytesCounter=1000, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346947, output=183fc3e49de485c82b20, output.valid=1, dataFromMem=c3e49de485c82b20, sFileLengthBytesCounter=1008, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346948, output=183f5bf221e41be433e4, output.valid=1, dataFromMem=5bf221e41be433e4, sFileLengthBytesCounter=1016, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346949, output=183f53f8a47140629d0a, output.valid=1, dataFromMem=53f8a47140629d0a, sFileLengthBytesCounter=1024, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346950, output=183fe5194a6aca5228e2, output.valid=1, dataFromMem=e5194a6aca5228e2, sFileLengthBytesCounter=1032, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346951, output=183f32986506e534e510, output.valid=1, dataFromMem=32986506e534e510, sFileLengthBytesCounter=1040, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346952, output=183fa1a8dd529aa35541, output.valid=1, dataFromMem=a1a8dd529aa35541, sFileLengthBytesCounter=1048, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346953, output=183fa1ad425a8f351154, output.valid=1, dataFromMem=a1ad425a8f351154, sFileLengthBytesCounter=1056, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346954, output=183f3413a88751af52b6, output.valid=1, dataFromMem=3413a88751af52b6, sFileLengthBytesCounter=1064, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346955, output=183f4b491683cd399a75, output.valid=1, dataFromMem=4b491683cd399a75, sFileLengthBytesCounter=1072, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346956, output=183f17681ad395a2ada5, output.valid=1, dataFromMem=17681ad395a2ada5, sFileLengthBytesCounter=1080, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346957, output=183f11ba74e8af69f768, output.valid=1, dataFromMem=11ba74e8af69f768, sFileLengthBytesCounter=1088, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346958, output=183fd257d0974e1e95dd, output.valid=1, dataFromMem=d257d0974e1e95dd, sFileLengthBytesCounter=1096, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346959, output=183ff403e897e847e9cb, output.valid=1, dataFromMem=f403e897e847e9cb, sFileLengthBytesCounter=1104, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346960, output=183f88c78315860d0c77, output.valid=1, dataFromMem=88c78315860d0c77, sFileLengthBytesCounter=1112, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346961, output=183f671807189b192867, output.valid=1, dataFromMem=671807189b192867, sFileLengthBytesCounter=1120, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346962, output=183f19a64c98af187719, output.valid=1, dataFromMem=19a64c98af187719, sFileLengthBytesCounter=1128, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346963, output=183f31373054c7198bd3, output.valid=1, dataFromMem=31373054c7198bd3, sFileLengthBytesCounter=1136, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346964, output=183f556f990f99e798eb, output.valid=1, dataFromMem=556f990f99e798eb, sFileLengthBytesCounter=1144, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346965, sBurstCounter=5
+Tue 16:15: LMEM: Tick=34
+Tue 16:15: 6965, output=183fca91157c2ab62a58, output.valid=1, dataFromMem=ca91157c2ab62a58, sFileLengthBytesCounter=1152, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346966, output=183f2a1b9526954a950a, output.valid=1, dataFromMem=2a1b9526954a950a, sFileLengthBytesCounter=1160, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346967, output=183faadeaaa6aaa9542f, output.valid=1, dataFromMem=aadeaaa6aaa9542f, sFileLengthBytesCounter=1168, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346968, output=183fa98f54cb55f3550b, output.valid=1, dataFromMem=a98f54cb55f3550b, sFileLengthBytesCounter=1176, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346969, output=183f53335546ae7d535e, output.valid=1, dataFromMem=53335546ae7d535e, sFileLengthBytesCounter=1184, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346970, output=183faa55ab96d409a9e3, output.valid=1, dataFromMem=aa55ab96d409a9e3, sFileLengthBytesCounter=1192, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346971, output=183fa967531b53eb509d, output.valid=1, dataFromMem=a967531b53eb509d, sFileLengthBytesCounter=1200, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346972, output=183f546fa867aa87a83b, output.valid=1, dataFromMem=546fa867aa87a83b, sFileLengthBytesCounter=1208, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346973, output=183f590689fd597ea43f, output.valid=1, dataFromMem=590689fd597ea43f, sFileLengthBytesCounter=1216, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346974, output=183fa051a4434fc34cc3, output.valid=1, dataFromMem=a051a4434fc34cc3, sFileLengthBytesCounter=1224, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346975, output=183f630b20c6bce35fb1, output.valid=1, dataFromMem=630b20c6bce35fb1, sFileLengthBytesCounter=1232, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346976, output=183fab0d6b212c78b319, output.valid=1, dataFromMem=ab0d6b212c78b319, sFileLengthBytesCounter=1240, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346977, output=183fcdb126c435817586, output.valid=1, dataFromMem=cdb126c435817586, sFileLengthBytesCounter=1248, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346978, output=183f1dfd98bb2a767cd9, output.valid=1, dataFromMem=1dfd98bb2a767cd9, sFileLengthBytesCounter=1256, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346979, output=183f4339a1a9aa3d8bbb, output.valid=1, dataFromMem=4339a1a9aa3d8bbb, sFileLengthBytesCounter=1264, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346980, output=183f94f352b357334a33, output.valid=1, dataFromMem=94f352b357334a33, sFileLengthBytesCounter=1272, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346981, output=183f9cf87198e3073f66, output.valid=1, dataFromMem=9cf87198e3073f66, sFileLengthBytesCounter=1280, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346982, output=183ff397a728e7094e74, output.valid=1, dataFromMem=f397a728e7094e74, sFileLengthBytesCounter=1288, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346983, output=183f29e229ef14de8a7e, output.valid=1, dataFromMem=29e229ef14de8a7e, sFileLengthBytesCounter=1296, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346984, output=183f5c6531b94c34a61b, output.valid=1, dataFromMem=5c6531b94c34a61b, sFileLengthBytesCounter=1304, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346985, output=183f48ab58969796aa6b, output.valid=1, dataFromMem=48ab58969796aa6b, sFileLengthBytesCounter=1312, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346986, output=183fae36bdeb47ab51ab, output.valid=1, dataFromMem=ae36bdeb47ab51ab, sFileLengthBytesCounter=1320, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346987, output=183f59bb45bda69da7ed, output.valid=1, dataFromMem=59bb45bda69da7ed, sFileLengthBytesCounter=1328, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346988, output=183f5c274ac7410e81fb, output.valid=1, dataFromMem=5c274ac7410e81fb, sFileLengthBytesCounter=1336, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346989, sBurstCounter=6
+Tue 16:15: LMEM: Tick=346989, output=183fe79d05ce8f674727, output.valid=1, dataFromMem=e79d05ce8f674727, sFileLengthBytesCounter=1344, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346990, output=183f16a70aa7dd53d953, output.valid=1, dataFromMem=16a70aa7dd53d953, sFileLengthBytesCounter=1352, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346991, output=183f6baa2eaef53a3d4d, output.valid=1, dataFromMem=6baa2eaef53a3d4d, sFileLengthBytesCounter=1360, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346992, output=183f6ebf7744bba11ba5, output.valid=1, dataFromMem=6ebf7744bba11ba5, sFileLeng
+Tue 16:15: thBytesCounter=1368, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346993, output=183f9e805ebe9e98eea7, output.valid=1, dataFromMem=9e805ebe9e98eea7, sFileLengthBytesCounter=1376, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346994, output=183ffae7bd79dea76f4c, output.valid=1, dataFromMem=fae7bd79dea76f4c, sFileLengthBytesCounter=1384, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346995, output=183ffa6dfd54fd2f7d1c, output.valid=1, dataFromMem=fa6dfd54fd2f7d1c, sFileLengthBytesCounter=1392, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346996, output=183f0cb306580c47f5a7, output.valid=1, dataFromMem=0cb306580c47f5a7, sFileLengthBytesCounter=1400, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346997, output=183fc53c18ce0cdb0624, output.valid=1, dataFromMem=c53c18ce0cdb0624, sFileLengthBytesCounter=1408, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346998, output=183fdbc72f1d3c6f7135, output.valid=1, dataFromMem=dbc72f1d3c6f7135, sFileLengthBytesCounter=1416, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=346999, output=183fa54340c35d4351f1, output.valid=1, dataFromMem=a54340c35d4351f1, sFileLengthBytesCounter=1424, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347000, output=183fb99184e197619561, output.valid=1, dataFromMem=b99184e197619561, sFileLengthBytesCounter=1432, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347001, output=183f0f468d46d5a33cd1, output.valid=1, dataFromMem=0f468d46d5a33cd1, sFileLengthBytesCounter=1440, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347002, output=183f6de324e35cc6698c, output.valid=1, dataFromMem=6de324e35cc6698c, sFileLengthBytesCounter=1448, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347003, output=183f21260626a3c66dc6, output.valid=1, dataFromMem=21260626a3c66dc6, sFileLengthBytesCounter=1456, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347004, output=183f529aee4dea4d4b26, output.valid=1, dataFromMem=529aee4dea4d4b26, sFileLengthBytesCounter=1464, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347005, output=183f3b4c3ba629a6b94d, output.valid=1, dataFromMem=3b4c3ba629a6b94d, sFileLengthBytesCounter=1472, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347006, output=183fd6cda2cdcccdc74c, output.valid=1, dataFromMem=d6cda2cdcccdc74c, sFileLengthBytesCounter=1480, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347007, output=183fe732d7313d9b3599, output.valid=1, dataFromMem=e732d7313d9b3599, sFileLengthBytesCounter=1488, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347008, output=183f60b7df9bd79be79b, output.valid=1, dataFromMem=60b7df9bd79be79b, sFileLengthBytesCounter=1496, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347009, output=183fb8b6a8b62c5a785a, output.valid=1, dataFromMem=b8b6a8b62c5a785a, sFileLengthBytesCounter=1504, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347010, output=183fee59a65ae4b24965, output.valid=1, dataFromMem=ee59a65ae4b24965, sFileLengthBytesCounter=1512, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347011, output=183fa559395a856ebcb6, output.valid=1, dataFromMem=a559395a856ebcb6, sFileLengthBytesCounter=1520, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347012, output=183f9dad46b35d5a5558, output.valid=1, dataFromMem=9dad46b35d5a5558, sFileLengthBytesCounter=1528, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347013, sBurstCounter=7
+Tue 16:15: LMEM: Tick=347013, output=183f11a7bbadbbd625ad, output.valid=1, dataFromMem=11a7bbadbbd625ad, sFileLengthBytesCounter=1536, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347014, output=183fd69eab4e934eb9a7, output.valid=1, dataFromMem=d69eab4e934eb9a7, sFileLengthBytesCounter=1544, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347015, output=183fa9b6c9b6f1b0c367, output.valid=1, dataFromMem=a9b6c9b6f1b0c367, sFileLengthBytesCounter=1552, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347016, output=183faedb06d8e5b019b7, output.valid=1, dataFromMem=aedb06d8e5b019b7, sFileLengthBytesCounter=1560, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347017, output=183f176267617db66db6, output.valid=1, dataFromMem=176267617db66db6, sFileLengthBytesCounter=1568, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347018, output=183fbd93eec3aec5b767, output.valid=1, dataFromMem=bd93eec3aec5b767, sFileLengthBytesCounter=1576, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347019, output=183f073dfd8d7dba7d93, output.valid=1, dataFromMem=073dfd8d7dba7d93, sFileLengthBytesCounter=1584, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347020, output=183f1d5a1dab0ed9870d
+Tue 16:15: , output.valid=1, dataFromMem=1d5a1dab0ed9870d, sFileLengthBytesCounter=1592, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347021, output=183f3a563a1472b4737e, output.valid=1, dataFromMem=3a563a1472b4737e, sFileLengthBytesCounter=1600, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347022, output=183fc57d3fee9cce9ade, output.valid=1, dataFromMem=c57d3fee9cce9ade, sFileLengthBytesCounter=1608, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347023, output=183f10cf58672fe996f4, output.valid=1, dataFromMem=10cf58672fe996f4, sFileLengthBytesCounter=1616, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347024, output=183f29cb13b6e333d8cf, output.valid=1, dataFromMem=29cb13b6e333d8cf, sFileLengthBytesCounter=1624, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347025, output=183f6747d39b539d69c4, output.valid=1, dataFromMem=6747d39b539d69c4, sFileLengthBytesCounter=1632, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347026, output=183f8b88f38373b96717, output.valid=1, dataFromMem=8b88f38373b96717, sFileLengthBytesCounter=1640, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347027, output=183f2e3e972ecb824b89, output.valid=1, dataFromMem=2e3e972ecb824b89, sFileLengthBytesCounter=1648, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347028, output=183f4ae4bdc8ddc61b9b, output.valid=1, dataFromMem=4ae4bdc8ddc61b9b, sFileLengthBytesCounter=1656, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347029, output=183ff5d27ae15d71f574, output.valid=1, dataFromMem=f5d27ae15d71f574, sFileLengthBytesCounter=1664, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347030, output=183fdba8edc29bb39b9d, output.valid=1, dataFromMem=dba8edc29bb39b9d, sFileLengthBytesCounter=1672, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347031, output=183fdc87ee69ee36eeaf, output.valid=1, dataFromMem=dc87ee69ee36eeaf, sFileLengthBytesCounter=1680, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347032, output=183f33599e299f34cc9f, output.valid=1, dataFromMem=33599e299f34cc9f, sFileLengthBytesCounter=1688, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347033, output=183fe551e043c8c3d073, output.valid=1, dataFromMem=e551e043c8c3d073, sFileLengthBytesCounter=1696, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347034, output=183fdf6b30959f0b3fd1, output.valid=1, dataFromMem=df6b30959f0b3fd1, sFileLengthBytesCounter=1704, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347035, output=183fb567814f434f7eac, output.valid=1, dataFromMem=b567814f434f7eac, sFileLengthBytesCounter=1712, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347036, output=183fad57912f632f23e7, output.valid=1, dataFromMem=ad57912f632f23e7, sFileLengthBytesCounter=1720, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347037, sBurstCounter=8
+Tue 16:15: LMEM: Tick=347037, output=183f61f7aa77a5b7b0d7, output.valid=1, dataFromMem=61f7aa77a5b7b0d7, sFileLengthBytesCounter=1728, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347038, output=183fe39f723ef63e17ef, output.valid=1, dataFromMem=e39f723ef63e17ef, sFileLengthBytesCounter=1736, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347039, output=183f59de32de373ce33e, output.valid=1, dataFromMem=59de32de373ce33e, sFileLengthBytesCounter=1744, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347040, output=183fcbb7c8b7c037cc5f, output.valid=1, dataFromMem=cbb7c8b7c037cc5f, sFileLengthBytesCounter=1752, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347041, output=183f43df855f9e6fc34f, output.valid=1, dataFromMem=43df855f9e6fc34f, sFileLengthBytesCounter=1760, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347042, output=183fd1ff7aff64ff237f, output.valid=1, dataFromMem=d1ff7aff64ff237f, sFileLengthBytesCounter=1768, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347043, output=183f890367012580a700, output.valid=1, dataFromMem=890367012580a700, sFileLengthBytesCounter=1776, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347044, output=183f7af8fb025b814181, output.valid=1, dataFromMem=7af8fb025b814181, sFileLengthBytesCounter=1784, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347045, output=183f65db3a3f8ebf217c, output.valid=1, dataFromMem=65db3a3f8ebf217c, sFileLengthBytesCounter=1792, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347046, output=183fb9a08c41edd9b2f6, output.valid=1, dataFromMem=b9a08c41edd9b2f6, sFileLengthBytesCounter=1800, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347047, output=183fe582ad828f411541, output.valid=1, dataFromMem=e582ad828f411541, sFileLengthBytesCounter=1808, sFileLengthB
+Tue 16:15: ytes=4087
+Tue 16:15: LMEM: Tick=347048, output=183fad90ecc86821adc1, output.valid=1, dataFromMem=ad90ecc86821adc1, sFileLengthBytesCounter=1816, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347049, output=183f69ce91ce98e7f721, output.valid=1, dataFromMem=69ce91ce98e7f721, sFileLengthBytesCounter=1824, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347050, output=183f07d0d6e87e50850e, output.valid=1, dataFromMem=07d0d6e87e50850e, sFileLengthBytesCounter=1832, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347051, output=183f270c7ec38b61e661, output.valid=1, dataFromMem=270c7ec38b61e661, sFileLengthBytesCounter=1840, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347052, output=183f708e3f8657858785, output.valid=1, dataFromMem=708e3f8657858785, sFileLengthBytesCounter=1848, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347053, output=183f77359731d11a5888, output.valid=1, dataFromMem=77359731d11a5888, sFileLengthBytesCounter=1856, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347054, output=183f44fa44df7343dcd1, output.valid=1, dataFromMem=44fa44df7343dcd1, sFileLengthBytesCounter=1864, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347055, output=183f394f31679bde4496, output.valid=1, dataFromMem=394f31679bde4496, sFileLengthBytesCounter=1872, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347056, output=183f2eaa3e2a354a2daf, output.valid=1, dataFromMem=2eaa3e2a354a2daf, sFileLengthBytesCounter=1880, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347057, output=183f3fba34ba37da3c6a, output.valid=1, dataFromMem=3fba34ba37da3c6a, sFileLengthBytesCounter=1888, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347058, output=183f9d58d5cc59662ec6, output.valid=1, dataFromMem=9d58d5cc59662ec6, sFileLengthBytesCounter=1896, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347059, output=183f2a2e391c4b6c4958, output.valid=1, dataFromMem=2a2e391c4b6c4958, sFileLengthBytesCounter=1904, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347060, output=183fedfcdfbe6c6e36ae, output.valid=1, dataFromMem=edfcdfbe6c6e36ae, sFileLengthBytesCounter=1912, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347061, sBurstCounter=9
+Tue 16:15: LMEM: Tick=347061, output=183f7be30be29de287f3, output.valid=1, dataFromMem=7be30be29de287f3, sFileLengthBytesCounter=1920, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347062, output=183fa179705dc82f9817, output.valid=1, dataFromMem=a179705dc82f9817, sFileLengthBytesCounter=1928, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347063, output=183f2ea916a785f4c2ce, output.valid=1, dataFromMem=2ea916a785f4c2ce, sFileLengthBytesCounter=1936, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347064, output=183f4e884c40963a2c12, output.valid=1, dataFromMem=4e884c40963a2c12, sFileLengthBytesCounter=1944, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347065, output=183f16a82a1041f09438, output.valid=1, dataFromMem=16a82a1041f09438, sFileLengthBytesCounter=1952, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347066, output=183f0a8e257713f2258c, output.valid=1, dataFromMem=0a8e257713f2258c, sFileLengthBytesCounter=1960, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347067, output=183fd12f2267c21dc279, output.valid=1, dataFromMem=d12f2267c21dc279, sFileLengthBytesCounter=1968, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347068, output=183f1e2a5c43d888d136, output.valid=1, dataFromMem=1e2a5c43d888d136, sFileLengthBytesCounter=1976, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347069, output=183fec927a4d2a48f24e, output.valid=1, dataFromMem=ec927a4d2a48f24e, sFileLengthBytesCounter=1984, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347070, output=183fa533c5247935bc91, output.valid=1, dataFromMem=a533c5247935bc91, sFileLengthBytesCounter=1992, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347071, output=183fbc90a92784b9e52c, output.valid=1, dataFromMem=bc90a92784b9e52c, sFileLengthBytesCounter=2000, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347072, output=183f169e3a9bdd4c0d4c, output.valid=1, dataFromMem=169e3a9bdd4c0d4c, sFileLengthBytesCounter=2008, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347073, output=183fbd3a3d326d20769a, output.valid=1, dataFromMem=bd3a3d326d20769a, sFileLengthBytesCounter=2016, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347074, output=183faa42719091928331, output.valid=1, dataFromMem=aa42719091928331, sFileLengthBytesCounter=2024, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347075, output=183fe667ea67b6934d21, output.valid=1, dataFromMem=e66
+Tue 16:15: 7ea67b6934d21, sFileLengthBytesCounter=2032, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347076, output=183ffeb28565accb7666, output.valid=1, dataFromMem=feb28565accb7666, sFileLengthBytesCounter=2040, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347077, output=183f07951e2fb78b6ec5, output.valid=1, dataFromMem=07951e2fb78b6ec5, sFileLengthBytesCounter=2048, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347078, output=183f2d5905ac90b36bc9, output.valid=1, dataFromMem=2d5905ac90b36bc9, sFileLengthBytesCounter=2056, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347079, output=183f285a54e8a642b60a, output.valid=1, dataFromMem=285a54e8a642b60a, sFileLengthBytesCounter=2064, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347080, output=183f66576567b2072ad7, output.valid=1, dataFromMem=66576567b2072ad7, sFileLengthBytesCounter=2072, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347081, output=183f9eab9639ca89cdbf, output.valid=1, dataFromMem=9eab9639ca89cdbf, sFileLengCPU code: Got ack from TxManager: Total frames: 73
+Tue 16:15: thBytesCounter=2080, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347082, output=183f90dbcab3ccedcd2b, output.valid=1, dataFromMem=90dbcab3ccedcd2b, sFileLengthBytesCounter=2088, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347083, output=183fc212edff9fef9c37, output.valid=1, datCPU code: frameCounter=74
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 74
+Tue 16:15: CPU code: frameCounter=75
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 75
+Tue 16:15: CPU code: frameCounter=76
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 76
+Tue 16:15: CPU code: frameCounter=77
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 77
+Tue 16:15: CPU code: frameCounter=78
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 78
+Tue 16:15: CPU code: frameCounter=79
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 79
+Tue 16:15: CPU code: frameCounter=80
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 80
+Tue 16:15: CPU code: frameCounter=81
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 81
+Tue 16:15: CPU code: frameCounter=82
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 82
+Tue 16:15: CPU code: frameCounter=83
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 83
+Tue 16:15: CPU code: frameCounter=84
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 84
+Tue 16:15: CPU code: frameCounter=85
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 85
+Tue 16:15: CPU code: frameCounter=86
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 86
+Tue 16:15: CPU code: frameCounter=87
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 87
+Tue 16:15: CPU code: frameCounter=88
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 88
+Tue 16:15: CPU code: frameCounter=89
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 89
+Tue 16:15: CPU code: frameCounter=90
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 90
+Tue 16:15: CPU code: frameCounter=91
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 91
+Tue 16:15: CPU code: frameCounter=92
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 92
+Tue 16:15: CPU code: frameCounter=93
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 93
+Tue 16:15: CPU code: frameCounter=94
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 94
+Tue 16:15: CPU code: frameCounter=95
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 95
+Tue 16:15: CPU code: frameCounter=96
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 96
+Tue 16:15: CPU code: frameCounter=97
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 97
+Tue 16:15: CPU code: frameCounter=98
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 98
+Tue 16:15: CPU code: frameCounter=99
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 99
+Tue 16:15: CPU code: frameCounter=100
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 100
+Tue 16:15: CPU code: frameCounter=101
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 101
+Tue 16:15: CPU code: frameCounter=102
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 102
+Tue 16:15: CPU code: frameCounter=103
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 103
+Tue 16:15: CPU code: frameCounter=104
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 104
+Tue 16:15: CPU code: frameCounter=105
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 105
+Tue 16:15: CPU code: frameCounter=106
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 106
+Tue 16:15: CPU code: frameCounter=107
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 107
+Tue 16:15: CPU code: frameCounter=108
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 108
+Tue 16:15: CPU code: frameCounter=109
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 109
+Tue 16:15: CPU code: frame
+Tue 16:15: Counter=110
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 110
+Tue 16:15: CPU code: frameCounter=111
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 111
+Tue 16:15: CPU code: frameCounter=112
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 112
+Tue 16:15: CPU code: frameCounter=113
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 113
+Tue 16:15: CPU code: frameCounter=114
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 114
+Tue 16:15: CPU code: frameCounter=115
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 115
+Tue 16:15: CPU code: frameCounter=116
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 116
+Tue 16:15: CPU code: frameCounter=117
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 117
+Tue 16:15: CPU code: frameCounter=118
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 118
+Tue 16:15: CPU code: frameCounter=119
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 119
+Tue 16:15: CPU code: frameCounter=120
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 120
+Tue 16:15: CPU code: frameCounter=121
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 121
+Tue 16:15: CPU code: frameCounter=122
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 122
+Tue 16:15: CPU code: frameCounter=123
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 123
+Tue 16:15: CPU code: frameCounter=124
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 124
+Tue 16:15: CPU code: frameCounter=125
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 125
+Tue 16:15: CPU code: frameCounter=126
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 126
+Tue 16:15: CPU code: frameCounter=127
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 127
+Tue 16:15: CPU code: frameCounter=128
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 128
+Tue 16:15: CPU code: frameCounter=129
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 129
+Tue 16:15: CPU code: frameCounter=130
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 130
+Tue 16:15: CPU code: frameCounter=131
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 131
+Tue 16:15: CPU code: frameCounter=132
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 132
+Tue 16:15: CPU code: frameCounter=133
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 133
+Tue 16:15: CPU code: frameCounter=134
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 134
+Tue 16:15: CPU code: frameCounter=135
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 135
+Tue 16:15: CPU code: frameCounter=136
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 136
+Tue 16:15: CPU code: frameCounter=137
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 137
+Tue 16:15: CPU code: frameCounter=138
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 138
+Tue 16:15: CPU code: frameCounter=139
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 139
+Tue 16:15: CPU code: frameCounter=140
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 140
+Tue 16:15: CPU code: frameCounter=141
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 141
+Tue 16:15: CPU code: frameCounter=142
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 142
+Tue 16:15: CPU code: frameCounter=143
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 143
+Tue 16:15: CPU code: frameCounter=144
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 144
+Tue 16:15: CPU code: frameCounter=145
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 145
+Tue 16:15: CPU code: frameCounter=146
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 146
+Tue 16:15: CPU code: frameCounter=147
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 147
+Tue 16:15: CPU code: frameCounter=148
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 148
+Tue 16:15: CPU code: frameCounter=149
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 149
+Tue 16:15: CPU code: frameCounter=150
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 150
+Tue 16:15: CPU code: frameCounter=151
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 151
+Tue 16:15: CPU code: frameCounter=152
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 152
+Tue 16:15: CPU code: frameCounter=153
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 153
+Tue 16:15: CPU code: frameCounter=154
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 154
+Tue 16:15: CPU code: frameCounter=155
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 155
+Tue 16:15: CPU code: frameCounter=156
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 156
+Tue 16:15: CPU code: frameCounter=157
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 157
+Tue 16:15: CPU code: frameCounter=158
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 158
+Tue 16:15: CPU code: frameCounter=159
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 159
+Tue 16:15: CPU code: frameCounter=160
+Tue 16:15: CPU code: Got ack from TxManager
+Tue 16:15: : Total frames: 160
+Tue 16:15: CPU code: frameCounter=161
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 161
+Tue 16:15: CPU code: frameCounter=162
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 162
+Tue 16:15: CPU code: frameCounter=163
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 163
+Tue 16:15: CPU code: frameCounter=164
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 164
+Tue 16:15: CPU code: frameCounter=165
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 165
+Tue 16:15: CPU code: frameCounter=166
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 166
+Tue 16:15: CPU code: frameCounter=167
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 167
+Tue 16:15: CPU code: frameCounter=168
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 168
+Tue 16:15: CPU code: frameCounter=169
+Tue 16:15: aFromMem=c212edff9fef9c37, sFileLengthBytesCounter=2096, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347084, output=183f574b86a5b692e112, output.valid=1, dataFromMem=574b86a5b692e112, sFileLengthBytesCounter=2104, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347085, sBurstCounter=10
+Tue 16:15: LMEM: Tick=347085, output=183f396aacbde6581d2d, output.valid=1, dataFromMem=396aacbde6581d2d, sFileLengthBytesCounter=2112, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347086, output=183f15e30adb79713cb2, output.valid=1, dataFromMem=15e30adb79713cb2, sFileLengthBytesCounter=2120, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347087, output=183fb83cac0656862b05, output.valid=1, dataFromMem=b83cac0656862b05, sFileLengthBytesCounter=2128, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347088, output=183fedab4fd56d2ab68a, output.valid=1, dataFromMem=edab4fd56d2ab68a, sFileLengthBytesCounter=2136, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347089, output=183f4d7a26bd7eae9757, output.valid=1, dataFromMem=4d7a26bd7eae9757, sFileLengthBytesCounter=2144, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347090, output=183fb5c182cac15e816b, output.valid=1, dataFromMem=b5c182cac15e816b, sFileLengthBytesCounter=2152, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347091, output=183f85e50a550beb6b01, output.valid=1, dataFromMem=85e50a550beb6b01, sFileLengthBytesCounter=2160, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347092, output=183f584f5dedd7dceb7d, output.valid=1, dataFromMem=584f5dedd7dceb7d, sFileLengthBytesCounter=2168, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347093, output=183f9d86fa61b5df592f, output.valid=1, dataFromMem=9d86fa61b5df592f, sFileLengthBytesCounter=2176, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347094, output=183fdb14ae8a89153e1b, output.valid=1, dataFromMem=db14ae8a89153e1b, sFileLengthBytesCounter=2184, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347095, output=183f78dc28d87f159717, output.valid=1, dataFroCPU code: Got ack from TxManager: Total frames: 169
+Tue 16:15: mMem=78dc28d87f159717, sFileLengthBytesCounter=2192, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347096, output=183fdc99bfca6f871be5, output.valid=1, dataFromMem=dc99bfca6f871be5, sFileLengthBytesCounter=2200, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347097, output=183fcf64bCPU code: frameCounter=170
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 170
+Tue 16:15: CPU code: frameCounter=171
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 171
+Tue 16:15: CPU code: frameCounter=172
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 172
+Tue 16:15: CPU code: frameCounter=173
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 173
+Tue 16:15: CPU code: frameCounter=174
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 174
+Tue 16:15: CPU code: frameCounter=175
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 175
+Tue 16:15: CPU code: frameCounter=176
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 176
+Tue 16:15: CPU code: frameCounter=177
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 177
+Tue 16:15: CPU code: frameCounter=178
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 178
+Tue 16:15: CPU code: frameCounter=179
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 179
+Tue 16:15: CPU code: frameCounter=180
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 180
+Tue 16:15: CPU code: frameCounter=181
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 181
+Tue 16:15: CPU code: frameCounter=182
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 182
+Tue 16:15: CPU code: frameCounter=183
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 183
+Tue 16:15: CPU code: frameCounter=184
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 184
+Tue 16:15: CPU code: frameCounter=185
+Tue 16:15: CPU code: Got ack from TxManager: Total
+Tue 16:15:  frames: 185
+Tue 16:15: CPU code: frameCounter=186
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 186
+Tue 16:15: CPU code: frameCounter=187
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 187
+Tue 16:15: CPU code: frameCounter=188
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 188
+Tue 16:15: CPU code: frameCounter=189
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 189
+Tue 16:15: CPU code: frameCounter=190
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 190
+Tue 16:15: CPU code: frameCounter=191
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 191
+Tue 16:15: CPU code: frameCounter=192
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 192
+Tue 16:15: CPU code: frameCounter=193
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 193
+Tue 16:15: CPU code: frameCounter=194
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 194
+Tue 16:15: CPU code: frameCounter=195
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 195
+Tue 16:15: CPU code: frameCounter=196
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 196
+Tue 16:15: CPU code: frameCounter=197
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 197
+Tue 16:15: CPU code: frameCounter=198
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 198
+Tue 16:15: CPU code: frameCounter=199
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 199
+Tue 16:15: CPU code: frameCounter=200
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 200
+Tue 16:15: CPU code: frameCounter=201
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 201
+Tue 16:15: CPU code: frameCounter=202
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 202
+Tue 16:15: CPU code: frameCounter=203
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 203
+Tue 16:15: CPU code: frameCounter=204
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 204
+Tue 16:15: CPU code: frameCounter=205
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 205
+Tue 16:15: CPU code: frameCounter=206
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 206
+Tue 16:15: CPU code: frameCounter=207
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 207
+Tue 16:15: CPU code: frameCounter=208
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 208
+Tue 16:15: CPU code: frameCounter=209
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 209
+Tue 16:15: CPU code: frameCounter=210
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 210
+Tue 16:15: CPU code: frameCounter=211
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 211
+Tue 16:15: CPU code: frameCounter=212
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 212
+Tue 16:15: 9c4aba9b494, output.valid=1, dataFromMem=cf64b9c4aba9b494, sFileLengthBytesCounter=2208, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347098, output=183f9e2ddee6e966d266, output.valid=1, dataFromMem=9e2ddee6e966d266, sFileLengthBytesCounter=2216, sFileLengthBytes=4087CPU code: frameCounter=213
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 213
+
+Tue 16:15: LMEM: Tick=347099, output=183f0e97e697aa960e5b, output.valid=1, dataFromMem=0e97e697aa960e5b, sFileLengthBytesCounter=2224, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347100, output=183f56df0db4dad90d6e, output.valid=1, dataFromMem=56df0db4dad90d6e, sFileLengthByteCPU code: frameCounter=214
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 214
+Tue 16:15: CPU code: frameCounter=215
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 215
+Tue 16:15: CPU code: frameCounter=216
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 216
+Tue 16:15: CPU code: frameCounter=217
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 217
+Tue 16:15: CPU code: frameCounter=218
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 218
+Tue 16:15: CPU code: frameCounter=219
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 219
+Tue 16:15: CPU code: frameCounter=220
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 220
+Tue 16:15: CPU code: frameCounter=221
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 221
+Tue 16:15: CPU code: frameCounter=222
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 222
+Tue 16:15: CPU code: frameCounter=223
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 223
+Tue 16:15: CPU code: frameCounter=224
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 224
+Tue 16:15: CPU code: frameCounter=225
+Tue 16:15: sCounter=2232, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347101, output=183f972fdb45f6f5edb4, output.valid=1, dataFromMem=972fdb45f6f5edb4, sFileLengthBytesCounter=2240, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347102, output=183fb943b683bbdb28cd, output.valid=1, dataFromMCPU code: Got ack from TxManager: Total frames: 225
+Tue 16:15: CPU code: frameCounter=226
+Tue 16:15: CPU code: Got ack from TxManager: Total 
+Tue 16:15: frames: 226
+Tue 16:15: CPU code: frameCounter=227
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 227
+Tue 16:15: CPU code: frameCounter=228
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 228
+Tue 16:15: CPU code: frameCounter=229
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 229
+Tue 16:15: CPU code: frameCounter=230
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 230
+Tue 16:15: CPU code: frameCounter=231
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 231
+Tue 16:15: CPU code: frameCounter=232
+Tue 16:15: em=b943b683bbdb28cd, sFileLengthBytesCounter=2248, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347103, output=183fc9a765bcb83cbfa3, output.valid=1, dataFromMem=c9a765bcb83cbfa3, sFileLengthBytesCounter=2256, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347104, output=183ff454a45CPU code: Got ack from TxManager: Total frames: 232
+Tue 16:15: CPU code: frameCounter=233
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 233
+Tue 16:15: CPU code: frameCounter=234
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 234
+Tue 16:15: CPU code: frameCounter=235
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 235
+Tue 16:15: CPU code: frameCounter=236
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 236
+Tue 16:15: CPU code: frameCounter=237
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 237
+Tue 16:15: CPU code: frameCounter=238
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 238
+Tue 16:15: CPU code: frameCounter=239
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 239
+Tue 16:15: CPU code: frameCounter=240
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 240
+Tue 16:15: CPU code: frameCounter=241
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 241
+Tue 16:15: CPU code: frameCounter=242
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 242
+Tue 16:15: CPU code: frameCounter=243
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 243
+Tue 16:15: CPU code: frameCounter=244
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 244
+Tue 16:15: CPU code: frameCounter=245
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 245
+Tue 16:15: CPU code: frameCounter=246
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 246
+Tue 16:15: CPU code: frameCounter=247
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 247
+Tue 16:15: CPU code: frameCounter=248
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 248
+Tue 16:15: CPU code: frameCounter=249
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 249
+Tue 16:15: CPU code: frameCounter=250
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 250
+Tue 16:15: CPU code: frameCounter=251
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 251
+Tue 16:15: CPU code: frameCounter=252
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 252
+Tue 16:15: CPU code: frameCounter=253
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 253
+Tue 16:15: 43f3bcdce, output.valid=1, dataFromMem=f454a4543f3bcdce, sFileLengthBytesCounter=2264, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347105, output=183fb5ddd2ee3654fa54, output.valid=1, dataFromMem=b5ddd2ee3654fa54, sFileLengthBytesCounter=2272, sFileLengthBytes=4087
+Tue 16:15: LCPU code: frameCounter=254
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 254
+Tue 16:15: CPU code: frameCounter=255
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 255
+Tue 16:15: CPU code: frameCounter=256
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 256
+Tue 16:15: CPU code: frameCounter=257
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 257
+Tue 16:15: MEM: Tick=347106, output=183f7b1beed16ef8d761, output.valid=1, dataFromMem=7b1beed16ef8d761, sFileLengthBytesCounter=2280, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347107, output=183fbc5bdbd5ec34f6bc, output.valid=1, dataFromMem=bc5bdbd5ec34f6bc, sFileLengthBytesCCPU code: frameCounter=258
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 258
+Tue 16:15: CPU code: frameCounter=259
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 259
+Tue 16:15: CPU code: frameCounter=260
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 260
+Tue 16:15: CPU code: frameCounter=261
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 261
+Tue 16:15: CPU code: frameCounter=262
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 262
+Tue 16:15: CPU code: frameCounter=263
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 263
+Tue 16:15: CPU code: frameCounter=264
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 264
+Tue 16:15: CPU code: frameCounter=265
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 265
+Tue 16:15: CPU code: frameCounter=266
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 266
+Tue 16:15: CPU code: frameCounter=267
+Tue 16:15: CPU code: Got ack from TxManager: Total f
+Tue 16:15: rames: 267
+Tue 16:15: CPU code: frameCounter=268
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 268
+Tue 16:15: CPU code: frameCounter=269
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 269
+Tue 16:15: CPU code: frameCounter=270
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 270
+Tue 16:15: CPU code: frameCounter=271
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 271
+Tue 16:15: CPU code: frameCounter=272
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 272
+Tue 16:15: CPU code: frameCounter=273
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 273
+Tue 16:15: CPU code: frameCounter=274
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 274
+Tue 16:15: CPU code: frameCounter=275
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 275
+Tue 16:15: CPU code: frameCounter=276
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 276
+Tue 16:15: CPU code: frameCounter=277
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 277
+Tue 16:15: CPU code: frameCounter=278
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 278
+Tue 16:15: CPU code: frameCounter=279
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 279
+Tue 16:15: CPU code: frameCounter=280
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 280
+Tue 16:15: CPU code: frameCounter=281
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 281
+Tue 16:15: CPU code: frameCounter=282
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 282
+Tue 16:15: CPU code: frameCounter=283
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 283
+Tue 16:15: CPU code: frameCounter=284
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 284
+Tue 16:15: CPU code: frameCounter=285
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 285
+Tue 16:15: CPU code: frameCounter=286
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 286
+Tue 16:15: CPU code: frameCounter=287
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 287
+Tue 16:15: CPU code: frameCounter=288
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 288
+Tue 16:15: CPU code: frameCounter=289
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 289
+Tue 16:15: CPU code: frameCounter=290
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 290
+Tue 16:15: CPU code: frameCounter=291
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 291
+Tue 16:15: CPU code: frameCounter=292
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 292
+Tue 16:15: CPU code: frameCounter=293
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 293
+Tue 16:15: CPU code: frameCounter=294
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 294
+Tue 16:15: CPU code: frameCounter=295
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 295
+Tue 16:15: CPU code: frameCounter=296
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 296
+Tue 16:15: CPU code: frameCounter=297
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 297
+Tue 16:15: CPU code: frameCounter=298
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 298
+Tue 16:15: CPU code: frameCounter=299
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 299
+Tue 16:15: CPU code: frameCounter=300
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 300
+Tue 16:15: CPU code: frameCounter=301
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 301
+Tue 16:15: CPU code: frameCounter=302
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 302
+Tue 16:15: CPU code: frameCounter=303
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 303
+Tue 16:15: CPU code: frameCounter=304
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 304
+Tue 16:15: CPU code: frameCounter=305
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 305
+Tue 16:15: CPU code: frameCounter=306
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 306
+Tue 16:15: CPU code: frameCounter=307
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 307
+Tue 16:15: ounter=2288, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347108, output=183f0155dbbec93efdf7, output.valid=1, dataFromMem=0155dbbec93efdf7, sFileLengthBytesCounter=2296, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347109, sBurstCounter=11
+Tue 16:15: LMEM: Tick=347109, output=183f49fb65d56CPU code: frameCounter=308
+Tue 16:15: 6d54d55, output.valid=1, dataFromMem=49fb65d566d54d55, sFileLengthBytesCounter=2304, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347110, output=183fe9aa89ae3ff7b3fb, output.valid=1, dataFromMem=e9aa89ae3ff7b3fb, sFileLengthBytesCounter=2312, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347111, output=183f6d4ead5d6dfb96f8, output.valid=1, dataFromMem=6d4ead5d6dfb96f8, sFileLengthBytesCounter=2320, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347112, output=183f07fd03d203c7ed71, output.valid=1, dataFromMem=07fd03d203c7ed71, sFileLengthBytesCouCPU code: Got ack from TxManager: Total f
+Tue 16:15: rames: 308
+Tue 16:15: CPU code: frameCounter=309
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 309
+Tue 16:15: CPU code: frameCounter=310
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 310
+Tue 16:15: CPU code: frameCounter=311
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 311
+Tue 16:15: CPU code: frameCounter=312
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 312
+Tue 16:15: CPU code: frameCounter=313
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 313
+Tue 16:15: CPU code: frameCounter=314
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 314
+Tue 16:15: CPU code: frameCounter=315
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 315
+Tue 16:15: CPU code: frameCounter=316
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 316
+Tue 16:15: CPU code: frameCounter=317
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 317
+Tue 16:15: CPU code: frameCounter=318
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 318
+Tue 16:15: CPU code: frameCounter=319
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 319
+Tue 16:15: CPU code: frameCounter=320
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 320
+Tue 16:15: CPU code: frameCounter=321
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 321
+Tue 16:15: CPU code: frameCounter=322
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 322
+Tue 16:15: CPU code: frameCounter=323
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 323
+Tue 16:15: CPU code: frameCounter=324
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 324
+Tue 16:15: CPU code: frameCounter=325
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 325
+Tue 16:15: CPU code: frameCounter=326
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 326
+Tue 16:15: CPU code: frameCounter=327
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 327
+Tue 16:15: CPU code: frameCounter=328
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 328
+Tue 16:15: CPU code: frameCounter=329
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 329
+Tue 16:15: CPU code: frameCounter=330
+Tue 16:15: nter=2328, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347113, output=183f1dd5d4b9d7b60e23, output.valid=1, dataFromMem=1dd5d4b9d7b60e23, sFileLengthBytesCounter=2336, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347114, output=183feb2bd68f52543dd2, output.valid=1, dataFromMem=eb2bd68f52543dd2, sFileLengthBytesCounter=2344, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347115, output=183fef9dfebe1fc70e47, output.valid=1, dataFromMem=ef9dfebe1fc70e47, sFileLengthBytesCounter=2352, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347116, output=183f9c8d550d360d2d77, output.valid=1, dataFromMem=9c8d550d360d2d77, sFileLengthBytesCounter=2360, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347117, output=183fe9e479447023e2c6, output.valid=1, dataFromMem=e9e479447023e2c6, sFileLengthBytesCounter=2368, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347118, output=183fda3a0d1ef7df09f7, output.valid=1, dataFromMem=da3a0d1ef7df09f7, sFileLengthBytesCounter=2376, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347119, output=183f1fd307e1ac7b8c76, output.valid=1, dataFromMem=1fd307e1ac7b8c76, sFileLengthBytesCounter=2384, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347120, output=183f9a426a2f1d671d76, output.valid=1, dataFromMem=9a426a2f1d671d76, sFileLengthBytesCounter=2392, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347121, output=183f5bfb9a539b469af2, output.valid=1, dataFromMem=5bfb9a539b469af2, sFileLengthBytesCounter=2400, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347122, output=183fd6d13ecc4fba5b62, output.valid=1, dataFromMem=d6d13ecc4fba5b62, sFileLengthBytesCounter=2408, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347123, output=183f0f1fdb47fc7adeea, output.valid=1, dataFromMem=0f1fdb47fc7adeea, sFileLengthBytesCounter=2416, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347124, output=183f54f34a79593c349c, output.valid=1, dataFromMem=54f34a79593c349c, sFileLengthBytesCounter=2424, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347125, output=183f6793d382e9da69c9, output.valid=1, dataFromMem=6793d382e9da69c9, sFileLengthBytesCounter=2432, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347126, output=183f7e7d9d959d8ccff2, output.valid=1, dataFromMem=7e7d9d959d8ccff2, sFileLengthBytesCounter=2440, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347127, output=183f7bb6a2db60dcf92e, output.valid=1, dataFromMem=7bb6a2db60dcf92e, sFileLengthBytesCounter=2448, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347128, output=183fef6f0f6adfce63e7, output.valid=1, dataFromMem=ef6f0f6adfce63e7, sFileLengthBytesCount
+Tue 16:15: er=2456, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347129, output=183f8bff45d2e17410ba, output.valid=1, dataFromMem=8bff45d2e17410ba, sFileLengthBytesCounter=2464, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347130, output=183fb8f25cce3bbc3be7, output.valid=1, dataFromMem=b8f25cce3bbc3be7, sFileLengthBytesCounter=2472, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347131, output=183fb85713e5dbb2f274, output.valid=1, dataFromMem=b85713e5dbb2f274, sFileLengthBytesCounter=2480, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347132, output=183f74ea6d5f3aaf9a57, output.valid=1, dataFromMem=74ea6d5f3aaf9a57, sFileLengthBytesCounter=2488, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347133, sBurstCounter=12
+Tue 16:15: LMEM: Tick=347133, output=183fbbc74fd393fe3cea, output.valid=1, dataFromMem=bbc74fd393fe3cea, sFileLengthBytesCounter=2496, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347134, output=183fb96b5cb9ae9abb9c, output.valid=1, dataFromMem=b96b5cb9ae9abb9c, sFileLengthBytesCounter=2504, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347135, output=183fe9f7667bb5bd7aee, output.valid=1, dataFromMem=e9f7667bb5bd7aee, sFileLengthBytesCounter=2512, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347136, output=183f79bdf4ddce379e1b, output.valid=1, dataFromMem=79bdf4ddce379e1b, sFileLengthBytesCounter=2520, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347137, output=183f3d399ed5d6ff16f1, output.valid=1, dataFromMem=3d399ed5d6ff16f1, sFileLengthBytesCounter=2528, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347138, output=183ff7c5f76f7af3bddd, output.valid=1, dataFromMem=f7c5f76f7af3bddd, sFileLengthBytesCounter=2536, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347139, output=183ffd27727edd16dff5, output.valid=1, dataFromMem=fd27727edd16dff5, sFileLengthBytesCounter=2544, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347140, output=183fadee2777d9bbcbce, output.valid=1, dataFromMem=adee2777d9bbcbce, sFileLengthBytesCounter=2552, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347141, output=183f41ed40f45fbc4fbc, output.valid=1, dataFromMem=41ed40f45fbc4fbc, sFileLengthBytesCounter=2560, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347142, output=183ffe5b3fd587dd43d9, output.valid=1, dataFromMem=fe5b3fd587dd43d9, sFileLengthBytesCounter=2568, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347143, output=183f77c06a7fdcefd8dc, output.valid=1, dataFromMem=77c06a7fdcefd8dc, sFileLengthBytesCounter=2576, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347144, output=183f8506f747dcd1f3a0, output.valid=1, dataFromMem=8506f747dcd1f3a0, sFileLengthBytesCounter=2584, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347145, output=183f430f8ff591fecf83, output.valid=1, dataFromMem=430f8ff591fecf83, sFileLengthBytesCounter=2592, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347146, output=183f860d86cb8f998f05, output.valid=1, dataFromMem=860d86cb8f998f05, sFileLengthBytesCounter=2600, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347147, output=183f3fe239393e389eeb, output.valid=1, dataFromMem=3fe239393e389eeb, sFileLengthBytesCounter=2608, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347148, output=183f64cf43a7fce9fd72, output.valid=1, dataFromMem=64cf43a7fce9fd72, sFileLengthBytesCounter=2616, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347149, output=183fcbfea2fe179e26cf, output.valid=1, dataFromMem=cbfea2fe179e26cf, sFileLengthBytesCounter=2624, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347150, output=183febd5f87e2f1617ae, output.valid=1, dataFromMem=ebd5f87e2f1617ae, sFileLengthBytesCounter=2632, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347151, output=183ff297a1d198d1ced7, output.valid=1, dataFromMem=f297a1d198d1ced7, sFileLengthBytesCounter=2640, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347152, output=183feafda57c6dbf9397, output.valid=1, dataFromMem=eafda57c6dbf9397, sFileLengthBytesCounter=2648, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347153, output=183fc6c2c6dbaf19ebc0, output.valid=1, dataFromMem=c6c2c6dbaf19ebc0, sFileLengthBytesCounter=2656, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347154, output=183ff45e313378c9be1e, output.valid=1, dataFromMem=f45e313378c9be1e, sFileLengthBytesCounter=2664, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347155, output=183f1d77dc77c1edfb56, output.valid=1, dataFromMem=1d77dc77c1edfb56, sFileLengthBytesCounter=2672, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347156, output=183f207ce44f0fdfa3ef, output.va
+Tue 16:15: lid=1, dataFromMem=207ce44f0fdfa3ef, sFileLengthBytesCounter=2680, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347157, sBurstCounter=13
+Tue 16:15: LMEM: Tick=347157, output=183f53f5b1f968ff287f, output.valid=1, dataFromMem=53f5b1f968ff287f, sFileLengthBytesCounter=2688, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347158, output=183fff93931993fba7d0, output.valid=1, dataFromMem=ff93931993fba7d0, sFileLengthBytesCounter=2696, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347159, output=183f2d3363fcf3980304, output.valid=1, dataFromMem=2d3363fcf3980304, sFileLengthBytesCounter=2704, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347160, output=183f52486320000000db, output.valid=1, dataFromMem=52486320000000db, sFileLengthBytesCounter=2712, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347161, output=183f800000257a00004d, output.valid=1, dataFromMem=800000257a00004d, sFileLengthBytesCounter=2720, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347162, output=183f800000fff9000083, output.valid=1, dataFromMem=800000fff9000083, sFileLengthBytesCounter=2728, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347163, output=183fea000030750000e9, output.valid=1, dataFromMem=ea000030750000e9, sFileLengthBytesCounter=2736, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347164, output=183f170000983a000060, output.valid=1, dataFromMem=170000983a000060, sFileLengthBytesCounter=2744, sFileCPU code: Got ack from TxManager: Total frames: 330
+Tue 16:15: LengthBytes=4087
+Tue 16:15: LMEM: Tick=347165, output=183f05000046c55f926f, output.valid=1, dataFromMem=05000046c55f926f, sFileLengthBytesCounter=2752, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347166, output=183fecda785441444922, output.valid=1, dataFromMem=ecda785441444922,CPU code: frameCounter=331
+Tue 16:15:  sFileLengthBytesCounter=2760, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347167, output=183ff1c71c655d6bbfdc, output.valid=1, dataFromMem=f1c71c655d6bbfdc, sFileLengthBytesCounter=2768, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347168, output=183f7897249d036f4dcf, output.vaCPU code: Got ack from TxManager: Total frames: 331
+Tue 16:15: CPU code: frameCounter=332
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 332
+Tue 16:15: CPU code: frameCounter=333
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 333
+Tue 16:15: CPU code: frameCounter=334
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 334
+Tue 16:15: CPU code: frameCounter=335
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 335
+Tue 16:15: CPU code: frameCounter=336
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 336
+Tue 16:15: CPU code: frameCounter=337
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 337
+Tue 16:15: CPU code: frameCounter=338
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 338
+Tue 16:15: CPU code: frameCounter=339
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 339
+Tue 16:15: CPU code: frameCounter=340
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 340
+Tue 16:15: CPU code: frameCounter=341
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 341
+Tue 16:15: CPU code: frameCounter=342
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 342
+Tue 16:15: CPU code: frameCounter=343
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 343
+Tue 16:15: CPU code: frameCounter=344
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 344
+Tue 16:15: CPU code: frameCounter=345
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 345
+Tue 16:15: CPU code: frameCounter=346
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 346
+Tue 16:15: CPU code: frameCounter=347
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 347
+Tue 16:15: lid=1, dataFromMem=7897249d036f4dcf, sFileLengthBytesCounter=2776, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347169, output=183f14aa7160e2c9681b, output.valid=1, dataFromMem=14aa7160e2c9681b, sFileLengthBytesCounter=2784, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347170, ouCPU code: frameCounter=348
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 348
+Tue 16:15: CPU code: frameCounter=349
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 349
+Tue 16:15: CPU code: frameCounter=350
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 350
+Tue 16:15: CPU code: frameCounter=351
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 351
+Tue 16:15: CPU code: frameCounter=352
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 352
+Tue 16:15: CPU code: frameCounter=353
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 353
+Tue 16:15: CPU code: frameCounter=354
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 354
+Tue 16:15: CPU code: frameCounter=355
+Tue 16:15: CPU code: G
+Tue 16:15: ot ack from TxManager: Total frames: 355
+Tue 16:15: CPU code: frameCounter=356
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 356
+Tue 16:15: CPU code: frameCounter=357
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 357
+Tue 16:15: CPU code: frameCounter=358
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 358
+Tue 16:15: CPU code: frameCounter=359
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 359
+Tue 16:15: CPU code: frameCounter=360
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 360
+Tue 16:15: CPU code: frameCounter=361
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 361
+Tue 16:15: CPU code: frameCounter=362
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 362
+Tue 16:15: CPU code: frameCounter=363
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 363
+Tue 16:15: CPU code: frameCounter=364
+Tue 16:15: tput=183f49c5abbb83a1160c, output.valid=1, dataFromMem=49c5abbb83a1160c, sFileLengthBytesCounter=2792, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347171, output=183f2ea51451d24e0a10, output.valid=1, dataFromMem=2ea51451d24e0a10, sFileLengthBytesCounter=2800, sFileLeCPU code: Got ack from TxManager: Total frames: 364
+Tue 16:15: CPU code: frameCounter=365
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 365
+Tue 16:15: CPU code: frameCounter=366
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 366
+Tue 16:15: CPU code: frameCounter=367
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 367
+Tue 16:15: CPU code: frameCounter=368
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 368
+Tue 16:15: CPU code: frameCounter=369
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 369
+Tue 16:15: CPU code: frameCounter=370
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 370
+Tue 16:15: CPU code: frameCounter=371
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 371
+Tue 16:15: CPU code: frameCounter=372
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 372
+Tue 16:15: CPU code: frameCounter=373
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 373
+Tue 16:15: CPU code: frameCounter=374
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 374
+Tue 16:15: CPU code: frameCounter=375
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 375
+Tue 16:15: CPU code: frameCounter=376
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 376
+Tue 16:15: CPU code: frameCounter=377
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 377
+Tue 16:15: CPU code: frameCounter=378
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 378
+Tue 16:15: CPU code: frameCounter=379
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 379
+Tue 16:15: CPU code: frameCounter=380
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 380
+Tue 16:15: ngthBytes=4087
+Tue 16:15: LMEM: Tick=347172, output=183f7fa927424eb7524e, output.valid=1, dataFromMem=7fa927424eb7524e, sFileLengthBytesCounter=2808, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347173, output=183f4ba1052168707143, output.valid=1, dataFromMem=4ba1052168707143, sCPU code: frameCounter=381
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 381
+Tue 16:15: CPU code: frameCounter=382
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 382
+Tue 16:15: CPU code: frameCounter=383
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 383
+Tue 16:15: CPU code: frameCounter=384
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 384
+Tue 16:15: CPU code: frameCounter=385
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 385
+Tue 16:15: CPU code: frameCounter=386
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 386
+Tue 16:15: CPU code: frameCounter=387
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 387
+Tue 16:15: CPU code: frameCounter=388
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 388
+Tue 16:15: CPU code: frameCounter=389
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 389
+Tue 16:15: CPU code: frameCounter=390
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 390
+Tue 16:15: CPU code: frameCounter=391
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 391
+Tue 16:15: CPU code: frameCounter=392
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 392
+Tue 16:15: CPU code: frameCounter=393
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 393
+Tue 16:15: CPU code: frameCounter=394
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 394
+Tue 16:15: CPU code: frameCounter=395
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 395
+Tue 16:15: CPU code: frameCounter=396
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 396
+Tue 16:15: CPU code: frameCounter=397
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 397
+Tue 16:15: CPU code: frameCounter=398
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 398
+Tue 16:15: CPU code: frameCounter=399
+Tue 16:15: CPU code: Got ack from TxMa
+Tue 16:15: nager: Total frames: 399
+Tue 16:15: CPU code: frameCounter=400
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 400
+Tue 16:15: CPU code: frameCounter=401
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 401
+Tue 16:15: CPU code: frameCounter=402
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 402
+Tue 16:15: CPU code: frameCounter=403
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 403
+Tue 16:15: CPU code: frameCounter=404
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 404
+Tue 16:15: CPU code: frameCounter=405
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 405
+Tue 16:15: CPU code: frameCounter=406
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 406
+Tue 16:15: CPU code: frameCounter=407
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 407
+Tue 16:15: CPU code: frameCounter=408
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 408
+Tue 16:15: CPU code: frameCounter=409
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 409
+Tue 16:15: CPU code: frameCounter=410
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 410
+Tue 16:15: CPU code: frameCounter=411
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 411
+Tue 16:15: CPU code: frameCounter=412
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 412
+Tue 16:15: CPU code: frameCounter=413
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 413
+Tue 16:15: CPU code: frameCounter=414
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 414
+Tue 16:15: CPU code: frameCounter=415
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 415
+Tue 16:15: CPU code: frameCounter=416
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 416
+Tue 16:15: CPU code: frameCounter=417
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 417
+Tue 16:15: CPU code: frameCounter=418
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 418
+Tue 16:15: CPU code: frameCounter=419
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 419
+Tue 16:15: CPU code: frameCounter=420
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 420
+Tue 16:15: CPU code: frameCounter=421
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 421
+Tue 16:15: CPU code: frameCounter=422
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 422
+Tue 16:15: CPU code: frameCounter=423
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 423
+Tue 16:15: CPU code: frameCounter=424
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 424
+Tue 16:15: CPU code: frameCounter=425
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 425
+Tue 16:15: CPU code: frameCounter=426
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 426
+Tue 16:15: CPU code: frameCounter=427
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 427
+Tue 16:15: CPU code: frameCounter=428
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 428
+Tue 16:15: CPU code: frameCounter=429
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 429
+Tue 16:15: CPU code: frameCounter=430
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 430
+Tue 16:15: CPU code: frameCounter=431
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 431
+Tue 16:15: CPU code: frameCounter=432
+Tue 16:15: FileLengthBytesCounter=2816, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347174, output=183f660b42690a1c5d4b, output.valid=1, dataFromMem=660b42690a1c5d4b, sFileLengthBytesCounter=2824, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347175, output=183f9b5a60e9fdcf736a, output.valiCPU code: Got ack from TxManager: Total frames: 432
+Tue 16:15: CPU code: frameCounter=433
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 433
+Tue 16:15: CPU code: frameCounter=434
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 434
+Tue 16:15: d=1, dataFromMem=9b5a60e9fdcf736a, sFileLengthBytesCounter=2832, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347176, output=183f79cf3926255ed37a, output.valid=1, dataFromMem=79cf3926255ed37a, sFileLengthBytesCounter=2840, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347177, outpCPU code: frameCounter=435
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 435
+Tue 16:15: CPU code: frameCounter=436
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 436
+Tue 16:15: CPU code: frameCounter=437
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 437
+Tue 16:15: CPU code: frameCounter=438
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 438
+Tue 16:15: CPU code: frameCounter=439
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 439
+Tue 16:15: CPU code: frameCounter=440
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 440
+Tue 16:15: CPU code: frameCounter=441
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 441
+Tue 16:15: ut=183fbce71f9a690b96bd, output.valid=1, dataFromMem=bce71f9a690b96bd, sFileLengthBytesCounter=2848, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347178, output=1
+Tue 16:15: 83f64d6dc9e79ce72f9, output.valid=1, dataFromMem=64d6dc9e79ce72f9, sFileLengthBytesCounter=2856, sFileLengCPU code: frameCounter=442
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 442
+Tue 16:15: CPU code: frameCounter=443
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 443
+Tue 16:15: CPU code: frameCounter=444
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 444
+Tue 16:15: CPU code: frameCounter=445
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 445
+Tue 16:15: CPU code: frameCounter=446
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 446
+Tue 16:15: CPU code: frameCounter=447
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 447
+Tue 16:15: CPU code: frameCounter=448
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 448
+Tue 16:15: CPU code: frameCounter=449
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 449
+Tue 16:15: CPU code: frameCounter=450
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 450
+Tue 16:15: CPU code: frameCounter=451
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 451
+Tue 16:15: CPU code: frameCounter=452
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 452
+Tue 16:15: CPU code: frameCounter=453
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 453
+Tue 16:15: CPU code: frameCounter=454
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 454
+Tue 16:15: CPU code: frameCounter=455
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 455
+Tue 16:15: CPU code: frameCounter=456
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 456
+Tue 16:15: CPU code: frameCounter=457
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 457
+Tue 16:15: CPU code: frameCounter=458
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 458
+Tue 16:15: CPU code: frameCounter=459
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 459
+Tue 16:15: CPU code: frameCounter=460
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 460
+Tue 16:15: CPU code: frameCounter=461
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 461
+Tue 16:15: CPU code: frameCounter=462
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 462
+Tue 16:15: CPU code: frameCounter=463
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 463
+Tue 16:15: CPU code: frameCounter=464
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 464
+Tue 16:15: CPU code: frameCounter=465
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 465
+Tue 16:15: CPU code: frameCounter=466
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 466
+Tue 16:15: CPU code: frameCounter=467
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 467
+Tue 16:15: CPU code: frameCounter=468
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 468
+Tue 16:15: CPU code: frameCounter=469
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 469
+Tue 16:15: CPU code: frameCounter=470
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 470
+Tue 16:15: CPU code: frameCounter=471
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 471
+Tue 16:15: CPU code: frameCounter=472
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 472
+Tue 16:15: CPU code: frameCounter=473
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 473
+Tue 16:15: CPU code: frameCounter=474
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 474
+Tue 16:15: CPU code: frameCounter=475
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 475
+Tue 16:15: CPU code: frameCounter=476
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 476
+Tue 16:15: thBytes=4087
+Tue 16:15: LMEM: Tick=347179, output=183fd04021ce62940932, output.valid=1, dataFromMem=d04021ce62940932, sFileLengthBytesCounter=2864, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347180, output=183f83411a0834106820, output.valid=1, dataFromMem=83411a0834106820, sFiCPU code: frameCounter=477
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 477
+Tue 16:15: CPU code: frameCounter=478
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 478
+Tue 16:15: CPU code: frameCounter=479
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 479
+Tue 16:15: CPU code: frameCounter=480
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 480
+Tue 16:15: CPU code: frameCounter=481
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 481
+Tue 16:15: CPU code: frameCounter=482
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 482
+Tue 16:15: CPU code: frameCounter=483
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 483
+Tue 16:15: CPU code: frameCounter=484
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 484
+Tue 16:15: CPU code: frameCounter=485
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 485
+Tue 16:15: CPU code: frameCounter=486
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 486
+Tue 16:15: CPU code: frameCounter=487
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 487
+Tue 16:15: CPU c
+Tue 16:15: ode: frameCounter=488
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 488
+Tue 16:15: CPU code: frameCounter=489
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 489
+Tue 16:15: CPU code: frameCounter=490
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 490
+Tue 16:15: CPU code: frameCounter=491
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 491
+Tue 16:15: CPU code: frameCounter=492
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 492
+Tue 16:15: CPU code: frameCounter=493
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 493
+Tue 16:15: CPU code: frameCounter=494
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 494
+Tue 16:15: CPU code: frameCounter=495
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 495
+Tue 16:15: CPU code: frameCounter=496
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 496
+Tue 16:15: CPU code: frameCounter=497
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 497
+Tue 16:15: CPU code: frameCounter=498
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 498
+Tue 16:15: CPU code: frameCounter=499
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 499
+Tue 16:15: CPU code: frameCounter=500
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 500
+Tue 16:15: CPU code: frameCounter=501
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 501
+Tue 16:15: CPU code: frameCounter=502
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 502
+Tue 16:15: CPU code: frameCounter=503
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 503
+Tue 16:15: CPU code: frameCounter=504
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 504
+Tue 16:15: CPU code: frameCounter=505
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 505
+Tue 16:15: CPU code: frameCounter=506
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 506
+Tue 16:15: CPU code: frameCounter=507
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 507
+Tue 16:15: CPU code: frameCounter=508
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 508
+Tue 16:15: CPU code: frameCounter=509
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 509
+Tue 16:15: CPU code: frameCounter=510
+Tue 16:15: CPU code: Got ack from TxManager: Total frames: 510
+Tue 16:15: CPU code: frameCounter=511
+Tue 16:15: leLengthBytesCounter=2872, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347181, sBurstCounter=14
+Tue 16:15: LMEM: Tick=347181, output=183f8234106820d041a0, output.valid=1, dataFromMem=8234106820d041a0, sFileLengthBytesCounter=2880, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347182, output=183f6820d041a0834106, output.valid=1, dataFromMem=6820d041a0834106, sFileLengthBytesCounter=2888, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347183, output=183f41a0834106820d04, output.valid=1, dataFromMem=41a0834106820d04, sFileLengthBytesCounter=2896, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347184, output=183f4106820d041a08d0, output.valid=1, dataFromMem=4106820d041a08d0, sFileLengthBytesCounter=2904, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347185, output=183f0d041a083411a083, output.valid=1, dataFromMem=0d041a083411a083, sFileLengthBytesCounter=2912, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347186, output=183f0834106823410682, output.valid=1, dataFromMem=0834106823410682, sFileLengthBytesCounter=2920, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347187, output=183f6820d046820d041a, output.valid=1, dataFromMem=6820d046820d041a, sFileLengthBytesCounter=2928, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347188, output=183fe1a083411a083410, output.valid=1, dataFromMem=e1a083411a083410, sFileLengthBytesCounter=2936, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347189, output=183ffe7f3937c7ef6a30, output.valid=1, dataFromMem=fe7f3937c7ef6a30, sFileLengthBytesCounter=2944, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347190, output=183f9261f249d4ff6efc, output.valid=1, dataFromMem=9261f249d4ff6efc, sFileLengthBytesCounter=2952, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347191, output=183f2de4963924ce49d3, output.valid=1, dataFromMem=2de4963924ce49d3, sFileLengthBytesCounter=2960, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347192, output=183ff24ad926ee36a5a7, output.valid=1, dataFromMem=f24ad926ee36a5a7, sFileLengthBytesCounter=2968, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347193, output=183fc7f24a7e49db926b, output.valid=1, dataFromMem=c7f24a7e49db926b, sFileLengthBytesCounter=2976, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347194, output=183f82b2b5daed749f8b, output.valid=1, dataFromMem=82b2b5daed749f8b, sFileLengthBytesCounter=2984, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347195, output=183f9a7c936f9258e29e, output.valid=1, 
+Tue 16:15: dataFromMem=9a7c936f9258e29e, sFileLengthBytesCounter=2992, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347196, output=183f9cf874f5b5175e64, output.valid=1, dataFromMem=9cf874f5b5175e64, sFileLengthBytesCounter=3000, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347197, output=183f9f2495c93efd7ed9, output.valid=1, dataFromMem=9f2495c93efd7ed9, sFileLengthBytesCounter=3008, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347198, output=183ff3129e84e65e876f, output.valid=1, dataFromMem=f3129e84e65e876f, sFileLengthBytesCounter=3016, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347199, output=183ffb3f19fe5ca9edcd, output.valid=1, dataFromMem=fb3f19fe5ca9edcd, sFileLengthBytesCounter=3024, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347200, output=183ff5bb7e5ce77cde7e, output.valid=1, dataFromMem=f5bb7e5ce77cde7e, sFileLengthBytesCounter=3032, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347201, output=183f775ff4b9fcdeee4b, output.valid=1, dataFromMem=775ff4b9fcdeee4b, sFileLengthBytesCounter=3040, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347202, output=183f7b3925ce4967c93e, output.valid=1, dataFromMem=7b3925ce4967c93e, sFileLengthBytesCounter=3048, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347203, output=183f4d77f435c41f5110, output.valid=1, dataFromMem=4d77f435c41f5110, sFileLengthBytesCounter=3056, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347204, output=183f1dddfb78de493989, output.valid=1, dataFromMem=1dddfb78de493989, sFileLengthBytesCounter=3064, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347205, sBurstCounter=15
+Tue 16:15: LMEM: Tick=347205, output=183f7f173cfb7a710daf, output.valid=1, dataFromMem=7f173cfb7a710daf, sFileLengthBytesCounter=3072, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347206, output=183fd99d2685c9227853, output.valid=1, dataFromMem=d99d2685c9227853, sFileLengthBytesCounter=3080, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347207, output=183f0b906d78eeaf6fdf, output.valid=1, dataFromMem=0b906d78eeaf6fdf, sFileLengthBytesCounter=3088, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347208, output=183f920f8e4be8bbe7db, output.valid=1, dataFromMem=920f8e4be8bbe7db, sFileLengthBytesCounter=3096, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347209, output=183f7ae373bd59d2691c, output.valid=1, dataFromMem=7ae373bd59d2691c, sFileLengthBytesCounter=3104, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347210, output=183f23ebebc4deb8dcee, output.valid=1, dataFromMem=23ebebc4deb8dcee, sFileLengthBytesCounter=3112, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347211, output=183f3dfa13c94afbe7db, output.valid=1, dataFromMem=3dfa13c94afbe7db, sFileLengthBytesCounter=3120, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347212, output=183fbf7be7efb28d51f7, output.valid=1, dataFromMem=bf7be7efb28d51f7, sFileLengthBytesCounter=3128, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347213, output=183f2b56ad7247d4f427, output.valid=1, dataFromMem=2b56ad7247d4f427, sFileLengthBytesCounter=3136, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347214, output=183f9f99bb76e9cbcbcb, output.valid=1, dataFromMem=9f99bb76e9cbcbcb, sFileLengthBytesCounter=3144, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347215, output=183f1e7efdfa2ea3d0f7, output.valid=1, dataFromMem=1e7efdfa2ea3d0f7, sFileLengthBytesCounter=3152, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347216, output=183f3267eff7fb987c3e, output.valid=1, dataFromMem=3267eff7fb987c3e, sFileLengthBytesCounter=3160, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347217, output=183f4bd09a4bbe7ccc99, output.valid=1, dataFromMem=4bd09a4bbe7ccc99, sFileLengthBytesCounter=3168, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347218, output=183f27939cbcbcb83ed3, output.valid=1, dataFromMem=27939cbcbcb83ed3, sFileLengthBytesCounter=3176, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347219, output=183f3a76edda66b98a4f, output.valid=1, dataFromMem=3a76edda66b98a4f, sFileLengthBytesCounter=3184, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347220, output=183fceaffe3f1f8e4e9d, output.valid=1, dataFromMem=ceaffe3f1f8e4e9d, sFileLengthBytesCounter=3192, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347221, output=183f2f83ed36bf414977, output.valid=1, dataFromMem=2f83ed36bf414977, sFileLengthBytesCounter=3200, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347222, output=183ff1f8fce9e21c2039, output.valid=1, dataFromMem=f1f8fce9e21c2039, sFileLengthBytesCounter=3208, sFileLengthBytes=4087
+Tue 16:15: LMEM: 
+Tue 16:15: Tick=347223, output=183fdd9d3a74a3468ce3, output.valid=1, dataFromMem=dd9d3a74a3468ce3, sFileLengthBytesCounter=3216, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347224, output=183f69b1c725fa53ad3e, output.valid=1, dataFromMem=69b1c725fa53ad3e, sFileLengthBytesCounter=3224, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347225, output=183f626a42a8f47a3c1f, output.valid=1, dataFromMem=626a42a8f47a3c1f, sFileLengthBytesCounter=3232, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347226, output=183ff1e32b6b6b671e3c, output.valid=1, dataFromMem=f1e32b6b6b671e3c, sFileLengthBytesCounter=3240, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347227, output=183f41e97cc5dea4c778, output.valid=1, dataFromMem=41e97cc5dea4c778, sFileLengthBytesCounter=3248, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347228, output=183f1fefdfa555556353, output.valid=1, dataFromMem=1fefdfa555556353, sFileLengthBytesCounter=3256, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347229, sBurstCounter=16
+Tue 16:15: LMEM: Tick=347229, output=183f8d195789a720cbee, output.valid=1, dataFromMem=8d195789a720cbee, sFileLengthBytesCounter=3264, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347230, output=183fa0b2a63b7af5e946, output.valid=1, dataFromMem=a0b2a63b7af5e946, sFileLengthBytesCounter=3272, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347231, output=183f32aaaa9264c99da9, output.valid=1, dataFromMem=32aaaa9264c99da9, sFileLengthBytesCounter=3280, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347232, output=183f31b4eaa373ea0c18, output.valid=1, dataFromMem=31b4eaa373ea0c18, sFileLengthBytesCounter=3288, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347233, output=183feddbd7af4c3870cd, output.valid=1, dataFromMem=eddbd7af4c3870cd, sFileLengthBytesCounter=3296, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347234, output=183ff5ee54cfa9a09c71, output.valid=1, dataFromMem=f5ee54cfa9a09c71, sFileLengthBytesCounter=3304, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347235, output=183f05f9fcb5870e197a, output.valid=1, dataFromMem=05f9fcb5870e197a, sFileLengthBytesCounter=3312, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347236, output=183fbf7efd3f7efd33cd, output.valid=1, dataFromMem=bf7efd3f7efd33cd, sFileLengthBytesCounter=3320, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347237, output=183f8f1e30ecd0595376, output.valid=1, dataFromMem=8f1e30ecd0595376, sFileLengthBytesCounter=3328, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347238, output=183fff6a8d1a32f5ebd3, output.valid=1, dataFromMem=ff6a8d1a32f5ebd3, sFileLengthBytesCounter=3336, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347239, output=183fc555554e54da08bb, output.valid=1, dataFromMem=c555554e54da08bb, sFileLengthBytesCounter=3344, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347240, output=183f8a3d3aa86e823efc, output.valid=1, dataFromMem=8a3d3aa86e823efc, sFileLengthBytesCounter=3352, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347241, output=183fad7a7be9bd2f3413, output.valid=1, dataFromMem=ad7a7be9bd2f3413, sFileLengthBytesCounter=3360, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347242, output=183f4c3870c83741225c, output.valid=1, dataFromMem=4c3870c83741225c, sFileLengthBytesCounter=3368, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347243, output=183f703741654dc55555, output.valid=1, dataFromMem=703741654dc55555, sFileLengthBytesCounter=3376, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347244, output=183f354cd044816dd72a, output.valid=1, dataFromMem=354cd044816dd72a, sFileLengthBytesCounter=3384, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347245, output=183fc51fad5555520c18, output.valid=1, dataFromMem=c51fad5555520c18, sFileLengthBytesCounter=3392, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347246, output=183f555554e3c78c9a09, output.valid=1, dataFromMem=555554e3c78c9a09, sFileLengthBytesCounter=3400, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347247, output=183f0b094cf3411205db, output.valid=1, dataFromMem=0b094cf3411205db, sFileLengthBytesCounter=3408, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347248, output=183f37411205a8a68224, output.valid=1, dataFromMem=37411205a8a68224, sFileLengthBytesCounter=3416, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347249, output=183f2a579a0b2af61d5c, output.valid=1, dataFromMem=2a579a0b2af61d5c, sFileLengthBytesCounter=3424, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347250, output=183f47a4d30dd0448175, output.valid=1, dataFromMem=47a4d30dd0448175, s
+Tue 16:15: FileLengthBytesCounter=3432, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347251, output=183f0b2af75d5c2e8271, output.valid=1, dataFromMem=0b2af75d5c2e8271, sFileLengthBytesCounter=3440, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347252, output=183f1655ef3ae54c7f9a, output.valid=1, dataFromMem=1655ef3ae54c7f9a, sFileLengthBytesCounter=3448, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347253, sBurstCounter=17
+Tue 16:15: LMEM: Tick=347253, output=183f85d044816d34cf34, output.valid=1, dataFromMem=85d044816d34cf34, sFileLengthBytesCounter=3456, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347254, output=183faf6d28c5d04e28f2, output.valid=1, dataFromMem=af6d28c5d04e28f2, sFileLengthBytesCounter=3464, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347255, output=183f337c5f953c1ba0b2, output.valid=1, dataFromMem=337c5f953c1ba0b2, sFileLengthBytesCounter=3472, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347256, output=183f5d0448164b5d0417, output.valid=1, dataFromMem=5d0448164b5d0417, sFileLengthBytesCounter=3480, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347257, output=183f5803741655ec2684, output.valid=1, dataFromMem=5803741655ec2684, sFileLengthBytesCounter=3488, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347258, output=183f8902d95351741120, output.valid=1, dataFromMem=8902d95351741120, sFileLengthBytesCounter=3496, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347259, output=183f5d044816ca988ba0, output.valid=1, dataFromMem=5d044816ca988ba0, sFileLengthBytesCounter=3504, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347260, output=183f2c41741655ef2684, output.valid=1, dataFromMem=2c41741655ef2684, sFileLengthBytesCounter=3512, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347261, output=183f44816ca9a8ba0890, output.valid=1, dataFromMem=44816ca9a8ba0890, sFileLengthBytesCounter=3520, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347262, output=183fb98ba0b2af67b5d0, output.valid=1, dataFromMem=b98ba0b2af67b5d0, sFileLengthBytesCounter=3528, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347263, output=183f20dd045ccdf92be9, output.valid=1, dataFromMem=20dd045ccdf92be9, sFileLengthBytesCounter=3536, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347264, output=183f40b654cc5d044816, output.valid=1, dataFromMem=40b654cc5d044816, sFileLengthBytesCounter=3544, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347265, output=183f22e82cabd822e822, output.valid=1, dataFromMem=22e82cabd822e822, sFileLengthBytesCounter=3552, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347266, output=183f0b205d045ccdf534, output.valid=1, dataFromMem=0b205d045ccdf534, sFileLengthBytesCounter=3560, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347267, output=183f11205b2a662e8224, output.valid=1, dataFromMem=11205b2a662e8224, sFileLengthBytesCounter=3568, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347268, output=183f2c11741655ec1174, output.valid=1, dataFromMem=2c11741655ec1174, sFileLengthBytesCounter=3576, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347269, output=183fba09c51e08ba0890, output.valid=1, dataFromMem=ba09c51e08ba0890, sFileLengthBytesCounter=3584, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347270, output=183f6ca998ba0b2af618, output.valid=1, dataFromMem=6ca998ba0b2af618, sFileLengthBytesCounter=3592, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347271, output=183fd04481608ba0b2af, output.valid=1, dataFromMem=d04481608ba0b2af, sFileLengthBytesCounter=3600, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347272, output=183f57b0c5d04e28f045, output.valid=1, dataFromMem=57b0c5d04e28f045, sFileLengthBytesCounter=3608, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347273, output=183f22e66f654cc5d059, output.valid=1, dataFromMem=22e66f654cc5d059, sFileLengthBytesCounter=3616, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347274, output=183fec117411205822e8, output.valid=1, dataFromMem=ec117411205822e8, sFileLengthBytesCounter=3624, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347275, output=183fba08902c11741655, output.valid=1, dataFromMem=ba08902c11741655, sFileLengthBytesCounter=3632, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347276, output=183f4c45d044816ca9a8, output.valid=1, dataFromMem=4c45d044816ca9a8, sFileLengthBytesCounter=3640, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347277, sBurstCounter=18
+Tue 16:15: LMEM: Tick=347277, output=183fcabd822e82240b65, output.valid=1, dataFromMem=cabd822e82240b65, sFileLengthBytesCounter=3648, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347278, output=183fda098a1205822e82, output.valid=1, dataFromMem=da098a1205822e82, sFileLengthBytesCounter=3656, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347279, output=183f4532af6d04450902, output.valid=1, dataFromMem=4532af6d04450902, sFileLengthBytesCounter=3664, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347280, output=183f0b6826285ccded04, output.valid=1, dataFromMem=0b6826285ccded04, sFileLengthBytesCounter=3672, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347281, output=183f098a1205b4111424, output.valid=1, dataFromMem=098a1205b4111424, sFileLengthBytesCounter=3680, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347282, output=183fb99bda088a655eda, output.valid=1, dataFromMem=b99bda088a655eda, sFileLengthBytesCounter=3688, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347283, output=183f6822284816d04c50, output.valid=1, dataFromMem=6822284816d04c50, sFileLengthBytesCounter=3696, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347284, output=183fd4cabdb41314240b, output.valid=1, dataFromMem=d4cabdb41314240b, sFileLengthBytesCounter=3704, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347285, output=183f39b9b99060c1e83e, output.valid=1, dataFromMem=39b9b99060c1e83e, sFileLengthBytesCounter=3712, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347286, output=183fe66fee987535240b, output.valid=1, dataFromMem=e66fee987535240b, sFileLengthBytesCounter=3720, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347287, output=183f2796b6b6b10fc30e, output.valid=1, dataFromMem=2796b6b6b10fc30e, sFileLengthBytesCounter=3728, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347288, output=183f373736a6b9889e4f, output.valid=1, dataFromMem=373736a6b9889e4f, sFileLengthBytesCounter=3736, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347289, output=183fe320f0783de7e84d, output.valid=1, dataFromMem=e320f0783de7e84d, sFileLengthBytesCounter=3744, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347290, output=183ffdb7690b0b0b38f1, output.valid=1, dataFromMem=fdb7690b0b0b38f1, sFileLengthBytesCounter=3752, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347291, output=183f66e6e6f3269d7a21, output.valid=1, dataFromMem=66e6e6f3269d7a21, sFileLengthBytesCounter=3760, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347292, output=183f64c9bcfd04363636, output.valid=1, dataFromMem=64c9bcfd04363636, sFileLengthBytesCounter=3768, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347293, output=183fabafafacf5f5f592, output.valid=1, dataFromMem=abafafacf5f5f592, sFileLengthBytesCounter=3776, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347294, output=183fcd695ec0725ffa84, output.valid=1, dataFromMem=cd695ec0725ffa84, sFileLengthBytesCounter=3784, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347295, output=183fbe4f757575778cf2, output.valid=1, dataFromMem=be4f757575778cf2, sFileLengthBytesCounter=3792, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347296, output=183f986e503d97cbe5d9, output.valid=1, dataFromMem=986e503d97cbe5d9, sFileLengthBytesCounter=3800, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347297, output=183facebe2f6b62f178b, output.valid=1, dataFromMem=acebe2f6b62f178b, sFileLengthBytesCounter=3808, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347298, output=183f4dbbd098d098acac, output.valid=1, dataFromMem=4dbbd098d098acac, sFileLengthBytesCounter=3816, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347299, output=183fc938f9255f24f9e8, output.valid=1, dataFromMem=c938f9255f24f9e8, sFileLengthBytesCounter=3824, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347300, output=183ffdeef77bb41fa689, output.valid=1, dataFromMem=fdeef77bb41fa689, sFileLengthBytesCounter=3832, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347301, sBurstCounter=19
+Tue 16:15: LMEM: Tick=347301, output=183f9d4e76eddaaa8faf, output.valid=1, dataFromMem=9d4e76eddaaa8faf, sFileLengthBytesCounter=3840, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347302, output=183f24d5c92d64cea53a, output.valid=1, dataFromMem=24d5c92d64cea53a, sFileLengthBytesCounter=3848, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347303, output=183f3138b4ccacacacdf, output.valid=1, dataFromMem=3138b4ccacacacdf, sFileLengthBytesCounter=3856, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347304, output=183fff310be494be84eb, output.valid=1, dataFromMem=ff310be494be84eb, sFileLengthBytesCounter=3864, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347305, output=183f46bf5fd6a1616165, output.valid=1, dataFromMem=46bf5fd6a1616
+Tue 16:15: 165, sFileLengthBytesCounter=3872, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347306, output=183f0a6faf6977776c4e, output.valid=1, dataFromMem=0a6faf6977776c4e, sFileLengthBytesCounter=3880, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347307, output=183fb376edd6ff6c713f, output.valid=1, dataFromMem=b376edd6ff6c713f, sFileLengthBytesCounter=3888, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347308, output=183feddb188fe7b8b8b8, output.valid=1, dataFromMem=eddb188fe7b8b8b8, sFileLengthBytesCounter=3896, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347309, output=183f1d76edd317171676, output.valid=1, dataFromMem=1d76edd317171676, sFileLengthBytesCounter=3904, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347310, output=183f75e467acdfd8ffe4, output.valid=1, dataFromMem=75e467acdfd8ffe4, sFileLengthBytesCounter=3912, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347311, output=183f4b2b56b4ebb9f4c7, output.valid=1, dataFromMem=4b2b56b4ebb9f4c7, sFileLengthBytesCounter=3920, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347312, output=183ff630725a5a594b4b, output.valid=1, dataFromMem=f630725a5a594b4b, sFileLengthBytesCounter=3928, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347313, output=183f8228a429b9fdccc7, output.valid=1, dataFromMem=8228a429b9fdccc7, sFileLengthBytesCounter=3936, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347314, output=183f54391fa0f750d046, output.valid=1, dataFromMem=54391fa0f750d046, sFileLengthBytesCounter=3944, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347315, output=183f8e0ff41d7b47a01c, output.valid=1, dataFromMem=8e0ff41d7b47a01c, sFileLengthBytesCounter=3952, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347316, output=183feb389faceae80729, output.valid=1, dataFromMem=eb389faceae80729, sFileLengthBytesCounter=3960, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347317, output=183f28f927cc93af8e53, output.valid=1, dataFromMem=28f927cc93af8e53, sFileLengthBytesCounter=3968, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347318, output=183f1f9246cbf67b5b89, output.valid=1, dataFromMem=1f9246cbf67b5b89, sFileLengthBytesCounter=3976, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347319, output=183f7bf9687feb397c93, output.valid=1, dataFromMem=7bf9687feb397c93, sFileLengthBytesCounter=3984, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347320, output=183f20d041a08214dc3d, output.valid=1, dataFromMem=20d041a08214dc3d, sFileLengthBytesCounter=3992, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347321, output=183fa0834106820d0468, output.valid=1, dataFromMem=a0834106820d0468, sFileLengthBytesCounter=4000, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347322, output=183f06820d041a08d041, output.valid=1, dataFromMem=06820d041a08d041, sFileLengthBytesCounter=4008, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347323, output=183f041a083411a08341, output.valid=1, dataFromMem=041a083411a08341, sFileLengthBytesCounter=4016, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347324, output=183f341068234106820d, output.valid=1, dataFromMem=341068234106820d, sFileLengthBytesCounter=4024, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347325, sBurstCounter=20
+Tue 16:15: LMEM: Tick=347325, output=183f20d046820d041a08, output.valid=1, dataFromMem=20d046820d041a08, sFileLengthBytesCounter=4032, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347326, output=183fa08d041a08341068, output.valid=1, dataFromMem=a08d041a08341068, sFileLengthBytesCounter=4040, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347327, output=183f1a0834106820d041, output.valid=1, dataFromMem=1a0834106820d041, sFileLengthBytesCounter=4048, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347328, output=183f046820d041a08341, output.valid=1, dataFromMem=046820d041a08341, sFileLengthBytesCounter=4056, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347329, output=183f7661a0834106820d, output.valid=1, dataFromMem=7661a0834106820d, sFileLengthBytesCounter=4064, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347330, output=183fe7f1cf8a66000e7f, output.valid=1, dataFromMem=e7f1cf8a66000e7f, sFileLengthBytesCounter=4072, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347331, output=183f4900000000633fb8, output.valid=1, dataFromMem=4900000000633fb8, sFileLengthBytesCounter=4080, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347332, sending: mod=7, sFileLengthBytesCounter=4088, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347332, output=1f3f00826042ae444e45, output.valid=1, dataFromMem=00826042ae444e
+Tue 16:15: 45, sFileLengthBytesCounter=4088, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347333, output=00000000000000000, output.valid=0, dataFromMem=0000000000000000, sFileLengthBytesCounter=4096, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347334, output=00000000000000000, output.valid=0, dataFromMem=0000000000000000, sFileLengthBytesCounter=4104, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347335, output=00000000000000000, output.valid=0, dataFromMem=0000000000000000, sFileLengthBytesCounter=4112, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347336, output=00000000000000000, output.valid=0, dataFromMem=0000000000000000, sFileLengthBytesCounter=4120, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347337, output=00000000000000000, output.valid=0, dataFromMem=0000000000000000, sFileLengthBytesCounter=4128, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347338, output=00000000000000000, output.valid=0, dataFromMem=0000000000000000, sFileLengthBytesCounter=4136, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347339, output=00000000000000000, output.valid=0, dataFromMem=0000000000000000, sFileLengthBytesCounter=4144, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347340, output=00000000000000000, output.valid=0, dataFromMem=0000000000000000, sFileLengthBytesCounter=4152, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347341, output=00000000000000000, output.valid=0, dataFromMem=0000000000000000, sFileLengthBytesCounter=4160, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347342, output=00000000000000000, output.valid=0, dataFromMem=0000000000000000, sFileLengthBytesCounter=4168, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347343, output=00000000000000000, output.valid=0, dataFromMem=0000000000000000, sFileLengthBytesCounter=4176, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347344, output=00000000000000000, output.valid=0, dataFromMem=0000000000000000, sFileLengthBytesCounter=4184, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347345, output=00000000000000000, output.valid=0, dataFromMem=0000000000000000, sFileLengthBytesCounter=4192, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347346, output=00000000000000000, output.valid=0, dataFromMem=0000000000000000, sFileLengthBytesCounter=4200, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347347, output=00000000000000000, output.valid=0, dataFromMem=0000000000000000, sFileLengthBytesCounter=4208, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347348, output=00000000000000000, output.valid=0, dataFromMem=0000000000000000, sFileLengthBytesCounter=4216, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347349, sBurstCounter=21
+Tue 16:15: LMEM: Tick=347349, output=00000000000000000, output.valid=0, dataFromMem=0000000000000000, sFileLengthBytesCounter=4224, sFileLengthBytes=4087
+Tue 16:15: LMEM: Tick=347350, sBurstCounter===sDataBurstLength
+Tue 16:15: CPU code: frameCounter=511, frameCounterPrevious=0, ceil(fileLength)=511
+Tue 16:15: CPU code: Closing socket=63
+Tue 16:15: CPU code: Waiting for MAX_TCP_STATE_CLOSED
+Tue 16:15: CPU code: Set LISTEN state
+Tue 16:15: CPU code: Waiting for MAX_TCP_STATE_LISTEN
+Tue 16:15: CPU code: Again opened socket=63
+Tue 16:15: CPU code: PART 1
+Tue 16:15: Process terminated with exit code -1.
+Tue 16:15: Terminated

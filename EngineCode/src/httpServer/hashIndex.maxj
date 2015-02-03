@@ -21,12 +21,8 @@ public class hashIndex extends ManagerStateMachine {
 	// private final DFEsmSinglePortRAM uriMemorija = mem.ram(dfeUInt(64), 128,
 	// SinglePortRAMMode.WRITE_FIRST, Latency.ONE_CYCLE);
 
-	// private final DFEsmStateValue sRomHashIndexAddress =
-	// state.value(dfeUInt(15), 0);
-	private final DFEsmStateValue sHashIndexDataOutValid = state.value(
-			dfeBool(), false);
-	private final DFEsmStateValue sStartROMAddress = state
-			.value(dfeUInt(19), 0);
+	private final DFEsmStateValue sHashIndexDataOutValid = state.value(dfeBool(), false);
+	private final DFEsmStateValue sStartROMAddress = state.value(dfeUInt(19), 0);
 	private final DFEsmStateValue sEndROMAddress = state.value(dfeUInt(32), 0);
 
 	private final DFEsmStateValue sRomDataOutValid = state.value(dfeBool(),	false);
@@ -41,17 +37,8 @@ public class hashIndex extends ManagerStateMachine {
 	private final DFEsmStateValue sDataBurstLength = state.value(dfeUInt(19), 0);
 	private final DFEsmStateValue sFileLengthBytes = state.value(dfeUInt(26), 0);
 	private final DFEsmStateValue counter = state.value(dfeUInt(20), 0); // 40
-	private final DFEsmStateValue sOutputByteCounter = state.value(dfeUInt(11),
-			0);
+	private final DFEsmStateValue sOutputByteCounter = state.value(dfeUInt(11),	0);
 
-	// private final DFEsmStateValue sURIMemoryWrite =
-	// state.value(dfeBool(),false);
-	// private final DFEsmStateValue sDataPreValue = state.value(dfeUInt(64),0);
-	// private final DFEsmStateValue sUriWordCount = state.value(dfeUInt(8), 0);
-	// private final DFEsmStateValue sUriSimpleHash = state.value(dfeUInt(16),
-	// 0);
-	// private final DFEsmStateValue sUriRamAddress = state.value(dfeUInt(7),
-	// 0);
 
 	public hashIndex(DFEManager owner) {
 		super(owner);
@@ -63,7 +50,6 @@ public class hashIndex extends ManagerStateMachine {
 
 	@Override
 	protected void nextState() {
-
 
 		counter.next<==counter+1;
 
@@ -92,6 +78,7 @@ public class hashIndex extends ManagerStateMachine {
 				hashIndexData <== romHashIndex2.dataOut;
 			}
 
+			//ternary operatory is not implemented in the StateMachine
 			//hashIndexData <== sWhatHashIndexToUse?romHashIndex1.dataOut:romHashIndex2.dataOut;
 
 			debug.simPrintf("hashIndex: Value romHashIndex.dataOut=%x, romHashIndex.dataOut=%x, sUseHashIndex=%x, current=%u\n", romHashIndex1.dataOut, romHashIndex2.dataOut, sWhatHashIndexToUse, counter);
