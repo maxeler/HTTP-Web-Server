@@ -2,6 +2,7 @@ package httpServer;
 
 import com.maxeler.maxcompiler.v2.managers.BuildConfig;
 import com.maxeler.maxcompiler.v2.managers.custom.DFELink;
+import com.maxeler.maxcompiler.v2.managers.custom.blocks.Demux;
 import com.maxeler.maxcompiler.v2.managers.custom.blocks.KernelBlock;
 import com.maxeler.maxcompiler.v2.managers.custom.blocks.StateMachineBlock;
 import com.maxeler.maxcompiler.v2.managers.custom.stdlib.DebugLevel;
@@ -19,10 +20,7 @@ public class httpServerManager extends NetworkManager {
 	public httpServerManager(String[] args) {
 		super(new httpServerEngineParameters(args));
 
-		//version for VECTIS card, MAX3 generation
-//		TCPStream tcp_stream = addTCPStream(
-//				"tcp_ch2_sfp1",
-//				Max3NetworkConnection.CH2_SFP1);
+
 
 		//version for ISCA card, MAX4 generation
 		TCPStream tcp_stream = addTCPStream(
@@ -34,24 +32,14 @@ public class httpServerManager extends NetworkManager {
 
 		MemoryControlGroup ctrlGroup = addMemoryControlGroup("ctrlGroup", wire.getOutput(SimpleWire.OUTPUT));
 
-		//	DFELink writeMemStream = addStreamToOnCardMemory("writeMemStream", ctrlGroup);
+		//DFELink writeMemStream = addStreamToOnCardMemory("writeMemStream", ctrlGroup);
 		DFELink readMemStream = addStreamFromOnCardMemory("readMemStream", ctrlGroup);
 	    ctrlGroup.finalise();
 
 		//STATE MACHINE
 		StateMachineBlock stateMachine = addStateMachine("httpServerStateMachine", new httpServerStateMachine(this));
 
-		//KernelBlock preprocessor = addKernel(new PreprocessorKernel(makeKernelParameters("Preprocessor")));
-
-		//adder.getInput("valIn") <== preprocessor.getOutput("valOut");
-
-		//preprocessor.getInput("keyValIn") <==  eth_stream.getReceiveStream();
-
-		stateMachine.getInput("tcp_to_sm") <== tcp_stream.getReceiveStream(); //preprocessor.getOutput("output_test");
-		//stateMachine.getInput("tcp_to_sm") <== addStreamFromCPU("inputCPU"); //preprocessor.getOutput("output_test");
-			//addStreamToCPU("data_out") <== stateMachine.getOutput("stamped_udp_frm_sm");
-
-					//tcp_stream.getTransmitStream() <== stateMachine.getOutput("stamped_tcp_frm_sm");//
+		stateMachine.getInput("tcp_to_sm") <== tcp_stream.getReceiveStream();
 
 		//LMem
 		debug.setDebugLevel(new DebugLevel(){{setHasStreamStatus(true);}});
@@ -72,29 +60,19 @@ public class httpServerManager extends NetworkManager {
 		kRead.getInput("inA")<==fromLmem;
 		toCpu <== kRead.getOutput("outA");
 
-//		//sm--->cpu
-//		DFELink toCpuDataSentFlag = addStreamToCPU("toCpuDataSentFlag");
-//		toCpuDataSentFlag <== stateMachine.getOutput("fromStateMachineDataSentFlag");
-
-//		//FIFO buffer for storing URL of incoming TCP frames
-//		StateMachineBlock fifo_instanca = addStateMachine("fifo_instanca", new LimitedDepthFIFOcopy(this, 64+3+3,1,1));
-//		fifo_instanca.getInput("input") <== stateMachine.getOutput("storeUrlFifo");
-//
-//		StateMachineBlock fifo_instanca1Bajt = addStateMachine("fifo_instanca1Bajt", new LimitedDepthFIFOcopy1byte(this,64+3+3,1,1));
-//		fifo_instanca1Bajt.getInput("input") <== fifo_instanca.getOutput("output");
-//		fifo_instanca.getInput("m_read") <== fifo_instanca1Bajt.getOutput("m_read");
-
 		//parallel CRC
 		StateMachineBlock parallelCRC = addStateMachine("parallelCRC", new ParallelCRC(this));
-		parallelCRC.getInput(ParallelCRC.dataIn) <== stateMachine.getOutput("checksumOutput"); //addStreamFromCPU("toParallelCRC");
+			Demux splitStateMachine = demux("splitStateMachine");
+			splitStateMachine.getInput() <== stateMachine.getOutput("checksumOutput");
+		parallelCRC.getInput(ParallelCRC.dataIn) <== splitStateMachine.addOutput("splitStateMachine1"); //stateMachine.getOutput("checksumOutput");
+			addStreamToCPU("toCpuByteNumberStateMachine") <== splitStateMachine.addOutput("splitStateMachine2");
 		//addStreamToCPU("fromParallelCRC")<== parallelCRC.getOutput(ParallelCRC.crcOut);
 
 		//hashIndex
-		//stateMachine.getInput("checksumResult") <== parallelCRC.getOutput(ParallelCRC.crcOut);
 		StateMachineBlock hashIndex = addStateMachine("hashIndex", new hashIndex(this));
 		hashIndex.getInput("crcResultInput") <== parallelCRC.getOutput(ParallelCRC.crcOut);
 
-		//komande se salju iz state masine preko wire state masine u LMem
+		//command are sent from the state mchine via wire SM into the LMEM
 		StateMachineBlock LMEM1 = addStateMachine("LMEM", new LMEM(this, ctrlGroup.getStreamIndexIdWithinGroup("readMemStream")));
 		wire.getInput(SimpleWire.INPUT) <== LMEM1.getOutput(LMEM.OUTPUT_MEM_COMMAND);
 		LMEM1.getInput(LMEM.INPUT_MEM_DATA) <== readMemStream;
@@ -105,7 +83,14 @@ public class httpServerManager extends NetworkManager {
 		DFELink toCpuOutputTxEvent = addStreamToCPU("toCpuOutputTxEvent");
 		toCpuOutputTxEvent <== TxManagerKernelV1kernel.getOutput(TxManagerKernelV1.OUTPUT_TX_EVENTS);
 
-		TxManagerKernelV1kernel.getInput(TxManagerKernelV1.INPUT_TX_DATA) <==	LMEM1.getOutput("outputLMEM");//
+//		//TEST
+//
+
+
+
+
+
+		TxManagerKernelV1kernel.getInput(TxManagerKernelV1.INPUT_TX_DATA) <==	LMEM1.getOutput("outputLmemData");//
 		tcp_stream.getTransmitStream() <== TxManagerKernelV1kernel.getOutput(TxManagerKernelV1.OUTPUT_TX_DATA);
 
 		//ByteNumber --> CPU
@@ -117,121 +102,10 @@ public class httpServerManager extends NetworkManager {
 		//socketNumber: stateMachine -> LMEM
 		LMEM1.getInput("socketNumberInput") <== stateMachine.getOutput("socketNumberOutput");
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-		//KernelBlock k = addKernel(new LMemExampleKernel(makeKernelParameters(KERNEL_NAME)));
-
-//			//LMem
-//			DFELink cpu2lmem = addStreamToOnCardMemory("cpu2lmem", MemoryControlGroup.MemoryAccessPattern.LINEAR_1D);
-//			DFELink lmem2cpu = addStreamFromOnCardMemory("lmem2cpu", MemoryControlGroup.MemoryAccessPattern.LINEAR_1D);
-//
-//			DFELink fromcpu = addStreamFromCPU("fromcpu");
-//			DFELink tocpu = addStreamToCPU("tocpu");
-//
-//			cpu2lmem<==fromcpu;
-//			tocpu<== lmem2cpu;
-
-		//DFELink inA = addStreamFromOnCardMemory("inA", MemoryControlGroup.MemoryAccessPattern.LINEAR_1D);
-		//DFELink inB = addStreamFromOnCardMemory("inB", MemoryControlGroup.MemoryAccessPattern.LINEAR_1D);
-
-		//k.getInput("inA")<==inA;
-		//k.getInput("inB")<==inB;
-
-		//DFELink oData = addStreamToOnCardMemory("oData",MemoryControlGroup.MemoryAccessPattern.LINEAR_1D);
-		//oData <== k.getOutput("oData");
-
-		//KERNEL
-			//KernelBlock simpleKernel = addKernel(new SimpleKernel(makeKernelParameters("simpleKernel")));
-
-			//simpleKernel.getInput("inputTCPStream") <== tcp_stream.getReceiveStream();
-
-		//simpleKernel.getInput("cpuValIn") <== addStreamFromCPU("cpuValue");
-
-			//tcp_stream.getTransmitStream() <== simpleKernel.getOutput("outputTCPStream");
-
-		//addStreamFromCPU(")
-
-		//DFELink ethRx = udp_stream.getReceiveStream();
-		//DFELink ethTx = udp_stream.getTransmitStream();
-
-		//tcpStream.getTransmitStream() <== adder.getOutput("valOut");
-
-		//new UDPOneToOneTXType().getData();
-
-		///////////////////////////////
-
 	}
-
-//	private static EngineInterface interfaceWrite(String name) {
-//		EngineInterface ei = new EngineInterface(name);
-//
-//		InterfaceParam size  = ei.addParam("size", TYPE);
-//		InterfaceParam start = ei.addParam("start", TYPE);
-//		InterfaceParam sizeInBytes = size * TYPE.sizeInBytes();
-//
-//		ei.setStream("fromcpu", TYPE, sizeInBytes );
-//		ei.setLMemLinear("cpu2lmem", start * TYPE.sizeInBytes(), sizeInBytes);
-//		ei.ignoreAll(Direction.IN_OUT);
-//		return ei;
-//	}
-//
-//	private static EngineInterface interfaceRead(String name) {
-//		EngineInterface ei = new EngineInterface(name);
-//
-//		InterfaceParam size  = ei.addParam("size", TYPE);
-//		InterfaceParam start = ei.addParam("start", TYPE);
-//		InterfaceParam sizeInBytes = size * TYPE.sizeInBytes();
-//
-//		ei.setLMemLinear("lmem2cpu", start * TYPE.sizeInBytes(), sizeInBytes);
-//		ei.setStream("tocpu", TYPE, sizeInBytes);
-//		ei.ignoreAll(Direction.IN_OUT);
-//		return ei;
-//	}
-//
-//	private static EngineInterface interfaceDefault() {
-//		EngineInterface ei = new EngineInterface();
-//
-//		InterfaceParam N    = ei.addParam("N", TYPE);
-//		ei.setTicks(KERNEL_NAME, N);
-//		InterfaceParam sizeInBytes = N * TYPE.sizeInBytes();
-//
-//		InterfaceParam zero = ei.addConstant(0l);
-//		ei.setLMemLinear("inA", zero, sizeInBytes);
-//		ei.setLMemLinear("inB", sizeInBytes, sizeInBytes);
-//		ei.setLMemLinear("oData", 2 * sizeInBytes, sizeInBytes);
-//		ei.ignoreAll(Direction.IN_OUT);
-//		return ei;
-//	}
 
 	public static void main(String[] args) {
 		httpServerManager m = new httpServerManager(args);
-		//m.createSLiCinterface(interfaceWrite("writeLMem"));
-		//m.createSLiCinterface(interfaceRead("readLMem"));
-		//m.createSLiCinterface(interfaceDefault());
 
 		BuildConfig bConfig = m.getBuildConfig();
 		bConfig.setMPPRCostTableSearchRange(1, 2);

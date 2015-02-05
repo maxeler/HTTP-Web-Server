@@ -57,11 +57,10 @@ static void exchangeItems(int sock, const uint8_t* items, uint16_t num_items) {
 		remainingSend=remainingSend-sendCount;
 	//}
 
-//
 	printf("sizeof(items) = %u\n", num_items);
 
 	//printf("Broj elemenata niza = %u\n", num_items);
-	printf("Broj poslatih sendCount = %u\n", sendCount);
+	printf("Number of send sendCount = %u\n", sendCount);
 	//getchar();
 
 	frame_rx_udp data_received;
@@ -110,7 +109,7 @@ static void exchangeItems(int sock, const uint8_t* items, uint16_t num_items) {
 
 
 
-	printf("Broj poslatih sendCount = %u, Broj primljenih recvCount = %u\n", sendCount,recvCount);
+	printf("Number of send sendCount = %u, Number of received recvCount = %u\n", sendCount,recvCount);
 
 	total_items += num_items;
 
@@ -209,17 +208,17 @@ void fillRomHashIndex(FILE *fpHash, uint64_t **pHash, long Lhash) {
 
 
 int main(int argc, char *argv[]) {
-	if(argc != 4) {
-		printf("Usage: %s <dfe_ip> <cpu_ip> <netmask>\n", argv[0]);
+	if(argc != 3) {
+		printf("Usage: %s <dfe_ip> <netmask>\n", argv[0]);
 		return 1;
 	}
 
 	struct in_addr dfe_ip;
 	inet_aton(argv[1], &dfe_ip);
-	struct in_addr cpu_ip;
-	inet_aton(argv[2], &cpu_ip);
+//	struct in_addr cpu_ip;
+//	inet_aton(argv[2], &cpu_ip);
 	struct in_addr netmask;
-	inet_aton(argv[3], &netmask);
+	inet_aton(argv[2], &netmask);
 	const int port = 80;//80;//5007;
 
 	//romHASHindexMapped rom initialization
@@ -403,7 +402,7 @@ int main(int argc, char *argv[]) {
 
 	//prvo se kreiraju socketi, pa se tek onda radi sa funkcijama CONNECT i LISTEN
 	//1)
-	uint16_t Nsockets = 64; //SLiC Error #446 @ toe_internal.c:2321 - Cannot create more than 64 sockets
+	uint16_t Nsockets = 1; //SLiC Error #446 @ toe_internal.c:2321 - Cannot create more than 64 sockets
 	//define array of pointers
 	max_tcp_socket_t *(dfe_socket[Nsockets]);
 	uint16_t socketNumber[Nsockets];
@@ -523,6 +522,18 @@ int main(int argc, char *argv[]) {
 	posix_memalign ((void *) &read_buffer, 16, 16 * 1);
 	read_llstream = max_llstream_setup (engine, "toCpuByteNumber", 1, 16, read_buffer);
 
+	//statemachine
+	void *read_ptrStateMachine;
+	uint8_t *read_bufferStateMachine;
+	max_llstream_t *read_llstreamStateMachine;
+	uint64_t *byteNumberStateMachine;
+	printf("CPU code: Setting up outputStateMachine stream\n");
+	posix_memalign ((void *) &read_bufferStateMachine, 16, 16 * 1);
+	read_llstreamStateMachine = max_llstream_setup (engine, "toCpuByteNumberStateMachine", 1, 16, read_bufferStateMachine);
+
+
+
+
 	size_t txMgr_buffer_size = 512 * sizeof(tx_event_type_t);
 	void *txMgr_buffer;
 	posix_memalign(&txMgr_buffer, 4096, txMgr_buffer_size);
@@ -534,7 +545,25 @@ int main(int argc, char *argv[]) {
 
 		//part 1: receive fileLength byteNumber
 
+//		printf("CPU code: 1. Waiting for a StateMachine output\n");
+//
+//		int ii=0;
+//		while((ii=max_llstream_read(read_llstreamStateMachine, 1, &read_ptrStateMachine))==0)
+//		{
+//			sleep(1);
+//			printf("ii=%d\n",ii);
+//		};
+//		byteNumberStateMachine=(uint64_t*) read_ptrStateMachine;
+//		printf("CPU code: stateMachine output=%x, ii=%d\n",*byteNumberStateMachine,ii);
+//		max_llstream_read_discard(read_llstreamStateMachine,1);
+//
+//		printf("CPU code: 2. Waiting for a CRC output\n");
+//		printf("CPU code: 3. Waiting for a HashIndex output\n");
+//		printf("CPU code: 4. Waiting for a LMEM output\n");
+
 		printf("CPU code: PART 1\n");
+
+
 
 		int FoundByteNumber=0;
 		while(FoundByteNumber!=1) //first wait to receive LengthBytes number
@@ -636,7 +665,7 @@ int main(int argc, char *argv[]) {
 	//comnnet this line, in case you want to work with external TCP client application eg. Firefox or something else
     int vrednost = connect(cpu_socket, (const struct sockaddr*) &cpu, sizeof(cpu));
 
-	//printf("pauza: vrednost connect=%d\n",vrednost);
+	//printf("pause: value connect=%d\n",vrednost);
 
 	//uint8_t items1[] = { 32, 15, 16,78 ,98}; //uint8_t
 	//exchangeItems(cpu_socket, items1, 255);
@@ -715,7 +744,7 @@ int main(int argc, char *argv[]) {
 	//uint8_t
 	//exchangeItems(cpu_socket, items1, sizeof(items1));
 	//exchangeItems(cpu_socket, items1,sizeof(items1));
-	printf("Prva petlja \n");
+	printf("First loop\n");
 
 	uint8_t items2[] = {
 			'G', //1
@@ -832,7 +861,7 @@ int main(int argc, char *argv[]) {
 	//		printf("Prolaz %d\n",i);
 	//	}
 
-	printf("Druga petlja \n");
+	printf("Second loop\n");
 
 	uint8_t items3[] = {
 			'H', //1
@@ -845,7 +874,7 @@ int main(int argc, char *argv[]) {
 			'0', //8 //#3 word
 	};
 
-	printf("Treca petlja \n");
+	printf("Third loop\n");
 
 	//exchangeItems(cpu_socket, items3, sizeof(items3));
 
@@ -860,7 +889,7 @@ int main(int argc, char *argv[]) {
 			10,  //8 //#4 word
 	};
 
-	printf("Cetvrta petlja \n");
+	printf("Fourth loop\n");
 
 	//exchangeItems(cpu_socket, items4, sizeof(items4));
 
@@ -888,5 +917,5 @@ int main(int argc, char *argv[]) {
 
 	return 0;
 
-	printf("KRAJ\n");
+	printf("THE END\n");
 }

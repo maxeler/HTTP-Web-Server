@@ -23,7 +23,7 @@
 <dir name=""/>
 </ancillaryReleaseInformation>
 </skin>
-<arguments>169.254.10.4 169.254.10.44 255.255.255.0</arguments>
+<arguments>169.254.10.4 255.255.255.0</arguments>
 <remoteExecution enabled="false">
 <remoteMachineName/>
 <scriptName/>

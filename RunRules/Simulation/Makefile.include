@@ -115,7 +115,7 @@ LIBGCCFLAGS=
 
 RUNENV=export MAXELEROSDIR=$(MAXCOMPILERDIR_QUOTE)/lib/maxeleros-sim ; export LD_LIBRARY_PATH=$(MAXCOMPILERDIR_QUOTE)/lib/maxeleros-sim/lib:$$LD_LIBRARY_PATH ; export SLIC_CONF="use_simulation=$(PORT_NAME_SIM);" ;  
 
-RUNARGS?=169.254.10.4 169.254.10.44 255.255.255.0
+RUNARGS?=169.254.10.4 255.255.255.0
 
 ifneq (,$(ARGS))
 #if ARGS is defined

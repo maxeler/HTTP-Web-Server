@@ -39,6 +39,7 @@ public class ParallelCRC extends ManagerStateMachine {
 	private final DFEsmStateValue lfsr_c = state.value(dfeUInt(16), 0);
 	private final DFEsmStateValue sCounter = state.value(dfeUInt(64), 0);
 	private final DFEsmStateValue sCrcValid = state.value(dfeBool(), false);
+	//private final DFEsmPushOutput outputCRC = io.pushOutput("outputCRC", dfeUInt(128), 1);
 
 //	public ParallelCRC[DFEManager owner, int width] {
 //		this[owner, width, 5];
@@ -49,6 +50,7 @@ public class ParallelCRC extends ManagerStateMachine {
 
 		data_in = io.pushInput(dataIn, dfeUInt(512), 1);
 		crc_out = io.pushOutput(crcOut, dfeUInt(16), 1);
+
 
 	}
 

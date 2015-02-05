@@ -39,33 +39,20 @@ public class httpServerStateMachine extends ManagerStateMachine {
 	private final DFEsmStateValue counter = state.value(dfeUInt(20), 0); // 40
 	private final DFEsmStateValue sDataPrevious = state.value(dfeUInt(64), 0);
 	private final DFEsmStateValue sDataValid = state.value(dfeBool(), 0);
-	// private final DFEsmStateValue sRunOneMoreTick = state.value(dfeBool(),false);
-
-	// private final DFEsmStateValue sOuputEmpty = state.value(dfeBool(), true);
 	private final DFEsmStateValue sMemoryRead = state.value(dfeBool(), false);
-	private final DFEsmStateValue sCurrentROMAddress = state.value(dfeUInt(32),	0);
-
 	private final DFEsmStateValue sPrev2Bytes = state.value(dfeUInt(16), 0);
 	private final DFEsmStateValue sPrev2BytesArray[] = new DFEsmStateValue[8];
 	private final DFEsmStateValue sOutputStall = state.value(dfeBool(), false);
-
 	private final DFEsmStateValue sStoreURLValid = state.value(dfeBool(),false);
 	private final DFEsmStateValue sStoreURL = state.value(dfeUInt(512), 0); // 192
 	private final DFEsmStateValue sBitNumber = state.value(dfeUInt(9), 0);
-
 	// State - state varibles
-	private final DFEsmStateValue sCounter;
-	private final DFEsmStateValue sNumericCurrentState;
-	private final DFEsmStateValue sHoldCounter;
-	private final DFEsmStateEnum<Modes> sMode;
 	private final DFEsmStateEnum<States> sCurrentState;
-
 	// IO
-	private final DFEsmPushInput input = io.pushInput("tcp_to_sm", dfeUInt(77),1); // UDP RX stream format: 748 bits
-
-
+	private final DFEsmPushInput input = io.pushInput("tcp_to_sm", dfeUInt(77),1); //
 	private final DFEsmPushOutput checksumOutput = io.pushOutput("checksumOutput", dfeUInt(512), 4);
 	private final DFEsmPushOutput socketNumberOutput = io.pushOutput("socketNumberOutput", dfeUInt(16), 1);
+	//private final DFEsmPushOutput outputStateMachine = io.pushOutput("outputStateMachine", dfeUInt(128), 1); // TX stream format: 77 bits
 
 	//
 	private final DFEsmValue byte1;
@@ -79,30 +66,18 @@ public class httpServerStateMachine extends ManagerStateMachine {
 
 	private final DFEsmStateValue sInputValid = state.value(dfeBool(), false);
 
-	//private final DFEsmStateValue sHashZbirRegister = state.value(dfeUInt(15),0);
-	//private final DFEsmStateValue sHashZbirValid = state.value(dfeBool(), false);
-
 	DFEsmMemAddress adresaRom;
 
 	private final DFEsmValue dataBytes[];
-	// private final DFEsmValue zbir=constant.value(dfeUInt(8), 0);
 
-	private final DFEsmValue data; //
+	private final DFEsmValue data;
 	private final DFEsmValue mod;
 	private final DFEsmValue eof;
 	private final DFEsmValue sof;
-	// private final DFEsmValue checksum_bad;
 	private final DFEsmValue socket;
 
 	public httpServerStateMachine(DFEManager owner) { //int readStreamID
 		super(owner);
-
-		// u konstruktoru se sa State varijabla radi sa '='
-		// a u nextState() i OutputFunction() sa <== connect operatorom
-		// ???????????????????????
-
-		// put code in the contructor,
-		// java class fields defined above (dostupna svim metodama unutar klase)
 
 		// TCP rx/tx format: fields extraction
 		data = input.slice(0, 64).cast(dfeUInt(64)); // bajt
@@ -123,12 +98,7 @@ public class httpServerStateMachine extends ManagerStateMachine {
 
 		// bits ordering: 77|76|75|...|63|...|4|3|2|1|0
 
-		// State
-		sMode = state.enumerated(Modes.class, Modes.COUNTING_UP);
 		sCurrentState = state.enumerated(States.class, States.start);
-		sCounter = state.value(dfeUInt(32), 0);
-		sNumericCurrentState = state.value(dfeUInt(16), 0);
-		sHoldCounter = state.value(dfeUInt(16), 0);
 
 		for (int i = 0; i < sPrev2BytesArray.length; i++) {
 			sPrev2BytesArray[i] = state.value(dfeUInt(8), 0);
@@ -154,40 +124,7 @@ public class httpServerStateMachine extends ManagerStateMachine {
 		byte6 = data.slice(40, 8).cast(dfeUInt(8)); // #6
 		byte7 = data.slice(48, 8).cast(dfeUInt(8)); // #7
 		byte8 = data.slice(56, 8).cast(dfeUInt(8)); // #8
-
-		// int r=7/0;;
-
-		// ramMemorija.write(constant.var(0).cast(dfeUInt(10)),
-		// constant.var(124).cast(dfeUInt(64)) , constant.var(true));
-		// DFEVar outputData =
-		// ramMemorija.read(constant.var(0).cast(dfeUInt(10)));
-		//
-		// //Java kod se izvrsi, pa se onda onda builduje .max file koji se
-		// "spusta" na hardver
-		// String text = "This text came from a FPGA";
-		// int DATA_SIZE=text.length();
-		// //byte niz[] = new byte[L]; //definise se niz duzine 1024 elementa
-		// kod koga su elementi 1 bajt = 8 bita
-		// Bits niz[] = new Bits[DATA_SIZE];
-		//
-		// //IF(data1===constant.var(dfeUInt(3),0)) //if ne radi u KERNEL-ima,
-		// samo u State Machine-i
-		//
-		//
-		// for(int i=0;i<DATA_SIZE;i++)
-		// {
-		// niz[i]=new Bits(8,text.charAt(i)); //inicijalizacija ROM memorije sa
-		// inicijalnim vrednostima u vidu MaxJ Bits objekata
-		// }
-		// //Memory<DFEVar> romMemorija = mem.alloc(dfeUInt(8), DATA_SIZE);
-		// //romMemorija.setContents(niz);
-		//
-		// int BrojBitaZaAdresiranje = MathUtils.bitsToAddress(DATA_SIZE);
-		// System.out.println("Potreban broj bita za adresiranje " + DATA_SIZE +
-		// " memorijskih lokacija je: " + BrojBitaZaAdresiranje);
-		// //int y=7/0;
-
-	}
+}
 
 	@Override
 	protected void nextState() { //executes in next tick?
@@ -293,7 +230,6 @@ public class httpServerStateMachine extends ManagerStateMachine {
 
 			IF(input.valid)
 			{
-				//IF(sRunOneMoreTick===true) sRunOneMoreTick.next<==false;
 				SWITCH(sCurrentState)
 				{
 					CASE(States.start)
@@ -315,15 +251,8 @@ public class httpServerStateMachine extends ManagerStateMachine {
 
 						IF (N4bajta === methodGET) { //condition to move to a next state
 
-							IF(byte4===' ') //space IF sa promenljivima ne RADI kako treba, prolazi cak i kad nije ispunjen uslov
+							IF(byte4===' ')
 							{
-								//sURIMemoryWrite.next<==true;
-								//kada se postavi na TRUE, drzi vrednost samo jedan ciklus???? resetuje se posle svakog ciklusa na FALSE
-								//uriMemorija.writeEnable<==true; //primljen PRVI space, oznacava da pocinje URI
-								//uriMemorija.dataIn<==data;
-								//uriMemorija.address<==sUriRamAddress;
-								//sUriRamAddress.next<==sUriRamAddress+1;
-
 								DFEsmAssignableValue startIndex=assignable.value(dfeUInt(3));
 								startIndex<==7;
 								DFEsmAssignableValue endIndex=assignable.value(dfeUInt(3));
@@ -609,11 +538,8 @@ public class httpServerStateMachine extends ManagerStateMachine {
 							//URI sigurno ne sadrzi blankove (blank se zamenjuje sa %20 ili nekim safe karakterom)
 							//pa je blank iza URIja (metoda+blank je ispitano u prijemMetodi
 							sCurrentState.next<==States.HttpVersion;
-							//sUriRamAddress.next<==0;
 
-							//sHashZbirRegister.next<==hashZbir;
 							sStoreURLValid.next<==true; //since end of URI is detected, set valid flag to true value
-							//sRomHashIndexAddress.next<==hashZbir;
 
 							//uriMemorija.writeEnable<==true; //ako je stanje URI, onda to znaci da su primljene bar 2 words u razlicitim ciklusima
 							//ako je detektovan SPACE (hex 20) onda to znaci da se u ovoj reci zavrsava URI, stigao zavrsni SPACE
@@ -849,8 +775,6 @@ public class httpServerStateMachine extends ManagerStateMachine {
 
 			IF(sCurrentState.eq(States.HttpVersion))
 			{
-				//sUriRamAddress.next<==sUriRamAddress+1;
-				//uriMemorija.address<==sUriRamAddress;
 
 				//debug.simPrintf("ISCITAVANJE: uriMemorija.DATAout=%x, uriMemorija.address=%u, sUriRamAddress=%u, sCounter=%u\n", uriMemorija.dataOut,uriMemorija.address, sUriRamAddress, counter);
 				//debug.simPrintf("sUriSimpleHash=%u\n",sUriSimpleHash);
@@ -860,15 +784,9 @@ public class httpServerStateMachine extends ManagerStateMachine {
 
 	@Override
 	protected void outputFunction() { //executes in current tick?
-		//input.slice(base, width)
 
-		//output <== data # mod # eof # sof # socket;//data # mod # eof # sof # socket;//# mod # eof # sof # socket //constant.value(dfeUInt(10), 0) # counter # input; //input.cast(dfeUInt(77))
-		DFEsmValue rrrr = socket # sof # eof # mod # data; //when word is received, MaxJ has reversed the order of the fields in the input stream. why?
-		//output <== socket # sof # eof # mod # constant.value(dfeUInt(64),55);//rrrr;//.cast(dfeUInt(77));
-		//sCurrentState.next<==States.Headers;
+		DFEsmValue rrrr = socket # sof # eof # mod # data; //when word is received, MaxJ has reversed the order of the fields in the input stream.?
 
-		//output <== rrrr;//.cast(dfeUInt(77));
-		//debug.simPrintf("tick %u, data=%x\n", counter,data);
 		IF(input.valid)
 		{
 			debug.simPrintf("tick %u, data: %x, mod: %x, eof: %x, sof: %x, socket: %x, input.valid=%x, output.stall=%x, input.stall=%x\n", counter,data, mod, eof,sof,socket,input.valid,888, input.stall); //output.stall
@@ -877,7 +795,6 @@ public class httpServerStateMachine extends ManagerStateMachine {
 			debug.simPrintf("tick %u, sCounter=%u, SNumericCurrent=%u, byte1=%x\n", counter,counter,sCurrentState,byte1);
 			debug.simPrintf("rrrr", "%u", 1);
 		}
-		//output.valid <== sCurrentState===States.endGETrequesta; //counter>100000;//input.valid; //input.valid & input.valid; // counter>2000
 
 		IF(~sOutputStall) //output.stall
 		{
@@ -894,11 +811,11 @@ public class httpServerStateMachine extends ManagerStateMachine {
 		{
 			checksumOutput.valid<==true;
 			checksumOutput <== sStoreURL.cast(dfeUInt(512));
+			debug.simPrintf("stateMachine: sStoreURL=%x, sStoreURLValid=%u", sStoreURL, sStoreURLValid);
 
 			socketNumberOutput.valid <== true;
 			socketNumberOutput <== socket.cast(dfeUInt(16));
 		}
-
 
 ///input.stall <== output.stall;
 
