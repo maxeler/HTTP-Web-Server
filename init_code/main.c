@@ -1,8 +1,16 @@
+/*
+File: main.c
+Author: Milan Vorkapic
+Description: Generates LMEM and CRC index tables initialization files
+Inputs: folder with files to be stored in the LMEM, 'cdir' variable should contain the folder path
+Outputs: generated files - lmem_generated_file.html, romHashIndex1_init.html, romHashIndex2_init.html
+*/
+
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
 #include <string.h>
-
 #include <stdio.h>
 #include <sys/types.h>
 #include <dirent.h>
@@ -11,7 +19,15 @@
 #include <math.h>
 #define N_hashindex 32768
 
+typedef struct
+{
+    uint32_t startAddressBurst:19;
+    uint32_t fileLengthBursts:19;
+    uint32_t fileLengthBytes:26;
+} StructRomHashIndexData;
 
+
+//crc16: http://www.embeddedrelated.com/
 
 /***** crc16.c *****/
 
@@ -39,6 +55,7 @@ unsigned int crc16(unsigned int crcValue, unsigned char newByte)
     return crcValue;
 }
 
+//exampleOfUseCRC16: http://www.embeddedrelated.com/
 
 /***** EXAMPLE *****/
 
@@ -64,29 +81,6 @@ unsigned int exampleOfUseCRC16 (unsigned char *Data, unsigned char len)
     return crc; //The crc value for CCITT
 }
 
-typedef struct
-{
-    uint32_t startAddressBurst:19;
-    uint32_t fileLengthBursts:19;
-    uint32_t fileLengthBytes:26;
-} StructRomHashIndexData;
-
-/* Function to reverse bits of num */
-uint64_t reverseBits(uint64_t num)
-{
-    uint64_t  NO_OF_BITS = sizeof(num) * 8;
-    uint64_t reverse_num = 0, i, temp;
-
-    for (i = 0; i < NO_OF_BITS; i++)
-    {
-        temp = (num & (1 << i));
-        if(temp)
-            reverse_num |= (1 << ((NO_OF_BITS - 1) - i));
-    }
-
-    return reverse_num;
-}
-
 uint64_t reverseBytes(uint64_t value)
 {
     return
@@ -103,10 +97,9 @@ uint64_t reverseBytes(uint64_t value)
 
 int main (void)
 {
-    char buf[512];
+    unsigned char buf[64];
+
     static uint16_t crc_hash[649];
-    char *array_names[649];
-    //const int N_hashindex = 32768;
     static uint64_t romHashIndex1[N_hashindex];
     static uint64_t romHashIndex2[N_hashindex];
     StructRomHashIndexData memory_location;
@@ -119,18 +112,21 @@ int main (void)
     FILE *fp_lmem = fopen (lmem_generated_file,"wb");
     if (!fp_lmem)
     {
+        printf("Error with file\n");
         exit(0);
     }
 
     FILE *fp_romHashIndex1 = fopen (romHashIndex1_init,"wb");
     if (!fp_romHashIndex1)
     {
+        printf("Error with file\n");
         exit(0);
     }
 
     FILE *fp_romHashIndex2 = fopen (romHashIndex2_init,"wb");
     if (!fp_romHashIndex2)
     {
+        printf("Error with file\n");
         exit(0);
     }
 
@@ -139,7 +135,7 @@ int main (void)
     char fname[512]="";
     char fnamecopy[512]="";
     char fsize[64]="";
-    char cdir[256]="./images1/"; //current directory
+    char cdir[256]="./images1/"; //name of the current directory
     struct stat st;
 
     dp = opendir (cdir);
@@ -150,10 +146,10 @@ int main (void)
         while (ep = readdir (dp))
         {
 
-            /* browse through the files in current directory and get file attributes */
+            memset(buf,0,sizeof(buf));
+            /* browse through the files in current directory and gets file attributes */
             int scompare1=strcmp(ep->d_name,".");
             int scompare2=strcmp(ep->d_name,"..");
-            //if((ep->d_name)!="." && (ep->d_name)!="..")
             if(scompare1 && scompare2)
             {
                 strcat(fname,cdir);
@@ -165,34 +161,32 @@ int main (void)
                 strcat(fnamecopy,fsize);
                 puts (fnamecopy);
 
-                char *t1,*t2;
+                unsigned char *t1,*t2;
                 t1=buf;
                 t2=fname+1;
 
-                //copy string to another string except first character
+                //copy string to another string without first character
                 while((*t2)!='\0')
                 {
                     *t1=*t2;
                     t1++;
                     t2++;
                 }
-                *t1='\0';
-
 
                 //char array reverse
-                char c, t;
-                int n = strlen(buf);
+                unsigned int c;
+                char t;
+                int n = sizeof(buf);
                 int end= n-1;
                 for (c = 0; c < n/2; c++)
                 {
                     t = buf[c];
                     buf[c] = buf[end];
                     buf[end] = t;
-
                     end--;
                 }
 
-                crc_hash[i]=exampleOfUseCRC16 (buf, strlen(buf)); //data from file
+                crc_hash[i]=exampleOfUseCRC16 (buf, sizeof(buf)); //data from file
 
                 /* populate romHashIndex tables with file length, burst length and start burst */
                 memory_location.startAddressBurst = currentBurst; //0x7FFFF;//currentBurst;
@@ -206,15 +200,9 @@ int main (void)
                 uint64_t t1data = memory_location.startAddressBurst;
                 uint64_t t2data = memory_location.fileLengthBursts;
                 uint64_t t3data = memory_location.fileLengthBytes;
-                //data_hashindex |= (t1data << (64-19)) | (t2data << 26) | (t3data << 0); //  | (memory_location.fileLengthBursts <<) |  memory_location.fileLengthBytes
                 data_hashindex_c |= (t1data << (64-19)) | (t2data << 26) | (t3data << 0);
 
-                //unsigned int x = 2;
-                uint64_t data_hashindex = reverseBytes(data_hashindex_c); //reverseBits(data_hashindex_c);
-
-                //a = reverseBytes(a);
-                //printf("%u", reverseBits(x));
-                //getchar();
+                uint64_t data_hashindex = reverseBytes(data_hashindex_c);
 
                 if(selection_bit)
                 {
@@ -233,26 +221,23 @@ int main (void)
                 FILE *fp_file = fopen (fname,"rb");
                 if (!fp_file)
                 {
+                    printf("Error with file\n");
                     exit(0);
                 }
 
                 fread(file_content, 1, size, fp_file);   //load file content
-                fwrite(file_content , 1, size, fp_lmem); //write file content
+                fwrite(file_content, 1, size, fp_lmem); //write file content
 
                 static uint8_t padding[192];
                 int padd_bytes = memory_location.fileLengthBursts*192-size;
-                fwrite(padding, 1, padd_bytes, fp_lmem); //write padding data - to set position on the beginning of the next burst
-
-                //array_names[i]=buf;
-                printf("Checksum value: 0x%x, Key: %s\n", crc_hash[i],buf);
+                fwrite(padding, 1, padd_bytes, fp_lmem); //write padding data - to set position on the beginning of the next LMEM burst
+                printf("Checksum value: 0x%x\n", crc_hash[i]);
                 i++;
 
                 fname[0]='\0'; //set empty string
                 fclose(fp_file);
-                //fclose(fp_lmem);
                 free(file_content);
 
-                //exit(0);
             }
         }
 
@@ -260,6 +245,7 @@ int main (void)
         fwrite(romHashIndex2, sizeof(uint64_t), N_hashindex, fp_romHashIndex2);
         fclose(fp_romHashIndex1);
         fclose(fp_romHashIndex2);
+        fclose(fp_lmem);
 
         (void) closedir (dp);
     }

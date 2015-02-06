@@ -104,3 +104,75 @@ Thu 11:53:
 Thu 11:53: (7/16) - Place and Route DFE (AlteraMPPR)
 Thu 11:53: Executing MPPR with 2 cost tables and 10 threads.
 Thu 11:53: MPPR: Starting 2 cost tables
+Thu 13:38: MPPR: Cost table 1 met timing with score 0 (best score 0)
+Thu 13:38: (8/16) - Generate Configuration (QuartusAsm)
+Thu 13:42: (9/16) - Convert Programming File (QuartusCpf)
+Thu 13:43: (10/16) - Update Checksum (UpdateChecksumBuildPass)
+Thu 13:43: (11/16) - Generate Incremental Netlist (QuartusCdb)
+Thu 13:45: (12/16) - Generate Configuration (QuartusAsm)
+Thu 13:49: (13/16) - Convert Programming File (QuartusCpf)
+Thu 13:49: (14/16) - Generate Resource Report (AlteraResourceUsageBuildPass)
+Thu 13:49: (15/16) - Generate Annotated Source Code (AlteraResourceAnnotationBuildPass)
+Thu 13:50: (16/16) - Generate MaxFile (GenerateMaxFileAltera)
+Thu 13:50: 
+Thu 13:50: FINAL RESOURCE USAGE
+Thu 13:50: Logic utilization:    76860 / 359200 (21.40%)
+Thu 13:50:   Primary FFs:       119655 / 718400 (16.66%)
+Thu 13:50:   Secondary FFs:       6096 / 718400 (0.85%)
+Thu 13:50: Multipliers (18x18):      4 / 704    (0.57%)
+Thu 13:50:   DSP blocks:             2 / 352    (0.57%)
+Thu 13:50: Block memory (M20K):    755 / 2640   (28.60%)
+Thu 13:50: 
+Thu 13:50: MaxFile: /network-scratch/mvorkapic/maxdc_builds/05-02-15/httpServer_ISCA_DFE/results/httpServer.max (MD5Sum: 79268417eb9108ecc55c6e4f55d56eab)
+Thu 13:50: Build completed: Thu Feb 05 13:50:35 GMT 2015 (took 2 hours, 37 mins, 15 secs)
+Thu 13:50: Executing command:
+Thu 13:50: cp /home/mvorkapic/workspace/working/RunRules/DFE/maxfiles/httpServer.h /home/mvorkapic/workspace/working/RunRules/DFE/include/httpServer.h 
+Thu 13:50: Command output:
+Thu 13:50: Building: httpServer.max file finished.
+Thu 13:50: Engine build finished.
+Thu 13:50: Compiling CPU Code.
+Thu 13:50: Run CPU project make files updating
+Thu 13:50: Executing command:
+Thu 13:50: java -jar /network-raid/opt/maxcompiler-2014.1.1/lib/MaxIDE/projectAdmin.jar -u /home/mvorkapic/workspace/working DFE 
+Thu 13:50: Command output:
+
+Thu 13:50: MaxCompiler Project Admin Tool Version 2014.1.1
+Thu 13:50:  Copyright Maxeler Technologies 2010 - 2014. All rights reserved.
+Thu 13:50: Handler version 1
+Thu 13:50: Updating RunRule dependent Makefiles for RunRule 'DFE'
+Thu 13:50: Found makefiles: 1
+Thu 13:50: 	Updated: DFE
+Thu 13:50: Run CPU make.
+Thu 13:50: make RUNRULE=DFE 
+Thu 13:50: Command output:
+Thu 13:50: make -f Makefile ../RunRules/DFE/binaries/httpServer
+Thu 13:50: make[1]: Entering directory `/home/mvorkapic/workspace/working/CPUCode'
+Thu 13:50: /network-raid/opt/maxcompiler-2014.1.1/bin/sliccompile "../RunRules/DFE/maxfiles/httpServer.max" "../RunRules/DFE/objects/slic_httpServer.o"
+Thu 13:50: Processing maxfile for MAX4AB24B from '../RunRules/DFE/maxfiles/httpServer.max'.
+Thu 13:50: gcc -std=gnu99 -Wall -Werror -fno-guess-branch-probability -frandom-seed=foo -Wno-unused-variable -Wno-unused-function -fPIC -I /network-raid/opt/maxcompiler-2014.1.1/include/slic -DMAXFILE_INC="/home/mvorkapic/workspace/working/CPUCode/../RunRules/DFE/maxfiles/httpServer.max" -DSLIC_NO_DESTRUCTORS -c /network-raid/opt/maxcompiler-2014.1.1/src/slicinterface/MaxFileInit.c -o slic_httpServer.o 
+Thu 13:51: Copying .max file C object into '/home/mvorkapic/workspace/working/CPUCode/../RunRules/DFE/objects'
+Thu 13:51: cc -g -O3 -Wall -Wextra -fmessage-length=0 -I ../RunRules/DFE/include -I. -I/network-raid/opt/maxeleros-2014.2/maxeleros/include -I/network-raid/opt/maxcompiler-2014.1.1/include/slic -D_XOPEN_SOURCE=600  -std=c99 -DBUILDNAME_MAXFILE_1=httpServer -DMAXFILE_1="httpServer.max"  -o "../RunRules/DFE/objects/httpServerCpuCode.o" -c "httpServerCpuCode.c"
+Thu 13:51: httpServerCpuCode.c: In function 'exchangeItems':
+Thu 13:51: httpServerCpuCode.c:116: warning: unused variable 'sum'
+Thu 13:51: httpServerCpuCode.c:73: warning: unused variable 'y'
+Thu 13:51: httpServerCpuCode.c:67: warning: unused variable 'word'
+Thu 13:51: httpServerCpuCode.c:66: warning: unused variable 'data_received'
+Thu 13:51: httpServerCpuCode.c: In function 'main':
+Thu 13:51: httpServerCpuCode.c:263: warning: comparison between signed and unsigned integer expressions
+Thu 13:51: httpServerCpuCode.c:575: warning: format '%u' expects type 'unsigned int', but argument 2 has type 'uint64_t'
+Thu 13:51: httpServerCpuCode.c:604: warning: format '%u' expects type 'unsigned int', but argument 4 has type 'uint64_t'
+Thu 13:51: httpServerCpuCode.c:857: warning: format '%u' expects type 'unsigned int', but argument 2 has type 'long unsigned int'
+Thu 13:51: httpServerCpuCode.c:881: warning: unused variable 'items4'
+Thu 13:51: httpServerCpuCode.c:866: warning: unused variable 'items3'
+Thu 13:51: httpServerCpuCode.c:749: warning: unused variable 'items2'
+Thu 13:51: httpServerCpuCode.c:666: warning: unused variable 'vrednost'
+Thu 13:51: httpServerCpuCode.c:529: warning: unused variable 'byteNumberStateMachine'
+Thu 13:51: httpServerCpuCode.c:526: warning: unused variable 'read_ptrStateMachine'
+Thu 13:51: httpServerCpuCode.c:448: warning: unused variable 'timeout'
+Thu 13:51: httpServerCpuCode.c:441: warning: unused variable 'num_changed_sockets'
+Thu 13:51: cc -g -O3 -Wall -Wextra -fmessage-length=0 -I ../RunRules/DFE/include -I. -I/network-raid/opt/maxeleros-2014.2/maxeleros/include -I/network-raid/opt/maxcompiler-2014.1.1/include/slic -D_XOPEN_SOURCE=600  -std=c99 -DBUILDNAME_MAXFILE_1=httpServer -DMAXFILE_1="httpServer.max"  -MM -MP -MT "../RunRules/DFE/objects/httpServerCpuCode.o" "httpServerCpuCode.c" > "../RunRules/DFE/objects/httpServerCpuCode.d"
+Thu 13:51: cc ../RunRules/DFE/objects/httpServerCpuCode.o ../RunRules/DFE/objects/slic_httpServer.o  -L/network-raid/opt/maxcompiler-2014.1.1/lib -L/network-raid/opt/maxeleros-2014.2/maxeleros/lib -lslic -lmaxeleros -lm -lpthread  -o "../RunRules/DFE/binaries/httpServer"
+Thu 13:51: make[1]: Leaving directory `/home/mvorkapic/workspace/working/CPUCode'
+Thu 13:51: Build completed: Thu Feb 05 13:51:06 GMT 2015
+
+

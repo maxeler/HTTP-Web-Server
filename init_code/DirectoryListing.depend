@@ -1,0 +1,31 @@
+# depslib dependency file v1.0
+1421763012 source:/home/nemanja/Desktop/C projekti/DirectoryListing/main.c
+	<stdio.h>
+	<stdlib.h>
+	<stdint.h>
+	<string.h>
+	<stdio.h>
+	<sys/types.h>
+	<dirent.h>
+	<sys/stat.h>
+	<string.h>
+	<math.h>
+	"crc16.h"
+
+1418392614 /home/nemanja/Desktop/C projekti/DirectoryListing/crc16.h
+
+1423155053 source:/home/mvorkapic/Desktop/C projekti/DirectoryListing/main.c
+	<stdio.h>
+	<stdlib.h>
+	<stdint.h>
+	<string.h>
+	<stdio.h>
+	<sys/types.h>
+	<dirent.h>
+	<sys/stat.h>
+	<string.h>
+	<math.h>
+	"crc16.h"
+
+1418392614 /home/mvorkapic/Desktop/C projekti/DirectoryListing/crc16.h
+
