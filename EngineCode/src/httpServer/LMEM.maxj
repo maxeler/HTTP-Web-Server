@@ -14,56 +14,51 @@ import com.maxeler.maxcompiler.v2.statemachine.stdlib._State;
 
 public class LMEM extends ManagerStateMachine {
 
-	// LMem
 	public static final String INPUT_MEM_DATA = "dataFromMem";
 	public static final String OUTPUT_MEM_COMMAND = "memCmd";
 	private final DFEStructType cmdType;
-
-	private final DFEsmPushInput dataFromMem = io.pushInput(INPUT_MEM_DATA,	dfeUInt(64), 1);
+	private final DFEsmPushInput dataFromMem = io.pushInput(INPUT_MEM_DATA, dfeUInt(64), 1);
 	private final DFEsmPushInput socketNumberInput = io.pushInput("socketNumberInput", dfeUInt(16), 1);
-	private final DFEsmPushInput dataFromHashIndex = io.pushInput("dataFromHashIndex",dfeUInt(64), 1);
+	private final DFEsmPushInput dataFromCrcIndex = io.pushInput("dataFromCrcIndex", dfeUInt(64), 1);
 	private final DFEsmPushOutput fromStateMachineByteNumber = io.pushOutput("fromStateMachineByteNumber", dfeUInt(128), 5);
-	private final DFEsmPushOutput outputLmemData = io.pushOutput("outputLmemData", dfeUInt(77), 1); // TX stream format: 77 bits
+	private final DFEsmPushOutput outputLmemData = io.pushOutput("outputLmemData", dfeUInt(77), 1);
 	private final DFEsmPushOutput memCmdOutput;
 	private final DFEsmStateValue memCmdReg;
 	private final DFEsmStateValue memCmdRegValid;
 
-	// private final int writeStreamID;
 	private final int readStreamID;
 
 	private final DFEsmStateValue counter = state.value(dfeUInt(20), 0); // 40
 	private final DFEsmStateValue sMemoryRead = state.value(dfeBool(), false);
-	private final DFEsmStateValue sMemCmdOutputStall = state.value(dfeBool(),false);
+	private final DFEsmStateValue sMemCmdOutputStall = state.value(dfeBool(), false);
 	private final DFEsmStateValue sStartROMAddress = state.value(dfeUInt(19), 0);
 	private final DFEsmStateValue sDataBurstLength = state.value(dfeUInt(19), 0);
 	private final DFEsmStateValue sFileLengthBytes = state.value(dfeUInt(26), 0);
 	private final DFEsmStateValue sSocketNumber = state.value(dfeUInt(16), 0);
 
-	private final DFEsmStateValue sLMemBurstCounter = state.value(dfeUInt(19),0);
+	private final DFEsmStateValue sLMemBurstCounter = state.value(dfeUInt(19), 0);
 	private final DFEsmStateValue sBurstCounter = state.value(dfeUInt(19), 0);
 	private final DFEsmStateValue sLMemBytesSent = state.value(dfeUInt(32), 0);
 	private final DFEsmStateValue sFileLengthBytesCounter = state.value(dfeUInt(26), 8);
-	private final DFEsmStateValue sAllBytesSentFlag = state.value(dfeBool(),false);
+	private final DFEsmStateValue sAllBytesSentFlag = state.value(dfeBool(), false);
 	private final DFEsmStateValue sFileLengthBytesCounterMini = state.value(dfeUInt(8), 8);
 	private final DFEsmStateValue sCloseSocketCycleCounter = state.value(dfeUInt(5), 1);
-	private final DFEsmStateValue sByteNumberFlag = state.value(dfeBool(),false);
+	private final DFEsmStateValue sByteNumberFlag = state.value(dfeBool(), false);
 	private final DFEsmStateValue sCloseSocketCycleFlag = state.value(dfeBool(), false);
 
 	public LMEM(DFEManager owner, int readStreamID) {
 		super(owner);
 
-		// LMem
 		cmdType = LMemCommandStream.getLMemCommandDFEStructType();
 
-		//this.writeStreamID = writeStreamID;
 		this.readStreamID = readStreamID;
 
-		memCmdReg = _State.value(state, dfeUInt(cmdType.getTotalBits()),"memCmdReg");
+		memCmdReg = _State.value(state, dfeUInt(cmdType.getTotalBits()), "memCmdReg");
 		memCmdRegValid = _State.value(state, dfeBool(), false, "memCmdRegValid");
 		memCmdOutput = io.pushOutput(OUTPUT_MEM_COMMAND, dfeUInt(cmdType.getTotalBits()), 1);
-}
+	}
 
-@Override
+	@Override
 protected void nextState() {
 
 	counter.next <== counter + 1;
@@ -71,21 +66,21 @@ protected void nextState() {
 	memCmdRegValid.next <== false;
 	sMemCmdOutputStall.next <== memCmdOutput.stall;
 
-	IF(dataFromHashIndex.valid)
+	IF(dataFromCrcIndex.valid)
 	{
-		debug.simPrintf("LMEM: Value dataFromHashIndex=%x\n", dataFromHashIndex);
+		debug.simPrintf("LMEM: Value dataFromCrcIndex=%x\n", dataFromCrcIndex);
 
 		DFEsmAssignableValue startAddressBurst=assignable.value(dfeUInt(19)); //startAddressBurst in LMem
 		DFEsmAssignableValue fileLengthBursts=assignable.value(dfeUInt(19)); //length of a file as number of Bursts
 		DFEsmAssignableValue fileLengthBytes=assignable.value(dfeUInt(26));  // 2^26 / 1024 /1024 = 64 MB, this is not integer number of bursts, last burst will not be fill to the end
 
-		fileLengthBytes<==dataFromHashIndex.slice(0, 26);
-		fileLengthBursts<==dataFromHashIndex.slice(26, 19);
-		startAddressBurst<==dataFromHashIndex.slice(45, 19);;
+		fileLengthBytes<==dataFromCrcIndex.slice(0, 26);
+		fileLengthBursts<==dataFromCrcIndex.slice(26, 19);
+		startAddressBurst<==dataFromCrcIndex.slice(45, 19);;
 
 		debug.simPrintf("LMEM: startAddressBurst=%u, fileLengthBursts=%u, fileLengthBytes=%u\n",startAddressBurst,fileLengthBursts,fileLengthBytes);
 
-		//LMem
+
 		sStartROMAddress.next<==startAddressBurst;
 		sDataBurstLength.next<==fileLengthBursts;
 		sFileLengthBytes.next<==fileLengthBytes;
@@ -95,7 +90,7 @@ protected void nextState() {
 
 	IF((sMemoryRead===true))
 	{
-		IF((~memCmdOutput.stall)) //~memCmdOutput.stall
+		IF((~memCmdOutput.stall))
 		{
 			sLMemBurstCounter.next<==sLMemBurstCounter+1;
 			//debug.simPrintf("LMEM: Tick=%u, executing read command\n",counter);
@@ -120,7 +115,7 @@ protected void nextState() {
 		}
 	}
 
-	IF(dataFromMem.valid) //LMem
+	IF(dataFromMem.valid)
 	{
 		sLMemBytesSent.next<==sLMemBytesSent+8;
 		sFileLengthBytesCounter.next<==sFileLengthBytesCounter+8;
@@ -139,7 +134,7 @@ protected void nextState() {
 			sByteNumberFlag.next<==true;
 		}
 
-		IF(sFileLengthBytesCounterMini===192) //LMEM data burst size... 192, 384...
+		IF(sFileLengthBytesCounterMini===192) //LMEM data burst size
 		{
 			sBurstCounter.next<==sBurstCounter+1;
 			sFileLengthBytesCounterMini.next<==8;
@@ -167,7 +162,7 @@ protected void nextState() {
 
 	IF(~outputLmemData.stall) //output.stall
 	{
-//		IF((sMemoryRead===true)) //i hash je bio valid i stanje je bilo endGetRequest
+//		IF((sMemoryRead===true)) //i crc je bio valid i stanje je bilo endGetRequest
 		//{
 //			sCurrentROMAddress.next<==sCurrentROMAddress+1;
 //			sRomDataOutValid.next<==true;
@@ -181,13 +176,14 @@ protected void nextState() {
 	}
 }
 
-@Override
+	@Override
 protected void outputFunction() {
 
-		//LMem
 		outputLmemData.valid <== false;
-		outputLmemData<==0;
-		dataFromMem.stall<==outputLmemData.stall;
+		outputLmemData <== 0;
+		dataFromMem.stall <== outputLmemData.stall;
+		socketNumberInput.stall <== outputLmemData.stall;
+		dataFromCrcIndex.stall <== outputLmemData.stall;
 
 		IF(dataFromMem.valid & ~sAllBytesSentFlag)
 		{
@@ -207,14 +203,13 @@ protected void outputFunction() {
 			{
 				outputLmemData.valid <== dataFromMem.valid;
 
-				//DFEsmValue data,mod,eof,sof;
 				data = dataFromMem;
 
 				DFEsmAssignableValue difference = assignable.value(dfeUInt(26));
 				difference <== 8 - (sFileLengthBytesCounter-sFileLengthBytes);
 				IF(difference===8) difference <== 0;
 
-				mod = difference.cast(dfeUInt(3));//constant.value(dfeUInt(3),0);
+				mod = difference.cast(dfeUInt(3));
 				eof = constant.value(dfeBool(),1);
 				sof = constant.value(dfeBool(),1);
 
@@ -222,7 +217,6 @@ protected void outputFunction() {
 
 				outputLmemData<== sof # eof # mod # socket # data;
 
-				//debug.simPrintf("\nKRAJ podataka za output, fromStateMachineDataSentFlag=%u, Tick=%u \n\n",fromStateMachineDataSentFlag,counter);
 			}
 		}
 
@@ -258,12 +252,11 @@ protected void outputFunction() {
 		}
 }
 
-private void makeReadOrWriteCommand(DFEsmStateValue cmdReg,	DFEsmValue address, int streamIx) {
-	SMUtils.assignField(cmdReg.next, cmdType, "address", address);
-	SMUtils.assignField(cmdReg.next, cmdType, "size", 1);
-	SMUtils.assignField(cmdReg.next, cmdType, "inc", 1);
-	SMUtils.assignField(cmdReg.next, cmdType, "tag", 0);
-	SMUtils.assignField(cmdReg.next, cmdType, "stream", 1 << streamIx);
+	private void makeReadOrWriteCommand(DFEsmStateValue cmdReg, DFEsmValue address, int streamIx) {
+		SMUtils.assignField(cmdReg.next, cmdType, "address", address);
+		SMUtils.assignField(cmdReg.next, cmdType, "size", 1);
+		SMUtils.assignField(cmdReg.next, cmdType, "inc", 1);
+		SMUtils.assignField(cmdReg.next, cmdType, "tag", 0);
+		SMUtils.assignField(cmdReg.next, cmdType, "stream", 1 << streamIx);
+	}
 }
-}
-

@@ -35,8 +35,7 @@ public class httpServerStateMachine extends ManagerStateMachine {
 		// receivingHttpVersion,receivingBlankLine,
 	}
 
-	// state
-	private final DFEsmStateValue counter = state.value(dfeUInt(20), 0); // 40
+	private final DFEsmStateValue counter = state.value(dfeUInt(20), 0);
 	private final DFEsmStateValue sDataPrevious = state.value(dfeUInt(64), 0);
 	private final DFEsmStateValue sDataValid = state.value(dfeBool(), 0);
 	private final DFEsmStateValue sMemoryRead = state.value(dfeBool(), false);
@@ -44,17 +43,14 @@ public class httpServerStateMachine extends ManagerStateMachine {
 	private final DFEsmStateValue sPrev2BytesArray[] = new DFEsmStateValue[8];
 	private final DFEsmStateValue sOutputStall = state.value(dfeBool(), false);
 	private final DFEsmStateValue sStoreURLValid = state.value(dfeBool(),false);
-	private final DFEsmStateValue sStoreURL = state.value(dfeUInt(512), 0); // 192
+	private final DFEsmStateValue sStoreURL = state.value(dfeUInt(512), 0);
 	private final DFEsmStateValue sBitNumber = state.value(dfeUInt(9), 0);
-	// State - state varibles
 	private final DFEsmStateEnum<States> sCurrentState;
-	// IO
-	private final DFEsmPushInput input = io.pushInput("tcp_to_sm", dfeUInt(77),1); //
+
+	private final DFEsmPushInput input = io.pushInput("tcp_to_sm", dfeUInt(77),1);
 	private final DFEsmPushOutput checksumOutput = io.pushOutput("checksumOutput", dfeUInt(512), 4);
 	private final DFEsmPushOutput socketNumberOutput = io.pushOutput("socketNumberOutput", dfeUInt(16), 1);
-	//private final DFEsmPushOutput outputStateMachine = io.pushOutput("outputStateMachine", dfeUInt(128), 1); // TX stream format: 77 bits
 
-	//
 	private final DFEsmValue byte1;
 	private final DFEsmValue byte2;
 	private final DFEsmValue byte3;
@@ -76,27 +72,15 @@ public class httpServerStateMachine extends ManagerStateMachine {
 	private final DFEsmValue sof;
 	private final DFEsmValue socket;
 
-	public httpServerStateMachine(DFEManager owner) { //int readStreamID
+	public httpServerStateMachine(DFEManager owner) {
 		super(owner);
 
 		// TCP rx/tx format: fields extraction
-		data = input.slice(0, 64).cast(dfeUInt(64)); // bajt
-		socket = input.slice(64, 8).cast(dfeUInt(8)); // bajt 11
-		mod = input.slice(72, 3).cast(dfeUInt(3)); // bajt 1
-		eof = input.slice(75, 1).cast(dfeUInt(1)); // bajt 1
-		sof = input.slice(76, 1).cast(dfeUInt(1)); // bajt 1
-
-		// UDP TX format stream:
-		// name offset width(bits)
-
-		// data 0 64
-		// mod 64 3
-		// eof 67 1
-		// sof 68 1
-		// socket 69 8
-		// ===== 77
-
-		// bits ordering: 77|76|75|...|63|...|4|3|2|1|0
+		data = input.slice(0, 64).cast(dfeUInt(64));
+		socket = input.slice(64, 8).cast(dfeUInt(8));
+		mod = input.slice(72, 3).cast(dfeUInt(3));
+		eof = input.slice(75, 1).cast(dfeUInt(1));
+		sof = input.slice(76, 1).cast(dfeUInt(1));
 
 		sCurrentState = state.enumerated(States.class, States.start);
 
@@ -106,24 +90,24 @@ public class httpServerStateMachine extends ManagerStateMachine {
 
 		dataBytes = new DFEsmValue[8];
 
-		dataBytes[0] = data.slice(0, 8).cast(dfeUInt(8)); // #1
-		dataBytes[1] = data.slice(8, 8).cast(dfeUInt(8)); // #2
-		dataBytes[2] = data.slice(16, 8).cast(dfeUInt(8)); // #3
-		dataBytes[3] = data.slice(24, 8).cast(dfeUInt(8)); // #4
-		dataBytes[4] = data.slice(32, 8).cast(dfeUInt(8)); // #5
-		dataBytes[5] = data.slice(40, 8).cast(dfeUInt(8)); // #6
-		dataBytes[6] = data.slice(48, 8).cast(dfeUInt(8)); // #7
-		dataBytes[7] = data.slice(56, 8).cast(dfeUInt(8)); // #8
+		dataBytes[0] = data.slice(0, 8).cast(dfeUInt(8));
+		dataBytes[1] = data.slice(8, 8).cast(dfeUInt(8));
+		dataBytes[2] = data.slice(16, 8).cast(dfeUInt(8));
+		dataBytes[3] = data.slice(24, 8).cast(dfeUInt(8));
+		dataBytes[4] = data.slice(32, 8).cast(dfeUInt(8));
+		dataBytes[5] = data.slice(40, 8).cast(dfeUInt(8));
+		dataBytes[6] = data.slice(48, 8).cast(dfeUInt(8));
+		dataBytes[7] = data.slice(56, 8).cast(dfeUInt(8));
 
 		// extract all 64 bits at once in parallel
-		byte1 = data.slice(0, 8).cast(dfeUInt(8)); // #1
-		byte2 = data.slice(8, 8).cast(dfeUInt(8)); // #2
-		byte3 = data.slice(16, 8).cast(dfeUInt(8)); // #3
-		byte4 = data.slice(24, 8).cast(dfeUInt(8)); // #4
-		byte5 = data.slice(32, 8).cast(dfeUInt(8)); // #5
-		byte6 = data.slice(40, 8).cast(dfeUInt(8)); // #6
-		byte7 = data.slice(48, 8).cast(dfeUInt(8)); // #7
-		byte8 = data.slice(56, 8).cast(dfeUInt(8)); // #8
+		byte1 = data.slice(0, 8).cast(dfeUInt(8));
+		byte2 = data.slice(8, 8).cast(dfeUInt(8));
+		byte3 = data.slice(16, 8).cast(dfeUInt(8));
+		byte4 = data.slice(24, 8).cast(dfeUInt(8));
+		byte5 = data.slice(32, 8).cast(dfeUInt(8));
+		byte6 = data.slice(40, 8).cast(dfeUInt(8));
+		byte7 = data.slice(48, 8).cast(dfeUInt(8));
+		byte8 = data.slice(56, 8).cast(dfeUInt(8));
 }
 
 	@Override
@@ -817,7 +801,7 @@ public class httpServerStateMachine extends ManagerStateMachine {
 			socketNumberOutput <== socket.cast(dfeUInt(16));
 		}
 
-///input.stall <== output.stall;
+		input.stall <== checksumOutput.stall;
 
 //		String konstanta = String.format("%d", new BigInteger(1,"GE".getBytes())); //konvertuj string "GET " u hex oblik
 //		System.out.println("Konvertovani oblik " + konstanta);
