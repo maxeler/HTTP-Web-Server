@@ -44,8 +44,8 @@ extern "C" {
  * \param [in] outstream_size_toCpuByteNumberStateMachine The size of the stream outstream_toCpuByteNumberStateMachine in bytes.
  * \param [out] outstream_toCpuOutputTxEvent Stream "toCpuOutputTxEvent".
  * \param [in] outstream_size_toCpuOutputTxEvent The size of the stream outstream_toCpuOutputTxEvent in bytes.
- * \param [in] inmem_hashIndex_romHashIndex1 Mapped ROM inmem_hashIndex_romHashIndex1, should be of size (32768 * sizeof(uint64_t)).
- * \param [in] inmem_hashIndex_romHashIndex2 Mapped ROM inmem_hashIndex_romHashIndex2, should be of size (32768 * sizeof(uint64_t)).
+ * \param [in] inmem_crcIndex_romCrcIndex1 Mapped ROM inmem_crcIndex_romCrcIndex1, should be of size (32768 * sizeof(uint64_t)).
+ * \param [in] inmem_crcIndex_romCrcIndex2 Mapped ROM inmem_crcIndex_romCrcIndex2, should be of size (32768 * sizeof(uint64_t)).
  * \param [in] routing_string A string containing comma-separated "from_name -> to_name" routing commands.
  */
 void httpServer(
@@ -74,8 +74,8 @@ void httpServer(
 	size_t outstream_size_toCpuByteNumberStateMachine,
 	void *outstream_toCpuOutputTxEvent,
 	size_t outstream_size_toCpuOutputTxEvent,
-	const uint64_t *inmem_hashIndex_romHashIndex1,
-	const uint64_t *inmem_hashIndex_romHashIndex2,
+	const uint64_t *inmem_crcIndex_romCrcIndex1,
+	const uint64_t *inmem_crcIndex_romCrcIndex2,
 	const char * routing_string);
 
 /**
@@ -111,8 +111,8 @@ void httpServer(
  * \param [in] outstream_size_toCpuByteNumberStateMachine The size of the stream outstream_toCpuByteNumberStateMachine in bytes.
  * \param [out] outstream_toCpuOutputTxEvent Stream "toCpuOutputTxEvent".
  * \param [in] outstream_size_toCpuOutputTxEvent The size of the stream outstream_toCpuOutputTxEvent in bytes.
- * \param [in] inmem_hashIndex_romHashIndex1 Mapped ROM inmem_hashIndex_romHashIndex1, should be of size (32768 * sizeof(uint64_t)).
- * \param [in] inmem_hashIndex_romHashIndex2 Mapped ROM inmem_hashIndex_romHashIndex2, should be of size (32768 * sizeof(uint64_t)).
+ * \param [in] inmem_crcIndex_romCrcIndex1 Mapped ROM inmem_crcIndex_romCrcIndex1, should be of size (32768 * sizeof(uint64_t)).
+ * \param [in] inmem_crcIndex_romCrcIndex2 Mapped ROM inmem_crcIndex_romCrcIndex2, should be of size (32768 * sizeof(uint64_t)).
  * \param [in] routing_string A string containing comma-separated "from_name -> to_name" routing commands.
  * \return A handle on the execution status, or NULL in case of error.
  */
@@ -142,8 +142,8 @@ max_run_t *httpServer_nonblock(
 	size_t outstream_size_toCpuByteNumberStateMachine,
 	void *outstream_toCpuOutputTxEvent,
 	size_t outstream_size_toCpuOutputTxEvent,
-	const uint64_t *inmem_hashIndex_romHashIndex1,
-	const uint64_t *inmem_hashIndex_romHashIndex2,
+	const uint64_t *inmem_crcIndex_romCrcIndex1,
+	const uint64_t *inmem_crcIndex_romCrcIndex2,
 	const char * routing_string);
 
 /**
@@ -176,8 +176,8 @@ typedef struct {
 	size_t outstream_size_toCpuByteNumberStateMachine; /**<  [in] The size of the stream outstream_toCpuByteNumberStateMachine in bytes. */
 	void *outstream_toCpuOutputTxEvent; /**<  [out] Stream "toCpuOutputTxEvent". */
 	size_t outstream_size_toCpuOutputTxEvent; /**<  [in] The size of the stream outstream_toCpuOutputTxEvent in bytes. */
-	const uint64_t *inmem_hashIndex_romHashIndex1; /**<  [in] Mapped ROM inmem_hashIndex_romHashIndex1, should be of size (32768 * sizeof(uint64_t)). */
-	const uint64_t *inmem_hashIndex_romHashIndex2; /**<  [in] Mapped ROM inmem_hashIndex_romHashIndex2, should be of size (32768 * sizeof(uint64_t)). */
+	const uint64_t *inmem_crcIndex_romCrcIndex1; /**<  [in] Mapped ROM inmem_crcIndex_romCrcIndex1, should be of size (32768 * sizeof(uint64_t)). */
+	const uint64_t *inmem_crcIndex_romCrcIndex2; /**<  [in] Mapped ROM inmem_crcIndex_romCrcIndex2, should be of size (32768 * sizeof(uint64_t)). */
 	const char * routing_string; /**<  [in] A string containing comma-separated "from_name -> to_name" routing commands. */
 } httpServer_actions_t;
 

@@ -1,79 +1,137 @@
-Fri 13:38: ########################################## 
-Fri 13:38: Compiling.
-Fri 13:38: ########################################## 
+Fri 17:07: ########################################## 
+Fri 17:07: Compiling.
+Fri 17:07: ########################################## 
 
-Fri 13:38: MaxCompiler version: 2014.1.1.
-Fri 13:38: Build DFE run rule for working start time: Fri Feb 06 13:38:03 GMT 2015.
-Fri 13:38: Project location: /home/mvorkapic/workspace/working.
-Fri 13:38: Detailed build log: /home/mvorkapic/workspace/working/RunRules/DFE/build.log.
+Fri 17:07: MaxCompiler version: 2014.1.1.
+Fri 17:07: Build DFE run rule for working start time: Fri Feb 06 17:07:17 GMT 2015.
+Fri 17:07: Project location: /home/mvorkapic/workspace/working.
+Fri 17:07: Detailed build log: /home/mvorkapic/workspace/working/RunRules/DFE/build.log.
 
-Fri 13:38: Compiling Engine Code.
-Fri 13:38: Building httpServer.max file. 
-Fri 13:38: Setting environment variable:
-Fri 13:38: MAXCOMPILER_BUILD_DIR : /network-scratch/mvorkapic/maxdc_builds/
-Fri 13:38: MAX_BUILDPARAMS : DFEModel='ISCA' target='DFE' maxFileName='httpServer'  
-Fri 13:38: Building output:
-Fri 13:38: MaxCompiler version: 2014.1.1
-Fri 13:38: Build "httpServer" start time: Fri Feb 06 13:38:07 GMT 2015
-Fri 13:38: Main build process running as user mvorkapic on host grim.office.maxeler.com
-Fri 13:38: Build location: /network-scratch/mvorkapic/maxdc_builds/06-02-15/httpServer_ISCA_DFE
-Fri 13:38: Detailed build log available in "_build.log"
-Fri 13:38: 
-Fri 13:38: ENGINE BUILD PARAMETERS
-Fri 13:38: 	 Build name: httpServer_ISCA_DFE
-Fri 13:38: 	   DFEModel: ISCA               
-Fri 13:38: 	maxFileName: httpServer         
-Fri 13:38: 	     target: DFE                
-Fri 13:38: 	 enableMPCX: false              
-Fri 13:39: Instantiating kernel "KernelLMem_Write_CommandAndDataStream"
-Fri 13:39: Instantiating kernel "KernelLMem_Read_CommandAndDataStream"
-Fri 13:39: WARNING: Manager state machine 'crcIndex' has uassigned variables in 'nextState':
-Fri 13:39: WARNING: Variable has been partially assigned
-Fri 13:39: WARNING: 	15 bits not set: ???????????????
-Fri 13:39: WARNING: 	Stack Trace: 
-Fri 13:39: WARNING: 	com.maxeler.maxcompiler.v2.statemachine.stdlib.Mem.romMapped(Mem.java:244)
-Fri 13:39: WARNING: 	httpServer.crcIndex.<init>(crcIndex.maxj:28)
-Fri 13:39: WARNING: 	httpServer.httpServerManager.<init>(httpServerManager.maxj:65)
-Fri 13:39: WARNING: 	httpServer.httpServerManager.main(httpServerManager.maxj:94)
-Fri 13:39: WARNING: Variable has been partially assigned
-Fri 13:39: WARNING: 	15 bits not set: ???????????????
-Fri 13:39: WARNING: 	Stack Trace: 
-Fri 13:39: WARNING: 	com.maxeler.maxcompiler.v2.statemachine.stdlib.Mem.romMapped(Mem.java:244)
-Fri 13:39: WARNING: 	httpServer.crcIndex.<init>(crcIndex.maxj:27)
-Fri 13:39: WARNING: 	httpServer.httpServerManager.<init>(httpServerManager.maxj:65)
-Fri 13:39: WARNING: 	httpServer.httpServerManager.main(httpServerManager.maxj:94)
-Fri 13:39: Instantiating kernel "TxManagerKernelV1_kernel"
-Fri 13:39: 
-Fri 13:39: Compiling kernel "KernelLMem_Write_CommandAndDataStream"
-Fri 13:39: 
-Fri 13:39: Compiling kernel "KernelLMem_Read_CommandAndDataStream"
-Fri 13:39: 
-Fri 13:39: Compiling kernel "TxManagerKernelV1_kernel"
-Fri 13:39: Generating input files (VHDL, netlists, MegaWizard/CoreGen)
-Fri 13:40: WARNING: Ignoring printf statements in VHDL codegen.
-Fri 13:40: WARNING: Ignoring printf statements in VHDL codegen.
-Fri 13:40: WARNING: Ignoring printf statements in VHDL codegen.
-Fri 13:40: WARNING: Ignoring printf statements in VHDL codegen.
-Fri 13:40: WARNING: Ignoring printf statements in VHDL codegen.
-Fri 13:40: WARNING: Ignoring printf statements in VHDL codegen.
-Fri 13:40: WARNING: Ignoring printf statements in VHDL codegen.
-Fri 13:40: Running back-end  build (16 phases)
-Fri 13:40: (1/16) - Prepare MaxFile Data (GenerateMaxFileDataFile)
-Fri 13:40: (2/16) - Prepare for Placement (QuartusMap)
-Fri 14:12: (3/16) - Generate Incremental Netlist (QuartusCdb)
-Fri 14:15: (4/16) - Generate Resource Report (AlteraResourceUsageBuildPass)
-Fri 14:15: (5/16) - Generate Annotated Source Code (AlteraResourceAnnotationBuildPass)
-Fri 14:15: (6/16) - Analyse Resource Usage (AlteraResourceCounterPass)
-Fri 14:15: 
-Fri 14:15: About to start chip vendor Map/Place/Route toolflow. This will take some time.
-Fri 14:15: For this compile, we estimate this process may take up to 1 hour.
-Fri 14:15: We recommend running in simulation to verify correctness before building hardware.
-Fri 14:15: 
-Fri 14:15: PRELIMINARY RESOURCE USAGE
-Fri 14:15: Logic utilization:      81915 / 359200   (22.80%)
-Fri 14:15: Multipliers (18x18):        4 / 704      (0.57%)
-Fri 14:15: Block memory (bits): 12259930 / 54067200 (22.68%)
-Fri 14:15: 
-Fri 14:15: (7/16) - Place and Route DFE (AlteraMPPR)
-Fri 14:15: Executing MPPR with 2 cost tables and 10 threads.
-Fri 14:15: MPPR: Starting 2 cost tables
+Fri 17:07: Compiling Engine Code.
+Fri 17:07: Building httpServer.max file. 
+Fri 17:07: Setting environment variable:
+Fri 17:07: MAXCOMPILER_BUILD_DIR : /network-scratch/mvorkapic/maxdc_builds/
+Fri 17:07: MAX_BUILDPARAMS : DFEModel='ISCA' target='DFE' maxFileName='httpServer'  
+Fri 17:07: Building output:
+Fri 17:07: MaxCompiler version: 2014.1.1
+Fri 17:07: Build "httpServer" start time: Fri Feb 06 17:07:22 GMT 2015
+Fri 17:07: Main build process running as user mvorkapic on host grim.office.maxeler.com
+Fri 17:07: Build location: /network-scratch/mvorkapic/maxdc_builds/06-02-15/httpServer_ISCA_DFE
+Fri 17:07: Detailed build log available in "_build.log"
+Fri 17:08: 
+Fri 17:08: ENGINE BUILD PARAMETERS
+Fri 17:08: 	 Build name: httpServer_ISCA_DFE
+Fri 17:08: 	   DFEModel: ISCA               
+Fri 17:08: 	maxFileName: httpServer         
+Fri 17:08: 	     target: DFE                
+Fri 17:08: 	 enableMPCX: false              
+Fri 17:08: Instantiating kernel "KernelLMem_Write_CommandAndDataStream"
+Fri 17:08: Instantiating kernel "KernelLMem_Read_CommandAndDataStream"
+Fri 17:08: WARNING: Manager state machine 'crcIndex' has uassigned variables in 'nextState':
+Fri 17:08: WARNING: Variable has been partially assigned
+Fri 17:08: WARNING: 	15 bits not set: ???????????????
+Fri 17:08: WARNING: 	Stack Trace: 
+Fri 17:08: WARNING: 	com.maxeler.maxcompiler.v2.statemachine.stdlib.Mem.romMapped(Mem.java:244)
+Fri 17:08: WARNING: 	httpServer.crcIndex.<init>(crcIndex.maxj:28)
+Fri 17:08: WARNING: 	httpServer.httpServerManager.<init>(httpServerManager.maxj:65)
+Fri 17:08: WARNING: 	httpServer.httpServerManager.main(httpServerManager.maxj:94)
+Fri 17:08: WARNING: Variable has been partially assigned
+Fri 17:08: WARNING: 	15 bits not set: ???????????????
+Fri 17:08: WARNING: 	Stack Trace: 
+Fri 17:08: WARNING: 	com.maxeler.maxcompiler.v2.statemachine.stdlib.Mem.romMapped(Mem.java:244)
+Fri 17:08: WARNING: 	httpServer.crcIndex.<init>(crcIndex.maxj:27)
+Fri 17:08: WARNING: 	httpServer.httpServerManager.<init>(httpServerManager.maxj:65)
+Fri 17:08: WARNING: 	httpServer.httpServerManager.main(httpServerManager.maxj:94)
+Fri 17:08: Instantiating kernel "TxManagerKernelV1_kernel"
+Fri 17:08: 
+Fri 17:08: Compiling kernel "KernelLMem_Write_CommandAndDataStream"
+Fri 17:08: 
+Fri 17:08: Compiling kernel "KernelLMem_Read_CommandAndDataStream"
+Fri 17:08: 
+Fri 17:08: Compiling kernel "TxManagerKernelV1_kernel"
+Fri 17:09: Generating input files (VHDL, netlists, MegaWizard/CoreGen)
+Fri 17:10: WARNING: Ignoring printf statements in VHDL codegen.
+Fri 17:10: WARNING: Ignoring printf statements in VHDL codegen.
+Fri 17:10: WARNING: Ignoring printf statements in VHDL codegen.
+Fri 17:10: WARNING: Ignoring printf statements in VHDL codegen.
+Fri 17:10: WARNING: Ignoring printf statements in VHDL codegen.
+Fri 17:10: WARNING: Ignoring printf statements in VHDL codegen.
+Fri 17:10: WARNING: Ignoring printf statements in VHDL codegen.
+Fri 17:10: Running back-end  build (16 phases)
+Fri 17:10: (1/16) - Prepare MaxFile Data (GenerateMaxFileDataFile)
+Fri 17:10: (2/16) - Prepare for Placement (QuartusMap)
+Fri 17:11: (3/16) - Generate Incremental Netlist (QuartusCdb)
+Fri 17:11: (4/16) - Generate Resource Report (AlteraResourceUsageBuildPass)
+Fri 17:11: (5/16) - Generate Annotated Source Code (AlteraResourceAnnotationBuildPass)
+Fri 17:12: (6/16) - Analyse Resource Usage (AlteraResourceCounterPass)
+Fri 17:12: 
+Fri 17:12: About to start chip vendor Map/Place/Route toolflow. This will take some time.
+Fri 17:12: For this compile, we estimate this process may take up to 1 hour.
+Fri 17:12: We recommend running in simulation to verify correctness before building hardware.
+Fri 17:12: 
+Fri 17:12: PRELIMINARY RESOURCE USAGE
+Fri 17:12: Logic utilization:      81915 / 359200   (22.80%)
+Fri 17:12: Multipliers (18x18):        4 / 704      (0.57%)
+Fri 17:12: Block memory (bits): 12259930 / 54067200 (22.68%)
+Fri 17:12: 
+Fri 17:12: (7/16) - Place and Route DFE (AlteraMPPR)
+Fri 17:12: Executing MPPR with 2 cost tables and 10 threads.
+Fri 17:12: MPPR: Starting 2 cost tables
+Fri 17:13: MPPR: Cost table 2 met timing with score 0 (best score 0)
+Fri 17:13: (8/16) - Generate Configuration (QuartusAsm)
+Fri 17:14: (9/16) - Convert Programming File (QuartusCpf)
+Fri 17:15: (10/16) - Update Checksum (UpdateChecksumBuildPass)
+Fri 17:15: (11/16) - Generate Incremental Netlist (QuartusCdb)
+Fri 17:15: (12/16) - Generate Configuration (QuartusAsm)
+Fri 17:15: (13/16) - Convert Programming File (QuartusCpf)
+Fri 17:16: (14/16) - Generate Resource Report (AlteraResourceUsageBuildPass)
+Fri 17:16: (15/16) - Generate Annotated Source Code (AlteraResourceAnnotationBuildPass)
+Fri 17:17: (16/16) - Generate MaxFile (GenerateMaxFileAltera)
+Fri 17:17: 
+Fri 17:17: FINAL RESOURCE USAGE
+Fri 17:17: Logic utilization:    82891 / 359200 (23.08%)
+Fri 17:17:   Primary FFs:       125153 / 718400 (17.42%)
+Fri 17:17:   Secondary FFs:       5363 / 718400 (0.75%)
+Fri 17:17: Multipliers (18x18):      4 / 704    (0.57%)
+Fri 17:17:   DSP blocks:             2 / 352    (0.57%)
+Fri 17:17: Block memory (M20K):    820 / 2640   (31.06%)
+Fri 17:17: 
+Fri 17:17: MaxFile: /network-scratch/mvorkapic/maxdc_builds/06-02-15/httpServer_ISCA_DFE/results/httpServer.max (MD5Sum: 56409a17e33c7acf01da84de19673e3a)
+Fri 17:17: Build completed: Fri Feb 06 17:17:25 GMT 2015 (took 10 mins, 3 secs)
+Fri 17:17: Executing command:
+Fri 17:17: cp /home/mvorkapic/workspace/working/RunRules/DFE/maxfiles/httpServer.h /home/mvorkapic/workspace/working/RunRules/DFE/include/httpServer.h 
+Fri 17:17: Command output:
+Fri 17:17: Building: httpServer.max file finished.
+Fri 17:17: Engine build finished.
+Fri 17:17: Compiling CPU Code.
+Fri 17:17: Run CPU project make files updating
+Fri 17:17: Executing command:
+Fri 17:17: java -jar /network-raid/opt/maxcompiler-2014.1.1/lib/MaxIDE/projectAdmin.jar -u /home/mvorkapic/workspace/working DFE 
+Fri 17:17: Command output:
+
+Fri 17:17: MaxCompiler Project Admin Tool Version 2014.1.1
+Fri 17:17:  Copyright Maxeler Technologies 2010 - 2014. All rights reserved.
+Fri 17:17: Handler version 1
+Fri 17:17: Updating RunRule dependent Makefiles for RunRule 'DFE'
+Fri 17:17: Found makefiles: 1
+Fri 17:17: 	Updated: DFE
+Fri 17:17: Run CPU make.
+Fri 17:17: make RUNRULE=DFE 
+Fri 17:17: Command output:
+Fri 17:17: make -f Makefile ../RunRules/DFE/binaries/httpServer
+Fri 17:17: make[1]: Entering directory `/home/mvorkapic/workspace/working/CPUCode'
+Fri 17:17: /network-raid/opt/maxcompiler-2014.1.1/bin/sliccompile "../RunRules/DFE/maxfiles/httpServer.max" "../RunRules/DFE/objects/slic_httpServer.o"
+Fri 17:17: Processing maxfile for MAX4AB24B from '../RunRules/DFE/maxfiles/httpServer.max'.
+Fri 17:17: gcc -std=gnu99 -Wall -Werror -fno-guess-branch-probability -frandom-seed=foo -Wno-unused-variable -Wno-unused-function -fPIC -I /network-raid/opt/maxcompiler-2014.1.1/include/slic -DMAXFILE_INC="/home/mvorkapic/workspace/working/CPUCode/../RunRules/DFE/maxfiles/httpServer.max" -DSLIC_NO_DESTRUCTORS -c /network-raid/opt/maxcompiler-2014.1.1/src/slicinterface/MaxFileInit.c -o slic_httpServer.o 
+Fri 17:17: Copying .max file C object into '/home/mvorkapic/workspace/working/CPUCode/../RunRules/DFE/objects'
+Fri 17:17: cc -g -O3 -Wall -Wextra -fmessage-length=0 -I ../RunRules/DFE/include -I. -I/network-raid/opt/maxeleros-2014.2/maxeleros/include -I/network-raid/opt/maxcompiler-2014.1.1/include/slic -D_XOPEN_SOURCE=600  -std=c99 -DBUILDNAME_MAXFILE_1=httpServer -DMAXFILE_1="httpServer.max"  -o "../RunRules/DFE/objects/httpServer1.o" -c "httpServer1.c"
+Fri 17:17: httpServer1.c: In function 'main':
+Fri 17:17: httpServer1.c:145: warning: comparison between signed and unsigned integer expressions
+Fri 17:17: httpServer1.c:251: warning: format '%u' expects type 'unsigned int', but argument 2 has type 'uint64_t'
+Fri 17:17: httpServer1.c:277: warning: format '%u' expects type 'unsigned int', but argument 4 has type 'uint64_t'
+Fri 17:17: cc -g -O3 -Wall -Wextra -fmessage-length=0 -I ../RunRules/DFE/include -I. -I/network-raid/opt/maxeleros-2014.2/maxeleros/include -I/network-raid/opt/maxcompiler-2014.1.1/include/slic -D_XOPEN_SOURCE=600  -std=c99 -DBUILDNAME_MAXFILE_1=httpServer -DMAXFILE_1="httpServer.max"  -MM -MP -MT "../RunRules/DFE/objects/httpServer1.o" "httpServer1.c" > "../RunRules/DFE/objects/httpServer1.d"
+Fri 17:17: cc ../RunRules/DFE/objects/httpServer1.o ../RunRules/DFE/objects/slic_httpServer.o  -L/network-raid/opt/maxcompiler-2014.1.1/lib -L/network-raid/opt/maxeleros-2014.2/maxeleros/lib -lslic -lmaxeleros -lm -lpthread  -o "../RunRules/DFE/binaries/httpServer"
+Fri 17:17: make[1]: Leaving directory `/home/mvorkapic/workspace/working/CPUCode'
+Fri 17:17: Build completed: Fri Feb 06 17:17:56 GMT 2015
+
+
