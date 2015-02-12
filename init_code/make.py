@@ -6,6 +6,7 @@ sources = ['init_code']
 flags = ['-g']
 
 def build():
+    clean()
     compile()
     link()
     execute_program()

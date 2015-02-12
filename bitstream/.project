@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>working_EngineCode</name>
+	<name>workingNonMaxIDE</name>
 	<comment></comment>
-	<manageMaxCompiler>true</manageMaxCompiler>
-	<manageMaxGenFD>true</manageMaxGenFD>
-	<manageMaxBlox>true</manageMaxBlox>
-	<maxelerVersion>1.0</maxelerVersion>
+	<manageMaxCompiler>false</manageMaxCompiler>
+	<manageMaxGenFD>false</manageMaxGenFD>
+	<manageMaxBlox>false</manageMaxBlox>
+	<maxelerVersion></maxelerVersion>
 	<maxelerBuildSystemVersion></maxelerBuildSystemVersion>
 	<projects>
-		<project>maxjlibs</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
@@ -19,6 +18,5 @@
 	</buildSpec>
 	<natures>
 		<nature>org.eclipse.jdt.core.javanature</nature>
-		<nature>com.maxeler.maxcompiler.core.MaxCompilerFragmentNature</nature>
 	</natures>
 </projectDescription>

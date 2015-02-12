@@ -17,8 +17,8 @@ public class httpServerManager extends NetworkManager {
 	private static final String KERNEL_NAME_write = "KernelLMem_Write_CommandAndDataStream";
 	private static final String KERNEL_NAME_read = "KernelLMem_Read_CommandAndDataStream";
 
-	public httpServerManager(String[] args) {
-		super(new httpServerEngineParameters(args));
+	public httpServerManager(HttpServerEngineParameters params) {
+		super(params.getEngineParams());
 
 		debug.setDebugLevel(new DebugLevel(){{setHasStreamStatus(true);}});
 
@@ -91,7 +91,8 @@ public class httpServerManager extends NetworkManager {
 	}
 
 	public static void main(String[] args) {
-		httpServerManager m = new httpServerManager(args);
+		HttpServerEngineParameters params = new HttpServerEngineParameters(args);
+		httpServerManager m = new httpServerManager(params);
 
 		BuildConfig bConfig = m.getBuildConfig();
 		bConfig.setMPPRCostTableSearchRange(1, 2);

@@ -19,7 +19,8 @@ public class httpServerStateMachine extends ManagerStateMachine {
 		URI,
 		HTTP_VERSION,
 		HEADERS,
-		CR, LF, BLANK_LINE, END_GETREQUEST
+		CR, LF, BLANK_LINE,
+		END_GETREQUEST
 	}
 
 	private final DFEsmStateValue counter = state.value(dfeUInt(20), 0);
@@ -207,10 +208,10 @@ public class httpServerStateMachine extends ManagerStateMachine {
 
 								for(int t=0;t<8;t++)
 								{
-									debug.simPrintf("sum stanje Start bytes[%d]=%u\n",t,bytes[t]);
+									debug.simPrintf("sum Start bytes[%d]=%u\n",t,bytes[t]);
 								}
 
-								debug.simPrintf("Ulaz u doHash funkciju startIndex=%u, endIndex=%u\n",startIndex,endIndex);
+								debug.simPrintf("startIndex=%u, endIndex=%u\n",startIndex,endIndex);
 
 								DFEsmAssignableValue startIndexBit = assignable.value(dfeUInt(8));
 								DFEsmAssignableValue endIndexBit = assignable.value(dfeUInt(8));
@@ -284,7 +285,6 @@ public class httpServerStateMachine extends ManagerStateMachine {
 								sCurrentState.next<==States.HTTP_VERSION;
 								debug.simPrintf("nextState: HTTP_VERSION: tick=%u, sNumericCurrent=%u, data=%x\n", counter,sCurrentState,data);
 
-
 							}
 							ELSE {
 								sCurrentState.next<==States.URI;
@@ -348,7 +348,6 @@ public class httpServerStateMachine extends ManagerStateMachine {
 							debug.simPrintf("sum state URI bytes[%d]=%u\n",t,bytes[t]);
 						}
 
-
 						DFEsmAssignableValue bitNumber = assignable.value(dfeUInt(9));
 						bitNumber <==sBitNumber;
 
@@ -396,7 +395,7 @@ public class httpServerStateMachine extends ManagerStateMachine {
 
 							sStoreURLValid.next<==true; //since end of URI is detected, set valid flag to true value
 
-							debug.simPrintf("nextState: prijemHttpVersion: tick=%u, sNumericCurrent=%u, data=%x\n", counter,sCurrentState,data);
+							debug.simPrintf("nextState: HttpVersion: tick=%u, sNumericCurrent=%u, data=%x\n", counter,sCurrentState,data);
 						}
 						ELSE{
 								sCurrentState.next<==States.URI;
@@ -411,7 +410,7 @@ public class httpServerStateMachine extends ManagerStateMachine {
 						//2)  uzastopni iz predthodne i tekuce WORD
 
 						//oznacava kraj Requesta, koristiti samo kad se zeli detektovati kraj requesta bez prolaska kroz ostala stanja
-						debug.simPrintf("U HTTP stanju: byte1=%x, byte2=%x, sPrev2Bytes=%x\n",byte1,byte2,sPrev2Bytes);
+						debug.simPrintf("in HTTP state: byte1=%x, byte2=%x, sPrev2Bytes=%x\n",byte1,byte2,sPrev2Bytes);
 						IF(inputTcpData.valid)
 						{
 							//2 bajta iz prethodnog ciklusa da li su jednaka sa pocetnim bajtovima
@@ -513,7 +512,7 @@ public class httpServerStateMachine extends ManagerStateMachine {
 					{
 						//za jednostavan slucaj GET requesta HTTP-a, treba ignorisati sve headere
 
-						for(int i=0;i<7;i++) //loop unrolling, petlja se pretvara u 8 blokova koji se paralelno izvrsavaju
+						for(int i=0;i<7;i++) //loop unrolling
 						{
 							IF(dataBytes[i]===13 & dataBytes[i+1]===10)
 							{
@@ -559,8 +558,6 @@ public class httpServerStateMachine extends ManagerStateMachine {
 				OTHERWISE {
 				}
 			}
-
-
 
 			IF(sCurrentState.eq(States.HTTP_VERSION))
 			{
