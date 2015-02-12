@@ -1,11 +1,9 @@
 /*
 File: main.c
-Author: Milan Vorkapic
 Description: Generates LMEM and CRC index tables initialization files
 Inputs: folder with files to be stored in the LMEM, 'cdir' variable should contain the folder path
-Outputs: generated files - lmem_generated_file.html, romHashIndex1_init.html, romHashIndex2_init.html
+Outputs: generated files - lmem_generated_file.html, romCrcIndex1_init.html, romCrcIndex2_init.html
 */
-
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -17,14 +15,14 @@ Outputs: generated files - lmem_generated_file.html, romHashIndex1_init.html, ro
 #include <sys/stat.h>
 #include <string.h>
 #include <math.h>
-#define N_hashindex 32768
+#define N_crcindex 32768
 
 typedef struct
 {
     uint32_t startAddressBurst:19;
     uint32_t fileLengthBursts:19;
     uint32_t fileLengthBytes:26;
-} StructRomHashIndexData;
+} StructRomCrcIndexData;
 
 
 //crc16: http://www.embeddedrelated.com/
@@ -99,15 +97,15 @@ int main (void)
 {
     unsigned char buf[64];
 
-    static uint16_t crc_hash[649];
-    static uint64_t romHashIndex1[N_hashindex];
-    static uint64_t romHashIndex2[N_hashindex];
-    StructRomHashIndexData memory_location;
-    char lmem_generated_file[]="./lmem_generated_file.html";
+    static uint16_t crc_index[649];
+    static uint64_t romCrcIndex1[N_crcindex];
+    static uint64_t romCrcIndex2[N_crcindex];
+    StructRomCrcIndexData memory_location;
+    char lmem_generated_file[]="./results/lmem_generated_file.html";
     int pass_rom1=0, pass_rom2=0;
 
-    char romHashIndex1_init[]="./romHashIndex1_init.html";
-    char romHashIndex2_init[]="./romHashIndex2_init.html";
+    char romCrcIndex1_init[]="./results/romCrcIndex1_init.html";
+    char romCrcIndex2_init[]="./results/romCrcIndex2_init.html";
 
     FILE *fp_lmem = fopen (lmem_generated_file,"wb");
     if (!fp_lmem)
@@ -116,15 +114,15 @@ int main (void)
         exit(0);
     }
 
-    FILE *fp_romHashIndex1 = fopen (romHashIndex1_init,"wb");
-    if (!fp_romHashIndex1)
+    FILE *fp_romCrcIndex1 = fopen (romCrcIndex1_init,"wb");
+    if (!fp_romCrcIndex1)
     {
         printf("Error with file\n");
         exit(0);
     }
 
-    FILE *fp_romHashIndex2 = fopen (romHashIndex2_init,"wb");
-    if (!fp_romHashIndex2)
+    FILE *fp_romCrcIndex2 = fopen (romCrcIndex2_init,"wb");
+    if (!fp_romCrcIndex2)
     {
         printf("Error with file\n");
         exit(0);
@@ -135,7 +133,7 @@ int main (void)
     char fname[512]="";
     char fnamecopy[512]="";
     char fsize[64]="";
-    char cdir[256]="./images1/"; //name of the current directory
+    char cdir[256]="./files/"; //name of the current directory
     struct stat st;
 
     dp = opendir (cdir);
@@ -186,32 +184,32 @@ int main (void)
                     end--;
                 }
 
-                crc_hash[i]=exampleOfUseCRC16 (buf, sizeof(buf)); //data from file
+                crc_index[i]=exampleOfUseCRC16 (buf, sizeof(buf)); //data from file
 
-                /* populate romHashIndex tables with file length, burst length and start burst */
+                /* populate romCrcIndex tables with file length, burst length and start burst */
                 memory_location.startAddressBurst = currentBurst; //0x7FFFF;//currentBurst;
                 memory_location.fileLengthBursts = ceil(size/192.0); //0x3FFFF; //ceil(size/192.0);
                 memory_location.fileLengthBytes = size; //0x1FFFFFF;//size;
 
                 currentBurst+=memory_location.fileLengthBursts;
-                uint16_t index = crc_hash[i] & 0x7FFF;
-                uint8_t selection_bit = (crc_hash[i]>>15) & 1;
-                uint64_t data_hashindex_c=0;
+                uint16_t index = crc_index[i] & 0x7FFF;
+                uint8_t selection_bit = (crc_index[i]>>15) & 1;
+                uint64_t data_crcindex_c=0;
                 uint64_t t1data = memory_location.startAddressBurst;
                 uint64_t t2data = memory_location.fileLengthBursts;
                 uint64_t t3data = memory_location.fileLengthBytes;
-                data_hashindex_c |= (t1data << (64-19)) | (t2data << 26) | (t3data << 0);
+                data_crcindex_c |= (t1data << (64-19)) | (t2data << 26) | (t3data << 0);
 
-                uint64_t data_hashindex = reverseBytes(data_hashindex_c);
+                uint64_t data_crcindex = reverseBytes(data_crcindex_c);
 
                 if(selection_bit)
                 {
-                    romHashIndex2[index]=data_hashindex;
+                    romCrcIndex2[index]=data_crcindex;
                     pass_rom2++;
                 }
                 else
                 {
-                    romHashIndex1[index]=data_hashindex;
+                    romCrcIndex1[index]=data_crcindex;
                     pass_rom1++;
                 }
 
@@ -231,7 +229,7 @@ int main (void)
                 static uint8_t padding[192];
                 int padd_bytes = memory_location.fileLengthBursts*192-size;
                 fwrite(padding, 1, padd_bytes, fp_lmem); //write padding data - to set position on the beginning of the next LMEM burst
-                printf("Checksum value: 0x%x\n", crc_hash[i]);
+                printf("Checksum value: 0x%x\n", crc_index[i]);
                 i++;
 
                 fname[0]='\0'; //set empty string
@@ -241,10 +239,10 @@ int main (void)
             }
         }
 
-        fwrite(romHashIndex1, sizeof(uint64_t), N_hashindex, fp_romHashIndex1);
-        fwrite(romHashIndex2, sizeof(uint64_t), N_hashindex, fp_romHashIndex2);
-        fclose(fp_romHashIndex1);
-        fclose(fp_romHashIndex2);
+        fwrite(romCrcIndex1, sizeof(uint64_t), N_crcindex, fp_romCrcIndex1);
+        fwrite(romCrcIndex2, sizeof(uint64_t), N_crcindex, fp_romCrcIndex2);
+        fclose(fp_romCrcIndex1);
+        fclose(fp_romCrcIndex2);
         fclose(fp_lmem);
 
         (void) closedir (dp);
