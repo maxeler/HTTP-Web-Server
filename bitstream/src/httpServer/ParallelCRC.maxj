@@ -55,6 +55,7 @@ public class ParallelCRC extends ManagerStateMachine {
 		IF(sCrcValid)
 		{
 			sCrcValid.next<==false;
+			lfsr_q.next <== 0xFFFF;
 		}
 
 

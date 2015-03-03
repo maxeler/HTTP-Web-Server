@@ -1,8 +1,8 @@
 package httpServer;
 
+import com.maxeler.maxcompiler.v2.kernelcompiler.KernelConfiguration;
 import com.maxeler.maxcompiler.v2.managers.BuildConfig;
 import com.maxeler.maxcompiler.v2.managers.custom.DFELink;
-import com.maxeler.maxcompiler.v2.managers.custom.blocks.Demux;
 import com.maxeler.maxcompiler.v2.managers.custom.blocks.KernelBlock;
 import com.maxeler.maxcompiler.v2.managers.custom.blocks.StateMachineBlock;
 import com.maxeler.maxcompiler.v2.managers.custom.stdlib.DebugLevel;
@@ -16,6 +16,11 @@ public class httpServerManager extends NetworkManager {
 
 	private static final String KERNEL_NAME_write = "KernelLMem_Write_CommandAndDataStream";
 	private static final String KERNEL_NAME_read = "KernelLMem_Read_CommandAndDataStream";
+	private static final int Nsockets = 16;
+
+	public static final int getNsockets() {
+		return Nsockets;
+	}
 
 	public httpServerManager(HttpServerEngineParameters params) {
 		super(params.getEngineParams());
@@ -35,8 +40,57 @@ public class httpServerManager extends NetworkManager {
 		DFELink readMemStream = addStreamFromOnCardMemory("readMemStream", ctrlGroup);
 	    ctrlGroup.finalise();
 
-		StateMachineBlock stateMachine = addStateMachine("httpServerStateMachine", new httpServerStateMachine(this));
-		stateMachine.getInput("tcp_to_sm") <== tcp_stream.getReceiveStream();
+
+	    KernelConfiguration myKernelConfig = new KernelConfiguration(getCurrentKernelConfig());
+	    KernelBlock TcpRxDataDemuxKernel = addKernel(new TcpRxDataDemux(makeKernelParameters("TcpRxDataDemuxKernel", myKernelConfig)));
+
+//		Demux split = demux("split");
+//		split.getInput() <== tcp_stream.getReceiveStream();;
+//
+//		DFELink x1 = split.addOutput("x1");
+//		DFELink x2 = split.addOutput("x2");
+
+		TcpRxDataDemuxKernel.getInput(TcpRxDataDemux.INPUT_TCP) <== tcp_stream.getReceiveStream();
+
+		StateMachineBlock smInputFIFOs = addStateMachine("smInputFIFOs", new InputFIFOs(this));
+
+		//StateMachineBlock[] stateMachine = new StateMachineBlock[1];
+		StateMachineBlock stateMachine = null;
+
+
+
+
+
+		//KernelBlock SchedulerKernel = addKernel(new Scheduler(makeKernelParameters("SchedulerKernel", myKernelConfig)));
+		StateMachineBlock Scheduler = addStateMachine("SchedulerKernel", new Scheduler(this));
+
+		for(int i=0;i<Nsockets; i++)
+		{
+			smInputFIFOs.getInput("socketNumberInput" + String.valueOf(i)) <== TcpRxDataDemuxKernel.getOutput("OUTPUT_TCP" + String.valueOf(i));
+			Scheduler.getInput("schedulerDataInput" + String.valueOf(i)) <== smInputFIFOs.getOutput("socketNumberOutput" + String.valueOf(i));
+		}
+
+//		String smName = "httpServerStateMachine" + String.valueOf(i);
+//		stateMachine[i] = addStateMachine(smName, new httpServerStateMachine(this));
+//		stateMachine[i].getInput("tcp_to_sm") <== smFIFOs.getOutput("socketNumberOutput" + String.valueOf(i));
+
+		String smName = "httpServerStateMachine";
+		stateMachine = addStateMachine(smName, new httpServerStateMachine(this));
+		stateMachine.getInput("tcp_to_sm") <== Scheduler.getOutput("schedulerDataOutput");
+
+		//SM -> OutputFIFO
+
+		//smSocketOutputFIFO.getInput(OutputFIFO.getNameStreamInput(i)) <==	stateMachine[i].getOutput("socketNumberOutput");
+		//stateMachine[0].getOutput("socketNumberOutput");
+		//addStreamToCPU("toCpuByteNumberStateMachine") <== splitStateMachine.addOutput("splitStateMachine2");
+
+		//OutputFIFO -> parallel CRC
+		StateMachineBlock parallelCRC = addStateMachine("parallelCRC", new ParallelCRC(this));
+		parallelCRC.getInput(ParallelCRC.dataIn) <== stateMachine.getOutput("checksumOutput");
+
+
+		Scheduler.getInput("schedulerValidInput") <== stateMachine.getOutput("schedulerValidOutput");
+
 
 		KernelBlock kWrite = addKernel(new KernelLMem_Write_CommandAndDataStream(makeKernelParameters(KERNEL_NAME_write)));
 
@@ -54,40 +108,42 @@ public class httpServerManager extends NetworkManager {
 		kRead.getInput("inA")<==fromLmem;
 		toCpu <== kRead.getOutput("outA");
 
-		// parallel CRC
-		StateMachineBlock parallelCRC = addStateMachine("parallelCRC", new ParallelCRC(this));
-			Demux splitStateMachine = demux("splitStateMachine");
-			splitStateMachine.getInput() <== stateMachine.getOutput("checksumOutput");
-		parallelCRC.getInput(ParallelCRC.dataIn) <== splitStateMachine.addOutput("splitStateMachine1"); //stateMachine.getOutput("checksumOutput");
-			addStreamToCPU("toCpuByteNumberStateMachine") <== splitStateMachine.addOutput("splitStateMachine2");
-
 		// crcIndex
 		StateMachineBlock crcIndex = addStateMachine("crcIndex", new crcIndex(this));
 		crcIndex.getInput("crcResultInput") <== parallelCRC.getOutput(ParallelCRC.crcOut);
 
+		StateMachineBlock smOutputFIFOsingle = addStateMachine("smOutputFIFOsingle", new CRCIndexFIFO(this));
+		smOutputFIFOsingle.getInput("outputCrcFIFOInput0") <==	crcIndex.getOutput("crcIndexOutput");
+
 		// command are sent from the state machine via wire SM into the LMEM
-		StateMachineBlock LMEM1 = addStateMachine("LMEM", new LMEM(this, ctrlGroup.getStreamIndexIdWithinGroup("readMemStream")));
-		wire.getInput(SimpleWire.INPUT) <== LMEM1.getOutput(LMEM.OUTPUT_MEM_COMMAND);
-		LMEM1.getInput(LMEM.INPUT_MEM_DATA) <== readMemStream;
-		LMEM1.getInput("dataFromCrcIndex") <== crcIndex.getOutput("crcIndexOutput");
+		StateMachineBlock smLMEM = addStateMachine("LMEM", new LMEM(this, ctrlGroup.getStreamIndexIdWithinGroup("readMemStream")));
+		wire.getInput(SimpleWire.INPUT) <== smLMEM.getOutput(LMEM.OUTPUT_MEM_COMMAND);
+		smLMEM.getInput(LMEM.INPUT_MEM_DATA) <== readMemStream;
+		smLMEM.getInput("dataFromCrcIndex") <== smOutputFIFOsingle.getOutput("outputCrcFIFOOutput0"); //stateMachine.getOutput("checksumOutput");
 
 		// socket disconnect
 		KernelBlock TxManagerKernelV1kernel = addKernel(new TxManagerKernelV1(makeKernelParameters("TxManagerKernelV1_kernel"), new TCPType()));
 		DFELink toCpuOutputTxEvent = addStreamToCPU("toCpuOutputTxEvent");
 		toCpuOutputTxEvent <== TxManagerKernelV1kernel.getOutput(TxManagerKernelV1.OUTPUT_TX_EVENTS);
 
-		TxManagerKernelV1kernel.getInput(TxManagerKernelV1.INPUT_TX_DATA) <==	LMEM1.getOutput("outputLmemData");//
+		TxManagerKernelV1kernel.getInput(TxManagerKernelV1.INPUT_TX_DATA) <==	smLMEM.getOutput("outputLmemData");//
 		tcp_stream.getTransmitStream() <== TxManagerKernelV1kernel.getOutput(TxManagerKernelV1.OUTPUT_TX_DATA);
 
 		// ByteNumber --> CPU
 		StateMachineBlock wireByteNumber = addStateMachine("byteNumber", new SimpleWire(this, 64));
-	    wireByteNumber.getInput(SimpleWire.INPUT) <== LMEM1.getOutput("fromStateMachineByteNumber");
+	    wireByteNumber.getInput(SimpleWire.INPUT) <== smLMEM.getOutput("fromStateMachineByteNumber");
 	    DFELink toCpuByteNumber = addStreamToCPU("toCpuByteNumber");
 		toCpuByteNumber <== wireByteNumber.getOutput(SimpleWire.OUTPUT);
 
 		// socketNumber: stateMachine -> LMEM
-		LMEM1.getInput("socketNumberInput") <== stateMachine.getOutput("socketNumberOutput");
+		StateMachineBlock smSocketOutputFIFO = addStateMachine("smSocketOutputFIFO", new SocketFIFO(this));
+		//for(int i=0;i<1; i++)
+		{
+			//SM -> smSocketOutputFIFO
+		    smSocketOutputFIFO.getInput("socketNumberInput0") <== stateMachine.getOutput("socketNumberOutput");
+		}
 
+		smLMEM.getInput("LMEMsocketNumberInput") <== smSocketOutputFIFO.getOutput("socketNumberOutput0");
 	}
 
 	public static void main(String[] args) {

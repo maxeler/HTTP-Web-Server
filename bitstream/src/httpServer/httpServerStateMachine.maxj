@@ -15,29 +15,24 @@ import com.maxeler.maxcompiler.v2.statemachine.manager.ManagerStateMachine;
 public class httpServerStateMachine extends ManagerStateMachine {
 
 	enum States {
-		START,
-		URI,
-		HTTP_VERSION,
-		HEADERS,
-		CR, LF, BLANK_LINE,
-		END_GETREQUEST
+		START, URI, HTTP_VERSION, HEADERS, CR, LF, BLANK_LINE, END_GETREQUEST
 	}
 
 	private final DFEsmStateValue counter = state.value(dfeUInt(20), 0);
 	private final DFEsmStateValue sDataPrevious = state.value(dfeUInt(64), 0);
 	private final DFEsmStateValue sDataValid = state.value(dfeBool(), 0);
-	private final DFEsmStateValue sMemoryRead = state.value(dfeBool(), false);
 	private final DFEsmStateValue sPrev2Bytes = state.value(dfeUInt(16), 0);
 	private final DFEsmStateValue sPrev2BytesArray[] = new DFEsmStateValue[8];
 	private final DFEsmStateValue sOutputStall = state.value(dfeBool(), false);
-	private final DFEsmStateValue sStoreURLValid = state.value(dfeBool(),false);
+	private final DFEsmStateValue sStoreURLValid = state.value(dfeBool(), false);
 	private final DFEsmStateValue sStoreURL = state.value(dfeUInt(512), 0);
 	private final DFEsmStateValue sBitNumber = state.value(dfeUInt(9), 0);
 	private final DFEsmStateEnum<States> sCurrentState;
 
-	private final DFEsmPushInput inputTcpData = io.pushInput("tcp_to_sm", dfeUInt(77),1);
+	private final DFEsmPushInput inputTcpData = io.pushInput("tcp_to_sm", dfeUInt(77), 1);
 	private final DFEsmPushOutput checksumOutput = io.pushOutput("checksumOutput", dfeUInt(512), 4);
-	private final DFEsmPushOutput socketNumberOutput = io.pushOutput("socketNumberOutput", dfeUInt(16), 1);
+	private final DFEsmPushOutput socketNumberOutput = io.pushOutput("socketNumberOutput", dfeUInt(8), 1);
+	private final DFEsmPushOutput schedulerValidOutput = io.pushOutput("schedulerValidOutput", dfeUInt(1), 1);
 
 	private final DFEsmValue byte1;
 	private final DFEsmValue byte2;
@@ -96,10 +91,20 @@ public class httpServerStateMachine extends ManagerStateMachine {
 		byte6 = data.slice(40, 8).cast(dfeUInt(8));
 		byte7 = data.slice(48, 8).cast(dfeUInt(8));
 		byte8 = data.slice(56, 8).cast(dfeUInt(8));
-}
+	}
 
 	@Override
 	protected void nextState() {
+
+		counter.next<==counter+1;
+
+		IF(inputTcpData.valid)
+		{
+			debug.simPrintf("stateMachine: tick=%u, data: %x, mod: %x, eof: %x, sof: %x, socket: %u, input.valid=%x, output.stall=%x, input.stall=%x\n", counter,data, mod, eof,sof,socket,inputTcpData.valid,888, inputTcpData.stall); //output.stall
+			debug.simPrintf("stateMachine: tick=%u, input: %x\n", counter,inputTcpData);
+			debug.simPrintf("stateMachine: tick-%u, sCounter=%u, SNumericCurrent=%u, byte1=%x\n", counter,counter,sCurrentState,byte1);
+		}
+
 
 		IF(sStoreURLValid===true)
 		{
@@ -110,7 +115,7 @@ public class httpServerStateMachine extends ManagerStateMachine {
 		//IF(output.stall===true) sOutputStall.next<==true;
 
 //IF(~output.stall) //output.stall
-		IF(sStoreURLValid===sStoreURLValid)
+		IF(constant.value(true)) //sStoreURLValid===sStoreURLValid
 		{
 			sInputValid.next <== inputTcpData.valid;
 			counter.next <== counter + 1;
@@ -123,13 +128,7 @@ public class httpServerStateMachine extends ManagerStateMachine {
 				sPrev2BytesArray[i].next<==dataBytes[i];
 			}
 
-			IF(sCurrentState===States.END_GETREQUEST)
-			{
-				sMemoryRead.next <==true;
-				sCurrentState.next<==States.START;
-			}
 
-			counter.next<==counter+1;
 
 			//HTTP request: opsti oblik
 			// 1) request-line
@@ -183,7 +182,7 @@ public class httpServerStateMachine extends ManagerStateMachine {
 									startIndex<==startIndex+1;
 									endIndex<==endIndex-1;
 
-									debug.simPrintf("sum>=2, startIndex=%u, endIndex=%u\n",startIndex,endIndex);
+									//debug.simPrintf("stateMachine: sum>=2, startIndex=%u, endIndex=%u\n",startIndex,endIndex);
 
 								}
 								ELSE
@@ -193,7 +192,7 @@ public class httpServerStateMachine extends ManagerStateMachine {
 									endIndex<==7;
 								}
 
-								debug.simPrintf("sum sum=%u, startIndex=%u, endIndex=%u\n",sum,startIndex,endIndex);
+								//debug.simPrintf("stateMachine: sum sum=%u, startIndex=%u, endIndex=%u\n",sum,startIndex,endIndex);
 
 								DFEsmAssignableValue bytes[]=new DFEsmAssignableValue[8];
 								for(int u=0;u<8;u++)
@@ -208,10 +207,10 @@ public class httpServerStateMachine extends ManagerStateMachine {
 
 								for(int t=0;t<8;t++)
 								{
-									debug.simPrintf("sum Start bytes[%d]=%u\n",t,bytes[t]);
+									//debug.simPrintf("stateMachine: sum Start bytes[%d]=%u\n",t,bytes[t]);
 								}
 
-								debug.simPrintf("startIndex=%u, endIndex=%u\n",startIndex,endIndex);
+								//debug.simPrintf("stateMachine: startIndex=%u, endIndex=%u\n",startIndex,endIndex);
 
 								DFEsmAssignableValue startIndexBit = assignable.value(dfeUInt(8));
 								DFEsmAssignableValue endIndexBit = assignable.value(dfeUInt(8));
@@ -269,25 +268,25 @@ public class httpServerStateMachine extends ManagerStateMachine {
 
 									bitPointer=bitPointer+8;
 
-									debug.simPrintf("TEST: bitPointer=%u\n", bitPointer);
+									//debug.simPrintf("stateMachine: TEST: bitPointer=%u\n", bitPointer);
 								}
 
-								debug.simPrintf("TEST: startIndex=%u, endIndex=%u, startIndexBit=%u, endIndexBit=%u, bitNumber=%u, sStoreURL=%x\n", startIndex, endIndex, startIndexBit, endIndexBit, bitNumber, sStoreURL);
+								//debug.simPrintf("stateMachine: TEST: startIndex=%u, endIndex=%u, startIndexBit=%u, endIndexBit=%u, bitNumber=%u, sStoreURL=%x\n", startIndex, endIndex, startIndexBit, endIndexBit, bitNumber, sStoreURL);
 
 								sBitNumber.next <== bitNumber;
 
 							}
 
-							IF(sum>=2) //od indexa 4 do index 7, ako je bio
+							IF(sum>=2) //from index 4 to index 7
 							{
-								//to znaci da je deo HTTP dela primljen vec u tekucem ciklusu
-								//i taj deo treba procesirati tj obraditi i analizirati
+								//some part of HTTP part was already received
 								sCurrentState.next<==States.HTTP_VERSION;
-								debug.simPrintf("nextState: HTTP_VERSION: tick=%u, sNumericCurrent=%u, data=%x\n", counter,sCurrentState,data);
+								debug.simPrintf("stateMachine: nextState: HTTP_VERSION: tick=%u, sNumericCurrent=%u, data=%x\n", counter,sCurrentState,data);
 
 							}
 							ELSE {
 								sCurrentState.next<==States.URI;
+								debug.simPrintf("stateMachine: nextState: URI: tick=%u, sNumericCurrent=%u, data=%x\n", counter,sCurrentState,data);
 							}
 						}
 					}
@@ -300,7 +299,7 @@ public class httpServerStateMachine extends ManagerStateMachine {
 						DFEsmAssignableValue endIndex=assignable.value(dfeUInt(3));
 						endIndex<==0;
 
-						debug.simPrintf("TEST: sBitNumber=%u, sStoreURL=%x\n", sBitNumber, sStoreURL);
+						//debug.simPrintf("stateMachine: TEST: sBitNumber=%u, sStoreURL=%x\n", sBitNumber, sStoreURL);
 
 						for(int i=0;i<8;i++)
 						{
@@ -320,7 +319,7 @@ public class httpServerStateMachine extends ManagerStateMachine {
 							startIndex<==startIndex+1;
 							endIndex<==endIndex-1;
 
-							debug.simPrintf("sum>=2, startIndex=%u, endIndex=%u\n",startIndex,endIndex);
+							//debug.simPrintf("stateMachine: sum>=2, startIndex=%u, endIndex=%u\n",startIndex,endIndex);
 						}
 						ELSE IF(sumStateURI===1)
 						{
@@ -345,7 +344,7 @@ public class httpServerStateMachine extends ManagerStateMachine {
 
 						for(int t=0;t<8;t++)
 						{
-							debug.simPrintf("sum state URI bytes[%d]=%u\n",t,bytes[t]);
+							//debug.simPrintf("stateMachine: sum state URI bytes[%d]=%u\n",t,bytes[t]);
 						}
 
 						DFEsmAssignableValue bitNumber = assignable.value(dfeUInt(9));
@@ -366,7 +365,7 @@ public class httpServerStateMachine extends ManagerStateMachine {
 											sStoreURL.next[t+j] <== bytes[i].slice(j, 1);
 										}
 
-										debug.simPrintf("TEST bytes: bytes=%x\n", bytes[i]);
+										//debug.simPrintf("stateMachine: TEST bytes: bytes=%x\n", bytes[i]);
 									}
 								}
 
@@ -375,10 +374,10 @@ public class httpServerStateMachine extends ManagerStateMachine {
 
 							bitPointer=bitPointer+8;
 
-							debug.simPrintf("TEST: bitPointer=%u\n", bitPointer);
+							//debug.simPrintf("stateMachine: TEST: bitPointer=%u\n", bitPointer);
 						}
 
-						debug.simPrintf("TEST URL: startIndex=%u, endIndex=%u, bitNumber=%u, sStoreURL=%x\n", startIndex, endIndex, bitNumber, sStoreURL);
+						debug.simPrintf("stateMachine: URL: startIndex=%u, endIndex=%u, bitNumber=%u, sStoreURL=%x\n", startIndex, endIndex, bitNumber, sStoreURL);
 
 						sBitNumber.next<==bitNumber;
 
@@ -395,7 +394,7 @@ public class httpServerStateMachine extends ManagerStateMachine {
 
 							sStoreURLValid.next<==true; //since end of URI is detected, set valid flag to true value
 
-							debug.simPrintf("nextState: HttpVersion: tick=%u, sNumericCurrent=%u, data=%x\n", counter,sCurrentState,data);
+							debug.simPrintf("stateMachine: nextState: HttpVersion: tick=%u, sNumericCurrent=%u, data=%x\n", counter,sCurrentState,data);
 						}
 						ELSE{
 								sCurrentState.next<==States.URI;
@@ -403,14 +402,14 @@ public class httpServerStateMachine extends ManagerStateMachine {
 					}
 					CASE(States.HTTP_VERSION)
 					{
-						debug.simPrintf("TEST httpState: sBitNumber=%u, sStoreURL=%x\n", sBitNumber, sStoreURL);
+						debug.simPrintf("stateMachine: httpState: sBitNumber=%u, sStoreURL=%x\n", sBitNumber, sStoreURL);
 
 						//bezuslovna detekcija dva uzastopna CRLF karaktera
 						//1) 2 uzastopna u current WORD
 						//2)  uzastopni iz predthodne i tekuce WORD
 
 						//oznacava kraj Requesta, koristiti samo kad se zeli detektovati kraj requesta bez prolaska kroz ostala stanja
-						debug.simPrintf("in HTTP state: byte1=%x, byte2=%x, sPrev2Bytes=%x\n",byte1,byte2,sPrev2Bytes);
+						debug.simPrintf("stateMachine: in HTTP state: byte1=%x, byte2=%x, sPrev2Bytes=%x\n",byte1,byte2,sPrev2Bytes);
 						IF(inputTcpData.valid)
 						{
 							//2 bajta iz prethodnog ciklusa da li su jednaka sa pocetnim bajtovima
@@ -418,7 +417,7 @@ public class httpServerStateMachine extends ManagerStateMachine {
 								IF (sPrev2Bytes === (byte2 # byte1))
 								{
 									sCurrentState.next<==States.END_GETREQUEST;
-									debug.simPrintf("nextState 1: krajGETrequesta: tick=%u, sNumericCurrent=%u, data=%x\n", counter,sCurrentState,data);
+									debug.simPrintf("stateMachine: nextState 1: krajGETrequesta: tick=%u, sNumericCurrent=%u, data=%x\n", counter,sCurrentState,data);
 								}
 
 							//0p,1p sa 0,1 - p: prethodno
@@ -430,7 +429,7 @@ public class httpServerStateMachine extends ManagerStateMachine {
 								IF ((sPrev2BytesArray[1] # sPrev2BytesArray[0]) === (byte2 # byte1))
 								{
 									sCurrentState.next<==States.END_GETREQUEST;
-									debug.simPrintf("nextState 7: krajGETrequesta: tick=%u, sNumericCurrent=%u, data=%x\n", counter,sCurrentState,data);
+									debug.simPrintf("stateMachine: nextState 7: krajGETrequesta: tick=%u, sNumericCurrent=%u, data=%x\n", counter,sCurrentState,data);
 								}
 
 							//5p,6p,7p sa 0
@@ -438,7 +437,7 @@ public class httpServerStateMachine extends ManagerStateMachine {
 								IF ((sPrev2BytesArray[7] === 13) & (byte1===10))
 								{
 									sCurrentState.next<==States.END_GETREQUEST;
-									debug.simPrintf("nextState 8: krajGETrequesta: tick=%u, sNumericCurrent=%u, data=%x\n", counter,sCurrentState,data);
+									debug.simPrintf("stateMachine: nextState 8: krajGETrequesta: tick=%u, sNumericCurrent=%u, data=%x\n", counter,sCurrentState,data);
 								}
 
 							//7p sa 0,1,2
@@ -446,7 +445,7 @@ public class httpServerStateMachine extends ManagerStateMachine {
 								IF ((byte2 === 13) & (byte3===10))
 								{
 									sCurrentState.next<==States.END_GETREQUEST;
-									debug.simPrintf("nextState 9: krajGETrequesta: tick=%u, sNumericCurrent=%u, data=%x\n", counter,sCurrentState,data);
+									debug.simPrintf("stateMachine: nextState 9: krajGETrequesta: tick=%u, sNumericCurrent=%u, data=%x\n", counter,sCurrentState,data);
 								}
 
 							//u trenutnoj word da li su prisutne 2 susedna CRLF
@@ -461,28 +460,28 @@ public class httpServerStateMachine extends ManagerStateMachine {
 								IF ((byte2 # byte3) === (byte4 # byte5))
 								{
 									sCurrentState.next<==States.END_GETREQUEST;
-									debug.simPrintf("nextState 3: krajGETrequesta: tick=%u, sNumericCurrent=%u, data=%x\n", counter,sCurrentState,data);
+									debug.simPrintf("stateMachine: nextState 3: krajGETrequesta: tick=%u, sNumericCurrent=%u, data=%x\n", counter,sCurrentState,data);
 								}
 
 							IF (byte3===13 & byte4===10)
 								IF ((byte3 # byte4) === (byte5 # byte6))
 								{
 									sCurrentState.next<==States.END_GETREQUEST;
-									debug.simPrintf("nextState 4: krajGETrequesta: tick=%u, sNumericCurrent=%u, data=%x\n", counter,sCurrentState,data);
+									debug.simPrintf("stateMachine: nextState 4: krajGETrequesta: tick=%u, sNumericCurrent=%u, data=%x\n", counter,sCurrentState,data);
 								}
 
 							IF (byte4===13 & byte5===10)
 								IF ((byte4 # byte5) === (byte6 # byte7))
 								{
 									sCurrentState.next<==States.END_GETREQUEST;
-									debug.simPrintf("nextState 5: krajGETrequesta: tick=%u, sNumericCurrent=%u, data=%x\n", counter,sCurrentState,data);
+									debug.simPrintf("stateMachine: nextState 5: krajGETrequesta: tick=%u, sNumericCurrent=%u, data=%x\n", counter,sCurrentState,data);
 								}
 
 							IF (byte5===13 & byte6===10)
 								IF ((byte5 # byte6) === (byte7 # byte8))
 								{
 									sCurrentState.next<==States.END_GETREQUEST;
-									debug.simPrintf("nextState 6: krajGETrequesta: tick=%u, sNumericCurrent=%u, data=%x\n", counter,sCurrentState,data);
+									debug.simPrintf("stateMachine: nextState 6: krajGETrequesta: tick=%u, sNumericCurrent=%u, data=%x\n", counter,sCurrentState,data);
 								}
 						}
 					}
@@ -522,14 +521,18 @@ public class httpServerStateMachine extends ManagerStateMachine {
 
 					CASE(States.END_GETREQUEST)
 					{
-
+						//IF(sCurrentState===States.END_GETREQUEST)
+						{
+							sCurrentState.next<==States.START;
+						}
+						debug.simPrintf("stateMachine: END_GETREQUEST: tick=%u, sNumericCurrent=%u, data=%x\n", counter,sCurrentState,data);
 					}
 				} //end switch
 			}
 
 			SWITCH (sCurrentState) {
 				CASE (States.START) {
-
+					//debug.simPrintf("START: tick=%u, sNumericCurrent=%u, data=%x\n", counter,sCurrentState,data);
 				}
 
 				CASE (States.URI) {
@@ -552,15 +555,13 @@ public class httpServerStateMachine extends ManagerStateMachine {
 				}
 
 				CASE (States.END_GETREQUEST) {
-
+					sCurrentState.next<==States.START;
+					sStoreURL.next <== 0;
+					debug.simPrintf("END_GETREQUEST: tick=%u, sNumericCurrent=%u, data=%x\n", counter,sCurrentState,data);
 				}
 
 				OTHERWISE {
 				}
-			}
-
-			IF(sCurrentState.eq(States.HTTP_VERSION))
-			{
 			}
 		}
 	}
@@ -568,16 +569,7 @@ public class httpServerStateMachine extends ManagerStateMachine {
 	@Override
 	protected void outputFunction() {
 
-		DFEsmValue rrrr = socket # sof # eof # mod # data;
-
-		IF(inputTcpData.valid)
-		{
-			debug.simPrintf("tick %u, data: %x, mod: %x, eof: %x, sof: %x, socket: %x, input.valid=%x, output.stall=%x, input.stall=%x\n", counter,data, mod, eof,sof,socket,inputTcpData.valid,888, inputTcpData.stall); //output.stall
-			debug.simPrintf("tick %u, input: %x\n", counter,inputTcpData);
-			debug.simPrintf("tick %u, rrrr: %x\n", counter,rrrr);
-			debug.simPrintf("tick %u, sCounter=%u, SNumericCurrent=%u, byte1=%x\n", counter,counter,sCurrentState,byte1);
-			debug.simPrintf("rrrr", "%u", 1);
-		}
+		//DFEsmValue rrrr = socket # sof # eof # mod # data;
 
 		IF(~sOutputStall) //output.stall
 		{
@@ -590,14 +582,27 @@ public class httpServerStateMachine extends ManagerStateMachine {
 		socketNumberOutput.valid <== false;
 		socketNumberOutput <== 0;
 
+		schedulerValidOutput.valid <== false;
+		schedulerValidOutput <== 0;
+
 		IF(sStoreURLValid)
 		{
 			checksumOutput.valid<==true;
 			checksumOutput <== sStoreURL.cast(dfeUInt(512));
-			debug.simPrintf("stateMachine: sStoreURL=%x, sStoreURLValid=%u", sStoreURL, sStoreURLValid);
+			debug.simPrintf("stateMachine: sStoreURL=%x, sStoreURLValid=%u\n", sStoreURL, sStoreURLValid);
 
 			socketNumberOutput.valid <== true;
-			socketNumberOutput <== socket.cast(dfeUInt(16));
+			socketNumberOutput <== socket; //.cast(dfeUInt(16));
+			debug.simPrintf("stateMachine: socketNumberOutput=%u\n", socketNumberOutput);
+
+		}
+
+
+		IF (sCurrentState===States.END_GETREQUEST) {
+			schedulerValidOutput.valid <== true;
+			schedulerValidOutput <== constant.value(true);
+			debug.simPrintf("stateMachine: counter=%u, schedulerValidOutput=%x, schedulerValidOutput.valid=%u\n", counter, schedulerValidOutput, schedulerValidOutput.valid);
+			debug.simPrintf("stateMachine: END_GETREQUEST: tick=%u, sNumericCurrent=%u, data=%x\n", counter,sCurrentState,data);
 		}
 
 		inputTcpData.stall <== checksumOutput.stall;

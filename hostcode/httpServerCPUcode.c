@@ -150,6 +150,7 @@ int main(int argc, char *argv[]) {
 	max_run(engine, actions);
 	max_actions_free(actions);
 
+
 	long L;
 	size_t result;
 	uint64_t* arrLmem;
@@ -203,7 +204,7 @@ int main(int argc, char *argv[]) {
 	max_ip_config(engine, MAX_NET_CONNECTION_QSFP_BOT_10G_PORT1, &dfe_ip, &netmask);
 
 	//all sockets MUST be created before first call to max_tcp_connect or max_tcp_listen
-	uint16_t Nsockets = 1;
+	uint16_t Nsockets = 16;
 	max_tcp_socket_t *( dfe_socket[Nsockets]);
 	uint16_t socketNumber[Nsockets];
 
@@ -264,16 +265,16 @@ int main(int argc, char *argv[]) {
 				;
 
 			event = txMgrSlot;
-			printf("CPU code: Got ack from TxManager: Total frames: %ld\n", event->frameCount);
+			//printf("CPU code: Got ack from TxManager: Total frames: %ld\n", event->frameCount);
 			max_llstream_read_discard(llstream, 1);
 			frameCounter = (event->frameCount) + 1;
-			printf("CPU code: frameCounter=%ld\n", frameCounter);
+			//printf("CPU code: frameCounter=%ld\n", frameCounter);
 
 			double tt = (*byteNumber) / 8.0;
 			uint64_t y = CEILING_POS(tt);
 			if ((frameCounter - frameCounterPrevious) == y) {
 
-				sleep(2);
+				sleep(3);
 				printf("CPU code: frameCounter=%ld, frameCounterPrevious=%ld, ceil(fileLength)=%u\n", frameCounter, frameCounterPrevious,(unsigned int) y);
 
 				uint16_t socket_returned = event->socketID;
