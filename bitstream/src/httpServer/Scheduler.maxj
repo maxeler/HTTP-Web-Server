@@ -23,7 +23,7 @@ public class Scheduler extends ManagerStateMachine {
 
 	private final DFEsmStateValue sInputPortIndex = state.value(dfeUInt(MathUtils.bitsToAddress(Nsockets)), 0);
 	private final DFEsmStateValue sSendingFlag = state.value(dfeBool(), false);
-	private final DFEsmStateValue sFlag = state.value(dfeBool(), false);
+	// private final DFEsmStateValue sFlag = state.value(dfeBool(), false);
 	private final DFEsmStateValue sDataOutValid = state.value(dfeBool(), false);
 	private final DFEsmStateValue counter = state.value(dfeUInt(20), 0);
 
@@ -65,27 +65,11 @@ public class Scheduler extends ManagerStateMachine {
 					DFEsmAssignableValue flag = assignable.value(dfeBool());
 					flag <== false;
 
-					sFlag.next <== true;
+					//sFlag.next <== true;
 					sDataOutValid.next <== false;
 
 					DFEsmAssignableValue nextPortIndex = assignable.value(dfeUInt(MathUtils.bitsToAddress(Nsockets)));
 					nextPortIndex <== 0;
-
-					//case first run
-					for(int i=0;i<Nsockets;i++)
-					{
-						IF(inputPorts.get(i).empty===constant.value(false) & (sFlag===false) & (constant.value(dfeUInt(MathUtils.bitsToAddress(Nsockets)), i)===sInputPortIndex))
-						{
-
-							flag <==true;
-							nextPortIndex <== i;
-							//inputPorts.get(i).read <== true;
-							sSendingFlag.next <== true;
-							sCurrentState.next <==States.SENDING;
-							sInputPortIndex.next <== nextPortIndex;
-
-						}
-					}
 
 					//Upper part: current n: check n+1,n+2,n+3,n+4...N
 					for(int i=0;i<Nsockets;i++)
@@ -120,14 +104,30 @@ public class Scheduler extends ManagerStateMachine {
 						}
 					}
 
-					//if not found; check current Port
+					//case: first run or //if not found; check current Port: nextPortIndex==currentPort (all other buffers are empty)
+					for(int i=0;i<Nsockets;i++)
+					{
+						IF(inputPorts.get(i).empty===constant.value(false) & (flag===false) & (constant.value(dfeUInt(MathUtils.bitsToAddress(Nsockets)), i)===sInputPortIndex))
+						{
+
+							flag <==true;
+							nextPortIndex <== i;
+							//inputPorts.get(i).read <== true;
+							sSendingFlag.next <== true;
+							sCurrentState.next <==States.SENDING;
+							sInputPortIndex.next <== nextPortIndex;
+
+							debug.simPrintf("scheduler: counter=%u, States.START, inputPorts.get(%u).empty=%u, nextPortIndex=%u, sInputPortIndex=%u\n", counter, i, inputPorts.get(i).empty, nextPortIndex, sInputPortIndex); //m_fifo[i].output.dataOut
+
+						}
+					}
 				}
 
 				CASE(States.SENDING){
 
 					IF(schedulerFlagInput.valid){
 						sCurrentState.next <== States.START;
-						debug.simPrintf("scheduler: nextState START counter=%u, schedulerFlagInput=%u\n", counter, schedulerFlagInput.valid); //m_fifo[i].output.dataOut
+						debug.simPrintf("scheduler: nextState START counter=%u, schedulerFlagInput=%u\n", counter, schedulerFlagInput.valid);
 
 					}
 
@@ -178,7 +178,6 @@ public class Scheduler extends ManagerStateMachine {
 					}
 				}
 
-
 				IF(sDataOutValid)
 				{
 					for(int i=0;i<Nsockets;i++)
@@ -192,9 +191,5 @@ public class Scheduler extends ManagerStateMachine {
 				}
 			}
 		}
-
-
-
-
 	}
 }

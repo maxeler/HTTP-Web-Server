@@ -11,6 +11,7 @@ import com.maxeler.maxcompiler.v2.statemachine.DFEsmValue;
 import com.maxeler.maxcompiler.v2.statemachine.manager.DFEsmPushInput;
 import com.maxeler.maxcompiler.v2.statemachine.manager.DFEsmPushOutput;
 import com.maxeler.maxcompiler.v2.statemachine.manager.ManagerStateMachine;
+import com.maxeler.maxcompiler.v2.statemachine.stdlib._State;
 
 public class httpServerStateMachine extends ManagerStateMachine {
 
@@ -18,15 +19,15 @@ public class httpServerStateMachine extends ManagerStateMachine {
 		START, URI, HTTP_VERSION, HEADERS, CR, LF, BLANK_LINE, END_GETREQUEST
 	}
 
-	private final DFEsmStateValue counter = state.value(dfeUInt(20), 0);
-	private final DFEsmStateValue sDataPrevious = state.value(dfeUInt(64), 0);
-	private final DFEsmStateValue sDataValid = state.value(dfeBool(), 0);
-	private final DFEsmStateValue sPrev2Bytes = state.value(dfeUInt(16), 0);
+	private final DFEsmStateValue counter = _State.value(state, dfeUInt(20), 0, "counter");//state.value(dfeUInt(20), 0);
+	private final DFEsmStateValue sDataPrevious = _State.value(state, dfeUInt(64), 0, "sDataPrevious"); //state.value(dfeUInt(64), 0);
+	private final DFEsmStateValue sDataValid = _State.value(state, dfeBool(), 0, "sDataValid");//state.value(dfeBool(), 0);
+	private final DFEsmStateValue sPrev2Bytes = _State.value(state, dfeUInt(16), 0, "sPrev2Bytes");//state.value(dfeUInt(16), 0);
 	private final DFEsmStateValue sPrev2BytesArray[] = new DFEsmStateValue[8];
-	private final DFEsmStateValue sOutputStall = state.value(dfeBool(), false);
-	private final DFEsmStateValue sStoreURLValid = state.value(dfeBool(), false);
-	private final DFEsmStateValue sStoreURL = state.value(dfeUInt(512), 0);
-	private final DFEsmStateValue sBitNumber = state.value(dfeUInt(9), 0);
+	private final DFEsmStateValue sOutputStall = _State.value(state, dfeBool(), false, "sOutputStall");//state.value(dfeBool(), false);
+	private final DFEsmStateValue sStoreURLValid = _State.value(state, dfeBool(),false, "sStoreURLValid");//state.value(dfeBool(), false);
+	private final DFEsmStateValue sStoreURL = _State.value(state, dfeUInt(512), 0, "sStoreURL");//state.value(dfeUInt(512), 0);
+	private final DFEsmStateValue sBitNumber = _State.value(state, dfeUInt(9), 0, "sBitNumber");//state.value(dfeUInt(9), 0);
 	private final DFEsmStateEnum<States> sCurrentState;
 
 	private final DFEsmPushInput inputTcpData = io.pushInput("tcp_to_sm", dfeUInt(77), 1);
@@ -65,10 +66,12 @@ public class httpServerStateMachine extends ManagerStateMachine {
 		eof = inputTcpData.slice(75, 1).cast(dfeUInt(1));
 		sof = inputTcpData.slice(76, 1).cast(dfeUInt(1));
 
-		sCurrentState = state.enumerated(States.class, States.START);
+//		sCurrentState = state.enumerated(States.class, States.START);
+		sCurrentState = _State.enumerated(state, States.class, States.START, "sCurrentState");
 
 		for (int i = 0; i < sPrev2BytesArray.length; i++) {
-			sPrev2BytesArray[i] = state.value(dfeUInt(8), 0);
+//			sPrev2BytesArray[i] = state.value(dfeUInt(8), 0);
+			sPrev2BytesArray[i] = _State.value(state, dfeUInt(8), 0, "sPrev2BytesArray"+i);
 		}
 
 		dataBytes = new DFEsmValue[8];
@@ -117,19 +120,6 @@ public class httpServerStateMachine extends ManagerStateMachine {
 //IF(~output.stall) //output.stall
 		IF(constant.value(true)) //sStoreURLValid===sStoreURLValid
 		{
-			sInputValid.next <== inputTcpData.valid;
-			counter.next <== counter + 1;
-			sDataPrevious.next <== data;
-			sDataValid.next <== inputTcpData.valid;
-			sPrev2Bytes.next <== byte8 # byte7;
-
-			for(int i=0;i<sPrev2BytesArray.length;i++)
-			{
-				sPrev2BytesArray[i].next<==dataBytes[i];
-			}
-
-
-
 			//HTTP request: opsti oblik
 			// 1) request-line
 			// 2) headers (0 or more)
@@ -142,6 +132,17 @@ public class httpServerStateMachine extends ManagerStateMachine {
 
 			IF(inputTcpData.valid)
 			{
+				sInputValid.next <== inputTcpData.valid;
+				counter.next <== counter + 1;
+				sDataPrevious.next <== data;
+				sDataValid.next <== inputTcpData.valid;
+				sPrev2Bytes.next <== byte8 # byte7;
+
+				for(int i=0;i<sPrev2BytesArray.length;i++)
+				{
+					sPrev2BytesArray[i].next<==dataBytes[i];
+				}
+
 				SWITCH(sCurrentState)
 				{
 					CASE(States.START)
@@ -524,6 +525,7 @@ public class httpServerStateMachine extends ManagerStateMachine {
 						//IF(sCurrentState===States.END_GETREQUEST)
 						{
 							sCurrentState.next<==States.START;
+							sPrev2Bytes.next <==0;
 						}
 						debug.simPrintf("stateMachine: END_GETREQUEST: tick=%u, sNumericCurrent=%u, data=%x\n", counter,sCurrentState,data);
 					}

@@ -18,6 +18,10 @@ public class crcIndex extends ManagerStateMachine {
 	private final DFEsmStateValue sWhatCrcIndexToUse = state.value(dfeUInt(1),	0);
 	private final DFEsmPushInput crcResultInput = io.pushInput("crcResultInput", dfeUInt(16), 1);
 	private final DFEsmPushOutput crcIndexOutput = io.pushOutput("crcIndexOutput", dfeUInt(64), 1);
+
+	private final DFEsmPushInput crcBlankPageFlagInput = io.pushInput("crcBlankPageInput", dfeBool(), 1);
+	private final DFEsmPushOutput crcBlankPageFlagOutput = io.pushOutput("crcBlankPageOutput", dfeBool(), 1);
+
 	private final DFEsmStateValue counter = state.value(dfeUInt(20), 0);
 
 	public crcIndex(DFEManager owner) {
@@ -33,7 +37,22 @@ public class crcIndex extends ManagerStateMachine {
 
 		counter.next<==counter+1;
 
-		IF(crcResultInput.valid)
+		IF(crcBlankPageFlagInput.valid)
+		{
+			// ./files/HTTPError404NotFound.html - size(bytes): 304
+			// Checksum value: 0x51a7
+			DFEsmAssignableValue crcIndexBlankPage = assignable.value(dfeUInt(16));
+			crcIndexBlankPage <== 0x51a7;
+
+			romCrcIndex1.address <== crcIndexBlankPage.slice(0, 15);
+			romCrcIndex2.address <== crcIndexBlankPage.slice(0, 15);
+			sWhatCrcIndexToUse.next <== crcIndexBlankPage[15];
+
+			debug.simPrintf("crcIndex: crcBlankPageFlagInput=%d, crcIndexBlankPage(0, 15)=%u, sWhatCrcIndexToUse=%u\n", crcBlankPageFlagInput.valid, crcIndexBlankPage.slice(0, 15),crcIndexBlankPage[15]);
+
+			sCrcIndexDataOutValid.next<==true;
+		}
+		ELSE IF(crcResultInput.valid)
 		{
 			romCrcIndex1.address <== crcResultInput.slice(0, 15);
 			romCrcIndex2.address <== crcResultInput.slice(0, 15);
@@ -98,10 +117,26 @@ public class crcIndex extends ManagerStateMachine {
 			crcIndexOutput <==0;
 			crcResultInput.stall <== crcIndexOutput.stall;
 
+			crcBlankPageFlagOutput.valid <==false;
+			crcBlankPageFlagOutput <== 0;
+			crcResultInput.stall <== false;
+
 			IF(sCrcIndexDataOutValid===true)
 			{
-				crcIndexOutput.valid <== true;
-				crcIndexOutput <== crcIndexData;
+
+				IF(crcIndexData===0)
+				{
+					//send request for 'blank page'
+					crcBlankPageFlagOutput.valid <== true;
+					crcBlankPageFlagOutput <== 1;
+				}
+				ELSE  {
+					crcIndexOutput.valid <== true;
+					crcIndexOutput <== crcIndexData;
+				}
+
+
+
 			}
 	}
 }

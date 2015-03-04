@@ -26,6 +26,7 @@ public class httpServerManager extends NetworkManager {
 		super(params.getEngineParams());
 
 		debug.setDebugLevel(new DebugLevel(){{setHasStreamStatus(true);}});
+		config.setDefaultStreamClockFrequency(50);
 
 		// version for ISCA card, MAX4 card generation
 		TCPStream tcp_stream = addTCPStream(
@@ -111,6 +112,7 @@ public class httpServerManager extends NetworkManager {
 		// crcIndex
 		StateMachineBlock crcIndex = addStateMachine("crcIndex", new crcIndex(this));
 		crcIndex.getInput("crcResultInput") <== parallelCRC.getOutput(ParallelCRC.crcOut);
+		crcIndex.getInput("crcBlankPageInput") <== crcIndex.getOutput("crcBlankPageOutput");
 
 		StateMachineBlock smOutputFIFOsingle = addStateMachine("smOutputFIFOsingle", new CRCIndexFIFO(this));
 		smOutputFIFOsingle.getInput("outputCrcFIFOInput0") <==	crcIndex.getOutput("crcIndexOutput");
@@ -152,7 +154,8 @@ public class httpServerManager extends NetworkManager {
 
 		BuildConfig bConfig = m.getBuildConfig();
 		bConfig.setMPPRCostTableSearchRange(1, 2);
-
+		//bConfig.setBuildEffort(Effort.HIGH);
+		//bConfig.setOptimizationGoal(OptimizationTechnique.SPEED);
 		bConfig.setMPPRParallelism(10);
 
 		m.build();

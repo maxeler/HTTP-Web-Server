@@ -15,12 +15,12 @@ public class HttpServerEngineParameters extends ApplicationParameters {
 	@Override
 	protected void declarations() {
 		 declareParam("board", DataType.DFEMODEL, DFEModel.ISCA);
-		 declareParam("target", Target.class, Target.DFE_SIM);
+		 declareParam("target", Target.class, Target.DFE_SIM); //DFE_SIM
 		 declareParam("hasStreamStatus", DataType.BOOL, true);
 	}
 
 	public boolean isSimulation() {
-		return getTarget() == Target.DFE_SIM;
+		return getTarget() == Target.DFE_SIM; //DFE_SIM
 	}
 
 	public Target getTarget() {

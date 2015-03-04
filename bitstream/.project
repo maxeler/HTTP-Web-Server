@@ -19,4 +19,11 @@
 	<natures>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 	</natures>
+	<linkedResources>
+		<link>
+			<name>maxeda</name>
+			<type>2</type>
+			<location>/home/mvorkapic/workspace/maxeda</location>
+		</link>
+	</linkedResources>
 </projectDescription>

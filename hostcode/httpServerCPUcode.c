@@ -204,7 +204,7 @@ int main(int argc, char *argv[]) {
 	max_ip_config(engine, MAX_NET_CONNECTION_QSFP_BOT_10G_PORT1, &dfe_ip, &netmask);
 
 	//all sockets MUST be created before first call to max_tcp_connect or max_tcp_listen
-	uint16_t Nsockets = 16;
+	uint16_t Nsockets = 1;
 	max_tcp_socket_t *( dfe_socket[Nsockets]);
 	uint16_t socketNumber[Nsockets];
 

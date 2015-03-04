@@ -1,6 +1,5 @@
 package httpServer;
 
-
 import java.util.ArrayList;
 
 import com.maxeler.maxcompiler.v2.managers.DFEManager;
@@ -16,23 +15,22 @@ import com.maxeler.maxcompiler.v2.statemachine.types.DFEsmValueType;
 public class SocketFIFO extends ManagerStateMachine {
 
 	int Nsockets = 1;
-	//private final DFEsmPushInput inputTcpData = io.pushInput("tcp_to_sm", dfeUInt(77), 1);
+	// private final DFEsmPushInput inputTcpData = io.pushInput("tcp_to_sm",
+	// dfeUInt(77), 1);
 	private final ArrayList<DFEsmPushInput> inputPorts = new ArrayList<DFEsmPushInput>(Nsockets);
 	private final ArrayList<DFEsmPullOutput> outputPorts = new ArrayList<DFEsmPullOutput>(Nsockets);
 
-	//private final DFEsmPushInput m_input;
-	//private final DFEsmPullOutput m_output;
+	// private final DFEsmPushInput m_input;
+	// private final DFEsmPullOutput m_output;
 	private final DFEsmFifo[] m_fifo = new DFEsmFifo[Nsockets];
-	//private final DFEsmStateValue m_almostEmptyCounter;
+	// private final DFEsmStateValue m_almostEmptyCounter;
 	private final DFEsmStateValue counter = state.value(dfeUInt(20), 0);
-
 
 	public SocketFIFO(DFEManager owner) {
 		super(owner);
 
 		int width = 8;
-		for(int i=0;i<Nsockets;i++)
-		{
+		for (int i = 0; i < Nsockets; i++) {
 			String inputName = "socketNumberInput" + String.valueOf(i);
 			inputPorts.add(io.pushInput(inputName, dfeUInt(width), 1));
 
@@ -42,8 +40,8 @@ public class SocketFIFO extends ManagerStateMachine {
 
 		final DFEsmValueType type = dfeUInt(width);
 
-		//m_input = io.pushInput("input", type, inLatency);
-		//m_output = io.pullOutput("output", type, outLatency);
+		// m_input = io.pushInput("input", type, inLatency);
+		// m_output = io.pullOutput("output", type, outLatency);
 
 		// computer says FIFO depth must be a power of two
 		// we add one to the number to have a minimum slack of 2
@@ -51,28 +49,29 @@ public class SocketFIFO extends ManagerStateMachine {
 		// It also says depths of less than 8 are bad... I found
 		// Xilinx's doc for FIFOs and it says min depth is 16
 		// http://www.xilinx.com/support/documentation/ip_documentation/fifo_generator_ug175.pdf
-		final int fifoDepth = 256; //Math.max(16, 1 <<	(MathUtils.bitsToAddress(Math.max(inLatency, outLatency)+2)));
+		final int fifoDepth = 256; // Math.max(16, 1 <<
+									// (MathUtils.bitsToAddress(Math.max(inLatency,
+									// outLatency)+2)));
 
-		final int progEmptyLatency = 5; //Math.max(outLatency, 7);
-		//m_almostEmptyStartCount = progEmptyLatency - outLatency;
+		final int progEmptyLatency = 5; // Math.max(outLatency, 7);
+		// m_almostEmptyStartCount = progEmptyLatency - outLatency;
 
-		final DFEsmFifoConfig fifoConfig = new DFEsmFifoConfig()
-				.setBufferSpec(BufferSpec.UseLUTRam);
+		final DFEsmFifoConfig fifoConfig = new DFEsmFifoConfig().setBufferSpec(BufferSpec.UseLUTRam)
+								.setProgrammableFull(fifoDepth)
+								.setProgrammableEmpty(progEmptyLatency)
+								.setHasValidFlag()
+								.setHasDataCount();
 
-
-		for(int i=0;i<Nsockets;i++)
-		{
+		for (int i = 0; i < Nsockets; i++) {
 			m_fifo[i] = buffer.fifo(type, fifoDepth, fifoConfig);
 		}
 
-
-
-//		if (m_almostEmptyStartCount > 0) {
-//			m_almostEmptyCounter = state.value(dfeUInt(
-//					MathUtils.bitsToRepresentUnsigned(m_almostEmptyStartCount)), 0);
-//		} else {
-//			m_almostEmptyCounter = null;
-//		}
+		// if (m_almostEmptyStartCount > 0) {
+		// m_almostEmptyCounter = state.value(dfeUInt(
+		// MathUtils.bitsToRepresentUnsigned(m_almostEmptyStartCount)), 0);
+		// } else {
+		// m_almostEmptyCounter = null;
+		// }
 
 	}
 
@@ -152,5 +151,4 @@ public class SocketFIFO extends ManagerStateMachine {
 //
 
 	}
-
 }
