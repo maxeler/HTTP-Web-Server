@@ -243,14 +243,14 @@ public class httpServerManager extends NetworkManager {
 		smLMEM.getInput(LMEM.INPUT_MEM_DATA) <== readMemStream;
 		smLMEM.getInput("dataFromCrcIndex") <== smOutputFIFOsingle.getOutput("outputCrcFIFOOutput0"); //stateMachine.getOutput("checksumOutput");
 
-		// socket disconnect
-		//KernelBlock TcpTxCpuKernel = addKernel(new TcpTxCpu(makeKernelParameters("TcpTxCpuKernel"), tcpStreamTypes));
-		//DFELink toCpuOutputTxEvent = addStreamToCPU("toCpuOutputTxEvent");
-		//toCpuOutputTxEvent <== TcpTxCpuKernel.getOutput(TcpTxCpu.OUTPUT_TX_EVENTS);
-		//TcpTxCpuKernel.getInput(TcpTxCpu.INPUT_TX_DATA) <==	smLMEM.getOutput("outputLmemData");//
-		//tcpStream.getTransmitStream() <== TcpTxCpuKernel.getOutput(TcpTxCpu.OUTPUT_TX_DATA);
+		//socket disconnect
+		KernelBlock TcpTxCpuKernel = addKernel(new TcpTxCpu(makeKernelParameters("TcpTxCpuKernel"), tcpStreamTypes));
+		DFELink toCpuOutputTxEvent = addStreamToCPU("toCpuOutputTxEvent");
+		toCpuOutputTxEvent <== TcpTxCpuKernel.getOutput(TcpTxCpu.OUTPUT_TX_EVENTS);
+		TcpTxCpuKernel.getInput(TcpTxCpu.INPUT_TX_DATA) <==	smLMEM.getOutput("outputLmemData");//
+		tcpStream.getTransmitStream() <== TcpTxCpuKernel.getOutput(TcpTxCpu.OUTPUT_TX_DATA);
 
-		tcpStream.getTransmitStream() <== smLMEM.getOutput("outputLmemData");
+		//tcpStream.getTransmitStream() <== smLMEM.getOutput("outputLmemData");
 
 
 		// ByteNumber (LMEM) --> CPU

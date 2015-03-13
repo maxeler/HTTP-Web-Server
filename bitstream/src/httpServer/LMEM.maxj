@@ -49,6 +49,7 @@ public class LMEM extends ManagerStateMachine {
 	private final DFEsmStateValue sByteNumberFlag = state.value(dfeBool(), false);
 	private final DFEsmStateValue sCloseSocketCycleFlag = state.value(dfeBool(), false);
 	private final DFEsmStateValue sPortDataValid = state.value(dfeBool(), false);
+	private final DFEsmStateValue sSOF = state.value(dfeBool(), false);
 
 	public LMEM(DFEManager owner, int readStreamID) {
 		super(owner);
@@ -135,11 +136,14 @@ protected void nextState() {
 		sFileLengthBytesCounter.next<==sFileLengthBytesCounter+8;
 		sFileLengthBytesCounterMini.next<==sFileLengthBytesCounterMini+8;
 
+sSOF.next <==true;
+
 		debug.simPrintf("LMEM: counter=%u, sLMemBurstCounter=%u, LMem dataFromLMem.valid=%x, dataFromLMem=%x,\n",counter,sLMemBurstCounter,dataFromMem.valid, dataFromMem);
 
 		IF(sFileLengthBytesCounter>=sFileLengthBytes)
 		{
 			sAllBytesSentFlag.next<==true;
+sSOF.next<==false;
 		}
 
 
@@ -218,20 +222,22 @@ protected void outputFunction() {
 		IF(dataFromMem.valid & ~sAllBytesSentFlag)
 		{
 			//default
-			DFEsmValue data,mod,eof,sof, socket;
-			data = dataFromMem;
-			mod = constant.value(dfeUInt(3),0);
-			eof = constant.value(dfeBool(),1);
-			sof = constant.value(dfeBool(),1);
+//			DFEsmValue data,mod,eof,sof, socket;
+//			data = dataFromMem;
+//			mod = constant.value(dfeUInt(3),0);
+//			eof = constant.value(dfeBool(),0);
+//			sof = constant.value(dfeBool(),0);
 
-			socket = socketNumberInput.cast(dfeUInt(6));//constant.value(dfeUInt(8),0);//sSocketNumber.cast(dfeUInt(8)); //input.slice(64, 8).cast(dfeUInt(8)); // bajt 11
-
-			outputLmemData.valid <== dataFromMem.valid;
-			outputLmemData<== sof # eof # mod # socket # data;
+			//socket = socketNumberInput.cast(dfeUInt(6));//constant.value(dfeUInt(8),0);//sSocketNumber.cast(dfeUInt(8)); //input.slice(64, 8).cast(dfeUInt(8)); // bajt 11
 
 			IF(sFileLengthBytesCounter>=sFileLengthBytes)
 			{
-				outputLmemData.valid <== dataFromMem.valid;
+				DFEsmValue data,mod,eof,sof, socket;
+				data = dataFromMem;
+				mod = constant.value(dfeUInt(3),0);
+				eof = constant.value(dfeBool(),0);
+				sof = constant.value(dfeBool(),0);
+				socket = socketNumberInput.cast(dfeUInt(6));
 
 				data = dataFromMem;
 
@@ -241,11 +247,28 @@ protected void outputFunction() {
 
 				mod = difference.cast(dfeUInt(3));
 				eof = constant.value(dfeBool(),1);
-				sof = constant.value(dfeBool(),1);
+				sof = constant.value(dfeBool(),0);
 
-				debug.simPrintf("LMEM: tick=%u, sending: mod=%u, sFileLengthBytesCounter=%u, sFileLengthBytes=%u\n", counter, mod, sFileLengthBytesCounter, sFileLengthBytes);
-
+				outputLmemData.valid <== true; //dataFromMem.valid;
 				outputLmemData<== sof # eof # mod # socket # data;
+
+				debug.simPrintf("LMEM: tick=%u, sending: sof=%u, eof=%u, mod=%u, sFileLengthBytesCounter=%u, sFileLengthBytes=%u\n", counter, sof, eof, mod, sFileLengthBytesCounter, sFileLengthBytes);
+
+			}
+			ELSE
+			{
+				DFEsmValue data,mod,eof,sof, socket;
+				data = dataFromMem;
+				mod = constant.value(dfeUInt(3),0);
+				eof = constant.value(dfeBool(),0);
+				sof = ~sSOF;
+				socket = socketNumberInput.cast(dfeUInt(6));
+
+				outputLmemData.valid <== true; //dataFromMem.valid;
+				outputLmemData<== sof # eof # mod # socket # data;
+
+				debug.simPrintf("LMEM: tick=%u, sSOF=%u\n", counter, sSOF);
+				debug.simPrintf("LMEM: tick=%u, SOF : sof=%u, eof=%u, mod=%u, socket=%u, data=%x\n", counter, sof, eof, mod, socket, data);
 
 			}
 		}

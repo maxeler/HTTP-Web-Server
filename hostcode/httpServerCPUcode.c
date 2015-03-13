@@ -205,7 +205,7 @@ int main(int argc, char *argv[]) {
 	max_ip_config(engine, MAX_NET_CONNECTION_QSFP_BOT_10G_PORT1, &dfe_ip, &netmask);
 
 	//all sockets MUST be created before first call to max_tcp_connect or max_tcp_listen
-	uint16_t Nsockets = 1;
+	uint16_t Nsockets = 2;
 	max_tcp_socket_t *( dfe_socket[Nsockets]);
 	uint16_t socketNumber[Nsockets];
 
@@ -223,20 +223,20 @@ int main(int argc, char *argv[]) {
 //	uint64_t frameCounter = 0;
 //	uint64_t frameCounterPrevious = 0;
 
-//	void *read_ptr;
-//	uint8_t *read_buffer;
-//	max_llstream_t *read_llstream;
-//	uint64_t *byteNumber;
-//	printf("CPU code: Setting up output streams.\n");
-//	posix_memalign((void *) &read_buffer, 16, 16 * 1);
-//	read_llstream = max_llstream_setup(engine, "toCpuByteNumber", 1, 16, read_buffer);
+	void *read_ptr;
+	uint8_t *read_buffer;
+	max_llstream_t *read_llstream;
+	uint64_t *byteNumber;
+	printf("CPU code: Setting up output streams.\n");
+	posix_memalign((void *) &read_buffer, 16, 16 * 1);
+	read_llstream = max_llstream_setup(engine, "toCpuByteNumber", 1, 16, read_buffer);
 
-//	size_t txMgr_buffer_size = 512 * sizeof(tx_event_type_t);
-//	void *txMgr_buffer;
-//	posix_memalign(&txMgr_buffer, 4096, txMgr_buffer_size);
-//	max_llstream_t *llstream = max_llstream_setup(engine, "toCpuOutputTxEvent", 512, sizeof(tx_event_type_t), txMgr_buffer);
-//	void *txMgrSlot;
-//	tx_event_type_t *event;
+	size_t txMgr_buffer_size = 512 * sizeof(tx_event_type_t);
+	void *txMgr_buffer;
+	posix_memalign(&txMgr_buffer, 4096, txMgr_buffer_size);
+	max_llstream_t *llstream = max_llstream_setup(engine, "toCpuOutputTxEvent", 512, sizeof(tx_event_type_t), txMgr_buffer);
+	void *txMgrSlot;
+	tx_event_type_t *event;
 
 //	uint64_t num_rx_bytes;
 //	while(1)
@@ -247,87 +247,85 @@ int main(int argc, char *argv[]) {
 //		//
 //	}
 
-	uint8_t session_id;
-	uint64_t num_tx_bytes;
-	while (1) {
-		max_tcp_get_num_bytes_transmitted(dfe_socket[0], &num_tx_bytes, &session_id);
-		printf("CPU code: socket=0, num_tx_bytes(max_tcp_get_num_bytes_received)=%llu\n", (long long unsigned int) num_tx_bytes);
-		usleep(1000 * 1000);
-	}
-
+//	uint8_t session_id;
+//	uint64_t num_tx_bytes;
 //	while (1) {
-//
-//		//part 1: first wait to receive LengthBytes number
-//
-//		printf("CPU code: PART 1 - waiting to receive LengthBytes number\n");
-//
-//		int FoundByteNumber = 0;
-//		while (FoundByteNumber != 1) //first wait to receive LengthBytes number
-//		{
-//			uint8_t ii = max_llstream_read(read_llstream, 1, &read_ptr);
-//			if (ii) {
-//				byteNumber = (uint64_t*) read_ptr;
-//				printf("CPU code: LengthBytes=%u\n", (unsigned int) *byteNumber);
-//				max_llstream_read_discard(read_llstream, 1);
-//				FoundByteNumber = 1;
-//			}
-//		}
-//
-//		//part 2: receive total number of data transfered
-//
-//		printf("CPU code: PART 2 - receive total number of data transfered\n");
-//		//while(1)
-//		{
-//			while (max_llstream_read(llstream, 1, &txMgrSlot) == 0)	;
-//
-//			event = txMgrSlot;
-//			printf("CPU code: Got ack from TxManager: Total frames: %ld, socketID=%u\n", event->frameCount,event->socketID);
-//			max_llstream_read_discard(llstream, 1);
-//			//frameCounter = (event->frameCount) + 1;
-//			//printf("CPU code: frameCounter=%ld\n", frameCounter);
-//		}
-//			uint16_t socket_returned = event->socketID;
-//			unsigned int fileBytes= (unsigned int) *byteNumber;
-//
-//			uint8_t session_id;
-//			uint64_t num_tx_bytes;
-//
-//
-//			while(1)
-//			{
-//				for(int i=0;i<Nsockets;i++)
-//				{
-//					max_tcp_get_num_bytes_transmitted(dfe_socket[i], &num_tx_bytes, &session_id);
-//					printf("CPU code: num_tx_bytes(%d)=%llu\n", i, (long long unsigned int) num_tx_bytes);
-//				}
-////				max_tcp_get_num_bytes_transmitted(dfe_socket[socket_returned], &num_tx_bytes, &session_id);
-//				usleep(1000*100);
-//				printf("CPU code: While LOOP, socket_returned=%u, fileBytes=%u, num_tx_bytes(max_tcp_get_num_bytes_transmitted)=%llu\n", socket_returned, fileBytes, (long long unsigned int) num_tx_bytes);
-////				if(num_tx_bytes==fileBytes)
-////				{
-////					usleep(1000*1000*3);
-////					printf("CPU code: While LOOP, socket_returned=%u, fileBytes=%u, num_tx_bytes(max_tcp_get_num_bytes_transmitted)=%llu\n", socket_returned, fileBytes, (long long unsigned int) num_tx_bytes);
-////					printf("CPU code: Closing socket=%u\n", socket_returned);
-////					max_tcp_close(dfe_socket[socket_returned]);
-////					//max_tcp_close_mode_t close_mode=MAX_TCP_CLOSE_ABORT_RESET;
-////					//max_tcp_close_advanced(dfe_socket[socket_returned],close_mode);
-////
-////					printf("CPU code: Waiting for MAX_TCP_STATE_CLOSED\n");
-////					max_tcp_await_state(dfe_socket[socket_returned], MAX_TCP_STATE_CLOSED, NULL);
-////
-////					printf("CPU code: Set LISTEN state\n");
-////					max_tcp_listen(dfe_socket[socket_returned], port);
-////
-////					printf("CPU code: Waiting for MAX_TCP_STATE_LISTEN\n");
-////					max_tcp_await_state(dfe_socket[socket_returned], MAX_TCP_STATE_LISTEN, NULL);
-////
-////					printf("CPU code: Again opened socket=%u\n", socket_returned);
-////
-////					usleep(1000*1000*4);
-////					printf("CPU code: While LOOP, socket_returned=%u, fileBytes=%u, num_tx_bytes(max_tcp_get_num_bytes_transmitted)=%llu\n", socket_returned, fileBytes, (long long unsigned int) num_tx_bytes);
-////					break;
-//			}
+//		max_tcp_get_num_bytes_transmitted(dfe_socket[0], &num_tx_bytes, &session_id);
+//		printf("CPU code: socket=0, num_tx_bytes(max_tcp_get_num_bytes_transmitted)=%llu\n", (long long unsigned int) num_tx_bytes);
+//		usleep(1000 * 1000);
 //	}
+
+	while (1) {
+
+		//part 1: first wait to receive LengthBytes number
+
+		printf("CPU code: PART 1 - waiting to receive LengthBytes number\n");
+
+		int FoundByteNumber = 0;
+		while (FoundByteNumber != 1) //first wait to receive LengthBytes number
+		{
+			uint8_t ii = max_llstream_read(read_llstream, 1, &read_ptr);
+			if (ii) {
+				byteNumber = (uint64_t*) read_ptr;
+				printf("CPU code: LengthBytes=%u\n", (unsigned int) *byteNumber);
+				max_llstream_read_discard(read_llstream, 1);
+				FoundByteNumber = 1;
+			}
+		}
+
+		//part 2: receive total number of data transfered
+
+		printf("CPU code: PART 2 - receive total number of data transfered\n");
+		//while(1)
+		{
+			while (max_llstream_read(llstream, 1, &txMgrSlot) == 0)	;
+
+			event = txMgrSlot;
+			printf("CPU code: Got ack from TxManager: Total frames: %ld, socketID=%u\n", event->frameCount, event->socketID);
+			max_llstream_read_discard(llstream, 1);
+			//frameCounter = (event->frameCount) + 1;
+			//printf("CPU code: frameCounter=%ld\n", frameCounter);
+		}
+			uint16_t socket_returned = event->socketID;
+			unsigned int fileBytes= (unsigned int) *byteNumber;
+
+
+
+			uint8_t session_id;
+			uint64_t num_tx_bytes;
+			while(1)
+			{
+				//for(int i=0;i<Nsockets;i++)
+				{
+					max_tcp_get_num_bytes_transmitted(dfe_socket[socket_returned], &num_tx_bytes, &session_id);
+					printf("CPU code: num_tx_bytes(%d)=%llu\n", 0, (long long unsigned int) num_tx_bytes);
+				}
+
+				//usleep(1000*100);
+				printf("CPU code: While LOOP, socket_returned=%u, fileBytes=%u, num_tx_bytes(max_tcp_get_num_bytes_transmitted)=%llu\n", socket_returned, fileBytes, (long long unsigned int) num_tx_bytes);
+				if(num_tx_bytes==fileBytes)
+				{
+					//usleep(1000*1000*3);
+					printf("CPU code: num_tx_bytes==fileBytes, socket_returned=%u, fileBytes=%u, num_tx_bytes(max_tcp_get_num_bytes_transmitted)=%llu\n", socket_returned, fileBytes, (long long unsigned int) num_tx_bytes);
+					printf("CPU code: Closing socket=%u\n", socket_returned);
+					max_tcp_close(dfe_socket[socket_returned]);
+					//max_tcp_close_mode_t close_mode=MAX_TCP_CLOSE_ABORT_RESET;
+					//max_tcp_close_advanced(dfe_socket[socket_returned],close_mode);
+
+					printf("CPU code: Waiting for MAX_TCP_STATE_CLOSED\n");
+					max_tcp_await_state(dfe_socket[socket_returned], MAX_TCP_STATE_CLOSED, NULL);
+
+					printf("CPU code: Set LISTEN state\n");
+					max_tcp_listen(dfe_socket[socket_returned], port);
+
+					printf("CPU code: Waiting for MAX_TCP_STATE_LISTEN\n");
+					max_tcp_await_state(dfe_socket[socket_returned], MAX_TCP_STATE_LISTEN, NULL);
+
+					printf("CPU code: Again opened socket=%u\n", socket_returned);
+					break;
+				}
+			}
+	}
 
 //while (1) {
 //

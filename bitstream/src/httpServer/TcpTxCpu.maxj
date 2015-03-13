@@ -83,27 +83,27 @@ public class TcpTxCpu extends Kernel {
 //		DFEVar txIsStart = txValid & txDataSof;
 //		DFEVar txSocket = Reductions.streamHold((DFEVar)txData[OutboundType.SOCKET], txIsStart);
 
-//		DFEStruct data = txInput.data;
-//		DFEVar sof = data[OutboundType.SOF];
-//		DFEVar eof = data[OutboundType.EOF];
-//		DFEVar mod = data[OutboundType.MOD];
-//		DFEVar content = data[OutboundType.DATA];
-//		DFEVar socket = data[OutboundType.SOCKET];
+		DFEStruct data = txInput.data;
+		DFEVar sof = data[TxDataType.SOF];
+		DFEVar eof = data[TxDataType.EOF];
+		DFEVar mod = data[TxDataType.MOD];
+		DFEVar content = data[TxDataType.DATA];
+		DFEVar socket = data[TxDataType.SOCKET];
 
 
 
 		DFEStruct outputStruct = tcpStructType.newInstance(this);
-//		outputStruct[TxDataType.SOF] <== sof;
-//		outputStruct[TxDataType.EOF] <== eof;
-//		outputStruct[TxDataType.MOD] <== mod;
-//		outputStruct[TxDataType.DATA] <== content;
-//		outputStruct[TxDataType.SOCKET] <== socket.cast(outputStruct[TxDataType.SOCKET].getType());
+		outputStruct[TxDataType.SOF] <== sof;
+		outputStruct[TxDataType.EOF] <== eof;
+		outputStruct[TxDataType.MOD] <== mod;
+		outputStruct[TxDataType.DATA] <== content;
+		outputStruct[TxDataType.SOCKET] <== socket.cast(outputStruct[TxDataType.SOCKET].getType());
 
-		outputStruct[TxDataType.SOF] <== constant.var(dfeUInt(1), 1);
-		outputStruct[TxDataType.EOF] <== constant.var(dfeUInt(1), 1);
-		outputStruct[TxDataType.MOD] <== constant.var(dfeUInt(3), 0);
-		outputStruct[TxDataType.DATA] <== constant.var(dfeRawBits(64), 0x37); //content
-		outputStruct[TxDataType.SOCKET] <== constant.var(dfeUInt(6), 0);
+//		outputStruct[TxDataType.SOF] <== constant.var(dfeUInt(1), 1);
+//		outputStruct[TxDataType.EOF] <== constant.var(dfeUInt(1), 1);
+//		outputStruct[TxDataType.MOD] <== constant.var(dfeUInt(3), 0);
+//		outputStruct[TxDataType.DATA] <== constant.var(dfeRawBits(64), 0x37); //content
+//		outputStruct[TxDataType.SOCKET] <== constant.var(dfeUInt(6), 0);
 
 		//DFEVar txIsStart = txInput.valid & sof;
 
