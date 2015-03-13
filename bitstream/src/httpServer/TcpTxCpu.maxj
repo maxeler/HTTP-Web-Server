@@ -1,0 +1,135 @@
+package httpServer;
+
+import com.maxeler.maxcompiler.v2.kernelcompiler.Kernel;
+import com.maxeler.maxcompiler.v2.kernelcompiler.KernelParameters;
+import com.maxeler.maxcompiler.v2.kernelcompiler.stdlib.core.Count.WrapMode;
+import com.maxeler.maxcompiler.v2.kernelcompiler.stdlib.core.IO.DelimiterMode;
+import com.maxeler.maxcompiler.v2.kernelcompiler.stdlib.core.IO.NonBlockingInput;
+import com.maxeler.maxcompiler.v2.kernelcompiler.stdlib.core.IO.NonBlockingMode;
+import com.maxeler.maxcompiler.v2.kernelcompiler.types.base.DFETypeFactory;
+import com.maxeler.maxcompiler.v2.kernelcompiler.types.base.DFEVar;
+import com.maxeler.maxcompiler.v2.kernelcompiler.types.composite.DFEStruct;
+import com.maxeler.maxcompiler.v2.kernelcompiler.types.composite.DFEStructType;
+import com.maxeler.networking.statemachines.Flushing;
+import com.maxeler.networking.types.TCPManyConnectionsTypes;
+import com.maxeler.networking.types.TCPManyConnectionsTypes.TxDataType;
+
+public class TcpTxCpu extends Kernel {
+	public static String INPUT_TX_DATA = "inputTxData";
+	public static String OUTPUT_TX_DATA = "outputTxData";
+
+	public static String OUTPUT_TX_EVENTS = "outputTxEvent";
+
+
+
+	public static final OutboundType outboundType = new OutboundType();
+	public static class OutboundType extends DFEStructType {
+		public static final String SOCKET = "socket";
+		public static final String MOD = "mod";
+		public static final String DATA = "data";
+		public static final String SOF = "sof";
+		public static final String EOF = "eof";
+		public static final String PADDING = "padding";
+
+		public OutboundType() {
+			super(
+					sft(DATA, DFETypeFactory.dfeRawBits(64)),
+					sft(SOCKET, DFETypeFactory.dfeUInt(16)),
+					sft(MOD, DFETypeFactory.dfeUInt(3)),
+					sft(EOF, DFETypeFactory.dfeBool()),
+					sft(SOF, DFETypeFactory.dfeBool()),
+					sft(PADDING, DFETypeFactory.dfeRawBits(128 - 64 - 16 - 3 - 1 - 1))
+			);
+		}
+	}
+
+	public static final TxEventType txEventType = new TxEventType();
+	public static class TxEventType extends DFEStructType {
+		public static final String SOCKET_ID = "socketID";
+		public static final String TX_FRAME_COUNT = "txFrameCount";
+		public static final String RESERVED = "reserved";
+
+		public TxEventType() {
+			super(
+					sft(SOCKET_ID, dfeUInt(16)),
+					sft(TX_FRAME_COUNT, dfeUInt(64)),
+					sft(RESERVED, dfeUInt(48))
+				);
+		}
+	}
+
+	public TcpTxCpu(KernelParameters parameters, TCPManyConnectionsTypes tcpTypes) {
+		super(parameters);
+
+		//DFEStructType tcpStructType;
+		//tcpStructType = tcpTypes.getTxDataType().getDFEStructType();// tcpType.getDFEStructType();
+
+		flush.disabled();
+
+		DFEStructType tcpStructType = tcpTypes.getTxDataType();
+
+		NonBlockingInput<DFEStruct> txInput = io.nonBlockingInput(
+				INPUT_TX_DATA,
+				tcpStructType,
+				constant.var(true),
+				tcpStructType.getPositionForField(tcpTypes.getTxDataType().getEOF()),// tcpStructType.getPositionForField(tcpType.getEOF()),
+				DelimiterMode.EOF_POSITION,
+				Flushing.interFrameGapNone,
+				NonBlockingMode.NO_TRICKLING);
+
+		DFEVar txValid = txInput.valid;
+//		DFEStruct txData = txInput.data;
+//		DFEVar txDataSof = txData[OutboundType.SOF];
+//		DFEVar txIsStart = txValid & txDataSof;
+//		DFEVar txSocket = Reductions.streamHold((DFEVar)txData[OutboundType.SOCKET], txIsStart);
+
+//		DFEStruct data = txInput.data;
+//		DFEVar sof = data[OutboundType.SOF];
+//		DFEVar eof = data[OutboundType.EOF];
+//		DFEVar mod = data[OutboundType.MOD];
+//		DFEVar content = data[OutboundType.DATA];
+//		DFEVar socket = data[OutboundType.SOCKET];
+
+
+
+		DFEStruct outputStruct = tcpStructType.newInstance(this);
+//		outputStruct[TxDataType.SOF] <== sof;
+//		outputStruct[TxDataType.EOF] <== eof;
+//		outputStruct[TxDataType.MOD] <== mod;
+//		outputStruct[TxDataType.DATA] <== content;
+//		outputStruct[TxDataType.SOCKET] <== socket.cast(outputStruct[TxDataType.SOCKET].getType());
+
+		outputStruct[TxDataType.SOF] <== constant.var(dfeUInt(1), 1);
+		outputStruct[TxDataType.EOF] <== constant.var(dfeUInt(1), 1);
+		outputStruct[TxDataType.MOD] <== constant.var(dfeUInt(3), 0);
+		outputStruct[TxDataType.DATA] <== constant.var(dfeRawBits(64), 0x37); //content
+		outputStruct[TxDataType.SOCKET] <== constant.var(dfeUInt(6), 0);
+
+		//DFEVar txIsStart = txInput.valid & sof;
+
+		DFEVar frameCount = control.count.makeCounter(
+				control.count.makeParams(64)
+					.withEnable(txValid)
+					.withInitValue(0)
+					.withWrapMode(WrapMode.STOP_AT_MAX)
+				).getCount();
+
+		io.scalarOutput("frameCount", dfeUInt(64)) <== frameCount;
+
+		debug.simPrintf(txValid, "TxManagerKernelV1: data=%x, sof=%u, eof=%u, mod=%u, socket=%u, txValid=%u, frameCount=%u\n", outputStruct[TxDataType.DATA], outputStruct[TxDataType.SOF], outputStruct[TxDataType.EOF], outputStruct[TxDataType.MOD], outputStruct[TxDataType.SOCKET], txValid, frameCount);
+		int a1=50;
+		int a2=55;
+		//debug.simPrintf((frameCount===a1) | (frameCount===a2), "TxManagerKernelV1: Sending, data=%x, frameCount=%u\n", content, frameCount);
+		//io.output(OUTPUT_TX_DATA, tcpStructType,(frameCount===a1) | (frameCount===a2) | (frameCount===60)) <== outputStruct;
+		io.output(OUTPUT_TX_DATA, tcpStructType,txValid) <== outputStruct;
+
+		DFEStruct txEvent = txEventType.newInstance(this);
+		txEvent[TxEventType.SOCKET_ID] <== outputStruct[TxDataType.SOCKET].cast(txEvent[TxEventType.SOCKET_ID].getType());
+		txEvent[TxEventType.TX_FRAME_COUNT] <== frameCount;
+		txEvent[TxEventType.RESERVED] <== constant.var(((DFEVar)txEvent[TxEventType.RESERVED]).getType(), 0);
+
+		//debug.printf("KERNEL frameCount=%u\n",frameCount);
+
+		io.output(OUTPUT_TX_EVENTS, txEventType, txValid) <== txEvent;
+	}
+}

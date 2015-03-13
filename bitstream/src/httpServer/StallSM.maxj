@@ -1,0 +1,106 @@
+package httpServer;
+
+
+import com.maxeler.maxcompiler.v2.managers.DFEManager;
+import com.maxeler.maxcompiler.v2.statemachine.DFEsmStateValue;
+import com.maxeler.maxcompiler.v2.statemachine.manager.DFEsmPullOutput;
+import com.maxeler.maxcompiler.v2.statemachine.manager.DFEsmPushInput;
+import com.maxeler.maxcompiler.v2.statemachine.manager.DFEsmPushOutput;
+import com.maxeler.maxcompiler.v2.statemachine.manager.ManagerStateMachine;
+import com.maxeler.maxcompiler.v2.statemachine.stdlib.Buffer.DFEsmFifoConfig;
+import com.maxeler.maxcompiler.v2.statemachine.stdlib.buffer.DFEsmFifo;
+
+public class StallSM extends ManagerStateMachine {
+	private final DFEsmPushInput src;
+	private final DFEsmPushOutput dst;
+	private final DFEsmFifo fifo;
+	private final DFEsmStateValue srcReg;
+	private final DFEsmStateValue srcRegValid;
+	private final DFEsmStateValue dstReg;
+	private final DFEsmStateValue dstRegValid;
+	private final DFEsmStateValue dstStalling;
+	private final DFEsmStateValue fifo_read_r;
+	private final DFEsmPullOutput fifoFullOutput;
+
+	private static final int FIFO_SIZE = 16 * 1024;
+	public static final int FIFO_FULL_THRESH = 1 * 1024;
+
+	public StallSM(DFEManager owner, int width) {
+		super(owner);
+
+		src = io.pushInput("src", dfeUInt(width), 5);
+		dst = io.pushOutput("dst", dfeUInt(width), 5);
+
+		fifoFullOutput = io.pullOutput("fifoFull", dfeUInt(2), 10);
+
+		srcReg = state.value(dfeUInt(width));
+		srcRegValid = state.value(dfeBool(), false);
+
+		dstStalling = state.value(dfeBool(), true);
+		dstReg = state.value(dfeUInt(width));
+		fifo_read_r = state.value(dfeBool(), false);
+		dstRegValid = state.value(dfeBool(), false);
+
+		DFEsmFifoConfig fifoConfig = new DFEsmFifoConfig();
+		fifoConfig.setProgrammableFull(FIFO_FULL_THRESH);
+		fifo = buffer.fifo(dfeUInt(width), FIFO_SIZE, fifoConfig);
+	}
+
+	@Override
+	protected void nextState() {
+
+		srcReg.next <== src;
+		srcRegValid.next <== src.valid;
+
+		IF(src.valid)
+		{
+			debug.simPrintf("StallSM: src=%x\n", src);
+		}
+
+		fifo.input.dataIn <== srcReg;
+		fifo.input.writeEnable <== srcRegValid;
+
+		IF (fifo.input.progFull) {
+			debug.simPrintf("FIFO is almost full!\n");
+		}
+
+		IF (fifo.input.full) {
+			debug.simPrintf("FIFO is full!\n");
+		}
+
+		IF (srcRegValid) {
+			debug.simPrintf("Writing...\n");
+		}
+
+		dstStalling.next <== dst.stall;
+
+		fifo_read_r.next <== false;
+		fifo.output.readEnable <== false;
+		IF (~(fifo.output.empty | dstStalling)) {
+			fifo.output.readEnable <== true;
+			fifo_read_r.next <== true;
+			debug.simPrintf("Reading...\n");
+		}
+
+		dstRegValid.next <== fifo_read_r;
+		dstReg.next <== fifo.output.dataOut;
+
+		IF (srcRegValid | ~(fifo.output.empty | dstStalling)) {
+			debug.simPrintf("fill level: %d, progFull: %d.\n", fifo.data_count, fifo.input.progFull);
+		}
+	}
+
+	@Override
+	protected void outputFunction() {
+		src.stall <== false;
+
+		dst <== dstReg;
+		dst.valid <== dstRegValid;
+
+		fifoFullOutput <== fifo.input.full # fifo.input.progFull;
+		fifoFullOutput.empty <== false;
+
+
+	}
+
+}

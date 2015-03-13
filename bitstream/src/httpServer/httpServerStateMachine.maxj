@@ -30,7 +30,7 @@ public class httpServerStateMachine extends ManagerStateMachine {
 	private final DFEsmStateValue sBitNumber = _State.value(state, dfeUInt(9), 0, "sBitNumber");//state.value(dfeUInt(9), 0);
 	private final DFEsmStateEnum<States> sCurrentState;
 
-	private final DFEsmPushInput inputTcpData = io.pushInput("tcp_to_sm", dfeUInt(77), 1);
+	private final DFEsmPushInput inputTcpData = io.pushInput("tcp_to_sm", dfeUInt(75), 1);
 	private final DFEsmPushOutput checksumOutput = io.pushOutput("checksumOutput", dfeUInt(512), 4);
 	private final DFEsmPushOutput socketNumberOutput = io.pushOutput("socketNumberOutput", dfeUInt(8), 1);
 	private final DFEsmPushOutput schedulerValidOutput = io.pushOutput("schedulerValidOutput", dfeUInt(1), 1);
@@ -61,10 +61,10 @@ public class httpServerStateMachine extends ManagerStateMachine {
 
 		// TCP rx/tx format: fields extraction
 		data = inputTcpData.slice(0, 64).cast(dfeUInt(64));
-		socket = inputTcpData.slice(64, 8).cast(dfeUInt(8));
-		mod = inputTcpData.slice(72, 3).cast(dfeUInt(3));
-		eof = inputTcpData.slice(75, 1).cast(dfeUInt(1));
-		sof = inputTcpData.slice(76, 1).cast(dfeUInt(1));
+		socket = inputTcpData.slice(64, 6).cast(dfeUInt(6));
+		mod = inputTcpData.slice(70, 3).cast(dfeUInt(3));
+		eof = inputTcpData.slice(73, 1).cast(dfeUInt(1));
+		sof = inputTcpData.slice(74, 1).cast(dfeUInt(1));
 
 //		sCurrentState = state.enumerated(States.class, States.START);
 		sCurrentState = _State.enumerated(state, States.class, States.START, "sCurrentState");
@@ -98,6 +98,8 @@ public class httpServerStateMachine extends ManagerStateMachine {
 
 	@Override
 	protected void nextState() {
+
+		//debug.simPrintf("stateMachine: TEST\n");
 
 		counter.next<==counter+1;
 
@@ -594,7 +596,7 @@ public class httpServerStateMachine extends ManagerStateMachine {
 			debug.simPrintf("stateMachine: sStoreURL=%x, sStoreURLValid=%u\n", sStoreURL, sStoreURLValid);
 
 			socketNumberOutput.valid <== true;
-			socketNumberOutput <== socket; //.cast(dfeUInt(16));
+			socketNumberOutput <== socket.cast(dfeUInt(8));
 			debug.simPrintf("stateMachine: socketNumberOutput=%u\n", socketNumberOutput);
 
 		}

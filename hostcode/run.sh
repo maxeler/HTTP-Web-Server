@@ -5,7 +5,6 @@ export MAXELEROSDIR=$MAXCOMPILERDIR/lib/maxeleros-sim
 export LD_PRELOAD=$MAXELEROSDIR/lib/libmaxeleros.so:$LD_PRELOAD
 export SLIC_CONF="$SLIC_CONF;use_simulation=${USER}Sim"
 
-source /network-raid/opt/maxcompiler-2014.1.1/settings.sh 
 # How to set a BASH variable equal to the output from a command?
 # You need `, not '. This character is called "backticks" 
 srcMax=`maxGuessBuildDir -s httpServer_ISCA_DFE_SIM`results/httpServer.max

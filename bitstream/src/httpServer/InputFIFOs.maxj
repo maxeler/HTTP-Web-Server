@@ -11,6 +11,7 @@ import com.maxeler.maxcompiler.v2.statemachine.stdlib.Buffer.BufferSpec;
 import com.maxeler.maxcompiler.v2.statemachine.stdlib.Buffer.DFEsmFifoConfig;
 import com.maxeler.maxcompiler.v2.statemachine.stdlib.buffer.DFEsmFifo;
 import com.maxeler.maxcompiler.v2.statemachine.types.DFEsmValueType;
+import com.maxeler.networking.v1.managers.netlib.TCPStreamManyConnections;
 
 public class InputFIFOs extends ManagerStateMachine {
 
@@ -22,15 +23,15 @@ public class InputFIFOs extends ManagerStateMachine {
 	private final DFEsmFifo[] m_fifo = new DFEsmFifo[httpServerManager.getNsockets()];
 	//private final DFEsmStateValue m_almostEmptyCounter;
 
-	private static final int width = 77;
+	private final int width;
 
-	public static final int getWidth() {
+	public final int getWidth() {
 		return width;
 	}
 
-	public InputFIFOs(DFEManager owner) {
+	public InputFIFOs(DFEManager owner, TCPStreamManyConnections tcpStream) {
 		super(owner);
-
+		width=tcpStream.getTypes().getRxDataRespType().getTotalBits();
 
 		for(int i=0;i<httpServerManager.getNsockets();i++)
 		{

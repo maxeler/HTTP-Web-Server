@@ -107,7 +107,7 @@ public class SocketFIFO extends ManagerStateMachine {
 			m_fifo[i].output.readEnable <== outputPorts.get(i).read; //outputPorts.get(i).read;
 			IF(inputPorts.get(i).valid)
 			{
-				debug.simPrintf("socketOutputFIFO: counter=%u, inputPorts.get(i)=%x, m_fifo[%d].output.dataOut=%u\n",counter, inputPorts.get(i), i, m_fifo[i].output.dataOut); //m_fifo[i].output.dataOut
+				debug.simPrintf("socketFIFO: counter=%u, inputPorts.get(i)=%x, m_fifo[%d].output.dataOut=%u\n",counter, inputPorts.get(i), i, m_fifo[i].output.dataOut); //m_fifo[i].output.dataOut
 			}
 		}
 
@@ -127,7 +127,7 @@ public class SocketFIFO extends ManagerStateMachine {
 
 			IF(outputPorts.get(i).read)
 			{
-				debug.simPrintf("socketOutputFIFO: counter=%u, SETOVAN outputPorts.get(i).read=%u\n", counter, outputPorts.get(i).read);
+				debug.simPrintf("socketFIFO: counter=%u, SETOVAN outputPorts.get(i).read=%u\n", counter, outputPorts.get(i).read);
 			}
 
 			//debug.simPrintf("socketOutputFIFO: counter=%u, m_fifo[%d].output.dataOut=%x, m_fifo[%d].output.empty=%u\n",counter, i, m_fifo[i].output.dataOut, i, m_fifo[i].output.empty);

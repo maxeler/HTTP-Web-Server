@@ -58,3 +58,10 @@ sim_debug:
 
 clean:
 	rm -f *.o *.pcap *.dot *.png
+
+
+run_sim_maxdebug:
+	maxdebug -n -r -g graph -d mvorkapicSim0:mvorkapicSim -v $(DESIGN_NAME).max | tee debug_mvorkapicSim0_dfe_a.log
+	dot -Tsvg graph_mvorkapicSim0_dfe_a.dot > graph_mvorkapicSim0_dfe_a.svg
+	eog graph_mvorkapicSim0_dfe_a.svg
+
