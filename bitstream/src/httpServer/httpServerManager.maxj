@@ -245,8 +245,8 @@ public class httpServerManager extends NetworkManager {
 
 		//socket disconnect
 		KernelBlock TcpTxCpuKernel = addKernel(new TcpTxCpu(makeKernelParameters("TcpTxCpuKernel"), tcpStreamTypes));
-		DFELink toCpuOutputTxEvent = addStreamToCPU("toCpuOutputTxEvent");
-		toCpuOutputTxEvent <== TcpTxCpuKernel.getOutput(TcpTxCpu.OUTPUT_TX_EVENTS);
+		//DFELink toCpuOutputTxEvent = addStreamToCPU("toCpuOutputTxEvent");
+		//toCpuOutputTxEvent <== TcpTxCpuKernel.getOutput(TcpTxCpu.OUTPUT_TX_EVENTS);
 		TcpTxCpuKernel.getInput(TcpTxCpu.INPUT_TX_DATA) <==	smLMEM.getOutput("outputLmemData");//
 		tcpStream.getTransmitStream() <== TcpTxCpuKernel.getOutput(TcpTxCpu.OUTPUT_TX_DATA);
 
@@ -254,10 +254,20 @@ public class httpServerManager extends NetworkManager {
 
 
 		// ByteNumber (LMEM) --> CPU
-		StateMachineBlock wireByteNumber = addStateMachine("byteNumber", new SimpleWire(this, 64));
-	    wireByteNumber.getInput(SimpleWire.INPUT) <== smLMEM.getOutput("fromStateMachineByteNumber");
-	    DFELink toCpuByteNumber = addStreamToCPU("toCpuByteNumber");
-		toCpuByteNumber <== wireByteNumber.getOutput(SimpleWire.OUTPUT);
+			//StateMachineBlock wireByteNumber = addStateMachine("byteNumber", new SimpleWire(this, 64));
+	    	//wireByteNumber.getInput(SimpleWire.INPUT) <== smLMEM.getOutput("fromLMEMFileSizeBytes");
+	    DFELink toCpuByteNumber = addStreamToCPU("toCpuFileSizeBytes");
+			//toCpuByteNumber <== wireByteNumber.getOutput(SimpleWire.OUTPUT);
+		toCpuByteNumber <== smLMEM.getOutput("fromLMEMFileSizeBytes");
+
+		// SocketNumber (LMEM) --> CPU
+			//StateMachineBlock wireSocketNumber = addStateMachine("wireSocketNumber", new SimpleWire(this, 64));
+			//wireSocketNumber.getInput(SimpleWire.INPUT) <== smLMEM.getOutput("fromLMEMSocketNumber");
+	    DFELink toCpuSocketNumber = addStreamToCPU("toCpuSocketNumber");
+	    	// toCpuSocketNumber <== wireSocketNumber.getOutput(SimpleWire.OUTPUT);
+	    toCpuSocketNumber <== smLMEM.getOutput("fromLMEMSocketNumber");
+
+
 
 		// socketNumber: stateMachine -> LMEM
 		StateMachineBlock smSocketOutputFIFO = addStateMachine("smSocketOutputFIFO", new SocketFIFO(this));

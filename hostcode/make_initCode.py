@@ -1,6 +1,7 @@
 from fabricate import *
 
-sources = ['init_code']
+NAME='initCode'
+sources = [NAME]
 
 # We define our compiler flags
 flags = ['-g']
@@ -13,14 +14,14 @@ def build():
 
 def compile():
     for source in sources:
-        run('gcc', flags, '-c', source+'.c')
+        run('gcc', flags, '-c', source + '.c')
 
 def link():
     objects = [s+'.o' for s in sources]
-    run('gcc', '-lm', objects,'-o', 'init_code')
+    run('gcc', '-lm', objects,'-o', NAME)
 
 def execute_program():
-    run('./init_code')
+    run('./%s' % NAME)
 
 def clean():
     autoclean()

@@ -114,22 +114,22 @@ public class TcpTxCpu extends Kernel {
 					.withWrapMode(WrapMode.STOP_AT_MAX)
 				).getCount();
 
-		io.scalarOutput("frameCount", dfeUInt(64)) <== frameCount;
+		//io.scalarOutput("frameCount", dfeUInt(64)) <== frameCount;
 
 		debug.simPrintf(txValid, "TxManagerKernelV1: data=%x, sof=%u, eof=%u, mod=%u, socket=%u, txValid=%u, frameCount=%u\n", outputStruct[TxDataType.DATA], outputStruct[TxDataType.SOF], outputStruct[TxDataType.EOF], outputStruct[TxDataType.MOD], outputStruct[TxDataType.SOCKET], txValid, frameCount);
-		int a1=50;
-		int a2=55;
-		//debug.simPrintf((frameCount===a1) | (frameCount===a2), "TxManagerKernelV1: Sending, data=%x, frameCount=%u\n", content, frameCount);
-		//io.output(OUTPUT_TX_DATA, tcpStructType,(frameCount===a1) | (frameCount===a2) | (frameCount===60)) <== outputStruct;
+			//int a1=50;
+			//int a2=55;
+			//debug.simPrintf((frameCount===a1) | (frameCount===a2), "TxManagerKernelV1: Sending, data=%x, frameCount=%u\n", content, frameCount);
+			//io.output(OUTPUT_TX_DATA, tcpStructType,(frameCount===a1) | (frameCount===a2) | (frameCount===60)) <== outputStruct;
 		io.output(OUTPUT_TX_DATA, tcpStructType,txValid) <== outputStruct;
 
-		DFEStruct txEvent = txEventType.newInstance(this);
-		txEvent[TxEventType.SOCKET_ID] <== outputStruct[TxDataType.SOCKET].cast(txEvent[TxEventType.SOCKET_ID].getType());
-		txEvent[TxEventType.TX_FRAME_COUNT] <== frameCount;
-		txEvent[TxEventType.RESERVED] <== constant.var(((DFEVar)txEvent[TxEventType.RESERVED]).getType(), 0);
+//		DFEStruct txEvent = txEventType.newInstance(this);
+//		txEvent[TxEventType.SOCKET_ID] <== outputStruct[TxDataType.SOCKET].cast(txEvent[TxEventType.SOCKET_ID].getType());
+//		txEvent[TxEventType.TX_FRAME_COUNT] <== frameCount;
+//		txEvent[TxEventType.RESERVED] <== constant.var(((DFEVar)txEvent[TxEventType.RESERVED]).getType(), 0);
 
 		//debug.printf("KERNEL frameCount=%u\n",frameCount);
 
-		io.output(OUTPUT_TX_EVENTS, txEventType, txValid) <== txEvent;
+		//io.output(OUTPUT_TX_EVENTS, txEventType, txValid) <== txEvent;
 	}
 }

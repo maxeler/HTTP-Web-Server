@@ -16,8 +16,8 @@ cp $srcMax /home/${USER}/workspace/workingNonMaxIDE/hostcode
 cp $srcH /home/${USER}/workspace/workingNonMaxIDE/hostcode
 echo "Finished copying"
 
-echo "Copying init_code files to the /hostname directory"
-cp ../init_code/results/*.* . 
+# 1) run 'make_initCode.py' (python fabricate)
+# 2) run 'make_httpServerCPUcode.py' (python fabricate) 
 
 make run_sim
 echo 'Stopping simulation...'
