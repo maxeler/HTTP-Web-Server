@@ -49,18 +49,12 @@ public class httpServerManager extends NetworkManager {
 		//config.setDefaultStreamClockFrequency(50);
 
 
-
-
 		//FullTCPTest Example
 
 		TcpNumConnectionsRequired numConnections = TcpNumConnectionsRequired.Max64Connections;
 
 		NetworkConnection conn = Max4NetworkConnection.QSFP_BOT_10G_PORT1;
 		MaxTCPVersion tcpVersion = MaxTCPVersion.fromNumConnections(true, numConnections);
-
-
-
-
 
 		//System.out.printf("Manager: tcpVersion: %x\n", (double) tcpVersion);
 
@@ -129,9 +123,9 @@ public class httpServerManager extends NetworkManager {
 		rxPop.getInput(RxPopKernel.IN_FIFO_FULL) <== stall.getOutput("fifoFull");
 		addStreamToCPU("rxPopDebug") <== rxPop.getOutput(RxPopKernel.OUT_DEBUG);
 
-		if (hwLoopBack) {
+		//if (hwLoopBack) {
 
-		} else {
+		//} else {
 			//KernelBlock in = addKernel(new InboundKernel(makeKernelParameters("inboundKernel"), tcpStreamTypes));
 			//in.getInput(InboundKernel.IN_RESP) <== stall.getOutput("dst");
 
@@ -140,7 +134,7 @@ public class httpServerManager extends NetworkManager {
 			//KernelBlock out = addKernel(new OutboundKernel(makeKernelParameters("outboundKernel"), tcpStreamTypes));
 			//out.getInput(OutboundKernel.INPUT) <== addStreamFromCPU("outbound");
 			//tcpStream.getTransmitStream() <== out.getOutput(OutboundKernel.OUTPUT);
-		}
+		//}
 
 		TieOffNode connStateEvTieOffSM = new TieOffNode(this);
 		connStateEvTieOffSM.addIO(
@@ -153,7 +147,6 @@ public class httpServerManager extends NetworkManager {
         connStateEvTieOff.getInput("connStateEvTieOffIn") <== tcpStream.getConnStateEventStream();
 
        	//-----------------------------------------------------------------------------------------------------------
-
 
 		StateMachineBlock wire = addStateMachine("cmdWire", new SimpleWire(this, 64));
 		getManagerConfiguration().dram.setEnableFlagCommands(true);
@@ -245,8 +238,8 @@ public class httpServerManager extends NetworkManager {
 
 		//socket disconnect
 		KernelBlock TcpTxCpuKernel = addKernel(new TcpTxCpu(makeKernelParameters("TcpTxCpuKernel"), tcpStreamTypes));
-		//DFELink toCpuOutputTxEvent = addStreamToCPU("toCpuOutputTxEvent");
-		//toCpuOutputTxEvent <== TcpTxCpuKernel.getOutput(TcpTxCpu.OUTPUT_TX_EVENTS);
+			//DFELink toCpuOutputTxEvent = addStreamToCPU("toCpuOutputTxEvent");
+			//toCpuOutputTxEvent <== TcpTxCpuKernel.getOutput(TcpTxCpu.OUTPUT_TX_EVENTS);
 		TcpTxCpuKernel.getInput(TcpTxCpu.INPUT_TX_DATA) <==	smLMEM.getOutput("outputLmemData");//
 		tcpStream.getTransmitStream() <== TcpTxCpuKernel.getOutput(TcpTxCpu.OUTPUT_TX_DATA);
 
