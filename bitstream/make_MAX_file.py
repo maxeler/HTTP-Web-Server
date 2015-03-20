@@ -19,7 +19,7 @@ JAVARTENV = '/network-raid/opt/jdk1.6.0_02/jre/bin/java'
 JAVAMAXHEAPSIZE = 'mx12288m' #-Xmx<size> set maximum Java heap size
 HTTPSERVERCLASSPATH = MAXCLASSPATH + ['bin']
 #TARGET = 'DFE_SIM'
-#MAXFILENAME = 'HFTDemo_SIM'
+#MAXFILENAME = 'httpServer_SIM'
 HTTPSERVERSTARTUPCLASS = 'httpServer.httpServerManager'
 
 
@@ -43,7 +43,7 @@ def execute_java():
     print "\n*** Execute Java *** \n"
     run(JAVARTENV, '-X%s' % JAVAMAXHEAPSIZE, '-classpath', '%s' % ':'.join(HTTPSERVERCLASSPATH), 
         HTTPSERVERSTARTUPCLASS)
-#	'target=%s' % HFTTARGET, 'maxFileName=%s' % HFTMAXFILENAME
+#	'target=%s' % TARGET, 'maxFileName=%s' % MAXFILENAME
 
 def clean():
     autoclean()

@@ -48,7 +48,7 @@ public class Scheduler extends ManagerStateMachine {
 			inputPorts.add(io.pullInput(inputName, dfeUInt(width), 1));
 		}
 
-		System.out.print("Scheduler: Nsockets=" + Nsockets + " === " + MathUtils.bitsToAddress(Nsockets) + " bits");
+		System.out.println("Scheduler: Nsockets=" + Nsockets + " === " + MathUtils.bitsToAddress(Nsockets) + " bits");
 
 	}
 

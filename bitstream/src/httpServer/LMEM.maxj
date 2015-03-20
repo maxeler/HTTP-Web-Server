@@ -18,14 +18,12 @@ public class LMEM extends ManagerStateMachine {
 	public static final String INPUT_MEM_DATA = "dataFromMem";
 	public static final String OUTPUT_MEM_COMMAND = "memCmd";
 	private final DFEStructType cmdType;
-	//private final DFEsmPushInput dataFromMem = io.pushInput(INPUT_MEM_DATA, dfeUInt(64), 1);
 	private final DFEsmPushInput dataFromMem = io.pushInput(INPUT_MEM_DATA, dfeUInt(64), 1);
 	private final DFEsmPullInput socketNumberInput = io.pullInput("LMEMsocketNumberInput", dfeUInt(8));
 	private final DFEsmPullInput dataFromCrcIndex = io.pullInput("dataFromCrcIndex", dfeUInt(64));
 	private final DFEsmPushOutput fromLMEMFileSizeBytes = io.pushOutput("fromLMEMFileSizeBytes", dfeUInt(128), 5);
 	private final DFEsmPushOutput fromLMEMSocketNumber = io.pushOutput("fromLMEMSocketNumber", dfeUInt(128), 5);
 	private final DFEsmPushOutput outputLmemData = io.pushOutput("outputLmemData", dfeUInt(75), 1);
-	//private final DFEsmPullOutput outputLmemData = io.pullOutput("outputLmemData", dfeUInt(75), 1);
 	private final DFEsmPushOutput memCmdOutput;
 	private final DFEsmStateValue memCmdReg;
 	private final DFEsmStateValue memCmdRegValid;
@@ -46,9 +44,9 @@ public class LMEM extends ManagerStateMachine {
 	private final DFEsmStateValue sFileLengthBytesCounter = state.value(dfeUInt(26), 8);
 	private final DFEsmStateValue sAllBytesSentFlag = state.value(dfeBool(), false);
 	private final DFEsmStateValue sFileLengthBytesCounterMini = state.value(dfeUInt(8), 8);
-	//private final DFEsmStateValue sCloseSocketCycleCounter = state.value(dfeUInt(5), 1);
-	private final DFEsmStateValue sByteNumberFlag = state.value(dfeBool(), false);
-	private final DFEsmStateValue sCloseSocketCycleFlag = state.value(dfeBool(), false);
+	//private final DFEsmStateValue sByteNumberFlag = state.value(dfeBool(), false);
+	//private final DFEsmStateValue sStopFlag = state.value(dfeBool(), false);
+	//private final DFEsmStateValue sCloseSocketCycleFlag = state.value(dfeBool(), false);
 	private final DFEsmStateValue sPortDataValid = state.value(dfeBool(), false);
 	private final DFEsmStateValue sSOF = state.value(dfeBool(), false);
 
@@ -131,6 +129,12 @@ protected void nextState() {
 		}
 	}
 
+//	IF(sCloseSocketCycleFlag & ~sStopFlag)
+//	{
+//		sCloseSocketCycleFlag.next<==false;
+//		sStopFlag.next<==true;
+//	}
+
 	IF(dataFromMem.valid)
 	{
 		sLMemBytesSent.next<==sLMemBytesSent+8;
@@ -145,14 +149,16 @@ sSOF.next <==true;
 		{
 			sAllBytesSentFlag.next<==true;
 sSOF.next<==false;
+			//sCloseSocketCycleFlag.next<==true;
+			//sStopFlag.next<==true;
 		}
 
 
-		IF(~sByteNumberFlag)
-		{
-			sCloseSocketCycleFlag.next<==true;
-			sByteNumberFlag.next<==true;
-		}
+//		IF(~sByteNumberFlag)
+//		{
+//
+//			sByteNumberFlag.next<==true;
+//		}
 
 		IF(sFileLengthBytesCounterMini===192) //LMEM data burst size
 		{
@@ -170,7 +176,7 @@ sSOF.next<==false;
 		sFileLengthBytesCounter.next<==8;
 		sBurstCounter.next<==0;
 		sDataBurstLength.next<==1;
-		sByteNumberFlag.next<==false;
+//		/sByteNumberFlag.next<==false;
 		sFileLengthBytesCounterMini.next <== 8;
 
 		sMemoryDataRead.next <== false;
@@ -179,10 +185,7 @@ sSOF.next<==false;
 		debug.simPrintf("LMEM: Tick=%u, sBurstCounter===sDataBurstLength\n",counter);
 	}
 
-	IF(sCloseSocketCycleFlag)
-	{
-		sCloseSocketCycleFlag.next<==false;
-	}
+
 
 	IF(~outputLmemData.stall) //output.stall
 	{
@@ -206,6 +209,15 @@ protected void outputFunction() {
 		outputLmemData.valid <== false;
 		outputLmemData <== 0;
 		dataFromMem.stall <== outputLmemData.stall;
+
+		fromLMEMFileSizeBytes.valid<==false;
+		fromLMEMFileSizeBytes<==0;
+
+		fromLMEMSocketNumber.valid<==false;
+		fromLMEMSocketNumber<==0;
+
+		memCmdOutput<==0;
+		memCmdOutput.valid<==false;
 
 		socketNumberInput.read <== false;
 		dataFromCrcIndex.read <== false;
@@ -238,7 +250,8 @@ protected void outputFunction() {
 				mod = constant.value(dfeUInt(3),0);
 				eof = constant.value(dfeBool(),0);
 				sof = constant.value(dfeBool(),0);
-socket = constant.value(dfeUInt(3),1).cast(dfeUInt(6));
+//socket = constant.value(dfeUInt(3),1).cast(dfeUInt(6));
+socket = socketNumberInput.cast(dfeUInt(6)); //socketNumberInput
 
 				data = dataFromMem;
 
@@ -255,6 +268,14 @@ socket = constant.value(dfeUInt(3),1).cast(dfeUInt(6));
 
 				debug.simPrintf("LMEM: tick=%u, end of dataFromMemory, sending: sof=%u, eof=%u, mod=%u, sFileLengthBytesCounter=%u, sFileLengthBytes=%u\n", counter, sof, eof, mod, sFileLengthBytesCounter, sFileLengthBytes);
 
+				fromLMEMFileSizeBytes.valid<==true;
+				fromLMEMFileSizeBytes<==sFileLengthBytes.cast(dfeUInt(128));
+
+				fromLMEMSocketNumber.valid<==true;
+				fromLMEMSocketNumber<==socketNumberInput.cast(dfeUInt(128));
+
+				debug.simPrintf("LMEM: tick=%u, sending data to CPU, sFileLengthBytes=%u, fromLMEMSocket=%u\n", counter, sFileLengthBytes, socketNumberInput);
+
 			}
 			ELSE
 			{
@@ -263,7 +284,8 @@ socket = constant.value(dfeUInt(3),1).cast(dfeUInt(6));
 				mod = constant.value(dfeUInt(3),0);
 				eof = constant.value(dfeBool(),0);
 				sof = ~sSOF;
-socket = constant.value(dfeUInt(3),1).cast(dfeUInt(6)); //socketNumberInput
+//socket = constant.value(dfeUInt(3),1).cast(dfeUInt(6)); //socketNumberInput
+socket = socketNumberInput.cast(dfeUInt(6)); //socketNumberInput
 
 				outputLmemData.valid <== true; //dataFromMem.valid;
 				outputLmemData<== sof # eof # mod # socket # data;
@@ -286,25 +308,7 @@ socket = constant.value(dfeUInt(3),1).cast(dfeUInt(6)); //socketNumberInput
 			debug.simPrintf("LMEM: STALLING counter=%u, outputLmemData.stall=%u\n", counter, outputLmemData.stall);
 		}
 
-		fromLMEMFileSizeBytes.valid<==false;
-		fromLMEMFileSizeBytes<==0;
 
-		fromLMEMSocketNumber.valid<==false;
-		fromLMEMSocketNumber<==0;
-
-		IF(sCloseSocketCycleFlag)
-		{
-			fromLMEMFileSizeBytes.valid<==true;
-			fromLMEMFileSizeBytes<==sFileLengthBytes.cast(dfeUInt(128));
-
-			fromLMEMSocketNumber.valid<==true;
-			fromLMEMSocketNumber<==socketNumberInput.cast(dfeUInt(128));
-
-			debug.simPrintf("LMEM: sFileLengthBytes=%u, fromLMEMSocket=%u\n", sFileLengthBytes, socketNumberInput);
-		}
-
-		memCmdOutput<==0;
-		memCmdOutput.valid<==false;
 
 		//commands for the memory controller
 		IF(~sMemCmdOutputStall) //

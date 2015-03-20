@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>workingNonMaxIDE_CPUCode</name>
+	<name>workingNonMaxIDE_hostcode</name>
 	<comment></comment>
 	<manageMaxCompiler>true</manageMaxCompiler>
 	<manageMaxGenFD>true</manageMaxGenFD>
