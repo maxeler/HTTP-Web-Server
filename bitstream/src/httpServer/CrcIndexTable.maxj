@@ -9,7 +9,7 @@ import com.maxeler.maxcompiler.v2.statemachine.manager.DFEsmPushInput;
 import com.maxeler.maxcompiler.v2.statemachine.manager.DFEsmPushOutput;
 import com.maxeler.maxcompiler.v2.statemachine.manager.ManagerStateMachine;
 
-public class crcIndex extends ManagerStateMachine {
+public class CrcIndexTable extends ManagerStateMachine {
 
 	private final DFEsmSinglePortMappedROM romCrcIndex1;
 	private final DFEsmSinglePortMappedROM romCrcIndex2;
@@ -24,7 +24,7 @@ public class crcIndex extends ManagerStateMachine {
 
 	private final DFEsmStateValue counter = state.value(dfeUInt(20), 0);
 
-	public crcIndex(DFEManager owner) {
+	public CrcIndexTable(DFEManager owner) {
 		super(owner);
 
 		// CRC Index Tables
@@ -48,7 +48,7 @@ public class crcIndex extends ManagerStateMachine {
 			romCrcIndex2.address <== crcIndexBlankPage.slice(0, 15);
 			sWhatCrcIndexToUse.next <== crcIndexBlankPage[15];
 
-			debug.simPrintf("crcIndex: crcBlankPageFlagInput=%d, crcIndexBlankPage(0, 15)=%u, sWhatCrcIndexToUse=%u\n", crcBlankPageFlagInput.valid, crcIndexBlankPage.slice(0, 15),crcIndexBlankPage[15]);
+			debug.simPrintf("CrcIndexTable: crcBlankPageFlagInput=%d, crcIndexBlankPage(0, 15)=%u, sWhatCrcIndexToUse=%u\n", crcBlankPageFlagInput.valid, crcIndexBlankPage.slice(0, 15),crcIndexBlankPage[15]);
 
 			sCrcIndexDataOutValid.next<==true;
 		}
@@ -58,7 +58,7 @@ public class crcIndex extends ManagerStateMachine {
 			romCrcIndex2.address <== crcResultInput.slice(0, 15);
 			sWhatCrcIndexToUse.next <== crcResultInput[15];
 
-			debug.simPrintf("crcIndex: crcResultInput.valid=%d, crcResultInput(0, 15)=%u, sWhatCrcIndexToUse=%u\n", crcResultInput.valid, crcResultInput.slice(0, 15),crcResultInput[15]);
+			debug.simPrintf("CrcIndexTable: crcResultInput.valid=%d, crcResultInput(0, 15)=%u, sWhatCrcIndexToUse=%u\n", crcResultInput.valid, crcResultInput.slice(0, 15),crcResultInput[15]);
 
 			sCrcIndexDataOutValid.next<==true;
 		}
@@ -77,7 +77,7 @@ public class crcIndex extends ManagerStateMachine {
 				crcIndexData <== romCrcIndex2.dataOut;
 			}
 
-			debug.simPrintf("crcIndex: Value romCrcIndex.dataOut=%x, romCrcIndex.dataOut=%x, sUseCrcIndex=%x, current=%u\n", romCrcIndex1.dataOut, romCrcIndex2.dataOut, sWhatCrcIndexToUse, counter);
+			debug.simPrintf("CrcIndexTable: Value romCrcIndex.dataOut=%x, romCrcIndex.dataOut=%x, sUseCrcIndex=%x, current=%u\n", romCrcIndex1.dataOut, romCrcIndex2.dataOut, sWhatCrcIndexToUse, counter);
 
 			DFEsmAssignableValue startAddressBurst=assignable.value(dfeUInt(19)); // startAddressBurst in LMem
 			DFEsmAssignableValue fileLengthBursts=assignable.value(dfeUInt(19)); // length of a file as number of Bursts
@@ -87,7 +87,7 @@ public class crcIndex extends ManagerStateMachine {
 			fileLengthBursts<==crcIndexData.slice(26, 19);
 			startAddressBurst<==crcIndexData.slice(45, 19);
 
-			debug.simPrintf("crcIndex: startAddressBurst=%u, fileLengthBursts=%u, fileLengthBytes=%u\n",startAddressBurst,fileLengthBursts,fileLengthBytes);
+			debug.simPrintf("CrcIndexTable: startAddressBurst=%u, fileLengthBursts=%u, fileLengthBytes=%u\n",startAddressBurst,fileLengthBursts,fileLengthBytes);
 
 			sCrcIndexDataOutValid.next<==false;
 		}
@@ -98,7 +98,7 @@ public class crcIndex extends ManagerStateMachine {
 
 			IF(crcResultInput.valid)
 			{
-				debug.simPrintf("crcIndex: tick=%u, parallelCRC: crcResultInput=0x%x\n", counter, crcResultInput);
+				debug.simPrintf("CrcIndexTable: tick=%u, parallelCRC: crcResultInput=0x%x\n", counter, crcResultInput);
 			}
 
 			DFEsmAssignableValue crcIndexData = assignable.value(dfeUInt(64));

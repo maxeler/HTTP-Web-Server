@@ -103,7 +103,7 @@ int main(int argc, char *argv[]) {
 		return 1;
 	}
 
-	uint16_t Nsockets = 8;
+	uint16_t Nsockets = 1;
 	const int port = 80;
 	struct in_addr dfe_ip;
 	inet_aton(argv[1], &dfe_ip);
@@ -145,8 +145,8 @@ int main(int argc, char *argv[]) {
 
 	int romDepthCrc = Lcrc / 8;
 	for (uint32_t i = 0; i < romDepthCrc; i++) {
-		max_set_mem_uint64t(actions, "crcIndex", "romCrcIndex1", i, arrCrc1[i]);
-		max_set_mem_uint64t(actions, "crcIndex", "romCrcIndex2", i, arrCrc2[i]);
+		max_set_mem_uint64t(actions, "CrcIndexTable", "romCrcIndex1", i, arrCrc1[i]);
+		max_set_mem_uint64t(actions, "CrcIndexTable", "romCrcIndex2", i, arrCrc2[i]);
 	}
 
 	max_run(engine, actions);

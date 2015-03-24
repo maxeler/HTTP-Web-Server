@@ -46,15 +46,21 @@ public class httpServerManager extends NetworkManager {
 		super(configuration.getEngineParams());
 
 		debug.setDebugLevel(new DebugLevel(){{setHasStreamStatus(true);}});
-		//config.setDefaultStreamClockFrequency(50);
 
-
-		//FullTCPTest Example
+		//edited FullTCPTest Example
 
 		TcpNumConnectionsRequired numConnections = TcpNumConnectionsRequired.Max64Connections;
 
 		NetworkConnection conn = Max4NetworkConnection.QSFP_BOT_10G_PORT1;
 		MaxTCPVersion tcpVersion = MaxTCPVersion.fromNumConnections(true, numConnections);
+
+		config.setDefaultStreamClockFrequency(157);
+			//config.setDefaultStreamClockFrequency(50);
+		//ManagerClock inputClock = getNetworkClock(conn);
+		//pushDefaultClock(inputClock);
+		//setMemoryStreamClock(inputClock);
+
+
 
 		//System.out.printf("Manager: tcpVersion: %x\n", (double) tcpVersion);
 
@@ -66,8 +72,13 @@ public class httpServerManager extends NetworkManager {
 //			numConnections = TcpNumConnectionsRequired.Max64Connections;
 //		}
 
-			tcpVersion = MaxTCPVersion.TCP_64C_V2;
-			numConnections = TcpNumConnectionsRequired.Max64Connections;
+		//64 connections
+		tcpVersion = MaxTCPVersion.TCP_64C_V2;
+		numConnections = TcpNumConnectionsRequired.Max64Connections;
+
+		//128 connections
+		//tcpVersion = MaxTCPVersion.TCP_128C_V2;
+		//numConnections = TcpNumConnectionsRequired.Max128Connections;
 
 		TCPStreamManyConnections tcpStream = addTCPStreamManyConnections("tcp_ISCA_QSFP_BOT_10G_PORT1", conn, numConnections);
 		width = tcpStream.getTypes().getRxDataRespType().getTotalBits();
@@ -201,9 +212,12 @@ public class httpServerManager extends NetworkManager {
 		//addStreamToCPU("toCpuByteNumberStateMachine") <== splitStateMachine.addOutput("splitStateMachine2");
 
 		//OutputFIFO -> parallel CRC
-		StateMachineBlock parallelCRC = addStateMachine("parallelCRC", new ParallelCRC(this));
-		parallelCRC.getInput(ParallelCRC.dataIn) <== stateMachine.getOutput("checksumOutput");
+//StateMachineBlock parallelCRC = addStateMachine("parallelCRC", new ParallelCRC_stateMachine(this));
+//parallelCRC.getInput(ParallelCRC_stateMachine.dataIn) <== stateMachine.getOutput("checksumOutput");
 
+		KernelBlock parallelCRC = addKernel(new ParallelCRC(makeKernelParameters("parallelCRC_Kernel")));
+		parallelCRC.getInput(ParallelCRC.dataIn) <== stateMachine.getOutput("checksumOutput1");
+		//parallelCRC_kernel.getOutput(ParallelCRC.crcOut) <== stateMachine.getOutput("checksumOutput1");
 
 		Scheduler.getInput("schedulerValidInput") <== stateMachine.getOutput("schedulerValidOutput");
 
@@ -224,8 +238,9 @@ public class httpServerManager extends NetworkManager {
 		kRead.getInput("inA")<==fromLmem;
 		toCpu <== kRead.getOutput("outA");
 
-		// crcIndex
-		StateMachineBlock crcIndex = addStateMachine("crcIndex", new crcIndex(this));
+		// CrcIndexTable
+		StateMachineBlock crcIndex = addStateMachine("CrcIndexTable", new CrcIndexTable(this));
+		//crcIndex.getInput("crcResultInput") <== parallelCRC.getOutput(ParallelCRC_stateMachine.crcOut);
 		crcIndex.getInput("crcResultInput") <== parallelCRC.getOutput(ParallelCRC.crcOut);
 		crcIndex.getInput("crcBlankPageInput") <== crcIndex.getOutput("crcBlankPageOutput");
 

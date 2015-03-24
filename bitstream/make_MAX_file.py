@@ -30,6 +30,7 @@ def build():
 
 
 # compile java
+# command
 # maxjc -nowarn -source 1.6 -target 1.6 -classpath /home/mvorkapic/workspace/maxeda/bin/:/network-raid/opt/maxcompiler-ticket7202-clang/lib/MaxCompiler.jar -d bin src
 def compile_java():
     print "\n*** Compile Java *** \n"
@@ -38,7 +39,8 @@ def compile_java():
         '-d', '%s' % MAXDESTDIR, MAXSRCDIR)
 
 # run java (create .max file)
-#java -Xmx12288m -classpath bin:/home/mvorkapic/workspace/maxeda/bin/:/network-raid/opt/maxcompiler-ticket7202-clang/lib/MaxCompiler.jar httpServer.httpServerManager
+# command
+# java -Xmx12288m -classpath bin:/home/mvorkapic/workspace/maxeda/bin/:/network-raid/opt/maxcompiler-ticket7202-clang/lib/MaxCompiler.jar httpServer.httpServerManager
 def execute_java():
     print "\n*** Execute Java *** \n"
     run(JAVARTENV, '-X%s' % JAVAMAXHEAPSIZE, '-classpath', '%s' % ':'.join(HTTPSERVERCLASSPATH), 

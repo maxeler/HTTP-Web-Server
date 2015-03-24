@@ -44,9 +44,6 @@ public class LMEM extends ManagerStateMachine {
 	private final DFEsmStateValue sFileLengthBytesCounter = state.value(dfeUInt(26), 8);
 	private final DFEsmStateValue sAllBytesSentFlag = state.value(dfeBool(), false);
 	private final DFEsmStateValue sFileLengthBytesCounterMini = state.value(dfeUInt(8), 8);
-	//private final DFEsmStateValue sByteNumberFlag = state.value(dfeBool(), false);
-	//private final DFEsmStateValue sStopFlag = state.value(dfeBool(), false);
-	//private final DFEsmStateValue sCloseSocketCycleFlag = state.value(dfeBool(), false);
 	private final DFEsmStateValue sPortDataValid = state.value(dfeBool(), false);
 	private final DFEsmStateValue sSOF = state.value(dfeBool(), false);
 

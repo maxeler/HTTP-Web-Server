@@ -15,32 +15,24 @@ import com.maxeler.maxcompiler.v2.utils.MathUtils;
 public class Scheduler extends ManagerStateMachine {
 
 	private final int Nsockets = httpServerManager.getNsockets();
-	private final int width;// = InputFIFOs.getWidth();
 	private final DFEsmPushOutput outputPort;
 	private final ArrayList<DFEsmPullInput> inputPorts = new ArrayList<DFEsmPullInput>(Nsockets);
-
 	private final DFEsmPushInput schedulerFlagInput = io.pushInput("schedulerValidInput", dfeUInt(1), 1);
-
 	private final DFEsmStateValue sInputPortIndex = state.value(dfeUInt(MathUtils.bitsToAddress(Nsockets)), 0);
 	private final DFEsmStateValue sSendingFlag = state.value(dfeBool(), false);
-	// private final DFEsmStateValue sFlag = state.value(dfeBool(), false);
 	private final DFEsmStateValue sDataOutValid = state.value(dfeBool(), false);
 	private final DFEsmStateValue counter = state.value(dfeUInt(20), 0);
 
 	enum States {
 		START,
-		// RROBIN,
 		SENDING
-		// WAITING
 	}
 
 	private final DFEsmStateEnum<States> sCurrentState;
 
 	public Scheduler(DFEManager owner, int width) {
 		super(owner);
-		this.width=width;
 		outputPort = io.pushOutput("schedulerDataOutput", dfeUInt(width), 1);
-
 		sCurrentState = state.enumerated(States.class, States.START);
 
 		for (int i = 0; i < Nsockets; i++) {
