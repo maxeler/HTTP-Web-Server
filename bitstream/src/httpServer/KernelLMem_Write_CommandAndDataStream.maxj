@@ -20,7 +20,7 @@ class KernelLMem_Write_CommandAndDataStream extends Kernel {
 		DFEVar burstCount = chain.addCounter(totalBursts,1);
 		DFEVar wordCount = chain.addCounter(wordsPerBurst,1);
 
-		LMemCommandStream.makeKernelOutput("OcmdStream",
+		LMemCommandStream.makeKernelOutput("OcmdStreamWrite",
 		wordCount === 0,                   // control
 		burstCount,                        // address
 		constant.var(dfeUInt(8), 1),       // size

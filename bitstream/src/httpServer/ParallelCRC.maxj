@@ -37,6 +37,8 @@ public class ParallelCRC extends Kernel {
     public static final String dataIn = "data_in_kernel";
 	public static final String crcOut = "crc_out";
 
+	DFEVar lfsr_q = constant.var(dfeUInt(16), 0xFFFF);
+
 	private final int NbitsCRCInput = 512;
 	private final int NbitsCRCOutput = 16;
 	private final NonBlockingInput<DFEVar> data_input;
@@ -60,7 +62,7 @@ public class ParallelCRC extends Kernel {
 
 	    DFEVar data_in = data_input.data;
 
-		DFEVar lfsr_q = constant.var(dfeUInt(16), 0xFFFF);
+	    debug.simPrintf(data_input.valid, "Parallel CRC KERNEL: data_in=%x, lfsr_q=%u\n", data_in, lfsr_q);
 
 		//DFEVar counter = control.count.simpleCounter(24);
 		DFEVar counter = control.count.makeCounter(
@@ -102,7 +104,8 @@ public class ParallelCRC extends Kernel {
 	    DFEVar crc_out = lfsr_q;
 	    debug.simPrintf(data_input.valid, "Parallel CRC KERNEL: counter=%u, data_in=%x, valid=%u, crc_out=0x%x\n", counter, data_in, data_input.valid, crc_out);
 
-	    io.output(crcOut, dfeRawBits(NbitsCRCOutput), data_input.valid) <== crc_out;
+	    //io.output(crcOut, dfeRawBits(NbitsCRCOutput), data_input.valid) <== crc_out;
+	    io.output(crcOut, crc_out, crc_out.getType(), data_input.valid);
 
 	}
 

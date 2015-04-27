@@ -17,7 +17,7 @@ public class Scheduler extends ManagerStateMachine {
 	private final int Nsockets = httpServerManager.getNsockets();
 	private final DFEsmPushOutput outputPort;
 	private final ArrayList<DFEsmPullInput> inputPorts = new ArrayList<DFEsmPullInput>(Nsockets);
-	private final DFEsmPushInput schedulerFlagInput = io.pushInput("schedulerValidInput", dfeUInt(1), 1);
+	private final DFEsmPushInput schedulerValidInput = io.pushInput("schedulerValidInput", dfeUInt(1), 1);
 	private final DFEsmStateValue sInputPortIndex = state.value(dfeUInt(MathUtils.bitsToAddress(Nsockets)), 0);
 	private final DFEsmStateValue sSendingFlag = state.value(dfeBool(), false);
 	private final DFEsmStateValue sDataOutValid = state.value(dfeBool(), false);
@@ -119,19 +119,19 @@ public class Scheduler extends ManagerStateMachine {
 
 				CASE(States.SENDING){
 
-					IF(schedulerFlagInput.valid){
+					IF(schedulerValidInput.valid){
 						sCurrentState.next <== States.START;
-						debug.simPrintf("scheduler: nextState START counter=%u, schedulerFlagInput=%u\n", counter, schedulerFlagInput.valid);
+						debug.simPrintf("scheduler: nextState START counter=%u, schedulerFlagInput=%u\n", counter, schedulerValidInput.valid);
 
 					}
 
 					for(int i=0;i<Nsockets;i++)
 					{
 						IF(sInputPortIndex===i){
-							IF(inputPorts.get(i).empty===constant.value(false))
+							IF(inputPorts.get(i).empty===constant.value(false) & ~outputPort.stall)
 							{
 								sDataOutValid.next <==true;
-								debug.simPrintf("scheduler: counter=%u, States.SENDING, inputPorts.get(%u).empty=%u, schedulerFlagInput.valid=%u, sInputPortIndex=%u\n", counter, i, inputPorts.get(i).empty,schedulerFlagInput.valid, sInputPortIndex);
+								debug.simPrintf("scheduler: counter=%u, States.SENDING, inputPorts.get(%u).empty=%u, schedulerFlagInput.valid=%u, sInputPortIndex=%u\n", counter, i, inputPorts.get(i).empty,schedulerValidInput.valid, sInputPortIndex);
 							}
 							ELSE {
 								sDataOutValid.next <== false;
@@ -148,7 +148,9 @@ public class Scheduler extends ManagerStateMachine {
 	protected void outputFunction() {
 		outputPort.valid <== false;
 		outputPort <== 55;
+schedulerValidInput.stall <== outputPort.stall;
 
+	    //set all ports 'read' signal to false
 		for(int i=0;i<Nsockets;i++)
 		{
 			inputPorts.get(i).read <== false;
@@ -163,8 +165,9 @@ public class Scheduler extends ManagerStateMachine {
 				for(int i=0;i<Nsockets;i++)
 				{
 					IF(sInputPortIndex===i){
+						//if current input port is not empty, request new data from the buffer only if output is not stalled
 						IF(inputPorts.get(i).empty===constant.value(false)) { //& ~inputPorts.get(i).empty
-							inputPorts.get(i).read <== ~schedulerFlagInput.valid;
+							inputPorts.get(i).read <== ~schedulerValidInput.valid & ~outputPort.stall;
 							//outputPort.valid <== sDataOutValid; //
 							//outputPort <== inputPorts.get(i);
 							debug.simPrintf("scheduler: counter=%u, sDataOutValid=%u, inputPorts.get(%u).read=%u, outputPort.valid=%u, inputPorts.get(%i)=%x\n", counter, sDataOutValid, i, inputPorts.get(i).read, outputPort.valid, i, inputPorts.get(i));

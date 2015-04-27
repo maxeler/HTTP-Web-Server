@@ -1,0 +1,319 @@
+package httpServer;
+
+import com.maxeler.maxblox.statemachine.TieOffNode;
+import com.maxeler.maxblox.statemachine.TieOffNode.IODirection;
+import com.maxeler.maxblox.statemachine.TieOffNode.IOPattern;
+import com.maxeler.maxblox.statemachine.TieOffNode.IOStreamMode;
+import com.maxeler.maxcompiler.v2.build.EngineParameters;
+import com.maxeler.maxcompiler.v2.kernelcompiler.KernelConfiguration;
+import com.maxeler.maxcompiler.v2.kernelcompiler.types.base.DFETypeFactory;
+import com.maxeler.maxcompiler.v2.managers.BuildConfig;
+import com.maxeler.maxcompiler.v2.managers.custom.DFELink;
+import com.maxeler.maxcompiler.v2.managers.custom.blocks.KernelBlock;
+import com.maxeler.maxcompiler.v2.managers.custom.blocks.StateMachineBlock;
+import com.maxeler.maxcompiler.v2.managers.custom.stdlib.DebugLevel;
+import com.maxeler.maxcompiler.v2.managers.custom.stdlib.Max4QMem;
+import com.maxeler.maxcompiler.v2.managers.custom.stdlib.MemoryControlGroup;
+import com.maxeler.maxeleros.ip.SlicePad.Padder;
+import com.maxeler.maxeleros.managerblocks.Slicer;
+import com.maxeler.networking.statemachines.TCPRxWindowMemory;
+import com.maxeler.networking.statemachines.TCPTxWindowMemory;
+import com.maxeler.networking.statemachines.superfifo.SuperFIFO;
+import com.maxeler.networking.statemachines.superfifo.SuperFIFO.FifoIO;
+import com.maxeler.networking.types.TCPManyConnectionsTypes;
+import com.maxeler.networking.v1.managers.NetworkManager;
+import com.maxeler.networking.v1.managers.blocks.MaxTCPVersion;
+import com.maxeler.networking.v1.managers.netlib.Max4NetworkConnection;
+import com.maxeler.networking.v1.managers.netlib.NetworkConnection;
+import com.maxeler.networking.v1.managers.netlib.TCPStreamManyConnections;
+import com.maxeler.utils.MemoryManager;
+
+public class httpServerManager_copy_44288 extends NetworkManager {
+
+	private static final String KERNEL_NAME_write = "KernelLMem_Write_CommandAndDataStream";
+	private static final String KERNEL_NAME_read = "KernelLMem_Read_CommandAndDataStream";
+	private static final int Nsockets = 16;
+	private final int width;
+
+	public static final int getNsockets() {
+		return Nsockets;
+	}
+
+	private final boolean useLMemWindowMemory = false;
+	private final boolean hwLoopBack = false;
+
+	//public httpServerManager(HttpServerEngineParameters configuration) {
+	public httpServerManager_copy_44288(EngineParameters configuration) {
+		//super(configuration.getEngineParams());
+		super(configuration);
+
+		debug.setDebugLevel(new DebugLevel(){{setHasStreamStatus(true);}});
+
+		//edited FullTCPTest Example
+
+		TcpNumConnectionsRequired numConnections = TcpNumConnectionsRequired.Max64Connections;
+		//int numConnections = 64;
+
+		NetworkConnection conn = Max4NetworkConnection.QSFP_BOT_10G_PORT1;
+		MaxTCPVersion tcpVersion = MaxTCPVersion.fromNumConnections(true, numConnections);
+
+		//config.setDefaultStreamClockFrequency(157);
+			config.setDefaultStreamClockFrequency(50);
+		//ManagerClock inputClock = getNetworkClock(conn);
+		//pushDefaultClock(inputClock);
+		//setMemoryStreamClock(inputClock);
+
+
+
+		//System.out.printf("Manager: tcpVersion: %x\n", (double) tcpVersion);
+
+		boolean dfeBuild = configuration.getTarget() == EngineParameters.Target.DFE;
+		MemoryManager memoryMgr = new MemoryManager(this);
+
+//		if (!dfeBuild) {
+//			tcpVersion = MaxTCPVersion.TCP_64C_V2;
+//			numConnections = TcpNumConnectionsRequired.Max64Connections;
+//		}
+
+		//64 connections
+		tcpVersion = MaxTCPVersion.TCP_64C_V2;
+		numConnections = TcpNumConnectionsRequired.Max64Connections;
+
+		//128 connections
+		//tcpVersion = MaxTCPVersion.TCP_128C_V2;
+		//numConnections = TcpNumConnectionsRequired.Max128Connections;
+
+		TCPStreamManyConnections tcpStream = addTCPStreamManyConnections("tcp_ISCA_QSFP_BOT_10G_PORT1", conn, numConnections);
+		width = tcpStream.getTypes().getRxDataRespType().getTotalBits();
+
+
+		addMaxFileConstant("maxNumberOfSockets", Nsockets);
+
+//		ManagerClock inputClock = getNetworkClock(conn);
+//		config.setDefaultStreamClockFrequency(157);
+//		pushDefaultClock(inputClock);
+//		setMemoryStreamClock(inputClock);
+
+//		if (configuration.getDFEModel().getDFEArchitecture() == DFEArchitecture.MAX3)
+//			setCPUStreamClock(inputClock);
+
+		if (dfeBuild) {
+			if (useLMemWindowMemory) {
+				TCPRxWindowMemory.connectToLMem(this, conn, tcpVersion, memoryMgr);
+				TCPTxWindowMemory.connectToLMem(this, conn, tcpVersion, memoryMgr);
+			} else {
+				TCPRxWindowMemory.connectToQMem(this, conn, tcpVersion, Max4QMem.QMEM2);
+				TCPTxWindowMemory.connectToQMem(this, conn, tcpVersion, Max4QMem.QMEM1);
+			}
+		} else {
+			network_config.setTCPReceiveWindowSize(conn, 64);
+			network_config.setTCPTransmitWindowSize(conn, 64);
+		}
+
+		TCPManyConnectionsTypes tcpStreamTypes = tcpStream.getTypes();
+
+		KernelBlock rxPop = addKernel(new RxPopKernel(makeKernelParameters("rxPopKernel"), tcpStreamTypes));
+
+		boolean hasRxEventSuperFifo = false; //
+		if (hasRxEventSuperFifo) {
+			FifoIO superFifo = SuperFIFO.create(this, "superfifo",
+				DFETypeFactory.dfeUInt(48),
+				numConnections.getNumConnections() * network_config.getTCPReceiveWindowSize(conn),
+				memoryMgr);
+			superFifo.write <== Padder.padSource(this,
+					tcpStream.getReceiveEventStream(), 48,
+					tcpStream.getTypes().getEventType().getTotalBits(),
+					true, 5, -1);
+			Slicer.sliceConnect(this, superFifo.read, rxPop.getInput(RxPopKernel.IN_EVENT));
+		} else {
+			rxPop.getInput(RxPopKernel.IN_EVENT) <== tcpStream.getReceiveEventStream();
+		}
+
+		tcpStream.getReceiveRequestStream() <== rxPop.getOutput(RxPopKernel.OUT_REQUEST);
+
+		StallSM stallSM = new StallSM(this, tcpStream.getTypes().getRxDataRespType().getTotalBits());
+		System.out.println("ADDED: width=tcpStream.getTypes().getRxDataRespType().getTotalBits()=" + tcpStream.getTypes().getRxDataRespType().getTotalBits());
+		StateMachineBlock stall = addStateMachine("stall", stallSM);
+		stall.getInput("src") <== tcpStream.getReceiveDataStream(); //getReceiveDataStream();
+
+		rxPop.getInput(RxPopKernel.IN_FIFO_FULL) <== stall.getOutput("fifoFull");
+		addStreamToCPU("rxPopDebug") <== rxPop.getOutput(RxPopKernel.OUT_DEBUG);
+
+		//if (hwLoopBack) {
+
+		//} else {
+			//KernelBlock in = addKernel(new InboundKernel(makeKernelParameters("inboundKernel"), tcpStreamTypes));
+			//in.getInput(InboundKernel.IN_RESP) <== stall.getOutput("dst");
+
+			//addFramedStreamToCPU("inbound", InboundKernel.inboundType) <== in.getOutput(InboundKernel.OUT_DATA);
+
+			//KernelBlock out = addKernel(new OutboundKernel(makeKernelParameters("outboundKernel"), tcpStreamTypes));
+			//out.getInput(OutboundKernel.INPUT) <== addStreamFromCPU("outbound");
+			//tcpStream.getTransmitStream() <== out.getOutput(OutboundKernel.OUTPUT);
+		//}
+
+		TieOffNode connStateEvTieOffSM = new TieOffNode(this);
+		connStateEvTieOffSM.addIO(
+                        "connStateEvTieOffIn",
+                        tcpStreamTypes.getConnStateEventType().getTotalBits(),
+                        IODirection.IN,
+                        IOStreamMode.PUSH,
+                        IOPattern.ADVANCE);
+        StateMachineBlock connStateEvTieOff = addStateMachine("connStateEvTieOff", connStateEvTieOffSM);
+        connStateEvTieOff.getInput("connStateEvTieOffIn") <== tcpStream.getConnStateEventStream();
+
+       	//-----------------------------------------------------------------------------------------------------------
+
+		StateMachineBlock wire = addStateMachine("cmdWire", new SimpleWire(this, 64));
+		getManagerConfiguration().dram.setEnableFlagCommands(true);
+
+		MemoryControlGroup ctrlGroup = addMemoryControlGroup("ctrlGroup", wire.getOutput(SimpleWire.OUTPUT));
+
+		DFELink readMemStream = addStreamFromOnCardMemory("readMemStream", ctrlGroup);
+	    ctrlGroup.finalise();
+
+
+	    KernelConfiguration myKernelConfig = new KernelConfiguration(getCurrentKernelConfig());
+//KernelBlock TcpRxDataDemuxKernel = addKernel(new TcpRxDataDemux(makeKernelParameters("TcpRxDataDemuxKernel", myKernelConfig), tcpStreamTypes));
+
+								//		Demux split = demux("split");
+								//		split.getInput() <== tcp_stream.getReceiveStream();;
+								//
+								//		DFELink x1 = split.addOutput("x1");
+								//		DFELink x2 = split.addOutput("x2");
+
+
+//TcpRxDataDemuxKernel.getInput(TcpRxDataDemux.INPUT_TCP) <== stall.getOutput("dst");// tcp_stream.getReceiveStream();
+
+//StateMachineBlock smInputFIFOs = addStateMachine("smInputFIFOs", new InputFIFOs(this, tcpStream));
+
+								//StateMachineBlock[] stateMachine = new StateMachineBlock[1];
+								//StateMachineBlock stateMachine = null;
+
+
+//KernelBlock SchedulerKernel = addKernel(new Scheduler(makeKernelParameters("SchedulerKernel", myKernelConfig)));
+//StateMachineBlock Scheduler = addStateMachine("SchedulerSM", new Scheduler(this, width ));
+
+//		for(int i=0;i<Nsockets; i++)
+//		{
+//			smInputFIFOs.getInput("socketNumberInput" + String.valueOf(i)) <== TcpRxDataDemuxKernel.getOutput("OUTPUT_TCP" + String.valueOf(i));
+//			Scheduler.getInput("schedulerDataInput" + String.valueOf(i)) <== smInputFIFOs.getOutput("socketNumberOutput" + String.valueOf(i));
+//		}
+
+								//		String smName = "httpServerStateMachine" + String.valueOf(i);
+								//		stateMachine[i] = addStateMachine(smName, new httpServerStateMachine(this));
+								//		stateMachine[i].getInput("tcp_to_sm") <== smFIFOs.getOutput("socketNumberOutput" + String.valueOf(i));
+
+										//String smName = "httpServerStateMachine";
+										//StateMachineBlock stateMachine = addStateMachine(smName, new httpServerStateMachine(this));
+										//stateMachine.getInput("tcp_to_sm") <== Scheduler.getOutput("schedulerDataOutput");
+
+
+KernelBlock httpKernel = addKernel(new HttpKernel(makeKernelParameters("httpKernel"), tcpStreamTypes));
+//httpKernel.getInput(HttpKernel.dataIn) <== stateMachine.getOutput("tcpOut");
+httpKernel.getInput(HttpKernel.dataIn) <== stall.getOutput("dst");//Scheduler.getOutput("schedulerDataOutput");;
+
+		//SM -> OutputFIFO
+
+		//smSocketOutputFIFO.getInput(OutputFIFO.getNameStreamInput(i)) <==	stateMachine[i].getOutput("socketNumberOutput");
+		//stateMachine[0].getOutput("socketNumberOutput");
+		//addStreamToCPU("toCpuByteNumberStateMachine") <== splitStateMachine.addOutput("splitStateMachine2");
+
+		//OutputFIFO -> parallel CRC
+//StateMachineBlock parallelCRC = addStateMachine("parallelCRC", new ParallelCRC_stateMachine(this));
+//parallelCRC.getInput(ParallelCRC_stateMachine.dataIn) <== stateMachine.getOutput("checksumOutput");
+
+		KernelBlock parallelCRC = addKernel(new ParallelCRC(makeKernelParameters("parallelCRC")));
+		//parallelCRC.getInput(ParallelCRC.dataIn) <== stateMachine.getOutput("checksumOutput");
+parallelCRC.getInput(ParallelCRC.dataIn) <== httpKernel.getOutput("checksumOutput");
+		//parallelCRC_kernel.getOutput(ParallelCRC.crcOut) <== stateMachine.getOutput("checksumOutput1");
+
+		//Scheduler.getInput("schedulerValidInput") <== stateMachine.getOutput("schedulerValidOutput");
+//Scheduler.getInput("schedulerValidInput") <== httpKernel.getOutput("schedulerValidOutput");
+
+
+		KernelBlock kWrite = addKernel(new KernelLMem_Write_CommandAndDataStream(makeKernelParameters(KERNEL_NAME_write)));
+
+		DFELink toCpu = addStreamToCPU("toCpu");
+		DFELink fromCpu = addStreamFromCPU("fromCpu");
+
+		DFELink toLmem = addStreamToOnCardMemory("toLmem",kWrite.getOutput("OcmdStream"));
+
+		kWrite.getInput("inA")<==fromCpu;
+		toLmem<==kWrite.getOutput("outA");
+
+		KernelBlock kRead = addKernel(new KernelLMem_Read_CommandAndDataStream(makeKernelParameters(KERNEL_NAME_read)));
+		DFELink fromLmem = addStreamFromOnCardMemory("fromLmem", kRead.getOutput("OcmdStream"));
+
+		kRead.getInput("inA")<==fromLmem;
+		toCpu <== kRead.getOutput("outA");
+
+		// CrcIndexTable
+		StateMachineBlock crcIndex = addStateMachine("CrcIndexTable", new CrcIndexTable(this));
+		//crcIndex.getInput("crcResultInput") <== parallelCRC.getOutput(ParallelCRC_stateMachine.crcOut);
+		crcIndex.getInput("crcResultInput") <== parallelCRC.getOutput(ParallelCRC.crcOut);
+		crcIndex.getInput("crcBlankPageInput") <== crcIndex.getOutput("crcBlankPageOutput");
+
+		StateMachineBlock smOutputFIFOsingle = addStateMachine("smOutputFIFOsingle", new CRCIndexFIFO(this));
+		smOutputFIFOsingle.getInput("outputCrcFIFOInput0") <==	crcIndex.getOutput("crcIndexOutput");
+
+		// command are sent from the state machine via wire SM into the LMEM
+		StateMachineBlock smLMEM = addStateMachine("LMEM", new LMEM(this, ctrlGroup.getStreamIndexIdWithinGroup("readMemStream")));
+		wire.getInput(SimpleWire.INPUT) <== smLMEM.getOutput(LMEM.OUTPUT_MEM_COMMAND);
+		smLMEM.getInput(LMEM.INPUT_MEM_DATA) <== readMemStream;
+		smLMEM.getInput("dataFromCrcIndex") <== smOutputFIFOsingle.getOutput("outputCrcFIFOOutput0"); //stateMachine.getOutput("checksumOutput");
+
+		//socket disconnect
+		KernelBlock TcpTxCpuKernel = addKernel(new TcpTxCpu(makeKernelParameters("TcpTxCpuKernel"), tcpStreamTypes));
+			//DFELink toCpuOutputTxEvent = addStreamToCPU("toCpuOutputTxEvent");
+			//toCpuOutputTxEvent <== TcpTxCpuKernel.getOutput(TcpTxCpu.OUTPUT_TX_EVENTS);
+		TcpTxCpuKernel.getInput(TcpTxCpu.INPUT_TX_DATA) <==	smLMEM.getOutput("outputLmemData");//
+		tcpStream.getTransmitStream() <== TcpTxCpuKernel.getOutput(TcpTxCpu.OUTPUT_TX_DATA);
+
+		//tcpStream.getTransmitStream() <== smLMEM.getOutput("outputLmemData");
+
+
+		// ByteNumber (LMEM) --> CPU
+			//StateMachineBlock wireByteNumber = addStateMachine("byteNumber", new SimpleWire(this, 64));
+	    	//wireByteNumber.getInput(SimpleWire.INPUT) <== smLMEM.getOutput("fromLMEMFileSizeBytes");
+	    DFELink toCpuByteNumber = addStreamToCPU("toCpuFileSizeBytes");
+			//toCpuByteNumber <== wireByteNumber.getOutput(SimpleWire.OUTPUT);
+		toCpuByteNumber <== smLMEM.getOutput("fromLMEMFileSizeBytes");
+
+		// SocketNumber (LMEM) --> CPU
+			//StateMachineBlock wireSocketNumber = addStateMachine("wireSocketNumber", new SimpleWire(this, 64));
+			//wireSocketNumber.getInput(SimpleWire.INPUT) <== smLMEM.getOutput("fromLMEMSocketNumber");
+	    DFELink toCpuSocketNumber = addStreamToCPU("toCpuSocketNumber");
+	    	// toCpuSocketNumber <== wireSocketNumber.getOutput(SimpleWire.OUTPUT);
+	    toCpuSocketNumber <== smLMEM.getOutput("fromLMEMSocketNumber");
+
+
+
+		// socketNumber: stateMachine -> LMEM
+		StateMachineBlock smSocketOutputFIFO = addStateMachine("smSocketOutputFIFO", new SocketFIFO(this));
+		//for(int i=0;i<1; i++)
+		{
+			//SM -> smSocketOutputFIFO
+		    //smSocketOutputFIFO.getInput("socketNumberInput0") <== stateMachine.getOutput("socketNumberOutput");
+		    smSocketOutputFIFO.getInput("socketNumberInput0") <== httpKernel.getOutput("socketNumberOutput");
+		}
+
+		smLMEM.getInput("LMEMsocketNumberInput") <== smSocketOutputFIFO.getOutput("socketNumberOutput0");
+	}
+
+	public static void main(String[] args) {
+		//HttpServerEngineParameters params = new HttpServerEngineParameters(args);
+		EngineParameters params = new EngineParameters(args, "maxFileName=httpServer", "DFEModel=ISCA"); //DFE_SIM
+		//, "maxFileName=httpServer", "DFEModel=ISCA", "target=DFE_SIM"
+
+		httpServerManager_copy_44288 m = new httpServerManager_copy_44288(params);
+
+		BuildConfig bConfig = m.getBuildConfig();
+		bConfig.setMPPRCostTableSearchRange(1, 2);
+		//bConfig.setBuildEffort(Effort.HIGH);
+		//bConfig.setOptimizationGoal(OptimizationTechnique.SPEED);
+		bConfig.setMPPRParallelism(10);
+
+		m.build();
+	}
+}

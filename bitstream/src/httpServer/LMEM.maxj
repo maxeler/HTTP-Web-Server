@@ -1,6 +1,5 @@
 package httpServer;
 
-import com.maxeler.maxblox.statemachine.SMUtils;
 import com.maxeler.maxcompiler.v2.kernelcompiler.stdlib.LMemCommandStream;
 import com.maxeler.maxcompiler.v2.kernelcompiler.types.composite.DFEStructType;
 import com.maxeler.maxcompiler.v2.managers.DFEManager;

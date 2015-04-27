@@ -1,9 +1,13 @@
 #!/bin/bash
 
+#source "/network-raid/opt/maxcompiler-2014.2/settings.sh"
+source "/home/mvorkapic/workspace/MaxCompiler-2014.2-CompiledLocalTrunk/settings.sh"
 
 export MAXELEROSDIR=$MAXCOMPILERDIR/lib/maxeleros-sim
 export LD_PRELOAD=$MAXELEROSDIR/lib/libmaxeleros.so:$LD_PRELOAD
 export SLIC_CONF="$SLIC_CONF;use_simulation=${USER}Sim"
+
+
 
 # How to set a BASH variable equal to the output from a command?
 # You need `, not '. This character is called "backticks" 

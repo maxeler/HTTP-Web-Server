@@ -42,20 +42,27 @@ public class httpServerManager extends NetworkManager {
 	private final boolean useLMemWindowMemory = false;
 	private final boolean hwLoopBack = false;
 
-	public httpServerManager(HttpServerEngineParameters configuration) {
-		super(configuration.getEngineParams());
+	//public httpServerManager(HttpServerEngineParameters configuration) {
+	public httpServerManager(EngineParameters configuration) {
+		//super(configuration.getEngineParams());
+		super(configuration);
 
 		debug.setDebugLevel(new DebugLevel(){{setHasStreamStatus(true);}});
 
 		//edited FullTCPTest Example
 
 		TcpNumConnectionsRequired numConnections = TcpNumConnectionsRequired.Max64Connections;
+		//int numConnections = 64;
 
 		NetworkConnection conn = Max4NetworkConnection.QSFP_BOT_10G_PORT1;
 		MaxTCPVersion tcpVersion = MaxTCPVersion.fromNumConnections(true, numConnections);
 
-		config.setDefaultStreamClockFrequency(157);
-			//config.setDefaultStreamClockFrequency(50);
+		//config.setDefaultStreamClockFrequency(157);
+			config.setDefaultStreamClockFrequency(50);
+			//config.setDefaultStreamClockFrequency(57);
+			//config.setDefaultStreamClockFrequency(100);
+			//config.setDefaultStreamClockFrequency(157);
+
 		//ManagerClock inputClock = getNetworkClock(conn);
 		//pushDefaultClock(inputClock);
 		//setMemoryStreamClock(inputClock);
@@ -171,39 +178,48 @@ public class httpServerManager extends NetworkManager {
 
 
 	    KernelConfiguration myKernelConfig = new KernelConfiguration(getCurrentKernelConfig());
-	    KernelBlock TcpRxDataDemuxKernel = addKernel(new TcpRxDataDemux(makeKernelParameters("TcpRxDataDemuxKernel", myKernelConfig), tcpStreamTypes));
+//KernelBlock TcpRxDataDemuxKernel = addKernel(new TcpRxDataDemux(makeKernelParameters("TcpRxDataDemuxKernel", myKernelConfig), tcpStreamTypes));
 
-//		Demux split = demux("split");
-//		split.getInput() <== tcp_stream.getReceiveStream();;
-//
-//		DFELink x1 = split.addOutput("x1");
-//		DFELink x2 = split.addOutput("x2");
-
-
-		TcpRxDataDemuxKernel.getInput(TcpRxDataDemux.INPUT_TCP) <== stall.getOutput("dst");// tcp_stream.getReceiveStream();
-
-		StateMachineBlock smInputFIFOs = addStateMachine("smInputFIFOs", new InputFIFOs(this, tcpStream));
-
-		//StateMachineBlock[] stateMachine = new StateMachineBlock[1];
-		StateMachineBlock stateMachine = null;
+								//		Demux split = demux("split");
+								//		split.getInput() <== tcp_stream.getReceiveStream();;
+								//
+								//		DFELink x1 = split.addOutput("x1");
+								//		DFELink x2 = split.addOutput("x2");
 
 
-		//KernelBlock SchedulerKernel = addKernel(new Scheduler(makeKernelParameters("SchedulerKernel", myKernelConfig)));
-		StateMachineBlock Scheduler = addStateMachine("SchedulerKernel", new Scheduler(this, width ));
+//TcpRxDataDemuxKernel.getInput(TcpRxDataDemux.INPUT_TCP) <== stall.getOutput("dst");// tcp_stream.getReceiveStream();
 
-		for(int i=0;i<Nsockets; i++)
-		{
-			smInputFIFOs.getInput("socketNumberInput" + String.valueOf(i)) <== TcpRxDataDemuxKernel.getOutput("OUTPUT_TCP" + String.valueOf(i));
-			Scheduler.getInput("schedulerDataInput" + String.valueOf(i)) <== smInputFIFOs.getOutput("socketNumberOutput" + String.valueOf(i));
-		}
+//StateMachineBlock smInputFIFOs = addStateMachine("smInputFIFOs", new InputFIFOs(this, tcpStream));
 
-//		String smName = "httpServerStateMachine" + String.valueOf(i);
-//		stateMachine[i] = addStateMachine(smName, new httpServerStateMachine(this));
-//		stateMachine[i].getInput("tcp_to_sm") <== smFIFOs.getOutput("socketNumberOutput" + String.valueOf(i));
+								//StateMachineBlock[] stateMachine = new StateMachineBlock[1];
+								//StateMachineBlock stateMachine = null;
+
+
+//KernelBlock SchedulerKernel = addKernel(new Scheduler(makeKernelParameters("SchedulerKernel", myKernelConfig)));
+//StateMachineBlock Scheduler = addStateMachine("SchedulerSM", new Scheduler(this, width ));
+
+//		for(int i=0;i<Nsockets; i++)
+//		{
+//			smInputFIFOs.getInput("socketNumberInput" + String.valueOf(i)) <== TcpRxDataDemuxKernel.getOutput("OUTPUT_TCP" + String.valueOf(i));
+//			Scheduler.getInput("schedulerDataInput" + String.valueOf(i)) <== smInputFIFOs.getOutput("socketNumberOutput" + String.valueOf(i));
+//		}
+
+							//	//		String smName = "httpServerStateMachine" + String.valueOf(i);
+							//	//		stateMachine[i] = addStateMachine(smName, new httpServerStateMachine(this));
+							//	//		stateMachine[i].getInput("tcp_to_sm") <== smFIFOs.getOutput("socketNumberOutput" + String.valueOf(i));
+
+//										String smName = "httpServerStateMachine";
+//										StateMachineBlock stateMachine = addStateMachine(smName, new httpServerStateMachine(this));
+//										stateMachine.getInput("tcp_to_sm") <== Scheduler.getOutput("schedulerDataOutput");
 
 		String smName = "httpServerStateMachine";
-		stateMachine = addStateMachine(smName, new httpServerStateMachine(this));
-		stateMachine.getInput("tcp_to_sm") <== Scheduler.getOutput("schedulerDataOutput");
+		StateMachineBlock stateMachine = addStateMachine(smName, new httpServerStateMachine(this));
+		stateMachine.getInput("tcp_to_sm") <== stall.getOutput("dst");//Scheduler.getOutput("schedulerDataOutput");;
+
+
+//			KernelBlock httpKernel = addKernel(new HttpKernel(makeKernelParameters("httpKernel"), tcpStreamTypes));
+//					//httpKernel.getInput(HttpKernel.dataIn) <== stateMachine.getOutput("tcpOut");
+//			httpKernel.getInput(HttpKernel.dataIn) <== stall.getOutput("dst");//Scheduler.getOutput("schedulerDataOutput");;
 
 		//SM -> OutputFIFO
 
@@ -215,11 +231,15 @@ public class httpServerManager extends NetworkManager {
 //StateMachineBlock parallelCRC = addStateMachine("parallelCRC", new ParallelCRC_stateMachine(this));
 //parallelCRC.getInput(ParallelCRC_stateMachine.dataIn) <== stateMachine.getOutput("checksumOutput");
 
-		KernelBlock parallelCRC = addKernel(new ParallelCRC(makeKernelParameters("parallelCRC_Kernel")));
-		parallelCRC.getInput(ParallelCRC.dataIn) <== stateMachine.getOutput("checksumOutput1");
+		KernelBlock parallelCRC = addKernel(new ParallelCRC(makeKernelParameters("parallelCRC")));
+		//parallelCRC.getInput(ParallelCRC.dataIn) <== stateMachine.getOutput("checksumOutput");
+//parallelCRC.getInput(ParallelCRC.dataIn) <== httpKernel.getOutput("checksumOutput");
 		//parallelCRC_kernel.getOutput(ParallelCRC.crcOut) <== stateMachine.getOutput("checksumOutput1");
+		parallelCRC.getInput(ParallelCRC.dataIn) <== stateMachine.getOutput("checksumOutput1");
 
-		Scheduler.getInput("schedulerValidInput") <== stateMachine.getOutput("schedulerValidOutput");
+
+		//Scheduler.getInput("schedulerValidInput") <== stateMachine.getOutput("schedulerValidOutput");
+//Scheduler.getInput("schedulerValidInput") <== httpKernel.getOutput("schedulerValidOutput");
 
 
 		KernelBlock kWrite = addKernel(new KernelLMem_Write_CommandAndDataStream(makeKernelParameters(KERNEL_NAME_write)));
@@ -227,16 +247,16 @@ public class httpServerManager extends NetworkManager {
 		DFELink toCpu = addStreamToCPU("toCpu");
 		DFELink fromCpu = addStreamFromCPU("fromCpu");
 
-		DFELink toLmem = addStreamToOnCardMemory("toLmem",kWrite.getOutput("OcmdStream"));
+		DFELink toLmem = addStreamToOnCardMemory("toLmem",kWrite.getOutput("OcmdStreamWrite"));
 
 		kWrite.getInput("inA")<==fromCpu;
 		toLmem<==kWrite.getOutput("outA");
 
 		KernelBlock kRead = addKernel(new KernelLMem_Read_CommandAndDataStream(makeKernelParameters(KERNEL_NAME_read)));
-		DFELink fromLmem = addStreamFromOnCardMemory("fromLmem", kRead.getOutput("OcmdStream"));
+		DFELink fromLmem = addStreamFromOnCardMemory("fromLmem", kRead.getOutput("OcmdStreamRead"));
 
-		kRead.getInput("inA")<==fromLmem;
-		toCpu <== kRead.getOutput("outA");
+		kRead.getInput("inputFromLMEM")<==fromLmem;
+		toCpu <== kRead.getOutput("outputFromLMEM");
 
 		// CrcIndexTable
 		StateMachineBlock crcIndex = addStateMachine("CrcIndexTable", new CrcIndexTable(this));
@@ -285,13 +305,18 @@ public class httpServerManager extends NetworkManager {
 		{
 			//SM -> smSocketOutputFIFO
 		    smSocketOutputFIFO.getInput("socketNumberInput0") <== stateMachine.getOutput("socketNumberOutput");
+		    //smSocketOutputFIFO.getInput("socketNumberInput0") <== httpKernel.getOutput("socketNumberOutput");
 		}
 
 		smLMEM.getInput("LMEMsocketNumberInput") <== smSocketOutputFIFO.getOutput("socketNumberOutput0");
 	}
 
 	public static void main(String[] args) {
-		HttpServerEngineParameters params = new HttpServerEngineParameters(args);
+		//HttpServerEngineParameters params = new HttpServerEngineParameters(args);
+		EngineParameters params = new EngineParameters(args //"maxFileName=httpServer_2014_ticket7202", "DFEModel=ISCA"
+														); //DFE_SIM
+		//, "maxFileName=httpServer", "DFEModel=ISCA", "target=DFE_SIM"
+
 		httpServerManager m = new httpServerManager(params);
 
 		BuildConfig bConfig = m.getBuildConfig();

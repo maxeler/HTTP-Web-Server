@@ -1,0 +1,45 @@
+{
+    "./initCode": {
+        "files": "input-45b963397aa40d4a0063e0d85e4fe7a1", 
+        "files/HTTPError404NotFound.html": "input-c4536b94ed9c9b39c60fd7cb92946baf", 
+        "files/Test1MB.txt": "input-aa127d74b156b3a50d2ac9f69a792a6f", 
+        "files/Test8K.txt": "input-9adb59524a3e34024f0290ef412bb2be", 
+        "files/app.png": "input-69020b3df1e18d3d6c8a579537e6b9a6", 
+        "files/mym.png": "input-5970d48ae2b98a641fba8f1109a05923", 
+        "files/nam.svg": "input-3d059bea700801e20082e12dd519760f", 
+        "initCode": "input-756386590b187f578d019164202da9d8", 
+        "results/lmem_generated_file.html": "output-b0861e2bcc59577058f77422292337e6", 
+        "results/romCrcIndex1_init.html": "output-1532569c26052efb0453c732472f84b6", 
+        "results/romCrcIndex2_init.html": "output-fc06671ec04e7b8423e79f1dcc1fc129"
+    }, 
+    ".deps_version": 2, 
+    "/home/mvorkapic/workspace/MaxCompiler-2014.2-CompiledLocalTrunk/bin/sliccompile httpServer.max httpServer.o": {
+        ".": "input-5058f1af8388633f609cadb75a75dc9d", 
+        "httpServer.max": "input-9e881e0105058e8601dcc87854ba994b", 
+        "httpServer.o": "output-beeef35d62f287906c73fe1a7759cca0"
+    }, 
+    "gcc -g -c initCode.c": {
+        ".": "input-5058f1af8388633f609cadb75a75dc9d", 
+        "crc16.h": "input-2d7036b8662cdb2577ded8211ed4509c", 
+        "initCode.c": "input-521d33cdcc10d0c45a25a5266558b2ca", 
+        "initCode.o": "output-5ce6dd9c935cbfb70248f724f8249028"
+    }, 
+    "gcc -lm initCode.o -o initCode": {
+        ".": "input-5058f1af8388633f609cadb75a75dc9d", 
+        "initCode": "output-756386590b187f578d019164202da9d8", 
+        "initCode.o": "input-5ce6dd9c935cbfb70248f724f8249028"
+    }, 
+    "gcc -std=gnu99 -Wall -Werror -ggdb -rdynamic -DDESIGN_NAME=httpServer -I. -I/home/mvorkapic/workspace/MaxCompiler-2014.2-CompiledLocalTrunk/lib/maxeleros-sim/include -I/home/mvorkapic/workspace/MaxCompiler-2014.2-CompiledLocalTrunk/include/slic -c httpServerCPUcode.c -o httpServerCPUcode.o": {
+        ".": "input-5058f1af8388633f609cadb75a75dc9d", 
+        "httpServer.h": "input-b24b6cf4f7cde82c833c3950694d87ae", 
+        "httpServerCPUcode.c": "input-a320f9f1eb80d3cf67b4e14368eb5ce7", 
+        "httpServerCPUcode.o": "output-7a75973e728557d818e0bb2f49554d21"
+    }, 
+    "gcc httpServerCPUcode.o httpServer.o -L/home/mvorkapic/workspace/MaxCompiler-2014.2-CompiledLocalTrunk/lib -L/home/mvorkapic/workspace/MaxCompiler-2014.2-CompiledLocalTrunk/lib/maxeleros-sim/lib -lslic -lmaxeleros -lm -lpthread -o httpServerCPUcode": {
+        ".": "input-5058f1af8388633f609cadb75a75dc9d", 
+        "httpServer.o": "input-beeef35d62f287906c73fe1a7759cca0", 
+        "httpServerCPUcode": "output-90ee6388789d84a940f4a61acaff2da2", 
+        "httpServerCPUcode.o": "input-7a75973e728557d818e0bb2f49554d21"
+    }, 
+    "rm -f *.o *.pcap *.dot *.png": {}
+}

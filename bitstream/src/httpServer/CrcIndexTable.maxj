@@ -16,11 +16,12 @@ public class CrcIndexTable extends ManagerStateMachine {
 
 	private final DFEsmStateValue sCrcIndexDataOutValid = state.value(dfeBool(), false);
 	private final DFEsmStateValue sWhatCrcIndexToUse = state.value(dfeUInt(1),	0);
+
 	private final DFEsmPushInput crcResultInput = io.pushInput("crcResultInput", dfeUInt(16), 1);
-	private final DFEsmPushOutput crcIndexOutput = io.pushOutput("crcIndexOutput", dfeUInt(64), 1);
+	private final DFEsmPushOutput crcBlankPageFlagOutput = io.pushOutput("crcBlankPageOutput", dfeBool(), 1);
 
 	private final DFEsmPushInput crcBlankPageFlagInput = io.pushInput("crcBlankPageInput", dfeBool(), 1);
-	private final DFEsmPushOutput crcBlankPageFlagOutput = io.pushOutput("crcBlankPageOutput", dfeBool(), 1);
+	private final DFEsmPushOutput crcIndexOutput = io.pushOutput("crcIndexOutput", dfeUInt(64), 1);
 
 	private final DFEsmStateValue counter = state.value(dfeUInt(20), 0);
 
@@ -28,6 +29,7 @@ public class CrcIndexTable extends ManagerStateMachine {
 		super(owner);
 
 		// CRC Index Tables
+
 		romCrcIndex1 = mem.romMapped("romCrcIndex1", dfeUInt(64), 32768,	Latency.ONE_CYCLE);
 		romCrcIndex2 = mem.romMapped("romCrcIndex2", dfeUInt(64), 32768,	Latency.ONE_CYCLE);
 	}
@@ -38,6 +40,7 @@ public class CrcIndexTable extends ManagerStateMachine {
 		counter.next<==counter+1;
 
 		IF(crcBlankPageFlagInput.valid)
+		//IF(crcBlankPageFlagInput===1)
 		{
 			// ./files/HTTPError404NotFound.html - size(bytes): 304
 			// Checksum value: 0x51a7
@@ -48,17 +51,19 @@ public class CrcIndexTable extends ManagerStateMachine {
 			romCrcIndex2.address <== crcIndexBlankPage.slice(0, 15);
 			sWhatCrcIndexToUse.next <== crcIndexBlankPage[15];
 
-			debug.simPrintf("CrcIndexTable: crcBlankPageFlagInput=%d, crcIndexBlankPage(0, 15)=%u, sWhatCrcIndexToUse=%u\n", crcBlankPageFlagInput.valid, crcIndexBlankPage.slice(0, 15),crcIndexBlankPage[15]);
+			debug.simPrintf("CrcIndexTable XXX: counter=%u, crcBlankPageFlagInput=%d, crcIndexBlankPage(0, 15)=%u, sWhatCrcIndexToUse=%u\n", counter, crcBlankPageFlagInput, crcIndexBlankPage.slice(0, 15),crcIndexBlankPage[15]);
 
 			sCrcIndexDataOutValid.next<==true;
 		}
-		ELSE IF(crcResultInput.valid)
+		//ELSE IF(crcResultInput.valid)
+
+		IF(crcResultInput.valid)
 		{
 			romCrcIndex1.address <== crcResultInput.slice(0, 15);
 			romCrcIndex2.address <== crcResultInput.slice(0, 15);
 			sWhatCrcIndexToUse.next <== crcResultInput[15];
 
-			debug.simPrintf("CrcIndexTable: crcResultInput.valid=%d, crcResultInput(0, 15)=%u, sWhatCrcIndexToUse=%u\n", crcResultInput.valid, crcResultInput.slice(0, 15),crcResultInput[15]);
+			debug.simPrintf("CrcIndexTable: tick=%u, crcResultInput.valid=%d, crcResultInput(0, 15)=%u, sWhatCrcIndexToUse=%u\n", counter, crcResultInput.valid, crcResultInput.slice(0, 15),crcResultInput[15]);
 
 			sCrcIndexDataOutValid.next<==true;
 		}
@@ -77,7 +82,7 @@ public class CrcIndexTable extends ManagerStateMachine {
 				crcIndexData <== romCrcIndex2.dataOut;
 			}
 
-			debug.simPrintf("CrcIndexTable: Value romCrcIndex.dataOut=%x, romCrcIndex.dataOut=%x, sUseCrcIndex=%x, current=%u\n", romCrcIndex1.dataOut, romCrcIndex2.dataOut, sWhatCrcIndexToUse, counter);
+			debug.simPrintf("CrcIndexTable: tick=%u, Value romCrcIndex.dataOut=%x, romCrcIndex.dataOut=%x, sUseCrcIndex=%x\n", counter, romCrcIndex1.dataOut, romCrcIndex2.dataOut, sWhatCrcIndexToUse);
 
 			DFEsmAssignableValue startAddressBurst=assignable.value(dfeUInt(19)); // startAddressBurst in LMem
 			DFEsmAssignableValue fileLengthBursts=assignable.value(dfeUInt(19)); // length of a file as number of Bursts
@@ -87,7 +92,7 @@ public class CrcIndexTable extends ManagerStateMachine {
 			fileLengthBursts<==crcIndexData.slice(26, 19);
 			startAddressBurst<==crcIndexData.slice(45, 19);
 
-			debug.simPrintf("CrcIndexTable: startAddressBurst=%u, fileLengthBursts=%u, fileLengthBytes=%u\n",startAddressBurst,fileLengthBursts,fileLengthBytes);
+			debug.simPrintf("CrcIndexTable: tick=%u, startAddressBurst=%u, fileLengthBursts=%u, fileLengthBytes=%u\n", counter, startAddressBurst,fileLengthBursts,fileLengthBytes);
 
 			sCrcIndexDataOutValid.next<==false;
 		}
@@ -95,6 +100,15 @@ public class CrcIndexTable extends ManagerStateMachine {
 
 	@Override
 	protected void outputFunction() {
+
+			crcResultInput.stall <== crcIndexOutput.stall;
+
+			crcIndexOutput.valid <== false;
+			crcIndexOutput <==0;
+
+			crcBlankPageFlagInput.stall <== crcIndexOutput.stall;
+			crcBlankPageFlagOutput.valid <== false; //false
+			crcBlankPageFlagOutput <== 0;
 
 			IF(crcResultInput.valid)
 			{
@@ -113,13 +127,6 @@ public class CrcIndexTable extends ManagerStateMachine {
 				crcIndexData <== romCrcIndex2.dataOut;
 			}
 
-			crcIndexOutput.valid <== false;
-			crcIndexOutput <==0;
-			crcResultInput.stall <== crcIndexOutput.stall;
-
-			crcBlankPageFlagOutput.valid <==false;
-			crcBlankPageFlagOutput <== 0;
-			crcResultInput.stall <== false;
 
 			IF(sCrcIndexDataOutValid===true)
 			{
@@ -134,9 +141,6 @@ public class CrcIndexTable extends ManagerStateMachine {
 					crcIndexOutput.valid <== true;
 					crcIndexOutput <== crcIndexData;
 				}
-
-
-
 			}
 	}
 }

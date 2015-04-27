@@ -10,7 +10,7 @@ class KernelLMem_Read_CommandAndDataStream extends Kernel {
 
 	KernelLMem_Read_CommandAndDataStream(KernelParameters parameters) {
 		super(parameters);
-		DFEVar inA = io.input("inA", dfeUInt(64));
+		DFEVar inA = io.input("inputFromLMEM", dfeUInt(64));
 		DFEVar totalBursts = io.scalarInput("totalBursts",dfeUInt(32));
 		DFEVar wordsPerBurst = io.scalarInput("wordsPerBurst",dfeUInt(32));
 
@@ -18,7 +18,7 @@ class KernelLMem_Read_CommandAndDataStream extends Kernel {
 		DFEVar burstCount = chain.addCounter(totalBursts,1);
 		DFEVar wordCount = chain.addCounter(wordsPerBurst,1);
 
-		LMemCommandStream.makeKernelOutput("OcmdStream",
+		LMemCommandStream.makeKernelOutput("OcmdStreamRead",
 				wordCount === 0,                   // control
 				burstCount,                        // address
 				constant.var(dfeUInt(8), 1),       // size
@@ -29,6 +29,6 @@ class KernelLMem_Read_CommandAndDataStream extends Kernel {
 
 		//debug.simPrintf("Kernel 2, burstCount=%u, wordCount=%u\n",burstCount,wordCount);
 
-		io.output("outA", inA, dfeUInt(64));
+		io.output("outputFromLMEM", inA, dfeUInt(64));
 	}
 }

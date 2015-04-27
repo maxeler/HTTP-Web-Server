@@ -27,7 +27,11 @@ typedef struct tx_event_type_s {
 
 void writeDataToLMem(uint64_t *dataIn, int size, int sizeBytes, int burstLengthInBytes, max_engine_t *engine, max_file_t *maxfile) {
 
+		printf("size=%d, sizeBytes=%d, burstLengthInBytes=%d\n", size, sizeBytes, burstLengthInBytes);
+
+		printf("Performing max_actions_init()\n");
 	max_actions_t *actions = max_actions_init(maxfile, NULL);
+		printf("Done\n");
 
 	max_set_ticks(actions, "KernelLMem_Write_CommandAndDataStream", size);
 	max_set_uint64t(actions, "KernelLMem_Write_CommandAndDataStream", "totalBursts", size * 8 / burstLengthInBytes);
@@ -41,7 +45,9 @@ void writeDataToLMem(uint64_t *dataIn, int size, int sizeBytes, int burstLengthI
 
 	max_queue_input(actions, "fromCpu", dataIn, sizeBytes);
 	max_lmem_set_interrupt_on(actions, "toLmem");
+		printf("Performing max_run()\n");
 	max_run(engine, actions);
+		printf("Done\n");
 	max_actions_free(actions);
 
 }
@@ -138,8 +144,10 @@ int main(int argc, char *argv[]) {
 	fillRomCrcIndex(fpCrc1, &arrCrc1, Lcrc);
 	fillRomCrcIndex(fpCrc2, &arrCrc2, Lcrc);
 
+	printf("Preparing for init() and max_load()\n");
 	max_file_t *maxfile = httpServer_init();
 	max_engine_t * engine = max_load(maxfile, "*");
+	printf("Done\n");
 
 	max_actions_t *actions = max_actions_init(maxfile, NULL);
 
@@ -183,24 +191,45 @@ int main(int argc, char *argv[]) {
 
 	const int size = romDepth;
 	int sizeBytes = size * sizeof(uint64_t);
-	uint64_t *inData = malloc(sizeBytes);
+	uint64_t *inData; // = malloc(sizeBytes);
 
-	generateInputData(size, inData);
+	//generateInputData(size, inData);
 
 	//action #1
 
+
 	printf("Writing to DFE memory.\n");
 	inData = arrLmem;
+
+//	for (int i = 0; i < size; i++) {
+//				printf("Initialize LMEM: element %d, inData[%d]=%016llx\n",i,i, (long long unsigned int) inData[i]);
+//	}
+
 	writeDataToLMem(inData, size, sizeBytes, burstLengthInBytes, engine, maxfile);
+	//writeDataToLMem(inData, 0, sizeBytes, burstLengthInBytes, engine, maxfile);
+	printf("Done\n");
 
 	//action #2
 
-	//  printf("Reading DFE memory.\n");
-	//	uint64_t *outData = malloc(sizeBytes);
-	//	readDataFromLMem(outData, size, sizeBytes, burstLengthInBytes, engine, maxfile);
-	//	for (int i = 0; i < size; i++) {
-	//	printf("Element %d, outData[%d]=%016llx\n",i,i,outData[i]);
-	//	}
+//	  printf("Reading DFE memory.\n");
+//		uint64_t *outData = malloc(sizeBytes);
+//		readDataFromLMem(outData, size, sizeBytes, burstLengthInBytes, engine, maxfile);
+//		for (int i = 0; i < size; i++) {
+//			//printf("Reading LMEM: element %d, outData[%d]=%016llx\n",i,i,(long long unsigned int) outData[i]);
+//			char* tt;
+//			tt = (char *) &outData[i];
+//			char ttnew[9];
+//			for(int k=0;k<8; k++)
+//			{
+//				ttnew[k]=(*tt);
+//				tt++;
+//			}
+//			ttnew[8]='\0';
+//
+//			printf("Reading LMEM: element %d, ASCII outData[%d]=%s, outData[%d]=%016llx\n", i, i, ttnew, i, (long long unsigned int) outData[i]);
+//		}
+
+	//exit(1);
 
 	max_ip_config(engine, MAX_NET_CONNECTION_QSFP_BOT_10G_PORT1, &dfe_ip, &netmask);
 
@@ -283,6 +312,8 @@ int main(int argc, char *argv[]) {
 		usleep(1000*1000*1);
 		ti--;
 	}
+
+	//while(1);
 
 
 	uint64_t num_rx_bytes;

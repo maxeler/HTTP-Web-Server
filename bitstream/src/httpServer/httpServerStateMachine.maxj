@@ -31,10 +31,11 @@ public class httpServerStateMachine extends ManagerStateMachine {
 	private final DFEsmStateEnum<States> sCurrentState;
 
 	private final DFEsmPushInput inputTcpData = io.pushInput("tcp_to_sm", dfeUInt(75), 1);
+//private final DFEsmPushOutput outputTcpData = io.pushOutput("tcpOut", dfeUInt(75), 1);
 	//private final DFEsmPushOutput checksumOutput = io.pushOutput("checksumOutput", dfeUInt(512), 4);
 		private final DFEsmPushOutput checksumOutput1 = io.pushOutput("checksumOutput1", dfeUInt(512), 4);
 	private final DFEsmPushOutput socketNumberOutput = io.pushOutput("socketNumberOutput", dfeUInt(8), 1);
-	private final DFEsmPushOutput schedulerValidOutput = io.pushOutput("schedulerValidOutput", dfeUInt(1), 1);
+	//private final DFEsmPushOutput schedulerValidOutput = io.pushOutput("schedulerValidOutput", dfeUInt(1), 1);
 
 	private final DFEsmValue byte1;
 	private final DFEsmValue byte2;
@@ -574,6 +575,9 @@ public class httpServerStateMachine extends ManagerStateMachine {
 	@Override
 	protected void outputFunction() {
 
+//outputTcpData <== inputTcpData;
+//		//inputTcpData.stall <== outputTcpData.stall;
+
 		//DFEsmValue rrrr = socket # sof # eof # mod # data;
 
 		IF(~sOutputStall) //output.stall
@@ -590,8 +594,8 @@ checksumOutput1 <== 0;
 		socketNumberOutput.valid <== false;
 		socketNumberOutput <== 0;
 
-		schedulerValidOutput.valid <== false;
-		schedulerValidOutput <== 0;
+		//schedulerValidOutput.valid <== false;
+		//schedulerValidOutput <== 0;
 
 		IF(sStoreURLValid)
 		{
@@ -612,13 +616,16 @@ checksumOutput1 <== sStoreURL.cast(dfeUInt(512));
 
 
 		IF (sCurrentState===States.END_GETREQUEST) {
-			schedulerValidOutput.valid <== true;
-			schedulerValidOutput <== constant.value(true);
-			debug.simPrintf("stateMachine: counter=%u, schedulerValidOutput=%x, schedulerValidOutput.valid=%u\n", counter, schedulerValidOutput, schedulerValidOutput.valid);
+			//schedulerValidOutput.valid <== true;
+			//schedulerValidOutput <== constant.value(true);
+//debug.simPrintf("stateMachine: counter=%u, schedulerValidOutput=%x, schedulerValidOutput.valid=%u\n", counter, schedulerValidOutput, schedulerValidOutput.valid);
 			debug.simPrintf("stateMachine: END_GETREQUEST: tick=%u, sNumericCurrent=%u, data=%x\n", counter,sCurrentState,data);
 		}
 
 		//inputTcpData.stall <== checksumOutput.stall;
 		inputTcpData.stall <== checksumOutput1.stall;
+
+
+
 	}
 }

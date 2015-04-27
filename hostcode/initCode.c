@@ -136,6 +136,7 @@ int main (void)
     char cdir[256]="./files/"; //name of the current directory
     struct stat st;
 
+
     dp = opendir (cdir);
     if (dp != NULL)
     {
@@ -230,6 +231,7 @@ int main (void)
                 int padd_bytes = memory_location.fileLengthBursts*192-size;
                 fwrite(padding, 1, padd_bytes, fp_lmem); //write padding data - to set position on the beginning of the next LMEM burst
                 printf("Checksum value: 0x%x\n", crc_index[i]);
+                printf("\n"); //
                 i++;
 
                 fname[0]='\0'; //set empty string
@@ -238,9 +240,16 @@ int main (void)
 
             }
         }
+        printf("Done writing file: /results/lmem_generated_file.html\n\n");
 
+        printf("Writing file: /results/romCrcIndex1_init.html\n");
         fwrite(romCrcIndex1, sizeof(uint64_t), N_crcindex, fp_romCrcIndex1);
+        printf("Done\n\n");
+
+        printf("Writing file: /results/romCrcIndex2_init.html\n");
         fwrite(romCrcIndex2, sizeof(uint64_t), N_crcindex, fp_romCrcIndex2);
+        printf("Done\n\n");
+
         fclose(fp_romCrcIndex1);
         fclose(fp_romCrcIndex2);
         fclose(fp_lmem);
