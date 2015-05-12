@@ -246,6 +246,7 @@ int main(int argc, char *argv[]) {
 
 	for (int i = 0; i < Nsockets; i++) {
 		max_tcp_listen(dfe_socket[i], port + i);
+		//max_tcp_listen(dfe_socket[i], port);
 		max_tcp_await_state(dfe_socket[i], MAX_TCP_STATE_LISTEN, NULL);
 	}
 
@@ -396,11 +397,28 @@ int main(int argc, char *argv[]) {
 				printf("CPU code: Waiting for MAX_TCP_STATE_CLOSED\n");
 				max_tcp_await_state(dfe_socket[socket_returned], MAX_TCP_STATE_CLOSED, NULL);
 
+					struct timeval start, end;
+					long seconds, useconds;
+					double mtime;
+
+					gettimeofday(&start, NULL);
+
 				printf("CPU code: Set LISTEN state\n");
 				max_tcp_listen(dfe_socket[socket_returned], port);
 
 				printf("CPU code: Waiting for MAX_TCP_STATE_LISTEN\n");
 				max_tcp_await_state(dfe_socket[socket_returned], MAX_TCP_STATE_LISTEN, NULL);
+
+					gettimeofday(&end, NULL);
+
+					seconds = end.tv_sec - start.tv_sec;
+					useconds = end.tv_usec - start.tv_usec;
+
+					mtime = ((seconds) * 1000 + useconds / 1000.0);
+
+					printf("Elapsed time: %.4f milliseconds \n", mtime);
+
+
 
 				printf("CPU code: Again opened socket=%u\n", socket_returned);
 

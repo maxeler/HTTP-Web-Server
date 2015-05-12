@@ -107,6 +107,10 @@ int main (void)
     char romCrcIndex1_init[]="./results/romCrcIndex1_init.html";
     char romCrcIndex2_init[]="./results/romCrcIndex2_init.html";
 
+
+
+    //exit(-1);
+
     FILE *fp_lmem = fopen (lmem_generated_file,"wb");
     if (!fp_lmem)
     {
@@ -160,6 +164,34 @@ int main (void)
                 strcat(fnamecopy,fsize);
                 puts (fnamecopy);
 
+                //HTTP response: status-line; header fields
+                int Nfields = 4;
+                int ip;
+                char *responseFields[Nfields];
+                responseFields[0]="HTTP/1.0 200 OK\r\n"; //status line
+                responseFields[1]="Connection: close\r\n";  //header field //Close //keep-alive
+                char thdr[50];
+                sprintf(thdr, "Content-Length: %d\r\n", size); //header field
+                responseFields[2]=thdr;
+                //Content-Type: image/svg+xml\r\n
+                responseFields[3]="\r\n";  //CRLF
+                char joined[512]="";
+
+                for(ip=0;ip<Nfields;ip++)
+                {
+                	strcat(joined, responseFields[ip]);
+                }
+
+                printf("Joined: %s\n", joined);
+
+                int size_only_headers = strlen(joined);
+               // printf("Size of 'joined' = %d bytes\n", size_only_headers);
+
+                //exit(-1);
+
+
+                int size_with_headers = size_only_headers + size;
+
                 unsigned char *t1,*t2;
                 t1=buf;
                 t2=fname+1;
@@ -189,8 +221,8 @@ int main (void)
 
                 /* populate romCrcIndex tables with file length, burst length and start burst */
                 memory_location.startAddressBurst = currentBurst; //0x7FFFF;//currentBurst;
-                memory_location.fileLengthBursts = ceil(size/192.0); //0x3FFFF; //ceil(size/192.0);
-                memory_location.fileLengthBytes = size; //0x1FFFFFF;//size;
+                memory_location.fileLengthBursts = ceil(size_with_headers/192.0); //0x3FFFF; //ceil(size/192.0);
+                memory_location.fileLengthBytes = size_with_headers; //0x1FFFFFF;//size;
 
                 currentBurst+=memory_location.fileLengthBursts;
                 uint16_t index = crc_index[i] & 0x7FFF;
@@ -215,7 +247,19 @@ int main (void)
                 }
 
                 /* generate LMem initialization file */
+
                 char *file_content = (char *) malloc(size);
+                char *file_content_write = (char *) malloc(size_with_headers);
+
+                if (file_content==NULL | file_content_write==NULL)
+                {
+                	printf("Error with allocating memory\n");
+                	exit(0);
+                }
+
+                //printf("file_content_write: %s\n", file_content_write);
+                //exit(-2);
+
 
                 FILE *fp_file = fopen (fname,"rb");
                 if (!fp_file)
@@ -225,10 +269,14 @@ int main (void)
                 }
 
                 fread(file_content, 1, size, fp_file);   //load file content
-                fwrite(file_content, 1, size, fp_lmem); //write file content
+                //strcat(file_content_write, joined); //
+                memcpy(file_content_write, joined, size_only_headers); //copy headers
+                char *tfile= file_content_write + size_only_headers; //copy file content
+                memcpy(tfile, file_content, size);
+                fwrite(file_content_write, 1, size_with_headers, fp_lmem); //write file content
 
                 static uint8_t padding[192];
-                int padd_bytes = memory_location.fileLengthBursts*192-size;
+                int padd_bytes = memory_location.fileLengthBursts*192-size_with_headers;
                 fwrite(padding, 1, padd_bytes, fp_lmem); //write padding data - to set position on the beginning of the next LMEM burst
                 printf("Checksum value: 0x%x\n", crc_index[i]);
                 printf("\n"); //
@@ -237,6 +285,7 @@ int main (void)
                 fname[0]='\0'; //set empty string
                 fclose(fp_file);
                 free(file_content);
+                free(file_content_write);
 
             }
         }
