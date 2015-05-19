@@ -13,7 +13,7 @@ INIT_TAP1="QSFP_BOT_10G_PORT1:" + TAP1_IP + ":" + TAP1_NETMASK
 USER=os.environ['USER']
 SIM_NAME=USER + "Sim"
 
-MAXFILE="httpServer.max"
+MAXFILE="httpserver.max"
 
 # We pick off some environment vars
 MAXCOMPILERDIR = os.environ['MAXCOMPILERDIR']

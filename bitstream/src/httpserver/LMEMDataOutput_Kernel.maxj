@@ -1,0 +1,173 @@
+package httpserver;
+
+import com.maxeler.maxcompiler.v2.kernelcompiler.Kernel;
+import com.maxeler.maxcompiler.v2.kernelcompiler.KernelParameters;
+import com.maxeler.maxcompiler.v2.kernelcompiler.stdlib.core.Count.WrapMode;
+import com.maxeler.maxcompiler.v2.kernelcompiler.stdlib.core.IO.DelimiterMode;
+import com.maxeler.maxcompiler.v2.kernelcompiler.stdlib.core.IO.NonBlockingInput;
+import com.maxeler.maxcompiler.v2.kernelcompiler.stdlib.core.IO.NonBlockingMode;
+import com.maxeler.maxcompiler.v2.kernelcompiler.types.base.DFETypeFactory;
+import com.maxeler.maxcompiler.v2.kernelcompiler.types.base.DFEVar;
+import com.maxeler.maxcompiler.v2.kernelcompiler.types.composite.DFEStructType;
+import com.maxeler.networking.statemachines.Flushing;
+
+public class LMEMDataOutput_Kernel extends Kernel {
+
+	public static final String INPUT_LMEM_DATA = "dataFromMem";
+
+	public static class InboundType extends DFEStructType {
+		public static final String DATA = "data";
+		public static final String SOCKET = "socket";
+		public static final String MOD = "mod";
+		public static final String EOF = "eof";
+		public static final String SOF = "sof";
+
+		public InboundType() {
+			super(
+					sft(DATA, DFETypeFactory.dfeRawBits(64)),
+					sft(SOCKET, DFETypeFactory.dfeUInt(6)),
+					sft(MOD, DFETypeFactory.dfeUInt(3)),
+					sft(EOF, DFETypeFactory.dfeBool()),
+					sft(SOF, DFETypeFactory.dfeBool())
+			);
+		}
+	}
+
+	//private final DFEsmPushInput dataFromMem = io.pushInput(INPUT_MEM_DATA, dfeUInt(64), 1);
+	//private final DFEsmPushOutput fromLMEMFileSizeBytes = io.pushOutput("fromLMEMFileSizeBytes", dfeUInt(128), 5);
+	//private final DFEsmPushOutput fromLMEMSocketNumber = io.pushOutput("fromLMEMSocketNumber", dfeUInt(128), 5);
+	//private final DFEsmPushOutput outputLmemData = io.pushOutput("outputLmemData", dfeUInt(75), 1);
+
+	//private final DFEVar counter = constant.var(dfeUInt(20), 0); // 40
+	//private final DFEVar sFileLengthBytes = constant.var(dfeUInt(26), 0);
+	//private final DFEVar sLMemBurstCounter = constant.var(dfeUInt(19), 0);
+
+
+	private final InboundType inboundTypeDFEStruct = new InboundType();
+
+	public LMEMDataOutput_Kernel(KernelParameters parameters, int readStreamID) {
+		super(parameters);
+
+		DFEVar sBurstCounter = constant.var(dfeUInt(19), 0);
+		DFEVar sLMemBytesSent = constant.var(dfeUInt(32), 0);
+		DFEVar sFileLengthBytesCounter = constant.var(dfeUInt(26), 8);
+		DFEVar sAllBytesSentFlag = constant.var(false);
+		DFEVar sFileLengthBytesCounterMini = constant.var(dfeUInt(8), 8);
+		DFEVar sSOF = constant.var(false);
+
+	    flush.disabled();
+
+		NonBlockingInput<DFEVar> dataFromMem = io.nonBlockingInput("dataFromMem",
+				dfeUInt(64),
+	    		constant.var(true) /* Always enabled */,
+	    		0,
+	    		DelimiterMode.FRAME_LENGTH,
+	    		Flushing.interFrameGapNone,
+	    		NonBlockingMode.NO_TRICKLING);
+
+		NonBlockingInput<DFEVar> sFileLengthBytesInput = io.nonBlockingInput("sFileLengthBytes",
+				dfeUInt(26),
+	    		constant.var(true) /* Always enabled */,
+	    		0,
+	    		DelimiterMode.FRAME_LENGTH,
+	    		Flushing.interFrameGapNone,
+	    		NonBlockingMode.NO_TRICKLING);
+
+		NonBlockingInput<DFEVar> sDataBurstLengthInput = io.nonBlockingInput("sDataBurstLength",
+				dfeUInt(19),
+	    		constant.var(true) /* Always enabled */,
+	    		0,
+	    		DelimiterMode.FRAME_LENGTH,
+	    		Flushing.interFrameGapNone,
+	    		NonBlockingMode.NO_TRICKLING);
+
+		NonBlockingInput<DFEVar> socketNumberInput = io.nonBlockingInput("LMEMsocketNumberInput",
+				dfeUInt(8),
+	    		constant.var(true) /* Always enabled */,
+	    		0,
+	    		DelimiterMode.FRAME_LENGTH,
+	    		Flushing.interFrameGapNone,
+	    		NonBlockingMode.NO_TRICKLING);
+
+		DFEVar data = dataFromMem.data;
+		DFEVar valid = dataFromMem.valid;
+		DFEVar sFileLengthBytes = sFileLengthBytesInput.data;
+		DFEVar sDataBurstLength = sDataBurstLengthInput.data;
+		DFEVar socketNumber = socketNumberInput.data;
+
+		//initialization
+		DFEVar counter = control.count.makeCounter(
+				control.count.makeParams(24)
+				.withEnable(valid)
+				.withInitValue(0)
+				.withWrapMode(WrapMode.STOP_AT_MAX)
+				).getCount();
+
+		sLMemBytesSent = 			  counter === 0 ? 0 : sLMemBytesSent;
+		sFileLengthBytesCounter = 	  counter === 0 ? 0 : sFileLengthBytesCounter;
+		sFileLengthBytesCounterMini = counter === 0 ? 0 : sFileLengthBytesCounterMini;
+
+		//
+
+	    sFileLengthBytesCounter = valid ? sFileLengthBytesCounter+8 : sFileLengthBytesCounter;
+		sFileLengthBytesCounterMini = valid ? sFileLengthBytesCounterMini+8 : sFileLengthBytesCounterMini;
+
+		sSOF = valid ? constant.var(true) : sSOF;
+
+		sAllBytesSentFlag = (sFileLengthBytesCounter>=sFileLengthBytes) & valid ? constant.var(true) : sAllBytesSentFlag;
+		sSOF = (sFileLengthBytesCounter>=sFileLengthBytes) & valid ? constant.var(false) : sSOF;
+
+		sBurstCounter = (sFileLengthBytesCounterMini===192) & valid ? sBurstCounter+1 : sBurstCounter;//LMEM data burst size
+		sFileLengthBytesCounterMini = (sFileLengthBytesCounterMini===192) & valid ? 8 : sFileLengthBytesCounterMini;
+
+		//debug.simPrintf("LMEM: Tick=%u, sBurstCounter===sDataBurstLength\n",counter);
+
+		//output
+
+		DFEVar fromLMEMFileSizeBytes;
+		DFEVar fromLMEMSocketNumber;
+		DFEVar outputLmemData;
+
+		DFEVar valid3 = valid & ~sAllBytesSentFlag;
+		DFEVar valid4 = sFileLengthBytesCounter>=sFileLengthBytes;
+
+		DFEVar validOutputToCPU = valid3 & valid4;
+		DFEVar validOutputToNetwork = valid3;
+
+		DFEVar mod,eof,sof, socket;
+
+		//YES: valid & ~sAllBytesSentFlag; &  sFileLengthBytesCounter>=sFileLengthBytes;
+
+				DFEVar difference = 8 - (sFileLengthBytesCounter-sFileLengthBytes);
+				difference = (difference===8) ?  0 : difference;
+
+				mod = valid4 ? difference.cast(dfeUInt(3)) : constant.var(dfeUInt(3),0);
+				eof = valid4 ? constant.var(dfeBool(),1) : constant.var(dfeBool(),0);
+				sof = valid4 ? constant.var(dfeBool(),0) : ~sSOF;
+
+				debug.simPrintf("LMEM: tick=%u, end of dataFromMemory, sending: sof=%u, eof=%u, mod=%u, sFileLengthBytesCounter=%u, sFileLengthBytes=%u\n", counter, sof, eof, mod, sFileLengthBytesCounter, sFileLengthBytes);
+				debug.simPrintf("LMEM: tick=%u, sending data to CPU, sFileLengthBytes=%u, fromLMEMSocket=%u\n", counter, sFileLengthBytes, socketNumberInput);
+
+		//-------------
+				socket = socketNumber.cast(dfeUInt(6)); //socketNumberInput
+
+				outputLmemData = sof # eof # mod # socket # data;
+				fromLMEMFileSizeBytes = sFileLengthBytes.cast(dfeUInt(128));
+				fromLMEMSocketNumber = socketNumber.cast(dfeUInt(128));
+
+
+		 //io.output("fromLMEMFileSizeBytes", dfeUInt(128), validOutputToCPU) <== fromLMEMFileSizeBytes;
+		// io.output("fromLMEMSocketNumber", dfeUInt(128),  validOutputToCPU) <== fromLMEMSocketNumber;
+		 //io.output("outputLmemData", dfeUInt(75), validOutputToNetwork) <== outputLmemData;
+
+		//reset
+			DFEVar valid2 = sBurstCounter===sDataBurstLength;
+			sAllBytesSentFlag = 		valid2 ? constant.var(false) : sAllBytesSentFlag;
+			sFileLengthBytesCounter = 	valid2 ? 8 : sFileLengthBytesCounter;
+			sBurstCounter = 			valid2 ? 0 : sBurstCounter;
+			sDataBurstLength = 		valid2 ? 1 : sDataBurstLength;
+			sFileLengthBytesCounterMini= valid2 ? 8 : sFileLengthBytesCounterMini;
+
+}
+
+}

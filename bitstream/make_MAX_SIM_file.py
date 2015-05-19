@@ -15,12 +15,12 @@ MAXCLASSPATH = [#'/home/mvorkapic/workspace/maxeda/bin/',
 MAXDESTDIR = 'bin'
 MAXSRCDIR = 'src'
 
-JAVARTENV = '/network-raid/opt/jdk1.6.0_02/jre/bin/java'
+JAVARTENV = '/usr/bin/java' #'/network-raid/opt/jdk1.6.0_02/jre/bin/java'
 JAVAMAXHEAPSIZE = 'mx12288m' #-Xmx<size> set maximum Java heap size
 HTTPSERVERCLASSPATH = MAXCLASSPATH + ['bin']
 TARGET = 'DFE_SIM'
-MAXFILENAME = 'httpServer'
-HTTPSERVERSTARTUPCLASS = 'httpServer.httpServerManager'
+MAXFILENAME = 'httpserver'
+HTTPSERVERSTARTUPCLASS = 'httpserver.HttpServerManager'
 
 
 def build():

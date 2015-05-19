@@ -1,18 +1,4 @@
 {
-    "./httpServerCPUcode_2014_2 172.17.0.105 255.255.255.224": {
-        "debug": "input-ad42f6697b035b7580e4fef93be20b4d", 
-        "debug_1": "input-5153bdc6c93458adcc712d739c26e42b", 
-        "debug_2": "input-6b5b1a248fd4558dc188c298b7ea3cf1", 
-        "debug_3": "input-a4e457e35a3b4fdeab0914868928f663", 
-        "debug_4": "input-7f05bb8c9cc1bb7168f8bb69572e88e4", 
-        "debug_5": "input-53fa7981859c851365d34a8bcaab0392", 
-        "debug_6": "input-476204317b5a3d56afe991524880daee", 
-        "debug_7": "input-01a947596c234fc0161b93bb9f03a394", 
-        "httpServerCPUcode_2014_2": "input-bccb9823118ac4a19ca13c4b312060f4", 
-        "results/lmem_generated_file.html": "input-6239772ea1583595945e56e733c96ebb", 
-        "results/romCrcIndex1_init.html": "input-9cdccff5d10ff3bbb243b985388a46ac", 
-        "results/romCrcIndex2_init.html": "input-695f6c76bcaf0daa2319feccc567693a"
-    }, 
     "./initCode": {
         "files": "input-45b963397aa40d4a0063e0d85e4fe7a1", 
         "files/HTTPError404NotFound.html": "input-c4536b94ed9c9b39c60fd7cb92946baf", 
@@ -29,10 +15,10 @@
         "results/romCrcIndex2_init.html": "output-695f6c76bcaf0daa2319feccc567693a"
     }, 
     ".deps_version": 2, 
-    "/network-raid/opt/maxcompiler-2014.2/bin/sliccompile httpServer_2014_2.max httpServer_2014_2.o": {
+    "/home/mvorkapic/workspace/MaxCompiler-2014.2-CompiledLocalTrunk/bin/sliccompile httpserver.max httpserver.o": {
         ".": "input-5058f1af8388633f609cadb75a75dc9d", 
-        "httpServer_2014_2.max": "input-3c89cf14b08c7a3706ebba2489bd9090", 
-        "httpServer_2014_2.o": "output-2e0a9d961f3f7c38d6b1f8ead458f9f0"
+        "httpserver.max": "input-8b58301f48a78a5b80030ea5d717f735", 
+        "httpserver.o": "output-426315fdd99fa955de7f969205b93e9d"
     }, 
     "gcc -g -c initCode.c": {
         ".": "input-5058f1af8388633f609cadb75a75dc9d", 
@@ -45,17 +31,17 @@
         "initCode": "output-58055d363bbd996e10b4340a1cccd25a", 
         "initCode.o": "input-fe958b54ae880344123d90978d6eec65"
     }, 
-    "gcc -std=gnu99 -Wall -Werror -ggdb -rdynamic -DDESIGN_NAME=httpServer_2014_2 -I. -I/network-raid/opt/maxcompiler-2014.2/lib/maxeleros-sim/include -I/network-raid/opt/maxcompiler-2014.2/include/slic -c httpServerCPUcode_2014_2.c -o httpServerCPUcode_2014_2.o": {
+    "gcc -std=gnu99 -Wall -Werror -ggdb -rdynamic -DDESIGN_NAME=httpServer -I. -I/home/mvorkapic/workspace/MaxCompiler-2014.2-CompiledLocalTrunk/lib/maxeleros-sim/include -I/home/mvorkapic/workspace/MaxCompiler-2014.2-CompiledLocalTrunk/include/slic -c httpServerCPUcode.c -o httpServerCPUcode.o": {
         ".": "input-5058f1af8388633f609cadb75a75dc9d", 
-        "httpServer.h": "input-b24b6cf4f7cde82c833c3950694d87ae", 
-        "httpServerCPUcode_2014_2.c": "input-1b1662cdf20dcf6f10d07b621877d8f3", 
-        "httpServerCPUcode_2014_2.o": "output-fe9f124cc1131ac8be6abce94d1f3c2c"
+        "httpServerCPUcode.c": "input-4dee3c87150539c2d40f2612afc5d4e5", 
+        "httpServerCPUcode.o": "output-c6df580c5011e29847e341733acda6b1", 
+        "httpserver.h": "input-319fd4ff28f37cb0d247ab9deaf661a6"
     }, 
-    "gcc httpServerCPUcode_2014_2.o httpServer_2014_2.o -L/network-raid/opt/maxcompiler-2014.2/lib -L/network-raid/opt/maxcompiler-2014.2/lib/maxeleros-sim/lib -lslic -lmaxeleros -lm -lpthread -o httpServerCPUcode_2014_2": {
+    "gcc httpServerCPUcode.o httpserver.o -L/home/mvorkapic/workspace/MaxCompiler-2014.2-CompiledLocalTrunk/lib -L/home/mvorkapic/workspace/MaxCompiler-2014.2-CompiledLocalTrunk/lib/maxeleros-sim/lib -lslic -lmaxeleros -lm -lpthread -o httpServerCPUcode": {
         ".": "input-5058f1af8388633f609cadb75a75dc9d", 
-        "httpServerCPUcode_2014_2": "output-bccb9823118ac4a19ca13c4b312060f4", 
-        "httpServerCPUcode_2014_2.o": "input-fe9f124cc1131ac8be6abce94d1f3c2c", 
-        "httpServer_2014_2.o": "input-2e0a9d961f3f7c38d6b1f8ead458f9f0"
+        "httpServerCPUcode": "output-1b75696543f08bb1b8e113dc55a982be", 
+        "httpServerCPUcode.o": "input-c6df580c5011e29847e341733acda6b1", 
+        "httpserver.o": "input-426315fdd99fa955de7f969205b93e9d"
     }, 
     "rm -f *.o *.pcap *.dot *.png": {}
 }

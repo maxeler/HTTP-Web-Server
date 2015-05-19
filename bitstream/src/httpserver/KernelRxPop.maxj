@@ -1,0 +1,102 @@
+package httpserver;
+
+import com.maxeler.maxcompiler.v2.kernelcompiler.Kernel;
+import com.maxeler.maxcompiler.v2.kernelcompiler.KernelParameters;
+import com.maxeler.maxcompiler.v2.kernelcompiler.stdlib.core.Count.WrapMode;
+import com.maxeler.maxcompiler.v2.kernelcompiler.stdlib.core.IO.DelimiterMode;
+import com.maxeler.maxcompiler.v2.kernelcompiler.stdlib.core.IO.NonBlockingInput;
+import com.maxeler.maxcompiler.v2.kernelcompiler.stdlib.core.IO.NonBlockingMode;
+import com.maxeler.maxcompiler.v2.kernelcompiler.types.base.DFEType;
+import com.maxeler.maxcompiler.v2.kernelcompiler.types.base.DFEVar;
+import com.maxeler.maxcompiler.v2.kernelcompiler.types.composite.DFEStruct;
+import com.maxeler.maxcompiler.v2.kernelcompiler.types.composite.DFEStructType;
+import com.maxeler.networking.statemachines.Flushing;
+import com.maxeler.networking.types.TCPManyConnectionsTypes;
+import com.maxeler.networking.types.TCPManyConnectionsTypes.EventType;
+import com.maxeler.networking.types.TCPManyConnectionsTypes.RxRequestType;
+
+public class KernelRxPop extends Kernel {
+
+	public static final String IN_EVENT     = "in_event";
+	public static final String IN_FIFO_FULL = "in_fifo_full";
+	public static final String OUT_REQUEST  = "out_request";
+	public static final String OUT_DEBUG    = "out_debug";
+
+	public KernelRxPop(KernelParameters parameters, TCPManyConnectionsTypes tcpTypes) {
+		super(parameters);
+
+		flush.disabled();
+
+		DFEStructType rxEventType = tcpTypes.getEventType();
+		DFEStructType rxRequestType = tcpTypes.getRxRequestType();
+
+		NonBlockingInput<DFEVar> inFifoFull = io.nonBlockingInput(
+				IN_FIFO_FULL,
+				dfeUInt(2),
+				constant.var(true) /* Always enabled */,
+				1,
+				DelimiterMode.FRAME_LENGTH,
+				Flushing.interFrameGapNone,
+				NonBlockingMode.NO_TRICKLING);
+
+		DFEVar fifoProgFull    = inFifoFull.valid &  inFifoFull.data.slice(0, 1);
+		DFEVar fifoNotProgFull = inFifoFull.valid & ~inFifoFull.data.slice(0, 1);
+		DFEVar fifoFull        = inFifoFull.valid &  inFifoFull.data.slice(1, 1);
+
+		DFEVar fifoProgFullCount = control.count.makeCounter(
+			control.count.makeParams(32)
+				.withEnable(fifoProgFull)
+				.withWrapMode(WrapMode.STOP_AT_MAX)
+				.withInitValue(0)
+			).getCount();
+
+		DFEVar fifoFullCount = control.count.makeCounter(
+			control.count.makeParams(32)
+				.withEnable(fifoFull)
+				.withWrapMode(WrapMode.STOP_AT_MAX)
+				.withInitValue(0)
+			).getCount();
+
+		NonBlockingInput<DFEStruct> inEvent = io.nonBlockingInput(
+				IN_EVENT,
+				rxEventType,
+				fifoNotProgFull,
+				1,
+				DelimiterMode.FRAME_LENGTH,
+				Flushing.interFrameGapNone,
+				NonBlockingMode.NO_TRICKLING);
+
+		DFEVar rxRequestValid = fifoNotProgFull & inEvent.valid;
+
+		DFEStruct eventData = inEvent.data;
+		DFEVar size = eventData.get(EventType.SIZE);
+		DFEVar socket = eventData.get(EventType.SOCKET);
+
+		DFEStruct rxRequest = rxRequestType.newInstance(this);
+
+		int evSizeBits   = size.getType().getTotalBits();
+		int evSocketBits = socket.getType().getTotalBits();
+
+		io.output(OUT_DEBUG, dfeRawBits(128), rxRequestValid)
+			<== size.cast(dfeUInt(evSizeBits)).cast(dfeUInt(32))
+			  # socket.cast(dfeUInt(evSocketBits)).cast(dfeUInt(30))
+			  # fifoProgFull
+			  # fifoFull
+			  # fifoProgFullCount
+			  # fifoFullCount;
+
+		DFEType reqSizeType   = (DFEType)rxRequest[RxRequestType.SIZE].getType();
+		DFEType reqSocketType = (DFEType)rxRequest[RxRequestType.SOCKET].getType();
+		DFEType reqReadType   = (DFEType)rxRequest[RxRequestType.READ].getType();
+		DFEType reqDiscType   = (DFEType)rxRequest[RxRequestType.DISCARD].getType();
+
+		rxRequest[RxRequestType.SOCKET] <== socket.cast(reqSocketType);
+		rxRequest[RxRequestType.SIZE] <== size.slice(0, reqSizeType.getTotalBits());
+		rxRequest[RxRequestType.READ] <== constant.var(reqReadType, 1);
+		rxRequest[RxRequestType.DISCARD] <== constant.var(reqDiscType, 1);
+
+		debug.simPrintf(rxRequestValid, "rxPop: rx/tx new event for %d bytes.\n", size);
+
+		io.output(OUT_REQUEST, rxRequestType, rxRequestValid) <== rxRequest;
+	}
+}

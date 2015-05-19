@@ -1,0 +1,11 @@
+package httpserver;
+
+import com.maxeler.maxcompiler.v2.kernelcompiler.KernelLib;
+
+public class TestLib extends KernelLib {
+
+	public TestLib(KernelLib parameters) {
+		super(parameters);
+	}
+
+}

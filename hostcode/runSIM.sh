@@ -11,8 +11,8 @@ export SLIC_CONF="$SLIC_CONF;use_simulation=${USER}Sim"
 
 # How to set a BASH variable equal to the output from a command?
 # You need `, not '. This character is called "backticks" 
-srcMax=`maxGuessBuildDir -s httpServer_ISCA_DFE_SIM`results/httpServer.max
-srcH=`maxGuessBuildDir -s httpServer_ISCA_DFE_SIM`results/httpServer.h
+srcMax=`maxGuessBuildDir -s httpserver_ISCA_DFE_SIM`results/httpserver.max
+srcH=`maxGuessBuildDir -s httpserver_ISCA_DFE_SIM`results/httpserver.h
 echo "Copying .max and .h files to the /hostname directory"
 echo $srcMax
 echo $srcH
