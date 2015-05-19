@@ -52,7 +52,7 @@ System generated output:
     Connected to 169.254.10.4.
     Escape character is '^]'.
 
-Enter the following text and press Enter
+Enter the following text and press *Enter*
 
     GET /files/Test.txt 12345
 
