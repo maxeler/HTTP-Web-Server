@@ -32,3 +32,54 @@
 	<sys/wait.h>
 	<signal.h>
 
+1432138065 source:/home/mvorkapic/workspace/workingNonMaxIDE/ORIG/HttpServerCImplementation/HttpServerCImplementation/HttpRequest.c
+	<stdio.h>
+	<stdlib.h>
+	<unistd.h>
+	<errno.h>
+	<string.h>
+	<sys/types.h>
+	<sys/socket.h>
+	<netinet/in.h>
+	<netdb.h>
+	<arpa/inet.h>
+	<sys/wait.h>
+	<signal.h>
+	"initCodeCImplementation.h"
+
+1432135315 /home/mvorkapic/workspace/workingNonMaxIDE/ORIG/HttpServerCImplementation/HttpServerCImplementation/initCodeCImplementation.h
+	"initCodeCImplementation.h"
+
+1432131206 source:/home/mvorkapic/workspace/workingNonMaxIDE/ORIG/HttpServerCImplementation/HttpServerCImplementation/initCodeCImplementation.c
+	<stdio.h>
+	<stdlib.h>
+	<stdint.h>
+	<string.h>
+	<stdio.h>
+	<sys/types.h>
+	<dirent.h>
+	<sys/stat.h>
+	<string.h>
+	<math.h>
+	"crc16.h"
+
+1418392614 /home/mvorkapic/workspace/workingNonMaxIDE/ORIG/HttpServerCImplementation/HttpServerCImplementation/crc16.h
+
+1432138084 source:/home/mvorkapic/workspace/workingNonMaxIDE/ORIG/HttpServerCImplementation/HttpServerCImplementation/main.c
+	<stdio.h>
+	<stdlib.h>
+	<unistd.h>
+	<errno.h>
+	<string.h>
+	<sys/types.h>
+	<sys/socket.h>
+	<netinet/in.h>
+	<netdb.h>
+	<arpa/inet.h>
+	<sys/wait.h>
+	<signal.h>
+	"HttpRequest.h"
+	"initCodeCImplementation.h"
+
+1432134844 /home/mvorkapic/workspace/workingNonMaxIDE/ORIG/HttpServerCImplementation/HttpServerCImplementation/HttpRequest.h
+

@@ -1,3 +1,5 @@
+// http://beej.us/net2/html/clientserver.html
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -12,10 +14,17 @@
 #include <signal.h>
 
 #include "HttpRequest.h"
+#include "initCodeCImplementation.h"
 
-#define PORT "44445"  // the port
+#define PORT "10080"  // the port server will listen on
 
 #define BACKLOG 10    // how many pending connections queue will hold
+
+struct Element
+{
+   char*  pointer;
+   int   sizeBytes;
+};
 
 void sigchld_handler(int s)
 {
@@ -105,6 +114,16 @@ int main(void)
         exit(1);
     }
 
+    // initialize RAM
+    printf("Loading hosted files into RAM\n");
+    int NelTable = 65536;
+    struct Element crcTable[NelTable];
+
+
+    initCode(crcTable);
+    printf("Loading hosted files into RAM completed\n");
+
+
     printf("Server: waiting for connections...\n");
 
     while(1)    // accept()
@@ -134,10 +153,12 @@ int main(void)
             GET_Request(new_fd, buffer_x);
 
             printf("Buffer: %s\n", buffer_x);
-            Parse_Request(buffer_x);
-
+            printf("Run Parse_Request()");
+            Parse_Request(buffer_x, crcTable, new_fd);
 
             close(new_fd);
+            printf("Close child process\n");
+
             exit(0); // exit child process
         }
         close(new_fd); // parent

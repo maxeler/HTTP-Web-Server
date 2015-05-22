@@ -38,6 +38,7 @@
 		<Unit filename="initCodeCImplementation.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="initCodeCImplementation.h" />
 		<Unit filename="main.c">
 			<Option compilerVar="CC" />
 		</Unit>
