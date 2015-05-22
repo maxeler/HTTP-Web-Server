@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 import os
 import sys
 import subprocess
@@ -9,7 +11,7 @@ from fabricate import *
 
 sources = ['main','HttpRequest', 'initCodeCImplementation']
 
-# We define our compiler flags
+# Define compiler flags
 flags = ['-g']
 
 def build():
