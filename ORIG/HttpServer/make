@@ -5,7 +5,7 @@ import sys
 import subprocess
 from fabricate import *
 
-NAME="httpServerCImpl"
+NAME="httpServer"
 
 from fabricate import *
 
