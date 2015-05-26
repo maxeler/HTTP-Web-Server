@@ -16,7 +16,7 @@ where `<port_number>` is network port on which server is running.
 
 # Usage:
 
-Once project is run, to access server and hosted files follow one of the following rules:
+Once project is run, to access server and hosted files follow one of the following URLs:
 
 	http://0.0.0.0:10080/path/to/file_name.ext
 	http://localhost:10080/path/to/file_name.ext
