@@ -18,7 +18,6 @@ def build():
     clean()
     compile()
     link()
-    #execute_program()
 
 def compile():
     for source in sources:
