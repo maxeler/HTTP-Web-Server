@@ -1,10 +1,6 @@
 #ifndef CRC16_H_INCLUDED
 #define CRC16_H_INCLUDED
 
-
-
-#endif // CRC16_H_INCLUDED
-
 /***** crc16.h *****/
 //Tested
 #define CRC16_DNP       0x3D65          // DNP, IEC 870, M-BUS, wM-BUS, ...
@@ -21,3 +17,5 @@
 
 // It calculates the new crc16 with the newByte. Variable crcValue is the actual or initial value (0).
 unsigned int crc16(unsigned int crcValue, unsigned char newByte);
+
+#endif // CRC16_H_INCLUDED

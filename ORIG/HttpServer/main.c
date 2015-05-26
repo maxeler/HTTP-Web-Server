@@ -16,8 +16,6 @@
 #include "HttpRequest.h"
 #include "initCodeCImplementation.h"
 
-//#define PORT "10080"  // the port server will listen on
-
 #define BACKLOG 10    // how many pending connections queue will hold
 
 struct Element {
@@ -40,14 +38,16 @@ void *get_in_addr(struct sockaddr *sa) {
 }
 
 int main(int argc, char * argv[]) {
-        
+
     if (argc != 2) {
         printf("Usage: %s <port>", argv[0]);
         exit(1);
     }
 
+    unsigned short int PORT = atoi(argv[1]);
+
     int sockfd, new_fd; // listen on sock_fd, new connection on new_fd
-    struct addrinfo hints, *servinfo, *p;
+    struct sockaddr_in server_addr;
     struct sockaddr_storage their_addr; // connector's address information
     socklen_t sin_size;
     struct sigaction sa;
@@ -55,47 +55,28 @@ int main(int argc, char * argv[]) {
     char s[INET6_ADDRSTRLEN];
     int rv;
 
-    //char PORT[] = argv[1];
-
-    memset(&hints, 0, sizeof hints);
-    hints.ai_family = AF_UNSPEC;
-    hints.ai_socktype = SOCK_STREAM;
-    hints.ai_flags = AI_PASSIVE; // use current IP
-
-    if ((rv = getaddrinfo(NULL, argv[1], &hints, &servinfo)) != 0) { // PORT
-        fprintf(stderr, "getaddrinfo: %s\n", gai_strerror(rv));
-        return 1;
+      if ((sockfd = socket(AF_INET, SOCK_STREAM, 0)) == -1) {
+        perror("socket");
+        exit(1);
+    }
+    
+    if (setsockopt(sockfd,SOL_SOCKET,SO_REUSEADDR,&yes,sizeof(int)) == -1) {
+        perror("setsockopt");
+        exit(1);
     }
 
-    // loop through all the results and bind to the first we can
-    for (p = servinfo; p != NULL; p = p->ai_next) {
-        if ((sockfd = socket(p->ai_family, p->ai_socktype,
-                p->ai_protocol)) == -1) {
-            perror("server: socket");
-            continue;
-        }
 
-        if (setsockopt(sockfd, SOL_SOCKET, SO_REUSEADDR, &yes,
-                sizeof (int)) == -1) {
-            perror("setsockopt");
-            exit(1);
-        }
+    server_addr.sin_family = AF_INET; // host byte order
+    server_addr.sin_port = htons(PORT); // short, network byte order
+    server_addr.sin_addr.s_addr = INADDR_ANY; // the wildcard address is used by applications (typically servers) that intend to 
+                                              // accept connections on any of the hosts's network addresses.automatically fill with my IP
+    memset(&(server_addr.sin_zero), '\0', 8); // zero the rest of the struct
 
-        if (bind(sockfd, p->ai_addr, p->ai_addrlen) == -1) {
-            close(sockfd);
-            perror("server: bind");
-            continue;
-        }
-
-        break;
+    if (bind(sockfd, (struct sockaddr *) &server_addr, sizeof (struct sockaddr)) == -1) {
+        printf("eeeeroro\n");
+        perror("bind");
+        exit(1);
     }
-
-    if (p == NULL) {
-        fprintf(stderr, "server: failed to bind\n");
-        return 2;
-    }
-
-    freeaddrinfo(servinfo); // free structure
 
     if (listen(sockfd, BACKLOG) == -1) {
         perror("listen");
