@@ -18,11 +18,6 @@
 
 #define BACKLOG 10    // how many pending connections queue will hold
 
-struct Element {
-    char* pointer;
-    int sizeBytes;
-};
-
 void sigchld_handler(int s) {
     while (waitpid(-1, NULL, WNOHANG) > 0);
 }
