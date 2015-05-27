@@ -1,6 +1,6 @@
 //crc16: http://www.embeddedrelated.com/showcode/295.php
 
-#include "crc16.h"
+#include "../include/crc16.h"
 
 unsigned int crc16(unsigned int crcValue, unsigned char newByte) 
 {

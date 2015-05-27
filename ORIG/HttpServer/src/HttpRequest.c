@@ -11,7 +11,7 @@
 #include <sys/wait.h>
 #include <signal.h>
 
-#include "init.h"
+#include "../include/init.h"
 
 int GET_Request(int new_fd, char *buffer_x) {
     char *buffer = buffer_x;
