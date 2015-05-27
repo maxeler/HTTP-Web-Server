@@ -1,3 +1,5 @@
+//crc16: http://www.embeddedrelated.com/showcode/295.php
+
 #ifndef CRC16_H_INCLUDED
 #define CRC16_H_INCLUDED
 

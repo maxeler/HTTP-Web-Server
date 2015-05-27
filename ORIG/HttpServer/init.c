@@ -13,30 +13,8 @@ Description: creates CRC index table and fills RAM with content of hosted files.
 #include <sys/stat.h>
 #include <string.h>
 #include <math.h>
-
-//crc16: http://www.embeddedrelated.com/showcode/295.php
-
-/***** crc16.c *****/
-
 #include "crc16.h"
-#include "initCodeCImplementation.h"
-
-unsigned int crc16(unsigned int crcValue, unsigned char newByte) {
-    unsigned char i;
-
-    for (i = 0; i < 8; i++) {
-
-        if (((crcValue & 0x8000) >> 8) ^ (newByte & 0x80)) {
-            crcValue = (crcValue << 1) ^ POLYNOM;
-        } else {
-            crcValue = (crcValue << 1);
-        }
-
-        newByte <<= 1;
-    }
-
-    return crcValue;
-}
+#include "init.h"
 
 //exampleOfUseCRC16: http://www.embeddedrelated.com/
 

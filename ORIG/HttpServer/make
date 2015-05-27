@@ -9,7 +9,7 @@ NAME="httpServer"
 
 from fabricate import *
 
-sources = ['main','HttpRequest', 'initCodeCImplementation']
+sources = ['main','HttpRequest', 'init', 'crc16']
 
 # Define compiler flags
 flags = ['-g']
