@@ -16,7 +16,7 @@
 #include "HttpRequest.h"
 #include "init.h"
 
-#define BACKLOG 10    // how many pending connections queue will hold
+#define BACKLOG 10 // how many pending connections queue will hold
 
 void sigchld_handler(int s) {
     while (waitpid(-1, NULL, WNOHANG) > 0);
