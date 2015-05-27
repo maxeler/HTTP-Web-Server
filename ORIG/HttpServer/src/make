@@ -12,7 +12,7 @@ from fabricate import *
 sources = ['main','HttpRequest', 'init', 'crc16']
 
 # Define compiler flags
-flags = ['-g']
+flags = ['-g', '-I../%s' % 'include']
 
 def build():
     clean()

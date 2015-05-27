@@ -10,8 +10,7 @@
 #include <arpa/inet.h>
 #include <sys/wait.h>
 #include <signal.h>
-
-#include "../include/init.h"
+#include "init.h"
 
 int GET_Request(int new_fd, char *buffer_x) {
     char *buffer = buffer_x;

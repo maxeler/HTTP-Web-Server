@@ -13,8 +13,8 @@ Description: creates CRC index table and fills RAM with content of hosted files.
 #include <sys/stat.h>
 #include <string.h>
 #include <math.h>
-#include "../include/crc16.h"
-#include "../include/init.h"
+#include "crc16.h"
+#include "init.h"
 
 //exampleOfUseCRC16: http://www.embeddedrelated.com/
 
