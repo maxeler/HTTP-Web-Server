@@ -1,9 +1,7 @@
 /*
-File: main.c
-Description: Generates LMEM and CRC index tables initialization files
-Inputs: folder with files to be stored in the LMEM, 'cdir' variable should contain the folder path
-Outputs: generated files - lmem_generated_file.html, romCrcIndex1_init.html, romCrcIndex2_init.html
- */
+File: init.c
+Description: creates CRC index table and fills RAM with content of hosted files.
+*/
 
 #include <stdio.h>
 #include <stdlib.h>
