@@ -15,6 +15,7 @@
 
 #include "HttpRequest.h"
 #include "init.h"
+#include "cGenDopt.c"
 
 #define BACKLOG 10 // how many pending connections queue will hold
 
@@ -23,7 +24,6 @@ void sigchld_handler(int s) {
 }
 
 // get sockaddr, IPv4 or IPv6:
-
 void *get_in_addr(struct sockaddr *sa) {
     if (sa->sa_family == AF_INET) {
         return &(((struct sockaddr_in*) sa)->sin_addr);
@@ -34,12 +34,20 @@ void *get_in_addr(struct sockaddr *sa) {
 
 int main(int argc, char * argv[]) {
 
-    if (argc != 2) {
-        printf("Usage: %s <port>", argv[0]);
-        exit(1);
-    }
+    DocoptArgs args = docopt(argc, argv, /* help */ 1, /* version */ "2.0rc2");
 
-    unsigned short int PORT = atoi(argv[1]);
+    unsigned short int PORT = 8080; //default port value
+
+    if (args.port) {
+        int len = strlen(args.port);
+        int i;
+        for (i = 0; i < len; i++) {
+            if (!isdigit(args.port[i])) {
+                printf("Entered port value is not a number\n");
+                exit(1);
+            }
+        }
+    }
 
     int sockfd, new_fd; // listen on sock_fd, new connection on new_fd
     struct sockaddr_in server_addr;
@@ -50,12 +58,12 @@ int main(int argc, char * argv[]) {
     char s[INET6_ADDRSTRLEN];
     int rv;
 
-      if ((sockfd = socket(AF_INET, SOCK_STREAM, 0)) == -1) {
+    if ((sockfd = socket(AF_INET, SOCK_STREAM, 0)) == -1) {
         perror("socket");
         exit(1);
     }
-    
-    if (setsockopt(sockfd,SOL_SOCKET,SO_REUSEADDR,&yes,sizeof(int)) == -1) {
+
+    if (setsockopt(sockfd, SOL_SOCKET, SO_REUSEADDR, &yes, sizeof (int)) == -1) {
         perror("setsockopt");
         exit(1);
     }
@@ -63,8 +71,9 @@ int main(int argc, char * argv[]) {
 
     server_addr.sin_family = AF_INET; // host byte order
     server_addr.sin_port = htons(PORT); // short, network byte order
-    server_addr.sin_addr.s_addr = INADDR_ANY; // the wildcard address is used by applications (typically servers) that intend to 
-                                              // accept connections on any of the hosts's network addresses.automatically fill with my IP
+    // the wildcard address is used by applications (typically servers) that intend to
+    // accept connections on any of the hosts's network addresses.automatically fill with my IP
+    server_addr.sin_addr.s_addr = INADDR_ANY;
     memset(&(server_addr.sin_zero), '\0', 8); // zero the rest of the struct
 
     if (bind(sockfd, (struct sockaddr *) &server_addr, sizeof (struct sockaddr)) == -1) {

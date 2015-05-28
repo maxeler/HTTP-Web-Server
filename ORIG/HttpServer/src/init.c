@@ -18,8 +18,6 @@ Description: creates CRC index table and fills RAM with content of hosted files.
 
 //exampleOfUseCRC16: http://www.embeddedrelated.com/
 
-/***** EXAMPLE *****/
-
 unsigned int exampleOfUseCRC16(unsigned char *Data, unsigned char len) {
 
     //unsigned int crc;
