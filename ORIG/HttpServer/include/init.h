@@ -7,7 +7,7 @@ struct Element {
 };
 
 unsigned int calculateCRC16 (unsigned char *Data, unsigned char len);
-int initCode(struct Element *crcTable);
+int initCode(struct Element *crcTable, char* cdir);
 
 #endif // HTTPREQUEST_H_INCLUDED
 

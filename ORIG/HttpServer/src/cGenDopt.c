@@ -30,8 +30,8 @@ const char help_message[] =
 "\n"
 "Options:\n"
 "  -h --help     Show this screen.\n"
-"  --port=PORT   listening port[default: 8080]\n"
-"  --path=PATH   hosted files path [default: /files]\n"
+"  --port=PORT   listening port [default: 8080]\n"
+"  --path=PATH   hosted files path [default: ./files/]\n"
 "";
 
 const char usage_pattern[] =
@@ -280,7 +280,7 @@ int elems_to_args(Elements *elements, DocoptArgs *args, bool help,
 
 DocoptArgs docopt(int argc, char *argv[], bool help, const char *version) {
     DocoptArgs args = {
-        0, (char*) "/files", (char*) "8080",
+        0, (char*) "./files/", (char*) "8080",
         usage_pattern, help_message
     };
     Tokens ts;

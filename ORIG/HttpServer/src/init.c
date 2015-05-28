@@ -38,7 +38,7 @@ unsigned int calculateCRC16(unsigned char *Data, unsigned char len) {
     return crc; //The crc value for CCITT
 }
 
-int initCode(struct Element *crcTable) {
+int initCode(struct Element *crcTable, char* cdir) {
     unsigned char buf[64];
 
     DIR *dp;
@@ -46,7 +46,6 @@ int initCode(struct Element *crcTable) {
     char fname[512] = "";
     char fnamecopy[512] = "";
     char fsize[64] = "";
-    char cdir[256] = "./files/"; //name of the current directory
     struct stat st;
 
     dp = opendir(cdir);

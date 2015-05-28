@@ -24,6 +24,7 @@ void sigchld_handler(int s) {
 }
 
 // get sockaddr, IPv4 or IPv6:
+
 void *get_in_addr(struct sockaddr *sa) {
     if (sa->sa_family == AF_INET) {
         return &(((struct sockaddr_in*) sa)->sin_addr);
@@ -36,7 +37,8 @@ int main(int argc, char * argv[]) {
 
     DocoptArgs args = docopt(argc, argv, /* help */ 1, /* version */ "2.0rc2");
 
-    unsigned short int PORT = 8080; //default port value
+    unsigned short int PORT;
+    char *PATH;
 
     if (args.port) {
         int len = strlen(args.port);
@@ -47,6 +49,11 @@ int main(int argc, char * argv[]) {
                 exit(1);
             }
         }
+        PORT = atoi(args.port);
+    }
+
+    if (args.path) {
+        PATH = args.path;
     }
 
     int sockfd, new_fd; // listen on sock_fd, new connection on new_fd
@@ -99,9 +106,7 @@ int main(int argc, char * argv[]) {
     printf("Loading hosted files into RAM\n");
     int NelTable = 65536;
     struct Element crcTable[NelTable];
-
-
-    initCode(crcTable);
+    initCode(crcTable, PATH);
     printf("Loading hosted files into RAM completed\n");
 
 
