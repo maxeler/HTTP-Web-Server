@@ -60,7 +60,7 @@ void Parse_Request(char *buffer, struct Element *crcTable, int new_fd) {
         strncpy(url, buffer, urlLength);
         printf("URL: %s\n", url);
 
-        unsigned int crcValue = exampleOfUseCRC16(url, urlLength);
+        unsigned int crcValue = calculateCRC16(url, urlLength);
         printf("crcValue of URL: %d\n", crcValue);
         printf("crcTable[crcValue=%d].pointer=%d\n", crcValue, crcTable[crcValue].pointer);
         printf("crcTable[crcValue=%d].sizeBytes=%d\n", crcValue, crcTable[crcValue].sizeBytes);

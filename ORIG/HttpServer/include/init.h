@@ -6,7 +6,7 @@ struct Element {
     int sizeBytes;
 };
 
-unsigned int exampleOfUseCRC16 (unsigned char *Data, unsigned char len);
+unsigned int calculateCRC16 (unsigned char *Data, unsigned char len);
 int initCode(struct Element *crcTable);
 
 #endif // HTTPREQUEST_H_INCLUDED
