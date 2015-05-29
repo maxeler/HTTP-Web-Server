@@ -13,8 +13,8 @@
 #include <sys/wait.h>
 #include <signal.h>
 
-#include "HttpRequest.h"
 #include "init.h"
+#include "HttpRequest.h"
 #include "cGenDopt.c"
 
 #define BACKLOG 10 // how many pending connections queue will hold
