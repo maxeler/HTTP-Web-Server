@@ -16,28 +16,6 @@ Description: creates CRC index table and fills RAM with content of hosted files.
 #include "crc16.h"
 #include "init.h"
 
-//exampleOfUseCRC16: http://www.embeddedrelated.com/
-
-unsigned int calculateCRC16(unsigned char *Data, unsigned char len) {
-
-    //unsigned int crc;
-    uint16_t crc;
-    unsigned char aux = 0;
-
-    //crc = 0x0000; //Initialization of crc to 0x0000 for DNP
-    crc = 0xFFFF; //Initialization of crc to 0xFFFF for CCITT
-
-
-    while (aux < len) {
-        crc = crc16(crc, Data[aux]);
-        aux++;
-    }
-
-    //return (~crc); //The crc value for DNP it is obtained by NOT operation
-
-    return crc; //The crc value for CCITT
-}
-
 int initCode(struct Element *crcTable, char* cdir) {
     unsigned char buf[64];
 
@@ -103,10 +81,6 @@ int initCode(struct Element *crcTable, char* cdir) {
                     t2++;
                 }
 
-//                for (jk = 0; jk < 64; jk++) {
-//                    printf("buf init: buf=%c\n", buf[jk]);
-//                }
-                // printf("initialization: buf=%s, size(buf)=%d, strlen(buf)=%d\n", buf, sizeof (buf), strlen(buf));
                 unsigned int crcValue = calculateCRC16(buf, strlen(buf)); // get crc of the current url
 
                 char *file_content = (char *) malloc(size);

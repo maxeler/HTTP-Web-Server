@@ -20,4 +20,6 @@
 // It calculates the new crc16 with the newByte. Variable crcValue is the actual or initial value (0).
 unsigned int crc16(unsigned int crcValue, unsigned char newByte);
 
+unsigned int calculateCRC16(unsigned char *Data, unsigned char len);
+
 #endif // CRC16_H_INCLUDED

@@ -56,8 +56,7 @@ int main(int argc, char * argv[]) {
         PATH = args.path;
         int cmp1 = strncmp( PATH, "./",2);  // check first two characters
         int cmp2 = !(PATH[strlen(PATH)-1]=='/');  // check last character
-        if (cmp1 || cmp2)
-        {
+        if (cmp1 || cmp2) {
             printf("Entered path is not in ./path/to/folder/ format\n");
             exit(1);
         }
