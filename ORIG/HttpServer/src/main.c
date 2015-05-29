@@ -54,6 +54,14 @@ int main(int argc, char * argv[]) {
 
     if (args.path) {
         PATH = args.path;
+        int cmp1 = strncmp( PATH, "./",2);  // check first two characters
+        int cmp2 = !(PATH[strlen(PATH)-1]=='/');  // check last character
+        if (cmp1 || cmp2)
+        {
+            printf("Entered path is not in ./path/to/folder/ format\n");
+            exit(1);
+        }
+        PATH = args.path;
     }
 
     int sockfd, new_fd; // listen on sock_fd, new connection on new_fd
