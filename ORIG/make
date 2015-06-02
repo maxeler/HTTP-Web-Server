@@ -6,18 +6,15 @@ import subprocess
 from fabricate import *
 
 NAME="httpServer"
-output_dir='gen'
-input_dir='docopt-c'
+generated_dir='gen'
+docopt_dir='docopt-c'
 docopt_file='http-server.docopt'
-output_gen_name='cGenDopt.c'
-
-
-from fabricate import *
+docopt_source_name='docopt.c'
 
 sources = ['main','HttpRequest', 'init', 'crc16']
 
 # Define compiler flags
-flags = ['-g', '-Iinclude', '-Igen']
+flags = ['-g', '-Iinclude', '-I' + generated_dir]
 
 def build():
     run_docopt_c()
@@ -25,7 +22,7 @@ def build():
     link()
 
 def run_docopt_c():
-        run('python', input_dir + '/' + 'docopt_c.py', '-o', output_dir + '/' + output_gen_name, docopt_file)
+        run('python', docopt_dir + '/' + 'docopt_c.py', '-o', generated_dir + '/' + docopt_source_name, docopt_file)
 
 def compile():
     for source in sources:

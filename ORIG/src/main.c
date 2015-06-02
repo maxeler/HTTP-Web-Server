@@ -15,7 +15,7 @@
 
 #include "HttpRequest.h"
 #include "init.h"
-#include "cGenDopt.c"
+#include "docopt.c"
 
 #define BACKLOG 10 // how many pending connections queue will hold
 
