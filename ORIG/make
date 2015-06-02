@@ -38,4 +38,7 @@ def link():
 def execute_program():
     run('./%s' % NAME)
 
+def clean():
+    autoclean()
+
 main()
