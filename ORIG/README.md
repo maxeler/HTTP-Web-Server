@@ -1,5 +1,10 @@
 # Getting started:
 
+### How to clone project
+
+To clone the project, type in the terminal window
+    git clone --recursive <repository-url>
+
 ### How to compile project:
       
 In terminal type **./make** and press Enter. 
