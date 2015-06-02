@@ -20,7 +20,6 @@ sources = ['main','HttpRequest', 'init', 'crc16']
 flags = ['-g', '-Iinclude', '-Igen']
 
 def build():
-    clean()
     run_docopt_c()
     compile()
     link()
