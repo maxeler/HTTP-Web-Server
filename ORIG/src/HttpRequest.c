@@ -45,7 +45,7 @@ int GET_Request(int new_fd, char *buffer_x) {
     return 0; // return from the function to main program
 }
 
-void Parse_Request(char *buffer, struct Element *crcTable, int new_fd) {
+void Parse_Request(char *buffer, struct Element *crcTable, int new_fd, char* PATH, unsigned int *crcPageNotFound) {
     if (!strncmp(buffer, "GET ", 4)) {
         char *startUriPos, *endUriPos;
         printf("input: GET request\n");
@@ -53,12 +53,20 @@ void Parse_Request(char *buffer, struct Element *crcTable, int new_fd) {
         startUriPos = buffer;
         endUriPos = strchr(buffer, ' '); // get position of the ending URI blank space: GET -url- HTTP/1.0
         printf("startPos: character=%c, %p, endPos: character=%c, %p\n", *startUriPos, startUriPos, *endUriPos, endUriPos);
-        int urlLength;
-        char *url;
-        urlLength = endUriPos - startUriPos;
-        url = (char*) calloc(urlLength, sizeof (char));
-        strncpy(url, buffer, urlLength);
-        printf("URL: %s\n", url);
+        int url1Length;
+        char *url1;
+        url1Length = endUriPos - startUriPos - 1;
+        url1 = (char*) calloc(url1Length, sizeof (char));
+        strncpy(url1, buffer + 1, url1Length);
+        printf("URL: %s\n", url1);
+
+        int urlLength = strlen(PATH) + url1Length;
+        char *url = (char *) calloc(urlLength + 1, sizeof (char));
+        strcat(url, PATH);
+        strcat(url, url1);
+        printf("PATH, URL: %s, %s\n", PATH, url1);
+        printf("combined: %s, urlLength=%d\n", url, urlLength);
+        //exit(0);
 
         unsigned int crcValue = calculateCRC16(url, urlLength);
         printf("crcValue of URL: %d\n", crcValue);
@@ -73,9 +81,8 @@ void Parse_Request(char *buffer, struct Element *crcTable, int new_fd) {
             int bytesSent = send(new_fd, crcTable[crcValue].pointer, crcTable[crcValue].sizeBytes, 0);
             printf("bytesSent: %d\n", bytesSent);
         } else {
-            int crcPageNotFound = 45118;
             printf("The resource '%s' does not exist in the RAM\nSending default page to the client\n", url);
-            int bytesSent = send(new_fd, crcTable[crcPageNotFound].pointer, crcTable[crcPageNotFound].sizeBytes, 0);
+            int bytesSent = send(new_fd, crcTable[*crcPageNotFound].pointer, crcTable[*crcPageNotFound].sizeBytes, 0);
             exit(-3);
         }
 

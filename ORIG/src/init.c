@@ -17,8 +17,8 @@ Description: creates CRC index table and fills RAM with content of hosted files.
 #include "crc16.h"
 #include "init.h"
 
-int initCode(struct Element *crcTable, char* cdir) {
-    unsigned char buf[64];
+int initCode(struct Element *crcTable, char* cdir, unsigned int *crcPageNotFound) {
+    unsigned char buf[512];
 
     DIR *dp;
     struct dirent *ep;
@@ -26,6 +26,7 @@ int initCode(struct Element *crcTable, char* cdir) {
     char fnamecopy[512] = "";
     char fsize[64] = "";
     struct stat st;
+    char defaultPageName[] = "HTTPError404NotFound.html";
 
     dp = opendir(cdir);
     if (dp == NULL) {
@@ -74,11 +75,10 @@ int initCode(struct Element *crcTable, char* cdir) {
 
             int size_with_headers = size_only_headers + size;
 
+            //copy string to another string without first character
             unsigned char *t1, *t2;
             t1 = buf;
-            t2 = fname + 1;
-
-            //copy string to another string without first character
+            t2 = fname;
             while ((*t2) != '\0') {
                 *t1 = *t2;
                 t1++;
@@ -86,6 +86,10 @@ int initCode(struct Element *crcTable, char* cdir) {
             }
 
             unsigned int crcValue = calculateCRC16(buf, strlen(buf)); // get crc of the current url
+
+            if (!strcmp(ep->d_name, defaultPageName)) {
+                *crcPageNotFound = crcValue;
+            }
 
             char *file_content = (char *) malloc(size);
             char *file_content_write = (char *) malloc(size_with_headers);
@@ -96,6 +100,7 @@ int initCode(struct Element *crcTable, char* cdir) {
             }
 
             FILE *fp_file = fopen(fname, "rb");
+            //printf("fname: %s\n", fname);
             if (!fp_file) {
                 printf("Error with file\n");
                 exit(0);
@@ -117,12 +122,10 @@ int initCode(struct Element *crcTable, char* cdir) {
             fname[0] = '\0'; // set empty string
             free(file_content);
             free(file_content_write);
-
         }
     }
 
     (void) closedir(dp);
-
 
     return 0;
 }

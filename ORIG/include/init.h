@@ -4,7 +4,7 @@
 #include "element.h"
 
 unsigned int calculateCRC16(unsigned char *Data, unsigned char len);
-int initCode(struct Element *crcTable, char* cdir);
+int initCode(struct Element *crcTable, char* cdir, unsigned int *crcPageNotFound);
 
 #endif  // INIT_H_INCLUDED
 

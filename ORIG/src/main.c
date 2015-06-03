@@ -54,13 +54,6 @@ int main(int argc, char * argv[]) {
 
     if (args.path) {
         PATH = args.path;
-        int cmp1 = strncmp( PATH, "./",2);  // check first two characters
-        int cmp2 = !(PATH[strlen(PATH)-1]=='/');  // check last character
-        if (cmp1 || cmp2) {
-            printf("Entered path is not in ./path/to/folder/ format\n");
-            exit(1);
-        }
-        PATH = args.path;
     }
 
     int sockfd, new_fd; // listen on sock_fd, new connection on new_fd
@@ -112,10 +105,10 @@ int main(int argc, char * argv[]) {
     // initialize RAM
     printf("Loading hosted files into RAM\n");
     int NelTable = 65536;
+    unsigned int crcPageNotFound;
     struct Element crcTable[NelTable];
-    initCode(crcTable, PATH);
+    initCode(crcTable, PATH, &crcPageNotFound);
     printf("Loading hosted files into RAM completed\n");
-
 
     printf("Server: waiting for connections...\n");
 
@@ -146,7 +139,7 @@ int main(int argc, char * argv[]) {
 
             printf("Buffer: %s\n", buffer_x);
             printf("Run Parse_Request()");
-            Parse_Request(buffer_x, crcTable, new_fd);
+            Parse_Request(buffer_x, crcTable, new_fd, PATH, &crcPageNotFound);
 
             close(new_fd);
             printf("Close child process\n");
