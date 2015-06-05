@@ -1,0 +1,275 @@
+package httpServer;
+
+import com.maxeler.maxcompiler.v2.kernelcompiler.stdlib.LMemCommandStream;
+import com.maxeler.maxcompiler.v2.kernelcompiler.types.composite.DFEStructType;
+import com.maxeler.maxcompiler.v2.managers.DFEManager;
+import com.maxeler.maxcompiler.v2.statemachine.DFEsmAssignableValue;
+import com.maxeler.maxcompiler.v2.statemachine.DFEsmStateValue;
+import com.maxeler.maxcompiler.v2.statemachine.DFEsmValue;
+import com.maxeler.maxcompiler.v2.statemachine.manager.DFEsmPullInput;
+import com.maxeler.maxcompiler.v2.statemachine.manager.DFEsmPushInput;
+import com.maxeler.maxcompiler.v2.statemachine.manager.DFEsmPushOutput;
+import com.maxeler.maxcompiler.v2.statemachine.manager.ManagerStateMachine;
+import com.maxeler.maxcompiler.v2.statemachine.stdlib._State;
+
+public class LMEM extends ManagerStateMachine {
+
+	public static final String INPUT_MEM_DATA = "dataFromMem";
+	public static final String OUTPUT_MEM_COMMAND = "memCmd";
+	private final DFEStructType cmdType;
+	private final DFEsmPushInput dataFromMem = io.pushInput(INPUT_MEM_DATA, dfeUInt(64), 1);
+	private final DFEsmPullInput socketNumberInput = io.pullInput("LMEMsocketNumberInput", dfeUInt(8));
+	private final DFEsmPullInput dataFromCrcIndex = io.pullInput("dataFromCrcIndex", dfeUInt(64));
+	private final DFEsmPushOutput fromLMEMFileSizeBytes = io.pushOutput("fromLMEMFileSizeBytes", dfeUInt(128), 5);
+	private final DFEsmPushOutput fromLMEMSocketNumber = io.pushOutput("fromLMEMSocketNumber", dfeUInt(128), 5);
+	private final DFEsmPushOutput outputLmemData = io.pushOutput("outputLmemData", dfeUInt(75), 1);
+	private final DFEsmPushOutput memCmdOutput;
+	private final DFEsmStateValue memCmdReg;
+	private final DFEsmStateValue memCmdRegValid;
+
+	private final int readStreamID;
+
+	private final DFEsmStateValue counter = state.value(dfeUInt(20), 0); // 40
+	private final DFEsmStateValue sMemoryDataRead = state.value(dfeBool(), false);
+	private final DFEsmStateValue sMemoryCommandsSent = state.value(dfeBool(), false);
+	private final DFEsmStateValue sMemCmdOutputStall = state.value(dfeBool(), false);
+	private final DFEsmStateValue sStartROMAddress = state.value(dfeUInt(19), 0);
+	private final DFEsmStateValue sDataBurstLength = state.value(dfeUInt(19), 0);
+	private final DFEsmStateValue sFileLengthBytes = state.value(dfeUInt(26), 0);
+
+	private final DFEsmStateValue sLMemBurstCounter = state.value(dfeUInt(19), 0);
+	private final DFEsmStateValue sBurstCounter = state.value(dfeUInt(19), 0);
+	private final DFEsmStateValue sLMemBytesSent = state.value(dfeUInt(32), 0);
+	private final DFEsmStateValue sFileLengthBytesCounter = state.value(dfeUInt(26), 8);
+	private final DFEsmStateValue sAllBytesSentFlag = state.value(dfeBool(), false);
+	private final DFEsmStateValue sFileLengthBytesCounterMini = state.value(dfeUInt(8), 8);
+	private final DFEsmStateValue sPortDataValid = state.value(dfeBool(), false);
+	private final DFEsmStateValue sSOF = state.value(dfeBool(), false);
+
+	public LMEM(DFEManager owner, int readStreamID) {
+		super(owner);
+
+		cmdType = LMemCommandStream.getLMemCommandDFEStructType();
+
+		this.readStreamID = readStreamID;
+
+		memCmdReg = _State.value(state, dfeUInt(cmdType.getTotalBits()), "memCmdReg");
+		memCmdRegValid = _State.value(state, dfeBool(), false, "memCmdRegValid");
+		memCmdOutput = io.pushOutput(OUTPUT_MEM_COMMAND, dfeUInt(cmdType.getTotalBits()), 1);
+	}
+
+	@Override
+protected void nextState() {
+
+	counter.next <== counter + 1;
+
+	memCmdRegValid.next <== false;
+	sMemCmdOutputStall.next <== memCmdOutput.stall;
+
+
+	DFEsmValue portsEmpty = socketNumberInput.empty | dataFromCrcIndex.empty;
+
+	IF(~portsEmpty & ~sMemoryCommandsSent & ~sMemoryDataRead){
+		sPortDataValid.next <== true;
+	}
+
+	IF(sPortDataValid)
+	{
+		debug.simPrintf("LMEM: counter=%u, sPortDataValid --- value dataFromCrcIndex=%x, socketNumberInput=%u\n", counter, dataFromCrcIndex, socketNumberInput);
+	}
+
+	IF(sPortDataValid) 
+	{
+		debug.simPrintf("LMEM: Value dataFromCrcIndex=%x, socketNumberInput=%u\n", dataFromCrcIndex, socketNumberInput);
+
+		DFEsmAssignableValue startAddressBurst=assignable.value(dfeUInt(19)); 
+		DFEsmAssignableValue fileLengthBursts=assignable.value(dfeUInt(19)); 
+		DFEsmAssignableValue fileLengthBytes=assignable.value(dfeUInt(26)); 
+
+		fileLengthBytes<==dataFromCrcIndex.slice(0, 26);
+		fileLengthBursts<==dataFromCrcIndex.slice(26, 19);
+		startAddressBurst<==dataFromCrcIndex.slice(45, 19);
+
+		debug.simPrintf("LMEM: startAddressBurst=%u, fileLengthBursts=%u, fileLengthBytes=%u\n",startAddressBurst,fileLengthBursts,fileLengthBytes);
+
+		sStartROMAddress.next<==startAddressBurst;
+		sDataBurstLength.next<==fileLengthBursts;
+		sFileLengthBytes.next<==fileLengthBytes;
+
+		sMemoryCommandsSent.next <== true;
+		sMemoryDataRead.next <== true;
+		sPortDataValid.next <== false;
+	}
+
+	//send read commands to the LMEM controller
+	IF((sMemoryCommandsSent===true))
+	{
+		IF((~memCmdOutput.stall))
+		{
+			sLMemBurstCounter.next<==sLMemBurstCounter+1;
+			
+			makeReadOrWriteCommand(memCmdReg, 					
+					(sStartROMAddress+sLMemBurstCounter).cast(dfeUInt(32)), 
+					readStreamID); 
+
+			memCmdRegValid.next <== true;
+
+			IF(sLMemBurstCounter.eq(sDataBurstLength-1))
+			{
+				sLMemBurstCounter.next<==0;
+				sMemoryCommandsSent.next<==false;
+				debug.simPrintf("LMEM: Last LMEM read command sent, sLMemBurstCounter=%u\n", sLMemBurstCounter);
+			}
+		}
+	}
+
+
+
+	IF(dataFromMem.valid)
+	{
+		sLMemBytesSent.next<==sLMemBytesSent+8;
+		sFileLengthBytesCounter.next<==sFileLengthBytesCounter+8;
+		sFileLengthBytesCounterMini.next<==sFileLengthBytesCounterMini+8;
+
+sSOF.next <==true;
+
+		
+
+		IF(sFileLengthBytesCounter>=sFileLengthBytes)
+		{
+			sAllBytesSentFlag.next<==true;
+sSOF.next<==false;
+			
+		}
+
+
+
+		IF(sFileLengthBytesCounterMini===192) //LMEM data burst size
+		{
+			sBurstCounter.next<==sBurstCounter+1;
+			sFileLengthBytesCounterMini.next<==8;
+		}
+	}
+
+	IF(sBurstCounter===sDataBurstLength)
+	{
+		sLMemBytesSent.next<==0;
+		sAllBytesSentFlag.next<==false;
+		sFileLengthBytesCounter.next<==8;
+		sBurstCounter.next<==0;
+		sDataBurstLength.next<==1;
+
+		sFileLengthBytesCounterMini.next <== 8;
+
+		sMemoryDataRead.next <== false;
+		sPortDataValid.next <== false;
+
+		debug.simPrintf("LMEM: Tick=%u, sBurstCounter===sDataBurstLength\n",counter);
+	}
+
+}
+
+	@Override
+protected void outputFunction() {
+
+		outputLmemData.valid <== false;
+		outputLmemData <== 0;
+		dataFromMem.stall <== outputLmemData.stall;
+
+		fromLMEMFileSizeBytes.valid<==false;
+		fromLMEMFileSizeBytes<==0;
+
+		fromLMEMSocketNumber.valid<==false;
+		fromLMEMSocketNumber<==0;
+
+		memCmdOutput<==0;
+		memCmdOutput.valid<==false;
+
+		socketNumberInput.read <== false;
+		dataFromCrcIndex.read <== false;
+
+		DFEsmValue portsEmpty = socketNumberInput.empty | dataFromCrcIndex.empty;
+
+		IF(~portsEmpty & (~sMemoryCommandsSent) & ~sMemoryDataRead)
+		{
+			socketNumberInput.read <== true;
+			dataFromCrcIndex.read <== true;
+
+			debug.simPrintf("LMEM: tick=%u, socketNumberInput.read=%u, dataFromCrcIndex.read=%u, socketNumberInput.empty=%u, dataFromCrcIndex.empty=%u\n", counter,  socketNumberInput.read,dataFromCrcIndex.read, socketNumberInput.empty, dataFromCrcIndex.empty);
+		}
+
+		IF(dataFromMem.valid & ~sAllBytesSentFlag)
+		{
+			IF(sFileLengthBytesCounter>=sFileLengthBytes)
+			{
+				DFEsmValue data,mod,eof,sof, socket;
+				data = dataFromMem;
+				mod = constant.value(dfeUInt(3),0);
+				eof = constant.value(dfeBool(),0);
+				sof = constant.value(dfeBool(),0);
+				socket = socketNumberInput.cast(dfeUInt(6)); 
+
+				data = dataFromMem;
+
+				DFEsmAssignableValue difference = assignable.value(dfeUInt(26));
+				difference <== 8 - (sFileLengthBytesCounter-sFileLengthBytes);
+				IF(difference===8) difference <== 0;
+
+				mod = difference.cast(dfeUInt(3));
+				eof = constant.value(dfeBool(),1);
+				sof = constant.value(dfeBool(),0);
+
+				outputLmemData.valid <== true; 
+				outputLmemData<== sof # eof # mod # socket # data;
+
+				debug.simPrintf("LMEM: tick=%u, end of dataFromMemory, sending: sof=%u, eof=%u, mod=%u, sFileLengthBytesCounter=%u, sFileLengthBytes=%u\n", counter, sof, eof, mod, sFileLengthBytesCounter, sFileLengthBytes);
+
+				fromLMEMFileSizeBytes.valid<==true;
+				fromLMEMFileSizeBytes<==sFileLengthBytes.cast(dfeUInt(128));
+
+				fromLMEMSocketNumber.valid<==true;
+				fromLMEMSocketNumber<==socketNumberInput.cast(dfeUInt(128));
+
+				debug.simPrintf("LMEM: tick=%u, sending data to CPU, sFileLengthBytes=%u, fromLMEMSocket=%u\n", counter, sFileLengthBytes, socketNumberInput);
+
+			}
+			ELSE
+			{
+				DFEsmValue data,mod,eof,sof, socket;
+				data = dataFromMem;
+				mod = constant.value(dfeUInt(3),0);
+				eof = constant.value(dfeBool(),0);
+				sof = ~sSOF;
+
+				socket = socketNumberInput.cast(dfeUInt(6)); 
+
+				outputLmemData.valid <== true;
+				outputLmemData<== sof # eof # mod # socket # data;			
+
+			}
+		}
+
+		IF(outputLmemData.stall)
+		{
+			debug.simPrintf("LMEM: STALLING counter=%u, outputLmemData.stall=%u\n", counter, outputLmemData.stall);
+		}
+
+
+
+		//commands for the memory controller
+		IF(~sMemCmdOutputStall) //
+		{
+			memCmdOutput <== memCmdReg;
+			memCmdOutput.valid <== memCmdRegValid;
+		}
+
+}
+
+	private void makeReadOrWriteCommand(DFEsmStateValue cmdReg, DFEsmValue address, int streamIx) {
+		SMUtils.assignField(cmdReg.next, cmdType, "address", address);
+		SMUtils.assignField(cmdReg.next, cmdType, "size", 1);
+		SMUtils.assignField(cmdReg.next, cmdType, "inc", 1);
+		SMUtils.assignField(cmdReg.next, cmdType, "tag", 0);
+		SMUtils.assignField(cmdReg.next, cmdType, "stream", 1 << streamIx);
+	}
+}
