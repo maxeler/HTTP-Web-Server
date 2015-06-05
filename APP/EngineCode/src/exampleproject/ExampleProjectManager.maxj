@@ -1,0 +1,60 @@
+
+package exampleproject;
+
+import static com.maxeler.maxcompiler.v2.managers.standard.Manager.link;
+
+import com.maxeler.maxcompiler.v2.kernelcompiler.Kernel;
+import com.maxeler.maxcompiler.v2.managers.BuildConfig;
+import com.maxeler.maxcompiler.v2.managers.engine_interfaces.CPUTypes;
+import com.maxeler.maxcompiler.v2.managers.engine_interfaces.EngineInterface;
+import com.maxeler.maxcompiler.v2.managers.engine_interfaces.InterfaceParam;
+import com.maxeler.maxcompiler.v2.managers.standard.IOLink.IODestination;
+import com.maxeler.maxcompiler.v2.managers.standard.Manager;
+
+public class ExampleProjectManager {
+
+	private static final String s_kernelName = "ExampleProjectKernel";
+
+	public static void main(String[] args) {
+		ExampleProjectEngineParameters params = new ExampleProjectEngineParameters(args);
+		Manager manager = new Manager(params);
+		Kernel kernel   = new ExampleProjectKernel(manager.makeKernelParameters(s_kernelName));
+		manager.setKernel(kernel);
+		manager.setIO(
+			link("x",   IODestination.CPU),
+			link("y",   IODestination.CPU),
+			link("s", IODestination.CPU));
+
+		manager.createSLiCinterface(interfaceDefault());
+		
+		configBuild(manager, params);
+		
+		manager.build();
+	}
+
+	private static EngineInterface interfaceDefault() {
+		EngineInterface engine_interface = new EngineInterface();
+		CPUTypes   type = CPUTypes.INT32;
+		int        size = type.sizeInBytes();
+
+		InterfaceParam  a    = engine_interface.addParam("A", CPUTypes.INT);
+		InterfaceParam  N    = engine_interface.addParam("N", CPUTypes.INT);
+
+		engine_interface.setScalar(s_kernelName, "a", a);
+
+		engine_interface.setTicks(s_kernelName, N);
+		engine_interface.setStream("x",   type, N * size);
+		engine_interface.setStream("y",   type, N * size);
+		engine_interface.setStream("s", type, N * size);
+		return engine_interface;
+	}
+	
+	private static void configBuild(Manager manager, ExampleProjectEngineParameters params) {
+		manager.setEnableStreamStatusBlocks(false);
+		BuildConfig buildConfig = manager.getBuildConfig();
+		buildConfig.setMPPRCostTableSearchRange(params.getMPPRStartCT(), params.getMPPREndCT());
+		buildConfig.setMPPRParallelism(params.getMPPRThreads());
+		buildConfig.setMPPRRetryNearMissesThreshold(params.getMPPRRetryThreshold());
+	}
+}
+

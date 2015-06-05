@@ -1,0 +1,10 @@
+Maxeler HTTP Server
+
+Usage:
+  httpServer [--port=PORT] [--path=PATH]
+  httpServer -h | --help
+
+Options:
+  -h --help     Show this screen.
+  --port=PORT   listening port [default: 8080]
+  --path=PATH   hosted files path [default: ./files/]

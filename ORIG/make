@@ -1,0 +1,41 @@
+#!/usr/bin/env python
+
+import os
+import sys
+import subprocess
+from fabricate import *
+
+NAME="httpServer"
+generated_dir='gen'
+docopt_dir='docopt-c'
+docopt_file='http-server.docopt'
+docopt_source_name='docopt.c'
+
+sources = ['main','HttpRequest', 'init', 'crc16']
+
+# Define compiler flags
+flags = ['-g', '-Iinclude', '-I' + generated_dir]
+
+def build():
+    run_docopt_c()
+    compile()
+    link()
+
+def run_docopt_c():
+        run('python', docopt_dir + '/' + 'docopt_c.py', '-o', generated_dir + '/' + docopt_source_name, docopt_file)
+
+def compile():
+    for source in sources:
+        run('gcc', flags, '-c', 'src/%s' % source + '.c')
+
+def link():
+    objects = [s+'.o' for s in sources]
+    run('gcc', '-lm', objects,'-o', NAME)
+
+def execute_program():
+    run('./%s' % NAME)
+
+def clean():
+    autoclean()
+
+main()

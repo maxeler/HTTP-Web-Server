@@ -1,0 +1,192 @@
+package httpserver;
+
+import java.util.ArrayList;
+
+import com.maxeler.maxcompiler.v2.managers.DFEManager;
+import com.maxeler.maxcompiler.v2.statemachine.DFEsmAssignableValue;
+import com.maxeler.maxcompiler.v2.statemachine.DFEsmStateEnum;
+import com.maxeler.maxcompiler.v2.statemachine.DFEsmStateValue;
+import com.maxeler.maxcompiler.v2.statemachine.manager.DFEsmPullInput;
+import com.maxeler.maxcompiler.v2.statemachine.manager.DFEsmPushInput;
+import com.maxeler.maxcompiler.v2.statemachine.manager.DFEsmPushOutput;
+import com.maxeler.maxcompiler.v2.statemachine.manager.ManagerStateMachine;
+import com.maxeler.maxcompiler.v2.utils.MathUtils;
+
+public class Scheduler extends ManagerStateMachine {
+
+	private final int Nsockets = HttpServerManager.getNsockets();
+	private final DFEsmPushOutput outputPort;
+	private final ArrayList<DFEsmPullInput> inputPorts = new ArrayList<DFEsmPullInput>(Nsockets);
+	private final DFEsmPushInput schedulerValidInput = io.pushInput("schedulerValidInput", dfeUInt(1), 1);
+	private final DFEsmStateValue sInputPortIndex = state.value(dfeUInt(MathUtils.bitsToAddress(Nsockets)), 0);
+	private final DFEsmStateValue sSendingFlag = state.value(dfeBool(), false);
+	private final DFEsmStateValue sDataOutValid = state.value(dfeBool(), false);
+	private final DFEsmStateValue counter = state.value(dfeUInt(20), 0);
+
+	enum States {
+		START,
+		SENDING
+	}
+
+	private final DFEsmStateEnum<States> sCurrentState;
+
+	public Scheduler(DFEManager owner, int width) {
+		super(owner);
+		outputPort = io.pushOutput("schedulerDataOutput", dfeUInt(width), 1);
+		sCurrentState = state.enumerated(States.class, States.START);
+
+		for (int i = 0; i < Nsockets; i++) {
+			String inputName = "schedulerDataInput" + String.valueOf(i);
+			inputPorts.add(io.pullInput(inputName, dfeUInt(width), 1));
+		}
+
+		System.out.println("Scheduler: Nsockets=" + Nsockets + " === " + MathUtils.bitsToAddress(Nsockets) + " bits");
+
+	}
+
+	@Override
+	protected void nextState() {
+
+		counter.next <== counter + 1;
+
+		//IF(sSendingFlag===false)
+		{
+			SWITCH(sCurrentState){
+				CASE(States.START){
+
+					//schedueler: finding non-empty ports by round-robin
+
+					DFEsmAssignableValue flag = assignable.value(dfeBool());
+					flag <== false;
+
+					//sFlag.next <== true;
+					sDataOutValid.next <== false;
+
+					DFEsmAssignableValue nextPortIndex = assignable.value(dfeUInt(MathUtils.bitsToAddress(Nsockets)));
+					nextPortIndex <== 0;
+
+					//Upper part: current n: check n+1,n+2,n+3,n+4...N
+					for(int i=0;i<Nsockets;i++)
+					{
+						IF(inputPorts.get(i).empty===constant.value(false) & (flag===false) & (i>sInputPortIndex))
+						{
+							//current eg. 3: check 4,5,6,7...15
+							flag <==true;
+							nextPortIndex <== i;
+							//inputPorts.get(i).read <== true;
+							sSendingFlag.next <== true;
+							sCurrentState.next <==States.SENDING;
+							sInputPortIndex.next <== nextPortIndex;
+
+						}
+					}
+
+					//Lower part: current n: check 0,1,2,3...n-1
+					for(int i=0;i<Nsockets;i++)
+					{
+						IF(inputPorts.get(i).empty===constant.value(false) & (flag===false) & (i<sInputPortIndex))
+						{
+							//current eg. 3: check 0,1,2
+							flag <==true;
+							nextPortIndex <== i;
+							//inputPorts.get(i).read <== true;
+							sSendingFlag.next <== true;
+							sCurrentState.next <==States.SENDING;
+							sInputPortIndex.next <== nextPortIndex;
+
+							debug.simPrintf("scheduler: counter=%u, States.START, inputPorts.get(%u).empty=%u, nextPortIndex=%u\n", counter, i, inputPorts.get(i).empty, nextPortIndex); //m_fifo[i].output.dataOut
+						}
+					}
+
+					//case: first run or //if not found; check current Port: nextPortIndex==currentPort (all other buffers are empty)
+					for(int i=0;i<Nsockets;i++)
+					{
+						IF(inputPorts.get(i).empty===constant.value(false) & (flag===false) & (constant.value(dfeUInt(MathUtils.bitsToAddress(Nsockets)), i)===sInputPortIndex))
+						{
+
+							flag <==true;
+							nextPortIndex <== i;
+							//inputPorts.get(i).read <== true;
+							sSendingFlag.next <== true;
+							sCurrentState.next <==States.SENDING;
+							sInputPortIndex.next <== nextPortIndex;
+
+							debug.simPrintf("scheduler: counter=%u, States.START, inputPorts.get(%u).empty=%u, nextPortIndex=%u, sInputPortIndex=%u\n", counter, i, inputPorts.get(i).empty, nextPortIndex, sInputPortIndex); //m_fifo[i].output.dataOut
+
+						}
+					}
+				}
+
+				CASE(States.SENDING){
+
+					IF(schedulerValidInput.valid){
+						sCurrentState.next <== States.START;
+						debug.simPrintf("scheduler: nextState START counter=%u, schedulerFlagInput=%u\n", counter, schedulerValidInput.valid);
+
+					}
+
+					for(int i=0;i<Nsockets;i++)
+					{
+						IF(sInputPortIndex===i){
+							IF(inputPorts.get(i).empty===constant.value(false) & ~outputPort.stall)
+							{
+								sDataOutValid.next <==true;
+								debug.simPrintf("scheduler: counter=%u, States.SENDING, inputPorts.get(%u).empty=%u, schedulerFlagInput.valid=%u, sInputPortIndex=%u\n", counter, i, inputPorts.get(i).empty,schedulerValidInput.valid, sInputPortIndex);
+							}
+							ELSE {
+								sDataOutValid.next <== false;
+							}
+
+						}
+					}
+				}
+			}
+		}
+	}
+
+	@Override
+	protected void outputFunction() {
+		outputPort.valid <== false;
+		outputPort <== 55;
+schedulerValidInput.stall <== outputPort.stall;
+
+	    //set all ports 'read' signal to false
+		for(int i=0;i<Nsockets;i++)
+		{
+			inputPorts.get(i).read <== false;
+		}
+
+		SWITCH(sCurrentState){
+			CASE(States.START){
+			}
+
+			CASE(States.SENDING){
+
+				for(int i=0;i<Nsockets;i++)
+				{
+					IF(sInputPortIndex===i){
+						//if current input port is not empty, request new data from the buffer only if output is not stalled
+						IF(inputPorts.get(i).empty===constant.value(false)) { //& ~inputPorts.get(i).empty
+							inputPorts.get(i).read <== ~schedulerValidInput.valid & ~outputPort.stall;
+							//outputPort.valid <== sDataOutValid; //
+							//outputPort <== inputPorts.get(i);
+							debug.simPrintf("scheduler: counter=%u, sDataOutValid=%u, inputPorts.get(%u).read=%u, outputPort.valid=%u, inputPorts.get(%i)=%x\n", counter, sDataOutValid, i, inputPorts.get(i).read, outputPort.valid, i, inputPorts.get(i));
+						}
+					}
+				}
+
+				IF(sDataOutValid)
+				{
+					for(int i=0;i<Nsockets;i++)
+					{
+						IF(sInputPortIndex===i){
+							outputPort <== inputPorts.get(i);
+						}
+					}
+					outputPort.valid <== sDataOutValid; //
+					debug.simPrintf("scheduler: counter=%u, outputPort.valid=%u, outputPort=%x\n", counter, outputPort.valid, outputPort);
+				}
+			}
+		}
+	}
+}
