@@ -38,7 +38,7 @@ int initCode(struct Element *crcTable, char* cdir, unsigned int *crcPageNotFound
     while (ep = readdir(dp)) {
         memset(buf, 0, sizeof (buf));
         int jk = 0;
-        /* browse through the files in current directory and gets file attributes */
+        // browse through the files in current directory and gets file attributes
         int scompare1 = strcmp(ep->d_name, ".");
         int scompare2 = strcmp(ep->d_name, "..");
         if (scompare1 && scompare2) {
@@ -51,16 +51,16 @@ int initCode(struct Element *crcTable, char* cdir, unsigned int *crcPageNotFound
             strcat(fnamecopy, fsize);
             puts(fnamecopy);
 
-            //HTTP response: status-line; header fields
+            // HTTP response: status-line; header fields
             int Nfields = 4;
             int ip;
             char *responseFields[Nfields];
-            responseFields[0] = "HTTP/1.0 200 OK\r\n"; //status line
-            responseFields[1] = "Connection: close\r\n"; //header field //Close //keep-alive
+            responseFields[0] = "HTTP/1.0 200 OK\r\n"; // status line
+            responseFields[1] = "Connection: close\r\n"; // header field //Close //keep-alive
             char thdr[50];
-            sprintf(thdr, "Content-Length: %d\r\n", size); //header field
+            sprintf(thdr, "Content-Length: %d\r\n", size); // header field
             responseFields[2] = thdr;
-            //Content-Type: image/svg+xml\r\n
+            // Content-Type: image/svg+xml\r\n
             responseFields[3] = "\r\n"; //CRLF
             char joined[512] = "";
 
@@ -75,7 +75,7 @@ int initCode(struct Element *crcTable, char* cdir, unsigned int *crcPageNotFound
 
             int size_with_headers = size_only_headers + size;
 
-            //copy string to another string without first character
+            // copy string to another string without first character
             unsigned char *t1, *t2;
             t1 = buf;
             t2 = fname;
@@ -100,7 +100,7 @@ int initCode(struct Element *crcTable, char* cdir, unsigned int *crcPageNotFound
             }
 
             FILE *fp_file = fopen(fname, "rb");
-            //printf("fname: %s\n", fname);
+            // printf("fname: %s\n", fname);
             if (!fp_file) {
                 printf("Error with file\n");
                 exit(0);
