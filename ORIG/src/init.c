@@ -23,6 +23,7 @@ int initCode(struct Element *crcTable, char* cdir, unsigned int *crcPageNotFound
     DIR *dp;
     struct dirent *ep;
     char fname[512] = "";
+    char fnamefile[512] = "";
     char fnamecopy[512] = "";
     char fsize[64] = "";
     struct stat st;
@@ -42,9 +43,11 @@ int initCode(struct Element *crcTable, char* cdir, unsigned int *crcPageNotFound
         int scompare1 = strcmp(ep->d_name, ".");
         int scompare2 = strcmp(ep->d_name, "..");
         if (scompare1 && scompare2) {
-            strcat(fname, cdir);
+            strcat(fnamefile, cdir);
+            strcat(fnamefile, ep->d_name);
+            // strcat(fname, cdir);
             strcat(fname, ep->d_name);
-            stat(fname, &st);
+            stat(fnamefile, &st);
             int size = st.st_size;
             sprintf(fsize, " - size(bytes): %d", size);
             strcpy(fnamecopy, fname);
@@ -99,7 +102,7 @@ int initCode(struct Element *crcTable, char* cdir, unsigned int *crcPageNotFound
                 exit(0);
             }
 
-            FILE *fp_file = fopen(fname, "rb");
+            FILE *fp_file = fopen(fnamefile, "rb");
             // printf("fname: %s\n", fname);
             if (!fp_file) {
                 printf("Error with file\n");
@@ -120,6 +123,7 @@ int initCode(struct Element *crcTable, char* cdir, unsigned int *crcPageNotFound
             i++;
 
             fname[0] = '\0'; // set empty string
+            fnamefile[0] = '\0';
             free(file_content);
             free(file_content_write);
         }

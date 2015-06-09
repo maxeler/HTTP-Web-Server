@@ -75,7 +75,6 @@ int main(int argc, char * argv[]) {
         exit(1);
     }
 
-
     server_addr.sin_family = AF_INET; // host byte order
     server_addr.sin_port = htons(PORT); // short, network byte order
     // the wildcard address is used by applications (typically servers) that intend to

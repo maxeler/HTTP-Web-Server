@@ -60,18 +60,19 @@ void Parse_Request(char *buffer, struct Element *crcTable, int new_fd, char* PAT
         strncpy(url1, buffer + 1, url1Length);
         printf("URL: %s\n", url1);
 
-        int urlLength = strlen(PATH) + url1Length;
+        int urlLength = url1Length;
         char *url = (char *) calloc(urlLength + 1, sizeof (char));
-        strcat(url, PATH);
         strcat(url, url1);
         printf("PATH, URL: %s, %s\n", PATH, url1);
         printf("combined: %s, urlLength=%d\n", url, urlLength);
-        //exit(0);
+        // exit(0);
 
         unsigned int crcValue = calculateCRC16(url, urlLength);
         printf("crcValue of URL: %d\n", crcValue);
         printf("crcTable[crcValue=%d].pointer=%d\n", crcValue, crcTable[crcValue].pointer);
         printf("crcTable[crcValue=%d].sizeBytes=%d\n", crcValue, crcTable[crcValue].sizeBytes);
+        
+        // exit(0);
 
         // check if resource exist on the server
         if (crcTable[crcValue].pointer != 0) {
