@@ -15,14 +15,14 @@ import com.maxeler.networking.types.TCPManyConnectionsTypes;
 import com.maxeler.networking.types.TCPManyConnectionsTypes.EventType;
 import com.maxeler.networking.types.TCPManyConnectionsTypes.RxRequestType;
 
-public class RxPopKernel extends Kernel {
+public class KernelRxPop extends Kernel {
 
 	public static final String IN_EVENT     = "in_event";
 	public static final String IN_FIFO_FULL = "in_fifo_full";
 	public static final String OUT_REQUEST  = "out_request";
 	public static final String OUT_DEBUG    = "out_debug";
 
-	public RxPopKernel(KernelParameters parameters, TCPManyConnectionsTypes tcpTypes) {
+	public KernelRxPop(KernelParameters parameters, TCPManyConnectionsTypes tcpTypes) {
 		super(parameters);
 
 		flush.disabled();

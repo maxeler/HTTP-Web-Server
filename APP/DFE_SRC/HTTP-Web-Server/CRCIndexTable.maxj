@@ -9,7 +9,7 @@ import com.maxeler.maxcompiler.v2.statemachine.manager.DFEsmPushInput;
 import com.maxeler.maxcompiler.v2.statemachine.manager.DFEsmPushOutput;
 import com.maxeler.maxcompiler.v2.statemachine.manager.ManagerStateMachine;
 
-public class CrcIndexTable extends ManagerStateMachine {
+public class CRCIndexTable extends ManagerStateMachine {
 
 	private final DFEsmSinglePortMappedROM romCrcIndex1;
 	private final DFEsmSinglePortMappedROM romCrcIndex2;
@@ -24,7 +24,7 @@ public class CrcIndexTable extends ManagerStateMachine {
 
 	private final DFEsmStateValue counter = state.value(dfeUInt(20), 0);
 
-	public CrcIndexTable(DFEManager owner) {
+	public CRCIndexTable(DFEManager owner) {
 		super(owner);
 
 		// CRC Index Tables

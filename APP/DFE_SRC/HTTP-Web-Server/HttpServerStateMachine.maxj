@@ -13,7 +13,8 @@ import com.maxeler.maxcompiler.v2.statemachine.manager.DFEsmPushOutput;
 import com.maxeler.maxcompiler.v2.statemachine.manager.ManagerStateMachine;
 import com.maxeler.maxcompiler.v2.statemachine.stdlib._State;
 
-public class httpServerStateMachine extends ManagerStateMachine {
+
+public class HttpServerStateMachine extends ManagerStateMachine {
 
 	enum States {
 		START, URI, HTTP_VERSION, HEADERS, CR, LF, BLANK_LINE, END_GETREQUEST
@@ -57,7 +58,7 @@ public class httpServerStateMachine extends ManagerStateMachine {
 	private final DFEsmValue sof;
 	private final DFEsmValue socket;
 
-	public httpServerStateMachine(DFEManager owner) {
+	public HttpServerStateMachine(DFEManager owner) {
 		super(owner);
 
 		data = inputTcpData.slice(0, 64).cast(dfeUInt(64));
@@ -105,6 +106,8 @@ public class httpServerStateMachine extends ManagerStateMachine {
 			debug.simPrintf("stateMachine: tick=%u, data: %x, mod: %x, eof: %x, sof: %x, socket: %u, input.valid=%x, output.stall=%x, input.stall=%x\n", counter,data, mod, eof,sof,socket,inputTcpData.valid,888, inputTcpData.stall); //output.stall
 			debug.simPrintf("stateMachine: tick=%u, input: %x\n", counter,inputTcpData);
 			debug.simPrintf("stateMachine: tick-%u, sCounter=%u, SNumericCurrent=%u, byte1=%x\n", counter,counter,sCurrentState,byte1);
+			
+			
 		}
 
 
@@ -273,6 +276,7 @@ public class httpServerStateMachine extends ManagerStateMachine {
 								
 								sCurrentState.next<==States.HTTP_VERSION;
 								debug.simPrintf("stateMachine: nextState: HTTP_VERSION: tick=%u, sNumericCurrent=%u, data=%x\n", counter,sCurrentState,data);
+								// debug.dfePrintf("stateMachine: nextState: HTTP_VERSION: tick=%u, sNumericCurrent=%u, data=%x\n", counter,sCurrentState,data);
 
 							}
 							ELSE {

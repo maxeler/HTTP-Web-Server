@@ -28,7 +28,7 @@ import com.maxeler.networking.v1.managers.netlib.NetworkConnection;
 import com.maxeler.networking.v1.managers.netlib.TCPStreamManyConnections;
 import com.maxeler.utils.MemoryManager;
 
-public class httpServerManager extends NetworkManager {
+public class HttpServerManager extends NetworkManager {
 
 	private static final String KERNEL_NAME_write = "KernelLMem_Write_CommandAndDataStream";
 	private static final String KERNEL_NAME_read = "KernelLMem_Read_CommandAndDataStream";
@@ -42,7 +42,7 @@ public class httpServerManager extends NetworkManager {
 	private final boolean useLMemWindowMemory = false;
 	private final boolean hwLoopBack = false;
 
-	public httpServerManager(EngineParameters configuration) {
+	public HttpServerManager(EngineParameters configuration) {
 		super(configuration);
 
 		debug.setDebugLevel(new DebugLevel(){{setHasStreamStatus(true);}});
@@ -83,7 +83,7 @@ public class httpServerManager extends NetworkManager {
 
 		TCPManyConnectionsTypes tcpStreamTypes = tcpStream.getTypes();
 
-		KernelBlock rxPop = addKernel(new RxPopKernel(makeKernelParameters("rxPopKernel"), tcpStreamTypes));
+		KernelBlock rxPop = addKernel(new KernelRxPop(makeKernelParameters("rxPopKernel"), tcpStreamTypes));
 
 		boolean hasRxEventSuperFifo = false; //
 		if (hasRxEventSuperFifo) {
@@ -95,20 +95,20 @@ public class httpServerManager extends NetworkManager {
 					tcpStream.getReceiveEventStream(), 48,
 					tcpStream.getTypes().getEventType().getTotalBits(),
 					true, 5, -1);
-			Slicer.sliceConnect(this, superFifo.read, rxPop.getInput(RxPopKernel.IN_EVENT));
+			Slicer.sliceConnect(this, superFifo.read, rxPop.getInput(KernelRxPop.IN_EVENT));
 		} else {
-			rxPop.getInput(RxPopKernel.IN_EVENT) <== tcpStream.getReceiveEventStream();
+			rxPop.getInput(KernelRxPop.IN_EVENT) <== tcpStream.getReceiveEventStream();
 		}
 
-		tcpStream.getReceiveRequestStream() <== rxPop.getOutput(RxPopKernel.OUT_REQUEST);
+		tcpStream.getReceiveRequestStream() <== rxPop.getOutput(KernelRxPop.OUT_REQUEST);
 
 		StallSM stallSM = new StallSM(this, tcpStream.getTypes().getRxDataRespType().getTotalBits());
 		System.out.println("ADDED: width=tcpStream.getTypes().getRxDataRespType().getTotalBits()=" + tcpStream.getTypes().getRxDataRespType().getTotalBits());
 		StateMachineBlock stall = addStateMachine("stall", stallSM);
 		stall.getInput("src") <== tcpStream.getReceiveDataStream();
 
-		rxPop.getInput(RxPopKernel.IN_FIFO_FULL) <== stall.getOutput("fifoFull");
-		addStreamToCPU("rxPopDebug") <== rxPop.getOutput(RxPopKernel.OUT_DEBUG);
+		rxPop.getInput(KernelRxPop.IN_FIFO_FULL) <== stall.getOutput("fifoFull");
+		addStreamToCPU("rxPopDebug") <== rxPop.getOutput(KernelRxPop.OUT_DEBUG);
 		
 
 		TieOffNode connStateEvTieOffSM = new TieOffNode(this);
@@ -135,7 +135,7 @@ public class httpServerManager extends NetworkManager {
 	    KernelConfiguration myKernelConfig = new KernelConfiguration(getCurrentKernelConfig());
 
 		String smName = "httpServerStateMachine";
-		StateMachineBlock stateMachine = addStateMachine(smName, new httpServerStateMachine(this));
+		StateMachineBlock stateMachine = addStateMachine(smName, new HttpServerStateMachine(this));
 		stateMachine.getInput("tcp_to_sm") <== stall.getOutput("dst");//Scheduler.getOutput("schedulerDataOutput");;
 
 		KernelBlock parallelCRC = addKernel(new ParallelCRC(makeKernelParameters("parallelCRC")));
@@ -158,7 +158,7 @@ public class httpServerManager extends NetworkManager {
 		toCpu <== kRead.getOutput("outputFromLMEM");
 
 		// CrcIndexTable
-		StateMachineBlock crcIndex = addStateMachine("CrcIndexTable", new CrcIndexTable(this));
+		StateMachineBlock crcIndex = addStateMachine("CrcIndexTable", new CRCIndexTable(this));
 		crcIndex.getInput("crcResultInput") <== parallelCRC.getOutput(ParallelCRC.crcOut);
 		crcIndex.getInput("crcBlankPageInput") <== crcIndex.getOutput("crcBlankPageOutput");
 
@@ -197,7 +197,7 @@ public class httpServerManager extends NetworkManager {
 	public static void main(String[] args) {
 		
 		EngineParameters params = new EngineParameters(args); 
-		httpServerManager m = new httpServerManager(params);
+		HttpServerManager m = new HttpServerManager(params);
 
 		BuildConfig bConfig = m.getBuildConfig();
 		bConfig.setMPPRCostTableSearchRange(1, 2);
