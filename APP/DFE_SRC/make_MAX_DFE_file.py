@@ -22,7 +22,6 @@ result=os.environ.get('MAXCOMPILER_BUILD_CONF')
 JAVARTENV = '/network-raid/opt/jdk1.6.0_02/jre/bin/java'
 JAVAMAXHEAPSIZE = 'mx12288m' #-Xmx<size> set maximum Java heap size
 HTTPSERVERCLASSPATH = ['./bin']  + [CLASSPATH]
-# MAXFILENAME = 'httpServer_SIM'
 DFEMODEL='ISCA' 
 MAXFILENAME='httpserver'
 TARGET = 'DFE'
