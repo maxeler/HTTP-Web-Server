@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 import os
 import sys
 import subprocess
@@ -16,7 +18,6 @@ MAXDESTDIR = 'bin'
 MAXSRCDIR = 'HTTP-Web-Server'
 
 # build directory - .max file location
-os.environ["MAXCOMPILER_BUILD_CONF"] = "build.copy_results_to = /tmp/maxbuild/maxdc_builds/DFE_SIM/;"
 result=os.environ.get('MAXCOMPILER_BUILD_CONF')
 
 JAVARTENV = '/network-raid/opt/jdk1.6.0_02/jre/bin/java'
@@ -24,9 +25,30 @@ JAVAMAXHEAPSIZE = 'mx12288m' #-Xmx<size> set maximum Java heap size
 HTTPSERVERCLASSPATH = ['./bin']  + [CLASSPATH]
 DFEMODEL='ISCA' 
 MAXFILENAME='httpserver'
-TARGET = 'DFE_SIM'
 HTTPSERVERSTARTUPCLASS = 'httpServer.HttpServerManager'
 
+
+message = "Valid argument format: make < dfe | sim >"
+if __name__ == '__main__':
+	if len(sys.argv) == 2:
+		#PORT_VAR = int(sys.argv[1])
+		ARG_VAR = sys.argv[1]
+		if (ARG_VAR != 'dfe') and (ARG_VAR != 'sim'):
+			sys.exit(message)
+		if ARG_VAR == 'dfe':
+			TARGET = 'DFE'
+			os.environ["MAXCOMPILER_BUILD_CONF"] = "build.copy_results_to = /tmp/maxbuild/maxdc_builds/DFE/;"
+		else:
+			TARGET = 'DFE_SIM'
+			os.environ["MAXCOMPILER_BUILD_CONF"] = "build.copy_results_to = /tmp/maxbuild/maxdc_builds/DFE_SIM/;"
+	else:
+		sys.exit(message)
+
+def sim():    
+    build()
+
+def dfe():
+    build()
 
 def build():
     clean()
