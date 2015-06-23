@@ -9,7 +9,7 @@
 #include <netinet/tcp.h>
 
 #include <MaxSLiCInterface.h>
-#include "httpServer_2014_2.h"
+#include "httpserver.h"
 #include <math.h>
 
 void generateInputData(int size, uint64_t *inData) {
@@ -145,7 +145,7 @@ int main(int argc, char *argv[]) {
 	fillRomCrcIndex(fpCrc2, &arrCrc2, Lcrc);
 
 	printf("Preparing for init() and max_load()\n");
-	max_file_t *maxfile = httpServer_2014_2_init();
+	max_file_t *maxfile = httpserver_init();
 	max_engine_t * engine = max_load(maxfile, "*");
 	printf("Done\n");
 

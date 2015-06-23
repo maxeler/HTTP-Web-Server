@@ -31,7 +31,6 @@ HTTPSERVERSTARTUPCLASS = 'httpServer.HttpServerManager'
 message = "Valid argument format: make < dfe | sim >"
 if __name__ == '__main__':
 	if len(sys.argv) == 2:
-		#PORT_VAR = int(sys.argv[1])
 		ARG_VAR = sys.argv[1]
 		if (ARG_VAR != 'dfe') and (ARG_VAR != 'sim'):
 			sys.exit(message)
