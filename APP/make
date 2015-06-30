@@ -15,6 +15,9 @@ MAXSOURCE = '1.6'
 MAXTARGET = '1.6'
 MAXCLASSPATH = ['%s/lib/MaxCompiler.jar' % MAXCOMPILERDIR]
 
+pathCPU='CPU_SRC/HTTP-Web-Server/'
+pathDFE='DFE_SRC/'
+
 MAXDESTDIR = 'bin'
 MAXSRCDIR = 'HTTP-Web-Server'
 
@@ -31,13 +34,13 @@ HTTPSERVERSTARTUPCLASS = 'httpServer.HttpServerManager'
 MAXBUILDDIRECTORY_DFE="/tmp/maxbuild/maxdc_builds/DFE/"
 MAXBUILDDIRECTORY_SIM="/tmp/maxbuild/maxdc_builds/DFE_SIM/"
 
-pathInit='../CPU_SRC/HTTP-Web-Server/'
 
-message = "Valid argument format: make < dfe | sim >"
+
+message = "Valid argument format: make < dfe | sim | clean >"
 if __name__ == '__main__':
 	if len(sys.argv) == 2:
 		ARG_VAR = sys.argv[1]
-		if (ARG_VAR != 'dfe') and (ARG_VAR != 'sim'):
+		if (ARG_VAR != 'dfe') and (ARG_VAR != 'sim') and (ARG_VAR != 'clean'):
 			sys.exit(message)
 		if ARG_VAR == 'dfe':
 			TARGET = 'DFE'
@@ -49,18 +52,18 @@ if __name__ == '__main__':
 		sys.exit(message)
 
 def sim():
-	clean()
 	compile_java()
 	execute_java_maxJavaRun()
 	init_code()
 	http_server_sim()
 
 def dfe():
-	clean()
-	var = raw_input("Do you want to build .max file? (y/N): ")
-	if var=='y':
-		compile_java()
-		execute_java_maxJavaRun()
+	if os.path.isfile(MAXBUILDDIRECTORY_DFE + MAXFILENAME + '.max'):
+		var = raw_input(".max file already exist, do you want to re-build it? (y/N): ")
+		if var=='y':
+			clean()
+	compile_java()
+	execute_java_maxJavaRun()	
 	init_code()
 	http_server_dfe()
 
@@ -71,17 +74,23 @@ def copy_files(src, dst):
 	print "Done"
 
 # compile java
-# command
 def compile_java():
     print "\n*** Compile Java *** \n"
+    os.chdir(pathDFE)
     run(MAXCOMPILER, '-nowarn', '-g:%s' % MAXDEBUG, '-source', '%s' % MAXSOURCE, 
         '-target', '%s' % MAXTARGET, '-classpath', '%s' % ':'.join(MAXCLASSPATH), 
         '-d', '%s' % MAXDESTDIR, MAXSRCDIR)
+    os.chdir('../')
 
 def execute_java_maxJavaRun():
     print "\n*** Execute Java *** \n"
-    Temp = ' '.join(['CLASSPATH=%s' % ':'.join(HTTPSERVERCLASSPATH), 'maxJavaRun', HTTPSERVERSTARTUPCLASS, 'DFEModel=%s' % DFEMODEL, 'maxFileName=%s' % MAXFILENAME, 'target=%s' % TARGET])
-    subprocess.check_call(Temp, shell=True)
+    os.chdir(pathDFE)
+    os.environ["CLASSPATH"] = os.environ['CLASSPATH'] + ':' + ':'.join(HTTPSERVERCLASSPATH)
+    print os.environ["CLASSPATH"]
+    Temp = ' '.join(['maxJavaRun', HTTPSERVERSTARTUPCLASS, 'DFEModel=%s' % DFEMODEL, 'maxFileName=%s' % MAXFILENAME, 'target=%s' % TARGET])
+    #subprocess.check_call(Temp, shell=True)
+    run('maxJavaRun', HTTPSERVERSTARTUPCLASS, 'DFEModel=%s' % DFEMODEL, 'maxFileName=%s' % MAXFILENAME, 'target=%s' % TARGET)
+    os.chdir('../')
 
 # initCode
 def init_code():
@@ -95,7 +104,7 @@ def init_code():
 	print os.getcwd()
 
 	def build_init():
-		os.chdir(pathInit)
+		os.chdir(pathCPU)
 		compile_init()
 		link_init()
 		execute_program_init()
@@ -118,7 +127,7 @@ def init_code():
 
 def http_server_sim():
 	cdir=os.getcwd()
-	os.chdir(pathInit)
+	os.chdir(pathCPU)
 
 	copy_files(MAXBUILDDIRECTORY_SIM, '.')
 
@@ -204,11 +213,13 @@ def http_server_sim():
 		
 	def compile():
 	    print "\n*** Compiling *** \n"
+	    
 	    for source in sources:
 		run('gcc', flags, '-c', source, '-o', source.replace('.c', '.o'))
 
 	def link():
 	    print "\n*** Linking *** \n"
+	    print os.getcwd()
 	    objects = [s.replace('.c','.o') for s in sources]
 	    run(SLICCOMPILE, MAXFILE, MAXFILE.replace('.max','.o'))
 	    run('gcc', objects, MAXFILE.replace('.max','.o'), get_ld_libs(), '-o', NAME)
@@ -231,7 +242,7 @@ def http_server_sim():
 
 def http_server_dfe():
 	cdir=os.getcwd()
-	os.chdir(pathInit)
+	os.chdir(pathCPU)
 
 	try:
 		copy_files(MAXBUILDDIRECTORY_DFE, '.')
