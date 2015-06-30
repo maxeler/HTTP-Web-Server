@@ -34,8 +34,18 @@ HTTPSERVERSTARTUPCLASS = 'httpServer.HttpServerManager'
 MAXBUILDDIRECTORY_DFE="/tmp/maxbuild/maxdc_builds/DFE/"
 MAXBUILDDIRECTORY_SIM="/tmp/maxbuild/maxdc_builds/DFE_SIM/"
 
+# ip addresses for simulation
+IP1="169.254.10.4"
+TAP1_IP="169.254.10.48"
+TAP1_NETMASK="255.255.255.0"
+INIT_TAP1="QSFP_BOT_10G_PORT1:" + TAP1_IP + ":" + TAP1_NETMASK
+
+# ip addresses for DFE
+IP="172.17.0.9"
+NETMASK="255.255.255.224"
 
 
+#
 message = "Valid argument format: make < dfe | sim | clean >"
 if __name__ == '__main__':
 	if len(sys.argv) == 2:
@@ -133,10 +143,7 @@ def http_server_sim():
 
 	NAME="httpServerCPUcode" # name of the CPU code
 
-	IP1="169.254.10.4"
-	TAP1_IP="169.254.10.48"
-	TAP1_NETMASK="255.255.255.0"
-	INIT_TAP1="QSFP_BOT_10G_PORT1:" + TAP1_IP + ":" + TAP1_NETMASK
+	# ip settings
 
 	USER=os.environ['USER']
 	SIM_NAME=USER + "Sim"
@@ -251,8 +258,7 @@ def http_server_dfe():
 
 	NAME="httpServerCPUcode" # name of the CPU code
 
-	IP="172.17.0.9"
-	NETMASK="255.255.255.224"
+	# ip settings
 
 	MAXFILE="httpserver.max"
 
