@@ -15,12 +15,14 @@ To set location of the .max and .h files for DFE and simulation, variables **MAX
 
 #####Set network parameters
 Network settings for **simulation** include configuring IP address of the HTTP Server (**IP1**), IP address of the client (**TAP1_IP**) and netmask (**TAP1_NETMASK**). Default values for these script variables are shown below.
+
     # ip addresses for simulation
     IP1="169.254.10.4"  
     TAP1_IP="169.254.10.48"  
     TAP1_NETMASK="255.255.255.0"
 
 Network settings for **DFE** include configuring IP address of the HTTP Server (**IP**) and netmask (**NETMASK**). Value of the **IP** will be assigned to the QSFP_BOT_10G_PORT1 on the DFE. Default values for these script variables are shown below.
+
     # ip addresses for DFE
     IP="172.17.0.9"  
     NETMASK="255.255.255.224"
@@ -55,7 +57,7 @@ For example, if the server has IP address 172.17.0.9 and if **APP/CPU_SRC/HTTP-W
 
 Upon request files should be displayed within the browser. 
 
- ### Cleaning build directory
+### Cleaning build directory
  To clean build directory and to remove script generated files, type in terminal
  
      make clean
