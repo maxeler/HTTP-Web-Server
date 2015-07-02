@@ -53,7 +53,8 @@ public class CRCIndexTable extends ManagerStateMachine {
 
 			sCrcIndexDataOutValid.next<==true;
 		}
-		ELSE IF(crcResultInput.valid)
+			
+		IF(crcResultInput.valid)
 		{
 			romCrcIndex1.address <== crcResultInput.slice(0, 15);
 			romCrcIndex2.address <== crcResultInput.slice(0, 15);

@@ -131,6 +131,8 @@ def init_code():
 	def execute_program_init():    
 		run('./%s' % NAME)
 
+	build_init()
+
 # end initCode
 
 # make_httpServerCPUcodeSIM
