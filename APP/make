@@ -359,5 +359,6 @@ def http_server_dfe():
 
 def clean():
     autoclean()
+    run('rm','-f', pathDFE + '.deps')
 
 main()
