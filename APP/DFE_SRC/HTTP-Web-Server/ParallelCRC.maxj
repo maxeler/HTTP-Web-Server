@@ -34,8 +34,8 @@ import com.maxeler.networking.statemachines.Flushing;
 public class ParallelCRC extends Kernel {
 
 
-    public static final String dataIn = "data_in_kernel";
-	public static final String crcOut = "crc_out";
+    public static final String dataIn = "url";
+	public static final String crcOut = "crc16";
 
 	DFEVar lfsr_q = constant.var(dfeUInt(16), 0xFFFF);
 

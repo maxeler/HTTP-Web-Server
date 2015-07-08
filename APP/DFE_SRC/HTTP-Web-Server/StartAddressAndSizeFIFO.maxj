@@ -14,7 +14,7 @@ import com.maxeler.maxcompiler.v2.statemachine.stdlib.Buffer.DFEsmFifoConfig;
 import com.maxeler.maxcompiler.v2.statemachine.stdlib.buffer.DFEsmFifo;
 import com.maxeler.maxcompiler.v2.statemachine.types.DFEsmValueType;
 
-public class CRCIndexFIFO extends ManagerStateMachine {
+public class StartAddressAndSizeFIFO extends ManagerStateMachine {
 
 	int Nsockets = 1;
 	private final ArrayList<DFEsmPushInput> inputPorts = new ArrayList<DFEsmPushInput>(Nsockets);
@@ -23,7 +23,7 @@ public class CRCIndexFIFO extends ManagerStateMachine {
 	private final DFEsmFifo[] m_fifo = new DFEsmFifo[Nsockets];
 	private final DFEsmStateValue sReadEnable = state.value(dfeBool(), 0);
 
-	public CRCIndexFIFO(DFEManager owner) {
+	public StartAddressAndSizeFIFO(DFEManager owner) {
 		super(owner);
 
 		int width = 64; //
@@ -98,13 +98,13 @@ public class CRCIndexFIFO extends ManagerStateMachine {
 
 			IF(outputPorts.get(i).read)
 			{
-				debug.simPrintf("CRCIndexFIFO: SETOVAN outputPorts.get(i).read=%u\n", outputPorts.get(i).read);
+				debug.simPrintf("StartAddressAndSizeFIFO: SETOVAN outputPorts.get(i).read=%u\n", outputPorts.get(i).read);
 			}
 
 
 			IF(inputPorts.get(i).valid) //sReadEnable
 			{
-				debug.simPrintf( "CRCIndexFIFO: m_fifo[%d].output.dataOut=%x, outputPorts.get(i).read=%u\n",i, m_fifo[i].output.dataOut, outputPorts.get(i).read);
+				debug.simPrintf( "StartAddressAndSizeFIFO: m_fifo[%d].output.dataOut=%x, outputPorts.get(i).read=%u\n",i, m_fifo[i].output.dataOut, outputPorts.get(i).read);
 			}
 		}
 

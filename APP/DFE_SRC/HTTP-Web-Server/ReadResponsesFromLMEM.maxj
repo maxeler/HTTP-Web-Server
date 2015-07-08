@@ -12,7 +12,7 @@ import com.maxeler.maxcompiler.v2.statemachine.manager.DFEsmPushOutput;
 import com.maxeler.maxcompiler.v2.statemachine.manager.ManagerStateMachine;
 import com.maxeler.maxcompiler.v2.statemachine.stdlib._State;
 
-public class LMEM extends ManagerStateMachine {
+public class ReadResponsesFromLMEM extends ManagerStateMachine {
 
 	public static final String INPUT_MEM_DATA = "dataFromMem";
 	public static final String OUTPUT_MEM_COMMAND = "memCmd";
@@ -46,7 +46,7 @@ public class LMEM extends ManagerStateMachine {
 	private final DFEsmStateValue sPortDataValid = state.value(dfeBool(), false);
 	private final DFEsmStateValue sSOF = state.value(dfeBool(), false);
 
-	public LMEM(DFEManager owner, int readStreamID) {
+	public ReadResponsesFromLMEM(DFEManager owner, int readStreamID) {
 		super(owner);
 
 		cmdType = LMemCommandStream.getLMemCommandDFEStructType();
@@ -75,12 +75,12 @@ protected void nextState() {
 
 	IF(sPortDataValid)
 	{
-		debug.simPrintf("LMEM: counter=%u, sPortDataValid --- value dataFromCrcIndex=%x, socketNumberInput=%u\n", counter, dataFromCrcIndex, socketNumberInput);
+		debug.simPrintf("ReadResponsesFromLMEM: counter=%u, sPortDataValid --- value dataFromCrcIndex=%x, socketNumberInput=%u\n", counter, dataFromCrcIndex, socketNumberInput);
 	}
 
 	IF(sPortDataValid) 
 	{
-		debug.simPrintf("LMEM: Value dataFromCrcIndex=%x, socketNumberInput=%u\n", dataFromCrcIndex, socketNumberInput);
+		debug.simPrintf("ReadResponsesFromLMEM: Value dataFromCrcIndex=%x, socketNumberInput=%u\n", dataFromCrcIndex, socketNumberInput);
 
 		DFEsmAssignableValue startAddressBurst=assignable.value(dfeUInt(19)); 
 		DFEsmAssignableValue fileLengthBursts=assignable.value(dfeUInt(19)); 
@@ -90,7 +90,7 @@ protected void nextState() {
 		fileLengthBursts<==dataFromCrcIndex.slice(26, 19);
 		startAddressBurst<==dataFromCrcIndex.slice(45, 19);
 
-		debug.simPrintf("LMEM: startAddressBurst=%u, fileLengthBursts=%u, fileLengthBytes=%u\n",startAddressBurst,fileLengthBursts,fileLengthBytes);
+		debug.simPrintf("ReadResponsesFromLMEM: startAddressBurst=%u, fileLengthBursts=%u, fileLengthBytes=%u\n",startAddressBurst,fileLengthBursts,fileLengthBytes);
 
 		sStartROMAddress.next<==startAddressBurst;
 		sDataBurstLength.next<==fileLengthBursts;
@@ -101,7 +101,7 @@ protected void nextState() {
 		sPortDataValid.next <== false;
 	}
 
-	//send read commands to the LMEM controller
+	//send read commands to the ReadResponsesFromLMEM controller
 	IF((sMemoryCommandsSent===true))
 	{
 		IF((~memCmdOutput.stall))
@@ -118,7 +118,7 @@ protected void nextState() {
 			{
 				sLMemBurstCounter.next<==0;
 				sMemoryCommandsSent.next<==false;
-				debug.simPrintf("LMEM: Last LMEM read command sent, sLMemBurstCounter=%u\n", sLMemBurstCounter);
+				debug.simPrintf("ReadResponsesFromLMEM: Last ReadResponsesFromLMEM read command sent, sLMemBurstCounter=%u\n", sLMemBurstCounter);
 			}
 		}
 	}
@@ -144,7 +144,7 @@ sSOF.next<==false;
 
 
 
-		IF(sFileLengthBytesCounterMini===192) //LMEM data burst size
+		IF(sFileLengthBytesCounterMini===192) //ReadResponsesFromLMEM data burst size
 		{
 			sBurstCounter.next<==sBurstCounter+1;
 			sFileLengthBytesCounterMini.next<==8;
@@ -164,7 +164,7 @@ sSOF.next<==false;
 		sMemoryDataRead.next <== false;
 		sPortDataValid.next <== false;
 
-		debug.simPrintf("LMEM: Tick=%u, sBurstCounter===sDataBurstLength\n",counter);
+		debug.simPrintf("ReadResponsesFromLMEM: Tick=%u, sBurstCounter===sDataBurstLength\n",counter);
 	}
 
 }
@@ -195,7 +195,7 @@ protected void outputFunction() {
 			socketNumberInput.read <== true;
 			dataFromCrcIndex.read <== true;
 
-			debug.simPrintf("LMEM: tick=%u, socketNumberInput.read=%u, dataFromCrcIndex.read=%u, socketNumberInput.empty=%u, dataFromCrcIndex.empty=%u\n", counter,  socketNumberInput.read,dataFromCrcIndex.read, socketNumberInput.empty, dataFromCrcIndex.empty);
+			debug.simPrintf("ReadResponsesFromLMEM: tick=%u, socketNumberInput.read=%u, dataFromCrcIndex.read=%u, socketNumberInput.empty=%u, dataFromCrcIndex.empty=%u\n", counter,  socketNumberInput.read,dataFromCrcIndex.read, socketNumberInput.empty, dataFromCrcIndex.empty);
 		}
 
 		IF(dataFromMem.valid & ~sAllBytesSentFlag)
@@ -222,7 +222,7 @@ protected void outputFunction() {
 				outputLmemData.valid <== true; 
 				outputLmemData<== sof # eof # mod # socket # data;
 
-				debug.simPrintf("LMEM: tick=%u, end of dataFromMemory, sending: sof=%u, eof=%u, mod=%u, sFileLengthBytesCounter=%u, sFileLengthBytes=%u\n", counter, sof, eof, mod, sFileLengthBytesCounter, sFileLengthBytes);
+				debug.simPrintf("ReadResponsesFromLMEM: tick=%u, end of dataFromMemory, sending: sof=%u, eof=%u, mod=%u, sFileLengthBytesCounter=%u, sFileLengthBytes=%u\n", counter, sof, eof, mod, sFileLengthBytesCounter, sFileLengthBytes);
 
 				fromLMEMFileSizeBytes.valid<==true;
 				fromLMEMFileSizeBytes<==sFileLengthBytes.cast(dfeUInt(128));
@@ -230,7 +230,7 @@ protected void outputFunction() {
 				fromLMEMSocketNumber.valid<==true;
 				fromLMEMSocketNumber<==socketNumberInput.cast(dfeUInt(128));
 
-				debug.simPrintf("LMEM: tick=%u, sending data to CPU, sFileLengthBytes=%u, fromLMEMSocket=%u\n", counter, sFileLengthBytes, socketNumberInput);
+				debug.simPrintf("ReadResponsesFromLMEM: tick=%u, sending data to CPU, sFileLengthBytes=%u, fromLMEMSocket=%u\n", counter, sFileLengthBytes, socketNumberInput);
 
 			}
 			ELSE
@@ -251,7 +251,7 @@ protected void outputFunction() {
 
 		IF(outputLmemData.stall)
 		{
-			debug.simPrintf("LMEM: STALLING counter=%u, outputLmemData.stall=%u\n", counter, outputLmemData.stall);
+			debug.simPrintf("ReadResponsesFromLMEM: STALLING counter=%u, outputLmemData.stall=%u\n", counter, outputLmemData.stall);
 		}
 
 

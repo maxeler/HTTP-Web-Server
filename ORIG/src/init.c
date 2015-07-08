@@ -17,9 +17,9 @@ Description: creates CRC index table and fills RAM with content of hosted files.
 #include "crc16.h"
 #include "init.h"
 
-int initCode(struct Element *crcTable, char* cdir, unsigned int *crcPageNotFound) {
+int initCode(struct Element *crcTable, char* cdir, unsigned int *crcPageNotFound)
+{
     unsigned char buf[512];
-
     DIR *dp;
     struct dirent *ep;
     char fname[512] = "";

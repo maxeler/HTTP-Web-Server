@@ -21,7 +21,8 @@ unsigned int crc16(unsigned int crcValue, unsigned char newByte)
     return crcValue;
 }
 
-unsigned int calculateCRC16(unsigned char *Data, unsigned char len) {
+unsigned int calculateCRC16(unsigned char *Data, unsigned char len)
+{
 
     //unsigned int crc;
     uint16_t crc;

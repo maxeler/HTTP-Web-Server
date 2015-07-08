@@ -52,9 +52,9 @@ public class HttpServerManager extends NetworkManager {
 		NetworkConnection conn = Max4NetworkConnection.QSFP_BOT_10G_PORT1;
 		MaxTCPVersion tcpVersion = MaxTCPVersion.fromNumConnections(true, numConnections);
 
-	
+
 		config.setDefaultStreamClockFrequency(50);
-	
+
 		boolean dfeBuild = configuration.getTarget() == EngineParameters.Target.DFE;
 		MemoryManager memoryMgr = new MemoryManager(this);
 
@@ -109,7 +109,7 @@ public class HttpServerManager extends NetworkManager {
 
 		rxPop.getInput(KernelRxPop.IN_FIFO_FULL) <== stall.getOutput("fifoFull");
 		addStreamToCPU("rxPopDebug") <== rxPop.getOutput(KernelRxPop.OUT_DEBUG);
-		
+
 
 		TieOffNode connStateEvTieOffSM = new TieOffNode(this);
 		connStateEvTieOffSM.addIO(
@@ -135,11 +135,11 @@ public class HttpServerManager extends NetworkManager {
 	    KernelConfiguration myKernelConfig = new KernelConfiguration(getCurrentKernelConfig());
 
 		String smName = "httpServerStateMachine";
-		StateMachineBlock stateMachine = addStateMachine(smName, new HttpServerStateMachine(this));
+		StateMachineBlock stateMachine = addStateMachine(smName, new HTTPRequestParser(this));
 		stateMachine.getInput("tcp_to_sm") <== stall.getOutput("dst");//Scheduler.getOutput("schedulerDataOutput");;
 
 		KernelBlock parallelCRC = addKernel(new ParallelCRC(makeKernelParameters("parallelCRC")));
-		parallelCRC.getInput(ParallelCRC.dataIn) <== stateMachine.getOutput("checksumOutput1");
+		parallelCRC.getInput(ParallelCRC.dataIn) <== stateMachine.getOutput("url");
 
 		KernelBlock kWrite = addKernel(new KernelLMem_Write_CommandAndDataStream(makeKernelParameters(KERNEL_NAME_write)));
 
@@ -158,45 +158,45 @@ public class HttpServerManager extends NetworkManager {
 		toCpu <== kRead.getOutput("outputFromLMEM");
 
 		// CrcIndexTable
-		StateMachineBlock crcIndex = addStateMachine("CrcIndexTable", new CRCIndexTable(this));
-		crcIndex.getInput("crcResultInput") <== parallelCRC.getOutput(ParallelCRC.crcOut);
-		crcIndex.getInput("crcBlankPageInput") <== crcIndex.getOutput("crcBlankPageOutput");
+		StateMachineBlock lookupTable = addStateMachine("CrcIndexTable", new LookupTable(this));
+		lookupTable.getInput(LookupTable.dataIn1) <== parallelCRC.getOutput(ParallelCRC.crcOut);
+		lookupTable.getInput(LookupTable.dataIn2) <== lookupTable.getOutput(LookupTable.dataOut2);
 
-		StateMachineBlock smOutputFIFOsingle = addStateMachine("smOutputFIFOsingle", new CRCIndexFIFO(this));
-		smOutputFIFOsingle.getInput("outputCrcFIFOInput0") <==	crcIndex.getOutput("crcIndexOutput");
+		StateMachineBlock smOutputFIFOsingle = addStateMachine("smOutputFIFOsingle", new StartAddressAndSizeFIFO(this));
+		smOutputFIFOsingle.getInput("outputCrcFIFOInput0") <==	lookupTable.getOutput(LookupTable.dataOut1);
 
-		// command are sent from the state machine via wire SM into the LMEM
-		StateMachineBlock smLMEM = addStateMachine("LMEM", new LMEM(this, ctrlGroup.getStreamIndexIdWithinGroup("readMemStream")));
-		wire.getInput(SimpleWire.INPUT) <== smLMEM.getOutput(LMEM.OUTPUT_MEM_COMMAND);
-		smLMEM.getInput(LMEM.INPUT_MEM_DATA) <== readMemStream;
-		smLMEM.getInput("dataFromCrcIndex") <== smOutputFIFOsingle.getOutput("outputCrcFIFOOutput0"); 
+		// command are sent from the state machine via wire SM into the ReadResponsesFromLMEM
+		StateMachineBlock smLMEM = addStateMachine("ReadResponsesFromLMEM", new ReadResponsesFromLMEM(this, ctrlGroup.getStreamIndexIdWithinGroup("readMemStream")));
+		wire.getInput(SimpleWire.INPUT) <== smLMEM.getOutput(ReadResponsesFromLMEM.OUTPUT_MEM_COMMAND);
+		smLMEM.getInput(ReadResponsesFromLMEM.INPUT_MEM_DATA) <== readMemStream;
+		smLMEM.getInput("dataFromCrcIndex") <== smOutputFIFOsingle.getOutput("outputCrcFIFOOutput0");
 
 		//socket disconnect
 		KernelBlock TcpTxCpuKernel = addKernel(new TcpTxCpu(makeKernelParameters("TcpTxCpuKernel"), tcpStreamTypes));
 		TcpTxCpuKernel.getInput(TcpTxCpu.INPUT_TX_DATA) <==	smLMEM.getOutput("outputLmemData");//
 		tcpStream.getTransmitStream() <== TcpTxCpuKernel.getOutput(TcpTxCpu.OUTPUT_TX_DATA);
 
-		
+
 	   	DFELink toCpuByteNumber = addStreamToCPU("toCpuFileSizeBytes");
-			
+
 		toCpuByteNumber <== smLMEM.getOutput("fromLMEMFileSizeBytes");
 
-		// SocketNumber (LMEM) --> CPU
-			
+		// SocketNumber (ReadResponsesFromLMEM) --> CPU
+
 	    DFELink toCpuSocketNumber = addStreamToCPU("toCpuSocketNumber");
 	    toCpuSocketNumber <== smLMEM.getOutput("fromLMEMSocketNumber");
 
-		// socketNumber: stateMachine -> LMEM
+		// socketNumber: stateMachine -> ReadResponsesFromLMEM
 		StateMachineBlock smSocketOutputFIFO = addStateMachine("smSocketOutputFIFO", new SocketFIFO(this));
-		
-		smSocketOutputFIFO.getInput("socketNumberInput0") <== stateMachine.getOutput("socketNumberOutput");  
+
+		smSocketOutputFIFO.getInput("socketNumberInput0") <== stateMachine.getOutput("socketNumberOutput");
 
 		smLMEM.getInput("LMEMsocketNumberInput") <== smSocketOutputFIFO.getOutput("socketNumberOutput0");
 	}
 
 	public static void main(String[] args) {
-		
-		EngineParameters params = new EngineParameters(args); 
+
+		EngineParameters params = new EngineParameters(args);
 		HttpServerManager m = new HttpServerManager(params);
 
 		BuildConfig bConfig = m.getBuildConfig();

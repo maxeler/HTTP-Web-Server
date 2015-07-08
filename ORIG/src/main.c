@@ -19,13 +19,15 @@
 
 #define BACKLOG 10 // how many pending connections queue will hold
 
-void sigchld_handler(int s) {
+void sigchld_handler(int s)
+{
     while (waitpid(-1, NULL, WNOHANG) > 0);
 }
 
 // get sockaddr, IPv4 or IPv6:
 
-void *get_in_addr(struct sockaddr *sa) {
+void *get_in_addr(struct sockaddr *sa)
+{
     if (sa->sa_family == AF_INET) {
         return &(((struct sockaddr_in*) sa)->sin_addr);
     }
@@ -33,8 +35,8 @@ void *get_in_addr(struct sockaddr *sa) {
     return &(((struct sockaddr_in6*) sa)->sin6_addr);
 }
 
-int main(int argc, char * argv[]) {
-
+int main(int argc, char * argv[])
+{
     DocoptArgs args = docopt(argc, argv, /* help */ 1, /* version */ "2.0rc2");
 
     unsigned short int PORT;
@@ -111,8 +113,7 @@ int main(int argc, char * argv[]) {
 
     printf("Server: waiting for connections...\n");
 
-    while (1) // accept()
-    {
+    while (1) { // accept()
         sin_size = sizeof their_addr;
         new_fd = accept(sockfd, (struct sockaddr *) &their_addr, &sin_size);
         if (new_fd == -1) {
@@ -125,8 +126,8 @@ int main(int argc, char * argv[]) {
                 s, sizeof s);
         printf("Server: received connection from %s\n", s);
 
-        if (!fork()) // this is the child process
-        {
+        if (!fork()) { // this is the child process
+
             close(sockfd); // close listener inside child
 
             // USER CODE

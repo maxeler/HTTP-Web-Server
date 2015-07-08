@@ -14,7 +14,7 @@ import com.maxeler.maxcompiler.v2.statemachine.manager.ManagerStateMachine;
 import com.maxeler.maxcompiler.v2.statemachine.stdlib._State;
 
 
-public class HttpServerStateMachine extends ManagerStateMachine {
+public class HTTPRequestParser extends ManagerStateMachine {
 
 	enum States {
 		START, URI, HTTP_VERSION, HEADERS, CR, LF, BLANK_LINE, END_GETREQUEST
@@ -33,9 +33,9 @@ public class HttpServerStateMachine extends ManagerStateMachine {
 
 	private final DFEsmPushInput inputTcpData = io.pushInput("tcp_to_sm", dfeUInt(75), 1);
 
-		private final DFEsmPushOutput checksumOutput1 = io.pushOutput("checksumOutput1", dfeUInt(512), 4);
+	private final DFEsmPushOutput url = io.pushOutput("url", dfeUInt(512), 4);
 	private final DFEsmPushOutput socketNumberOutput = io.pushOutput("socketNumberOutput", dfeUInt(8), 1);
-	
+
 
 	private final DFEsmValue byte1;
 	private final DFEsmValue byte2;
@@ -58,7 +58,7 @@ public class HttpServerStateMachine extends ManagerStateMachine {
 	private final DFEsmValue sof;
 	private final DFEsmValue socket;
 
-	public HttpServerStateMachine(DFEManager owner) {
+	public HTTPRequestParser(DFEManager owner) {
 		super(owner);
 
 		data = inputTcpData.slice(0, 64).cast(dfeUInt(64));
@@ -103,11 +103,11 @@ public class HttpServerStateMachine extends ManagerStateMachine {
 
 		IF(inputTcpData.valid)
 		{
-			debug.simPrintf("stateMachine: tick=%u, data: %x, mod: %x, eof: %x, sof: %x, socket: %u, input.valid=%x, output.stall=%x, input.stall=%x\n", counter,data, mod, eof,sof,socket,inputTcpData.valid,888, inputTcpData.stall); //output.stall
-			debug.simPrintf("stateMachine: tick=%u, input: %x\n", counter,inputTcpData);
-			debug.simPrintf("stateMachine: tick-%u, sCounter=%u, SNumericCurrent=%u, byte1=%x\n", counter,counter,sCurrentState,byte1);
-			
-			
+			debug.simPrintf("HTTPRequestParser: tick=%u, data: %x, mod: %x, eof: %x, sof: %x, socket: %u, input.valid=%x, output.stall=%x, input.stall=%x\n", counter,data, mod, eof,sof,socket,inputTcpData.valid,888, inputTcpData.stall); //output.stall
+			debug.simPrintf("HTTPRequestParser: tick=%u, input: %x\n", counter,inputTcpData);
+			debug.simPrintf("HTTPRequestParser: tick-%u, sCounter=%u, SNumericCurrent=%u, byte1=%x\n", counter,counter,sCurrentState,byte1);
+
+
 		}
 
 
@@ -117,9 +117,9 @@ public class HttpServerStateMachine extends ManagerStateMachine {
 		}
 
 
-		IF(constant.value(true)) 
+		IF(constant.value(true))
 		{
-			
+
 			int width=32;
 
 			DFEsmValue methodGET = constant.value(dfeUInt(width),new BigInteger(1,"GET ".getBytes()));
@@ -177,17 +177,17 @@ public class HttpServerStateMachine extends ManagerStateMachine {
 									startIndex<==startIndex+1;
 									endIndex<==endIndex-1;
 
-									
+
 
 								}
 								ELSE
 								{
-									
+
 									startIndex<==startIndex+1;
 									endIndex<==7;
 								}
 
-								
+
 
 								DFEsmAssignableValue bytes[]=new DFEsmAssignableValue[8];
 								for(int u=0;u<8;u++)
@@ -202,10 +202,10 @@ public class HttpServerStateMachine extends ManagerStateMachine {
 
 								for(int t=0;t<8;t++)
 								{
-									
+
 								}
 
-								
+
 
 								DFEsmAssignableValue startIndexBit = assignable.value(dfeUInt(8));
 								DFEsmAssignableValue endIndexBit = assignable.value(dfeUInt(8));
@@ -263,25 +263,25 @@ public class HttpServerStateMachine extends ManagerStateMachine {
 
 									bitPointer=bitPointer+8;
 
-									
+
 								}
 
-								
+
 								sBitNumber.next <== bitNumber;
 
 							}
 
-							IF(sum>=2) 
+							IF(sum>=2)
 							{
-								
+
 								sCurrentState.next<==States.HTTP_VERSION;
-								debug.simPrintf("stateMachine: nextState: HTTP_VERSION: tick=%u, sNumericCurrent=%u, data=%x\n", counter,sCurrentState,data);
-								// debug.dfePrintf("stateMachine: nextState: HTTP_VERSION: tick=%u, sNumericCurrent=%u, data=%x\n", counter,sCurrentState,data);
+								debug.simPrintf("HTTPRequestParser: nextState: HTTP_VERSION: tick=%u, sNumericCurrent=%u, data=%x\n", counter,sCurrentState,data);
+								// debug.dfePrintf("HTTPRequestParser: nextState: HTTP_VERSION: tick=%u, sNumericCurrent=%u, data=%x\n", counter,sCurrentState,data);
 
 							}
 							ELSE {
 								sCurrentState.next<==States.URI;
-								debug.simPrintf("stateMachine: nextState: URI: tick=%u, sNumericCurrent=%u, data=%x\n", counter,sCurrentState,data);
+								debug.simPrintf("HTTPRequestParser: nextState: URI: tick=%u, sNumericCurrent=%u, data=%x\n", counter,sCurrentState,data);
 							}
 						}
 					}
@@ -294,7 +294,7 @@ public class HttpServerStateMachine extends ManagerStateMachine {
 						DFEsmAssignableValue endIndex=assignable.value(dfeUInt(3));
 						endIndex<==0;
 
-						
+
 
 						for(int i=0;i<8;i++)
 						{
@@ -314,7 +314,7 @@ public class HttpServerStateMachine extends ManagerStateMachine {
 							startIndex<==startIndex+1;
 							endIndex<==endIndex-1;
 
-							
+
 						}
 						ELSE IF(sumStateURI===1)
 						{
@@ -337,7 +337,7 @@ public class HttpServerStateMachine extends ManagerStateMachine {
 							}
 						}
 
-						
+
 
 						DFEsmAssignableValue bitNumber = assignable.value(dfeUInt(9));
 						bitNumber <==sBitNumber;
@@ -364,21 +364,21 @@ public class HttpServerStateMachine extends ManagerStateMachine {
 
 							bitPointer=bitPointer+8;
 
-							
+
 						}
 
-						debug.simPrintf("stateMachine: URL: startIndex=%u, endIndex=%u, bitNumber=%u, sStoreURL=%x\n", startIndex, endIndex, bitNumber, sStoreURL);
+						debug.simPrintf("HTTPRequestParser: URL: startIndex=%u, endIndex=%u, bitNumber=%u, sStoreURL=%x\n", startIndex, endIndex, bitNumber, sStoreURL);
 
 						sBitNumber.next<==bitNumber;
 
 						IF (byte1===' ' | byte2===' ' | byte3===' ' | byte4===' ' | byte5===' ' | byte6===' ' | byte7===' ' | byte8===' ')
 						{
-							
+
 							sCurrentState.next<==States.HTTP_VERSION;
 
-							sStoreURLValid.next<==true; 
+							sStoreURLValid.next<==true;
 
-							debug.simPrintf("stateMachine: nextState: HttpVersion: tick=%u, sNumericCurrent=%u, data=%x\n", counter,sCurrentState,data);
+							debug.simPrintf("HTTPRequestParser: nextState: HttpVersion: tick=%u, sNumericCurrent=%u, data=%x\n", counter,sCurrentState,data);
 						}
 						ELSE{
 								sCurrentState.next<==States.URI;
@@ -386,45 +386,45 @@ public class HttpServerStateMachine extends ManagerStateMachine {
 					}
 					CASE(States.HTTP_VERSION)
 					{
-						debug.simPrintf("stateMachine: httpState: sBitNumber=%u, sStoreURL=%x\n", sBitNumber, sStoreURL);
+						debug.simPrintf("HTTPRequestParser: httpState: sBitNumber=%u, sStoreURL=%x\n", sBitNumber, sStoreURL);
 
-						
-						debug.simPrintf("stateMachine: in HTTP state: byte1=%x, byte2=%x, sPrev2Bytes=%x\n",byte1,byte2,sPrev2Bytes);
+
+						debug.simPrintf("HTTPRequestParser: in HTTP state: byte1=%x, byte2=%x, sPrev2Bytes=%x\n",byte1,byte2,sPrev2Bytes);
 						IF(inputTcpData.valid)
 						{
-							
+
 							IF (byte1===13 & byte2===10)
 								IF (sPrev2Bytes === (byte2 # byte1))
 								{
 									sCurrentState.next<==States.END_GETREQUEST;
-									debug.simPrintf("stateMachine: nextState 1: krajGETrequesta: tick=%u, sNumericCurrent=%u, data=%x\n", counter,sCurrentState,data);
+									debug.simPrintf("HTTPRequestParser: nextState 1: krajGETrequesta: tick=%u, sNumericCurrent=%u, data=%x\n", counter,sCurrentState,data);
 								}
 
-							
+
 							IF (byte1===13 & byte2===10)
 								IF ((sPrev2BytesArray[1] # sPrev2BytesArray[0]) === (byte2 # byte1))
 								{
 									sCurrentState.next<==States.END_GETREQUEST;
-									debug.simPrintf("stateMachine: nextState 7: krajGETrequesta: tick=%u, sNumericCurrent=%u, data=%x\n", counter,sCurrentState,data);
+									debug.simPrintf("HTTPRequestParser: nextState 7: krajGETrequesta: tick=%u, sNumericCurrent=%u, data=%x\n", counter,sCurrentState,data);
 								}
 
-							
+
 							IF ((sPrev2BytesArray[5]===13) & (sPrev2BytesArray[6] === 10))
 								IF ((sPrev2BytesArray[7] === 13) & (byte1===10))
 								{
 									sCurrentState.next<==States.END_GETREQUEST;
-									debug.simPrintf("stateMachine: nextState 8: krajGETrequesta: tick=%u, sNumericCurrent=%u, data=%x\n", counter,sCurrentState,data);
+									debug.simPrintf("HTTPRequestParser: nextState 8: krajGETrequesta: tick=%u, sNumericCurrent=%u, data=%x\n", counter,sCurrentState,data);
 								}
 
-							
+
 							IF ((sPrev2BytesArray[7]===13) & (byte1 === 10))
 								IF ((byte2 === 13) & (byte3===10))
 								{
 									sCurrentState.next<==States.END_GETREQUEST;
-									debug.simPrintf("stateMachine: nextState 9: krajGETrequesta: tick=%u, sNumericCurrent=%u, data=%x\n", counter,sCurrentState,data);
+									debug.simPrintf("HTTPRequestParser: nextState 9: krajGETrequesta: tick=%u, sNumericCurrent=%u, data=%x\n", counter,sCurrentState,data);
 								}
 
-							
+
 							IF (byte1===13 & byte2===10)
 								IF ((byte1 # byte2) === (byte3 # byte4))
 								{
@@ -436,33 +436,33 @@ public class HttpServerStateMachine extends ManagerStateMachine {
 								IF ((byte2 # byte3) === (byte4 # byte5))
 								{
 									sCurrentState.next<==States.END_GETREQUEST;
-									debug.simPrintf("stateMachine: nextState 3: krajGETrequesta: tick=%u, sNumericCurrent=%u, data=%x\n", counter,sCurrentState,data);
+									debug.simPrintf("HTTPRequestParser: nextState 3: krajGETrequesta: tick=%u, sNumericCurrent=%u, data=%x\n", counter,sCurrentState,data);
 								}
 
 							IF (byte3===13 & byte4===10)
 								IF ((byte3 # byte4) === (byte5 # byte6))
 								{
 									sCurrentState.next<==States.END_GETREQUEST;
-									debug.simPrintf("stateMachine: nextState 4: krajGETrequesta: tick=%u, sNumericCurrent=%u, data=%x\n", counter,sCurrentState,data);
+									debug.simPrintf("HTTPRequestParser: nextState 4: krajGETrequesta: tick=%u, sNumericCurrent=%u, data=%x\n", counter,sCurrentState,data);
 								}
 
 							IF (byte4===13 & byte5===10)
 								IF ((byte4 # byte5) === (byte6 # byte7))
 								{
 									sCurrentState.next<==States.END_GETREQUEST;
-									debug.simPrintf("stateMachine: nextState 5: krajGETrequesta: tick=%u, sNumericCurrent=%u, data=%x\n", counter,sCurrentState,data);
+									debug.simPrintf("HTTPRequestParser: nextState 5: krajGETrequesta: tick=%u, sNumericCurrent=%u, data=%x\n", counter,sCurrentState,data);
 								}
 
 							IF (byte5===13 & byte6===10)
 								IF ((byte5 # byte6) === (byte7 # byte8))
 								{
 									sCurrentState.next<==States.END_GETREQUEST;
-									debug.simPrintf("stateMachine: nextState 6: krajGETrequesta: tick=%u, sNumericCurrent=%u, data=%x\n", counter,sCurrentState,data);
+									debug.simPrintf("HTTPRequestParser: nextState 6: krajGETrequesta: tick=%u, sNumericCurrent=%u, data=%x\n", counter,sCurrentState,data);
 								}
 						}
 					}
 					CASE(States.LF)
-					{					
+					{
 						{
 							for(int i=0;i<7;i++)
 							{
@@ -475,16 +475,16 @@ public class HttpServerStateMachine extends ManagerStateMachine {
 							sCurrentState.next<==States.BLANK_LINE;
 						}
 					}
-					
+
 
 					CASE(States.END_GETREQUEST)
 					{
-						
+
 						{
 							sCurrentState.next<==States.START;
 							sPrev2Bytes.next <==0;
 						}
-						debug.simPrintf("stateMachine: END_GETREQUEST: tick=%u, sNumericCurrent=%u, data=%x\n", counter,sCurrentState,data);
+						debug.simPrintf("HTTPRequestParser: END_GETREQUEST: tick=%u, sNumericCurrent=%u, data=%x\n", counter,sCurrentState,data);
 					}
 				} //end switch
 			}
@@ -528,37 +528,37 @@ public class HttpServerStateMachine extends ManagerStateMachine {
 	@Override
 	protected void outputFunction() {
 
-		checksumOutput1.valid<==false;
-		checksumOutput1 <== 0;
+		url.valid<==false;
+		url <== 0;
 
 		socketNumberOutput.valid <== false;
 		socketNumberOutput <== 0;
 
-		
+
 
 		IF(sStoreURLValid)
 		{
 
-			checksumOutput1.valid<== true;
-			checksumOutput1 <== sStoreURL.cast(dfeUInt(512));
+			url.valid<== true;
+			url <== sStoreURL.cast(dfeUInt(512));
 
 
-			debug.simPrintf("stateMachine: sStoreURL=%x, sStoreURLValid=%u\n", sStoreURL, sStoreURLValid);
+			debug.simPrintf("HTTPRequestParser: sStoreURL=%x, sStoreURLValid=%u\n", sStoreURL, sStoreURLValid);
 
 			socketNumberOutput.valid <== true;
 			socketNumberOutput <== socket.cast(dfeUInt(8));
-			debug.simPrintf("stateMachine: socketNumberOutput=%u\n", socketNumberOutput);
+			debug.simPrintf("HTTPRequestParser: socketNumberOutput=%u\n", socketNumberOutput);
 
 		}
 
 
 		IF (sCurrentState===States.END_GETREQUEST) {
-	
-			debug.simPrintf("stateMachine: END_GETREQUEST: tick=%u, sNumericCurrent=%u, data=%x\n", counter,sCurrentState,data);
+
+			debug.simPrintf("HTTPRequestParser: END_GETREQUEST: tick=%u, sNumericCurrent=%u, data=%x\n", counter,sCurrentState,data);
 		}
 
-	
-		inputTcpData.stall <== checksumOutput1.stall;
+
+		inputTcpData.stall <== url.stall;
 
 
 

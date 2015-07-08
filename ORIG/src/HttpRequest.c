@@ -12,7 +12,8 @@
 #include <signal.h>
 #include "init.h"
 
-int GET_Request(int new_fd, char *buffer_x) {
+int GET_Request(int new_fd, char *buffer_x)
+{
     char *buffer = buffer_x;
     int NBytesToRead = 1;
     char c;
@@ -23,9 +24,8 @@ int GET_Request(int new_fd, char *buffer_x) {
         int a = recv(new_fd, &c, NBytesToRead, 0);
         *buffer = c;
         buffer++;
-        if (c == '\n')
-            //if (c == 'X') 
-        {
+        if (c == '\n') {
+            //if (c == 'X')
             break; // exit for loop
         }
 
@@ -45,7 +45,8 @@ int GET_Request(int new_fd, char *buffer_x) {
     return 0; // return from the function to main program
 }
 
-void Parse_Request(char *buffer, struct Element *crcTable, int new_fd, char* PATH, unsigned int *crcPageNotFound) {
+void Parse_Request(char *buffer, struct Element *crcTable, int new_fd, char* PATH, unsigned int *crcPageNotFound)
+{
     if (!strncmp(buffer, "GET ", 4)) {
         char *startUriPos, *endUriPos;
         printf("input: GET request\n");
