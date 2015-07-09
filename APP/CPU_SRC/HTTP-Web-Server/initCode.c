@@ -17,8 +17,7 @@ Outputs: generated files - lmem_generated_file.html, romCrcIndex1_init.html, rom
 #include <math.h>
 #define N_crcindex 32768
 
-typedef struct
-{
+typedef struct {
     uint32_t startAddressBurst:19;
     uint32_t fileLengthBursts:19;
     uint32_t fileLengthBytes:26;
@@ -101,11 +100,11 @@ int main (void)
     static uint64_t romCrcIndex1[N_crcindex];
     static uint64_t romCrcIndex2[N_crcindex];
     StructRomCrcIndexData memory_location;
-    char lmem_generated_file[]="./results/lmem_generated_file.html";
-    int pass_rom1=0, pass_rom2=0;
+    char lmem_generated_file[] = "./results/lmem_generated_file.html";
+    int pass_rom1 = 0, pass_rom2 = 0;
 
-    char romCrcIndex1_init[]="./results/romCrcIndex1_init.html";
-    char romCrcIndex2_init[]="./results/romCrcIndex2_init.html";
+    char romCrcIndex1_init[] = "./results/romCrcIndex1_init.html";
+    char romCrcIndex2_init[] = "./results/romCrcIndex2_init.html";
 
     FILE *fp_lmem = fopen (lmem_generated_file,"wb");
     if (!fp_lmem)
@@ -130,25 +129,25 @@ int main (void)
 
     DIR *dp;
     struct dirent *ep;
-    char fname[512]="";
-    char fnamecopy[512]="";
-    char fsize[64]="";
-    char cdir[256]="./files/"; //name of the current directory
+    char fname[512] = "";
+    char fnamecopy[512] = "";
+    char fsize[64] = "";
+    char cdir[256] = "./files/"; //name of the current directory
     struct stat st;
 
 
     dp = opendir (cdir);
     if (dp != NULL)
     {
-        int i=0;
-        int currentBurst=0;
+        int i = 0;
+        int currentBurst = 0;
         while (ep = readdir (dp))
         {
 
             memset(buf,0,sizeof(buf));
             /* browse through the files in current directory and gets file attributes */
-            int scompare1=strcmp(ep->d_name,".");
-            int scompare2=strcmp(ep->d_name,"..");
+            int scompare1 = strcmp(ep->d_name,".");
+            int scompare2 = strcmp(ep->d_name,"..");
             if(scompare1 && scompare2)
             {
                 strcat(fname,cdir);
@@ -161,13 +160,13 @@ int main (void)
                 puts (fnamecopy);
 
                 unsigned char *t1,*t2;
-                t1=buf;
-                t2=fname+1;
+                t1 = buf;
+                t2 = fname+1;
 
                 //copy string to another string without first character
-                while((*t2)!='\0')
+                while((*t2) != '\0')
                 {
-                    *t1=*t2;
+                    *t1 = *t2;
                     t1++;
                     t2++;
                 }
@@ -176,7 +175,7 @@ int main (void)
                 unsigned int c;
                 char t;
                 int n = sizeof(buf);
-                int end= n-1;
+                int end = n-1;
                 for (c = 0; c < n/2; c++)
                 {
                     t = buf[c];
@@ -185,7 +184,7 @@ int main (void)
                     end--;
                 }
 
-                crc_index[i]=exampleOfUseCRC16 (buf, sizeof(buf)); //data from file
+                crc_index[i] = exampleOfUseCRC16(buf, sizeof(buf)); //data from file
 
                 /* populate romCrcIndex tables with file length, burst length and start burst */
                 memory_location.startAddressBurst = currentBurst; //0x7FFFF;//currentBurst;
@@ -195,7 +194,7 @@ int main (void)
                 currentBurst+=memory_location.fileLengthBursts;
                 uint16_t index = crc_index[i] & 0x7FFF;
                 uint8_t selection_bit = (crc_index[i]>>15) & 1;
-                uint64_t data_crcindex_c=0;
+                uint64_t data_crcindex_c = 0;
                 uint64_t t1data = memory_location.startAddressBurst;
                 uint64_t t2data = memory_location.fileLengthBursts;
                 uint64_t t3data = memory_location.fileLengthBytes;
@@ -205,12 +204,12 @@ int main (void)
 
                 if(selection_bit)
                 {
-                    romCrcIndex2[index]=data_crcindex;
+                    romCrcIndex2[index] = data_crcindex;
                     pass_rom2++;
                 }
                 else
                 {
-                    romCrcIndex1[index]=data_crcindex;
+                    romCrcIndex1[index] = data_crcindex;
                     pass_rom1++;
                 }
 
@@ -234,7 +233,7 @@ int main (void)
                 printf("\n"); //
                 i++;
 
-                fname[0]='\0'; //set empty string
+                fname[0] = '\0'; //set empty string
                 fclose(fp_file);
                 free(file_content);
 

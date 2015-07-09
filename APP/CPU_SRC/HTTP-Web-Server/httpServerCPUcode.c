@@ -12,20 +12,23 @@
 #include "httpserver.h"
 #include <math.h>
 
-void generateInputData(int size, uint64_t *inData) {
+void generateInputData(int size, uint64_t *inData)
+{
 	srand(time(0));
 	for (int i = 0; i < size; i++) {
 		inData[i] = i;
 	}
 }
 
-typedef struct tx_event_type_s {
+typedef struct tx_event_type_s
+{
 	uint16_t socketID :16;
 	uint64_t frameCount;
 	uint64_t reserved :48;
 }__attribute__ ((__packed__)) tx_event_type_t;
 
-void writeDataToLMem(uint64_t *dataIn, int size, int sizeBytes, int burstLengthInBytes, max_engine_t *engine, max_file_t *maxfile) {
+void writeDataToLMem(uint64_t *dataIn, int size, int sizeBytes, int burstLengthInBytes, max_engine_t *engine, max_file_t *maxfile)
+{
 
 		printf("size=%d, sizeBytes=%d, burstLengthInBytes=%d\n", size, sizeBytes, burstLengthInBytes);
 
@@ -52,7 +55,8 @@ void writeDataToLMem(uint64_t *dataIn, int size, int sizeBytes, int burstLengthI
 
 }
 
-void readDataFromLMem(uint64_t *dataOut, int size, int sizeBytes, int burstLengthInBytes, max_engine_t *engine, max_file_t *maxfile) {
+void readDataFromLMem(uint64_t *dataOut, int size, int sizeBytes, int burstLengthInBytes, max_engine_t *engine, max_file_t *maxfile)
+{
 
 	max_actions_t *actions = max_actions_init(maxfile, NULL);
 
@@ -72,7 +76,8 @@ void readDataFromLMem(uint64_t *dataOut, int size, int sizeBytes, int burstLengt
 
 }
 
-void fillRomCrcIndex(FILE *fpCrc, uint64_t **pCrc, long Lcrc) {
+void fillRomCrcIndex(FILE *fpCrc, uint64_t **pCrc, long Lcrc)
+{
 
 	size_t resultCrc;
 	char *tr;
@@ -103,7 +108,8 @@ void fillRomCrcIndex(FILE *fpCrc, uint64_t **pCrc, long Lcrc) {
 
 }
 
-int main(int argc, char *argv[]) {
+int main(int argc, char *argv[])
+{
 	if (argc != 3) {
 		printf("Usage: %s <dfe_ip> <netmask>\n", argv[0]);
 		return 1;
@@ -248,8 +254,8 @@ int main(int argc, char *argv[]) {
 	void *read_ptr_socket_slot;
 
 
-	uint16_t ti=10;
-	while(ti>0)
+	uint16_t ti = 10;
+	while(ti > 0)
 	{
 		printf("CPU code: time=%u, waiting file size and socket numbers stream data to be sent to CPU\n", ti);
 		usleep(1000*1000*1);
@@ -302,7 +308,7 @@ int main(int argc, char *argv[]) {
 
 		printf("CPU code: fileBytes=%u, socket_returned=%u\n", fileBytes, socket_returned);
 
-		ti=0;
+		ti = 0;
 		while (1) {
 			{
 				for (int i = 0; i < Nsockets; i++)

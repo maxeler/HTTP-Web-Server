@@ -127,7 +127,6 @@ int main(int argc, char * argv[])
         printf("Server: received connection from %s\n", s);
 
         if (!fork()) { // this is the child process
-
             close(sockfd); // close listener inside child
 
             // USER CODE
