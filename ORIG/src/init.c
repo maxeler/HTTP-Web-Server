@@ -45,7 +45,6 @@ int initCode(struct Element *crcTable, char* cdir, unsigned int *crcPageNotFound
         if (scompare1 && scompare2) {
             strcat(fnamefile, cdir);
             strcat(fnamefile, ep->d_name);
-            // strcat(fname, cdir);
             strcat(fname, ep->d_name);
             stat(fnamefile, &st);
             int size = st.st_size;

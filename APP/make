@@ -64,7 +64,7 @@ if __name__ == '__main__':
 def sim():
 	compile_java()
 	execute_java_maxJavaRun()
-	init_code()
+	#init_code()
 	http_server_sim()
 
 def dfe():
@@ -186,7 +186,15 @@ def http_server_sim():
 	#	print e
 	print "DESIGN_NAME: " + DESIGN_NAME
 
-	sources = ["%s.c" % NAME]
+	generated_dir='gen'
+	docopt_dir='../../../ORIG/docopt-c'
+	docopt_file='http-server.docopt'
+	docopt_source_name='docopt.c'
+
+	def run_docopt_c():		
+		run('python', docopt_dir + '/' + 'docopt_c.py', '-o', generated_dir + '/' + docopt_source_name, docopt_file)
+
+	sources = ["%s.c" % NAME, 'crc16.c']
 
 	os.environ["MAXELEROSDIR"] = os.environ['MAXCOMPILERDIR'] + '/lib/maxeleros-sim'
 	os.environ["LD_PRELOAD"] = os.environ["MAXELEROSDIR"] + '/lib/libmaxeleros.so:' #+ os.environ["LD_PRELOAD"]
@@ -210,10 +218,11 @@ def http_server_sim():
 	    return get_maxcompiler_libs()
 
 	# We define our compiler flags
-	flags = ['-std=gnu99','-Wall', '-Werror','-ggdb', '-rdynamic', '-DDESIGN_NAME=%s' % DESIGN_NAME, get_maxcompiler_inc()]
+	flags = ['-std=gnu99','-Wall', '-Werror','-ggdb', '-rdynamic', '-DDESIGN_NAME=%s' % DESIGN_NAME, get_maxcompiler_inc(), '-I' + generated_dir]
 
 	def build():
 		clean()
+		run_docopt_c()
 		compile()
 		link()
 		restart_sim()
@@ -234,7 +243,8 @@ def http_server_sim():
 	    run('gcc', objects, MAXFILE.replace('.max','.o'), get_ld_libs(), '-o', NAME)
 
 	def execute_CPUprogram():
-	    run('./%s' % NAME, '%s' % IP1,  '%s' % TAP1_NETMASK)
+		#//httpServerCPUcode --dfe_ip= --netmask= [--port=] [--path=]
+	    run('./%s' % NAME, '--dfe_ip=%s' % IP1,  '--netmask=%s' % TAP1_NETMASK)
 
 	def restart_sim():
 	    subprocess.check_call(['maxcompilersim', '-n', SIM_NAME, '-c', DFE_MODEL, '-e', INIT_TAP1, 'restart'])
