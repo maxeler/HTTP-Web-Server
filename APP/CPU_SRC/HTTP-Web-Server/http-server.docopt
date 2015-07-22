@@ -1,0 +1,12 @@
+Maxeler HTTP Server
+
+Usage:
+  httpServerCPUcode --dfe_ip= --netmask= [--port=] [--path=]
+  httpServerCPUcode -h | --help
+
+Options:
+  -h --help     Show this screen.
+  <dfe_ip>      DFE port IP address
+  <NETMASK>     DFE port netmask
+  --port=PORT   listening port [default: 80]
+  --path=PATH   hosted files path [default: ./files/]
