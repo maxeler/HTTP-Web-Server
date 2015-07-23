@@ -13,7 +13,7 @@
 #include <sys/wait.h>
 #include <signal.h>
 
-#include "HttpRequest.h"
+#include "http_request.h"
 #include "init.h"
 #include "docopt.c"
 
@@ -39,8 +39,8 @@ int main(int argc, char * argv[])
 {
     DocoptArgs args = docopt(argc, argv, /* help */ 1, /* version */ "2.0rc2");
 
-    unsigned short int PORT;
-    char *PATH;
+    unsigned short int port;
+    char *path;
 
     if (args.port) {
         int len = strlen(args.port);
@@ -51,11 +51,11 @@ int main(int argc, char * argv[])
                 exit(1);
             }
         }
-        PORT = atoi(args.port);
+        port = atoi(args.port);
     }
 
     if (args.path) {
-        PATH = args.path;
+        path = args.path;
     }
 
     int sockfd, new_fd; // listen on sock_fd, new connection on new_fd
@@ -78,14 +78,14 @@ int main(int argc, char * argv[])
     }
 
     server_addr.sin_family = AF_INET; // host byte order
-    server_addr.sin_port = htons(PORT); // short, network byte order
+    server_addr.sin_port = htons(port); // short, network byte order
     // the wildcard address is used by applications (typically servers) that intend to
     // accept connections on any of the hosts's network addresses.automatically fill with my IP
     server_addr.sin_addr.s_addr = INADDR_ANY;
     memset(&(server_addr.sin_zero), '\0', 8); // zero the rest of the struct
 
     if (bind(sockfd, (struct sockaddr *) &server_addr, sizeof (struct sockaddr)) == -1) {
-        printf("eeeeroro\n");
+        printf("error\n");
         perror("bind");
         exit(1);
     }
@@ -105,10 +105,10 @@ int main(int argc, char * argv[])
 
     // initialize RAM
     printf("Loading hosted files into RAM\n");
-    int NelTable = 65536;
-    unsigned int crcPageNotFound;
-    struct Element crcTable[NelTable];
-    initCode(crcTable, PATH, &crcPageNotFound);
+    int num_elem_table = 65536;
+    unsigned int crc_page_not_found;
+    struct Element crc_table[num_elem_table];
+    init_code(crc_table, path, &crc_page_not_found);
     printf("Loading hosted files into RAM completed\n");
 
     printf("Server: waiting for connections...\n");
@@ -134,11 +134,11 @@ int main(int argc, char * argv[])
 
             int k = 0;
             char buffer_x[1024] = {0};
-            GET_Request(new_fd, buffer_x);
+            get_request(new_fd, buffer_x);
 
             printf("Buffer: %s\n", buffer_x);
             printf("Run Parse_Request()");
-            Parse_Request(buffer_x, crcTable, new_fd, PATH, &crcPageNotFound);
+            parse_request(buffer_x, crc_table, new_fd, path, &crc_page_not_found);
 
             close(new_fd);
             printf("Close child process\n");

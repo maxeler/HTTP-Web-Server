@@ -11,7 +11,7 @@ docopt_dir='docopt-c'
 docopt_file='http-server.docopt'
 docopt_source_name='docopt.c'
 
-sources = ['main','HttpRequest', 'init', 'crc16']
+sources = ['main','http_request', 'init', 'crc16']
 
 # Define compiler flags
 flags = ['-g', '-Iinclude', '-I' + generated_dir]

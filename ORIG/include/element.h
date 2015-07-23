@@ -3,7 +3,7 @@
 
 struct Element {
     char* pointer;
-    int sizeBytes;
+    int size_bytes;
 };
 
 #endif  // ELEMENT_H_INCLUDED

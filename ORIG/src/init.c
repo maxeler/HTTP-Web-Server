@@ -17,17 +17,17 @@ Description: creates CRC index table and fills RAM with content of hosted files.
 #include "crc16.h"
 #include "init.h"
 
-int initCode(struct Element *crcTable, char* cdir, unsigned int *crcPageNotFound)
+int init_code(struct Element *crc_table, char* cdir, unsigned int *crc_page_not_found)
 {
     unsigned char buf[512];
     DIR *dp;
     struct dirent *ep;
     char fname[512] = "";
-    char fnamefile[512] = "";
-    char fnamecopy[512] = "";
+    char fname_file[512] = "";
+    char fname_copy[512] = "";
     char fsize[64] = "";
     struct stat st;
-    char defaultPageName[] = "HTTPError404NotFound.html";
+    char default_page_name[] = "HTTPError404NotFound.html";
 
     dp = opendir(cdir);
     if (dp == NULL) {
@@ -43,31 +43,31 @@ int initCode(struct Element *crcTable, char* cdir, unsigned int *crcPageNotFound
         int scompare1 = strcmp(ep->d_name, ".");
         int scompare2 = strcmp(ep->d_name, "..");
         if (scompare1 && scompare2) {
-            strcat(fnamefile, cdir);
-            strcat(fnamefile, ep->d_name);
+            strcat(fname_file, cdir);
+            strcat(fname_file, ep->d_name);
             strcat(fname, ep->d_name);
-            stat(fnamefile, &st);
+            stat(fname_file, &st);
             int size = st.st_size;
             sprintf(fsize, " - size(bytes): %d", size);
-            strcpy(fnamecopy, fname);
-            strcat(fnamecopy, fsize);
-            puts(fnamecopy);
+            strcpy(fname_copy, fname);
+            strcat(fname_copy, fsize);
+            puts(fname_copy);
 
             // HTTP response: status-line; header fields
-            int Nfields = 4;
+            int num_fields = 4;
             int ip;
-            char *responseFields[Nfields];
-            responseFields[0] = "HTTP/1.0 200 OK\r\n"; // status line
-            responseFields[1] = "Connection: close\r\n"; // header field //Close //keep-alive
+            char *response_fields[num_fields];
+            response_fields[0] = "HTTP/1.0 200 OK\r\n"; // status line
+            response_fields[1] = "Connection: close\r\n"; // header field //Close //keep-alive
             char thdr[50];
             sprintf(thdr, "Content-Length: %d\r\n", size); // header field
-            responseFields[2] = thdr;
+            response_fields[2] = thdr;
             // Content-Type: image/svg+xml\r\n
-            responseFields[3] = "\r\n"; //CRLF
+            response_fields[3] = "\r\n"; //CRLF
             char joined[512] = "";
 
-            for (ip = 0; ip < Nfields; ip++) {
-                strcat(joined, responseFields[ip]);
+            for (ip = 0; ip < num_fields; ip++) {
+                strcat(joined, response_fields[ip]);
             }
 
             printf("Joined: %s\n", joined);
@@ -87,10 +87,10 @@ int initCode(struct Element *crcTable, char* cdir, unsigned int *crcPageNotFound
                 t2++;
             }
 
-            unsigned int crcValue = calculateCRC16(buf, strlen(buf)); // get crc of the current url
+            unsigned int crc_value = calculate_crc16(buf, strlen(buf)); // get crc of the current url
 
-            if (!strcmp(ep->d_name, defaultPageName)) {
-                *crcPageNotFound = crcValue;
+            if (!strcmp(ep->d_name, default_page_name)) {
+                *crc_page_not_found = crc_value;
             }
 
             char *file_content = (char *) malloc(size);
@@ -101,7 +101,7 @@ int initCode(struct Element *crcTable, char* cdir, unsigned int *crcPageNotFound
                 exit(0);
             }
 
-            FILE *fp_file = fopen(fnamefile, "rb");
+            FILE *fp_file = fopen(fname_file, "rb");
             // printf("fname: %s\n", fname);
             if (!fp_file) {
                 printf("Error with file\n");
@@ -113,16 +113,16 @@ int initCode(struct Element *crcTable, char* cdir, unsigned int *crcPageNotFound
             char *tfile = file_content_write + size_only_headers; // copy file content
             memcpy(tfile, file_content, size); // combine headers with file content
 
-            crcTable[crcValue].pointer = (char*) calloc(size_with_headers, sizeof (char));
-            crcTable[crcValue].sizeBytes = size_with_headers;
-            memcpy(crcTable[crcValue].pointer, file_content_write, size_with_headers);
+            crc_table[crc_value].pointer = (char*) calloc(size_with_headers, sizeof (char));
+            crc_table[crc_value].size_bytes = size_with_headers;
+            memcpy(crc_table[crc_value].pointer, file_content_write, size_with_headers);
 
-            printf("Checksum value: 0x%x, %d\n", crcValue, crcValue);
+            printf("Checksum value: 0x%x, %d\n", crc_value, crc_value);
             printf("\n"); //
             i++;
 
             fname[0] = '\0'; // set empty string
-            fnamefile[0] = '\0';
+            fname_file[0] = '\0';
             free(file_content);
             free(file_content_write);
         }

@@ -1,27 +1,27 @@
 //crc16: http://www.embeddedrelated.com/showcode/295.php
 
-#include "crc16.h"
 #include <stdint.h>
+#include "crc16.h"
 
-unsigned int crc16(unsigned int crcValue, unsigned char newByte) 
+unsigned int crc16(unsigned int crc_value, unsigned char new_byte) 
 {
     unsigned char i;
 
     for (i = 0; i < 8; i++) {
 
-        if (((crcValue & 0x8000) >> 8) ^ (newByte & 0x80)) {
-            crcValue = (crcValue << 1) ^ POLYNOM;
+        if (((crc_value & 0x8000) >> 8) ^ (new_byte & 0x80)) {
+            crc_value = (crc_value << 1) ^ POLYNOM;
         } else {
-            crcValue = (crcValue << 1);
+            crc_value = (crc_value << 1);
         }
 
-        newByte <<= 1;
+        new_byte <<= 1;
     }
 
-    return crcValue;
+    return crc_value;
 }
 
-unsigned int calculateCRC16(unsigned char *Data, unsigned char len)
+unsigned int calculate_crc16(unsigned char *data, unsigned char len)
 {
 
     //unsigned int crc;
@@ -33,7 +33,7 @@ unsigned int calculateCRC16(unsigned char *Data, unsigned char len)
 
 
     while (aux < len) {
-        crc = crc16(crc, Data[aux]);
+        crc = crc16(crc, data[aux]);
         aux++;
     }
 

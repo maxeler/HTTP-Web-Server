@@ -12,16 +12,16 @@
 #include <signal.h>
 #include "init.h"
 
-int GET_Request(int new_fd, char *buffer_x)
+int get_request(int new_fd, char *buffer_x)
 {
     char *buffer = buffer_x;
-    int NBytesToRead = 1;
+    int num_bytes_to_read = 1;
     char c;
 
     while (1) {
         // read line
         // This function returns up to len bytes of data. If there are fewer than the requested number of bytes available, the function returns the number currently available.
-        int a = recv(new_fd, &c, NBytesToRead, 0);
+        int a = recv(new_fd, &c, num_bytes_to_read, 0);
         *buffer = c;
         buffer++;
         if (c == '\n') {
@@ -35,7 +35,7 @@ int GET_Request(int new_fd, char *buffer_x)
             exit(-1);
         } else if (a == 0) {
 
-        } else if (a == NBytesToRead) {
+        } else if (a == num_bytes_to_read) {
             printf("From client: %c\n", c);
         }
 
@@ -45,46 +45,46 @@ int GET_Request(int new_fd, char *buffer_x)
     return 0; // return from the function to main program
 }
 
-void Parse_Request(char *buffer, struct Element *crcTable, int new_fd, char* PATH, unsigned int *crcPageNotFound)
+void parse_request(char *buffer, struct Element *crc_table, int new_fd, char* path, unsigned int *crc_page_not_found)
 {
     if (!strncmp(buffer, "GET ", 4)) {
-        char *startUriPos, *endUriPos;
+        char *start_uri_pos, *end_uri_pos;
         printf("input: GET request\n");
         buffer += 4;
-        startUriPos = buffer;
-        endUriPos = strchr(buffer, ' '); // get position of the ending URI blank space: GET -url- HTTP/1.0
-        printf("startPos: character=%c, %p, endPos: character=%c, %p\n", *startUriPos, startUriPos, *endUriPos, endUriPos);
-        int url1Length;
+        start_uri_pos = buffer;
+        end_uri_pos = strchr(buffer, ' '); // get position of the ending URI blank space: GET -url- HTTP/1.0
+        printf("startPos: character=%c, %p, endPos: character=%c, %p\n", *start_uri_pos, start_uri_pos, *end_uri_pos, end_uri_pos);
+        int url1_length;
         char *url1;
-        url1Length = endUriPos - startUriPos - 1;
-        url1 = (char*) calloc(url1Length, sizeof (char));
-        strncpy(url1, buffer + 1, url1Length);
+        url1_length = end_uri_pos - start_uri_pos - 1;
+        url1 = (char*) calloc(url1_length, sizeof (char));
+        strncpy(url1, buffer + 1, url1_length);
         printf("URL: %s\n", url1);
 
-        int urlLength = url1Length;
-        char *url = (char *) calloc(urlLength + 1, sizeof (char));
+        int url_length = url1_length;
+        char *url = (char *) calloc(url_length + 1, sizeof (char));
         strcat(url, url1);
-        printf("PATH, URL: %s, %s\n", PATH, url1);
-        printf("combined: %s, urlLength=%d\n", url, urlLength);
+        printf("PATH, URL: %s, %s\n", path, url1);
+        printf("combined: %s, urlLength=%d\n", url, url_length);
         // exit(0);
 
-        unsigned int crcValue = calculateCRC16(url, urlLength);
-        printf("crcValue of URL: %d\n", crcValue);
-        printf("crcTable[crcValue=%d].pointer=%d\n", crcValue, crcTable[crcValue].pointer);
-        printf("crcTable[crcValue=%d].sizeBytes=%d\n", crcValue, crcTable[crcValue].sizeBytes);
+        unsigned int crc_value = calculate_crc16(url, url_length);
+        printf("crc_value of URL: %d\n", crc_value);
+        printf("crc_table[cc_value=%d].pointer=%d\n", crc_value, crc_table[crc_value].pointer);
+        printf("crc_table[crc_value=%d].sizeBytes=%d\n", crc_value, crc_table[crc_value].size_bytes);
         
         // exit(0);
 
         // check if resource exist on the server
-        if (crcTable[crcValue].pointer != 0) {
+        if (crc_table[crc_value].pointer != 0) {
             // get the resource in the RAM and send it back to a client
             printf("The resource '%s' EXISTS in the RAM\n", url);
             // ssize_t send(int sockfd, const void *buf, size_t len, int flags);
-            int bytesSent = send(new_fd, crcTable[crcValue].pointer, crcTable[crcValue].sizeBytes, 0);
-            printf("bytesSent: %d\n", bytesSent);
+            int bytes_sent = send(new_fd, crc_table[crc_value].pointer, crc_table[crc_value].size_bytes, 0);
+            printf("bytesSent: %d\n", bytes_sent);
         } else {
             printf("The resource '%s' does not exist in the RAM\nSending default page to the client\n", url);
-            int bytesSent = send(new_fd, crcTable[*crcPageNotFound].pointer, crcTable[*crcPageNotFound].sizeBytes, 0);
+            int bytes_sent = send(new_fd, crc_table[*crc_page_not_found].pointer, crc_table[*crc_page_not_found].size_bytes, 0);
             exit(-3);
         }
 
