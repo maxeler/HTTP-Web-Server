@@ -26,12 +26,22 @@ Network settings for **DFE** include configuring IP address of the HTTP Server (
     # ip addresses for DFE
     IP="172.17.0.9"  
     NETMASK="255.255.255.224"
+
+Default network port on server will be running can be configured with script variable
+  
+    PORT=80
     
 #### Prepare files
-All files that need be hosted on the HTTP Server should be located in
+Default path to the files that need be hosted on the HTTP Server is specified with script variable  
+    
+    HOSTING_DIR="./files/"
+    
+This means that hosted files need to be stored on the following path:  
 
     APP/CPU_SRC/HTTP-Web-Server/files
-    
+   
+
+
 There are few example files already in this folder.    
 
 ### How to compile and run project:  
@@ -51,9 +61,9 @@ Once the compilation for DFE or simulation is done, script starts HTTP Server au
 To test the HTTP Server open Firefox or Google Chrome browser.  
 For example, if the server has IP address 172.17.0.9 and if **APP/CPU_SRC/HTTP-Web-Server/files** contains **file1.png**, **file2.png**, **file3.png** to get these files from the server enter in the browser address bar:
 
-    http://172.17.0.9/files/file1.png
-    http://172.17.0.9/files/file2.png
-    http://172.17.0.9/files/file3.png
+    http://172.17.0.9/file1.png
+    http://172.17.0.9/file2.png
+    http://172.17.0.9/file3.png
 
 Upon request files should be displayed within the browser. 
 

@@ -44,6 +44,12 @@ INIT_TAP1="QSFP_BOT_10G_PORT1:" + TAP1_IP + ":" + TAP1_NETMASK
 IP="172.17.0.9"
 NETMASK="255.255.255.224"
 
+# network port on which server will be running
+PORT=80
+
+# hosting folder
+HOSTING_DIR="./files/"
+
 
 #
 message = "Valid argument format: make < dfe | sim | clean >"
@@ -74,7 +80,7 @@ def dfe():
 			clean()
 	compile_java()
 	execute_java_maxJavaRun()	
-	init_code()
+	#init_code()
 	http_server_dfe()
 
 def copy_files(src, dst):
@@ -244,7 +250,7 @@ def http_server_sim():
 
 	def execute_CPUprogram():
 		#//httpServerCPUcode --dfe_ip= --netmask= [--port=] [--path=]
-	    run('./%s' % NAME, '--dfe_ip=%s' % IP1,  '--netmask=%s' % TAP1_NETMASK)
+	    run('./%s' % NAME, '--dfe_ip=%s' % IP1,  '--netmask=%s' % TAP1_NETMASK, '--port=%s' % PORT, '--path=%s' % HOSTING_DIR)
 
 	def restart_sim():
 	    subprocess.check_call(['maxcompilersim', '-n', SIM_NAME, '-c', DFE_MODEL, '-e', INIT_TAP1, 'restart'])
@@ -359,7 +365,8 @@ def http_server_dfe():
 		run('gcc', objects, MAXFILE.replace('.max','.o'), get_ld_libs(), '-o', NAME)
 
 	def execute_CPUprogram():
-		run('./%s' % NAME, '%s' % IP,  '%s' % NETMASK)
+		#run('./%s' % NAME, '%s' % IP,  '%s' % NETMASK)
+		run('./%s' % NAME, '--dfe_ip=%s' % IP1,  '--netmask=%s' % TAP1_NETMASK, '--port=%s' % PORT, '--path=%s' % HOSTING_DIR)
 
 	def clean():
 		#autoclean()
