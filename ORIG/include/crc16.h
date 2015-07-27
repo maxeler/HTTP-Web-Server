@@ -17,7 +17,7 @@
 
 #define POLYNOM         CRC16_IBM // Define the used polynom from one of the aboves
 
-// It calculates the new crc16 with the newByte. Variable crcValue is the actual or initial value (0).
+// It calculates the new crc16 with the new_byte. Variable crc_value is the actual or initial value (0).
 unsigned int crc16(unsigned int crc_value, unsigned char new_byte);
 
 unsigned calculate_crc16(unsigned char *data, unsigned char len);

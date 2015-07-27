@@ -33,7 +33,6 @@ typedef struct tx_event_type_s {
 
 void write_data_to_lmem(uint64_t *data_in, int size, int size_bytes, int burst_length_in_bytes, max_engine_t *engine, max_file_t *maxfile)
 {
-
 	printf("size=%d, sizeBytes=%d, burstLengthInBytes=%d\n", size, size_bytes, burst_length_in_bytes);
 
 	printf("Performing max_actions_init()\n");
@@ -75,7 +74,6 @@ void read_data_from_lmem(uint64_t *data_out, int size, int size_bytes, int burst
 	max_queue_output(actions, "toCpu", data_out, size_bytes);
 	max_run(engine, actions);
 	max_actions_free(actions);
-
 }
 
 void fill_rom_crc_index(FILE *fp_crc, uint64_t **p_crc, long l_crc)
@@ -130,7 +128,7 @@ int main(int argc, char *argv[])
 		path = args.path;
 	}
         
-        initCode(path);
+        init_code(path);
 
 	uint16_t n_sockets = 1;
         
@@ -268,8 +266,6 @@ int main(int argc, char *argv[])
 		usleep(1000*1000*1);
 		ti--;
 	}
-
-	//while(1);
 
 	uint64_t num_rx_bytes;
 	uint64_t num_tx_bytes;
