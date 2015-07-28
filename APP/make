@@ -149,7 +149,8 @@ def http_server_sim():
 
 	copy_files(MAXBUILDDIRECTORY_SIM, '.')
 
-	NAME="httpServerCPUcode" # name of the CPU code
+	#NAME="httpServerCPUcode" # name of the CPU code
+	NAME="httpServer" # name of the CPU code
 
 	# ip settings
 
@@ -274,7 +275,8 @@ def http_server_dfe():
 	except IOError as e:
 	 	sys.exit("Error, file does not exist. You need to build .max file for DFE.")
 
-	NAME="httpServerCPUcode" # name of the CPU code
+	#NAME="httpServerCPUcode" # name of the CPU code
+	NAME="httpServer" # name of the CPU code
 
 	# ip settings
 
