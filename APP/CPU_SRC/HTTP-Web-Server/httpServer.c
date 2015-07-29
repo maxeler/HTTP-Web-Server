@@ -10,7 +10,6 @@
 #include <ctype.h>
 #include <math.h>
 
-//#include <MaxSLiCInterface.h>
 #include "httpserver.h"
 #include "docopt.c"
 #include "initCode.h"
@@ -227,7 +226,6 @@ int main(int argc, char *argv[])
 	uint16_t socket_number[n_sockets];
 
 	for (int i = 0; i < n_sockets; i++) {
-		//dfe_socket[i] = max_tcp_create_socket(engine, "tcp_ISCA_QSFP_BOT_10G_PORT1");
 		dfe_socket[i] = max_tcp_create_socket_with_number(engine, "tcp_ISCA_QSFP_BOT_10G_PORT1", i);
 		socket_number[i] = max_tcp_get_socket_number(dfe_socket[i]);
 		printf("Socket %d was assigned socket number %u\n", i, socket_number[i]);
@@ -324,15 +322,10 @@ int main(int argc, char *argv[])
 				printf("CPU code: fileSizeBytes=%u, socketReturned=%u, num_tx_bytes=%llu\n", file_bytes, socket_returned, (long long unsigned int) num_tx_bytes);
 			}
 
-			//usleep(1000*100);
-			//printf("CPU code: While LOOP, socket_returned=%u, fileBytes=%u, num_tx_bytes(max_tcp_get_num_bytes_transmitted)=%llu\n", socket_returned, fileBytes, (long long unsigned int) num_tx_bytes);
 			if (num_tx_bytes == file_bytes) {
-				//usleep(1000*1000*3);
 				printf("CPU code: MATCH num_tx_bytes==fileBytes, socket_returned=%u, fileBytes=%u, num_tx_bytes(max_tcp_get_num_bytes_transmitted)=%llu\n", socket_returned, file_bytes, (long long unsigned int) num_tx_bytes);
 				printf("CPU code: Closing socket=%u\n", socket_returned);
 				max_tcp_close(dfe_socket[socket_returned]);
-					//max_tcp_close_mode_t close_mode=MAX_TCP_CLOSE_ABORT_RESET;
-					//max_tcp_close_advanced(dfe_socket[socket_returned],close_mode);
 
 				printf("CPU code: Waiting for MAX_TCP_STATE_CLOSED\n");
 				max_tcp_await_state(dfe_socket[socket_returned], MAX_TCP_STATE_CLOSED, NULL);

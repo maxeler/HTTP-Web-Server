@@ -25,7 +25,6 @@ int get_request(int new_fd, char *buffer_x)
         *buffer = c;
         buffer++;
         if (c == '\n') {
-            //if (c == 'X')
             break; // exit for loop
         }
 
@@ -73,8 +72,6 @@ void parse_request(char *buffer, struct Element *crc_table, int new_fd, char* pa
         printf("crc_table[cc_value=%d].pointer=%d\n", crc_value, crc_table[crc_value].pointer);
         printf("crc_table[crc_value=%d].sizeBytes=%d\n", crc_value, crc_table[crc_value].size_bytes);
         
-        // exit(0);
-
         // check if resource exist on the server
         if (crc_table[crc_value].pointer != 0) {
             // get the resource in the RAM and send it back to a client

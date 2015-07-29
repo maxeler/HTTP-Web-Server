@@ -73,8 +73,6 @@ int init_code(struct Element *crc_table, char* cdir, unsigned int *crc_page_not_
             printf("Joined: %s\n", joined);
 
             int size_only_headers = strlen(joined);
-            // printf("Size of 'joined' = %d bytes\n", size_only_headers);
-
             int size_with_headers = size_only_headers + size;
 
             // copy string to another string without first character
@@ -102,7 +100,6 @@ int init_code(struct Element *crc_table, char* cdir, unsigned int *crc_page_not_
             }
 
             FILE *fp_file = fopen(fname_file, "rb");
-            // printf("fname: %s\n", fname);
             if (!fp_file) {
                 printf("Error with file\n");
                 exit(0);
