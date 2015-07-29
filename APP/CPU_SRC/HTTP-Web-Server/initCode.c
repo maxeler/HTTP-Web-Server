@@ -41,11 +41,11 @@ int init_code(char* cdir)
 	static uint64_t rom_crc_index1[n_elem_crcindex];
 	static uint64_t rom_crc_index2[n_elem_crcindex];
 	StructRomCrcIndexData memory_location;
-	char lmem_generated_file[] = "./results/lmem_generated_file.html";
+	char lmem_generated_file[] = "./results/lmem_generated_file";
 	int pass_rom1 = 0, pass_rom2 = 0;
 
-	char rom_crc_index1_init[] = "./results/romCrcIndex1_init.html";
-	char rom_crc_index2_init[] = "./results/romCrcIndex2_init.html";
+	char rom_crc_index1_init[] = "./results/romCrcIndex1_init";
+	char rom_crc_index2_init[] = "./results/romCrcIndex2_init";
 
 	FILE *fp_lmem = fopen (lmem_generated_file,"wb");
 	if (!fp_lmem)
@@ -178,13 +178,13 @@ int init_code(char* cdir)
 
             }
         }
-        printf("Done writing file: /results/lmem_generated_file.html\n\n");
+        printf("Done writing file: /results/lmem_generated_file\n\n");
 
-	printf("Writing file: /results/romCrcIndex1_init.html\n");
+	printf("Writing file: /results/romCrcIndex1_init\n");
 	fwrite(rom_crc_index1, sizeof(uint64_t), n_elem_crcindex, fp_rom_crc_index1);
 	printf("Done\n\n");
 
-	printf("Writing file: /results/romCrcIndex2_init.html\n");
+	printf("Writing file: /results/romCrcIndex2_init\n");
 	fwrite(rom_crc_index2, sizeof(uint64_t), n_elem_crcindex, fp_rom_crc_index2);
 	printf("Done\n\n");
 
