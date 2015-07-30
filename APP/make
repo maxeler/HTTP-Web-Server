@@ -270,10 +270,10 @@ def http_server_dfe():
 	cdir=os.getcwd()
 	os.chdir(pathCPU)
 
-	try:
-		copy_files(MAXBUILDDIRECTORY_DFE, '.')
-	except IOError as e:
-	 	sys.exit("Error, file does not exist. You need to build .max file for DFE.")
+	#try:
+	#	copy_files(MAXBUILDDIRECTORY_DFE, '.')
+	#except IOError as e:
+	# 	sys.exit("Error, file does not exist. You need to build .max file for DFE.")
 
 	#NAME="httpServerCPUcode" # name of the CPU code
 	NAME="httpServer" # name of the CPU code
@@ -317,6 +317,15 @@ def http_server_dfe():
 	#	print e
 	print "DESIGN_NAME: " + DESIGN_NAME
 
+	generated_dir='gen'
+	docopt_dir='../../../ORIG/docopt-c'
+	docopt_file='http-server.docopt'
+	docopt_source_name='docopt.c'
+
+	def run_docopt_c():		
+		run('python', docopt_dir + '/' + 'docopt_c.py', '-o', generated_dir + '/' + docopt_source_name, docopt_file)
+
+
 	#sys.exit(1)
 
 	#grep MAXFILE_BUILD_NAME httpServer.max | awk -F \" '{print $2;}'
@@ -327,7 +336,7 @@ def http_server_dfe():
 
 	#perl -n -e 'print $1 if /ENGINE_PARAMETERS\(DFEModelo DFEMODEL, (.*?)\)/' "httpServer.max"
 
-	sources = ["%s.c" % NAME]
+	sources = ["%s.c" % NAME, 'crc16.c']
 
 	def get_maxcompiler_inc():
 		"""Return the includes to be used in the compilation."""
@@ -347,10 +356,11 @@ def http_server_dfe():
 		return get_maxcompiler_libs()
 
 	# We define our compiler flags
-	flags = ['-std=gnu99','-Wall', '-Werror','-ggdb', '-rdynamic', '-DDESIGN_NAME=%s' % DESIGN_NAME, get_maxcompiler_inc()]
+	flags = ['-std=gnu99','-Wall', '-Werror','-ggdb', '-rdynamic', '-DDESIGN_NAME=%s' % DESIGN_NAME, get_maxcompiler_inc(), '-I' + generated_dir]
 
 	def build():
 		clean()
+		run_docopt_c()
 		compile()
 		link()
 		execute_CPUprogram()
